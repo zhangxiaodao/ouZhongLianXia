@@ -1,0 +1,460 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+
+
+//全屏幕的frame
+#define kScreenFrame [UIScreen mainScreen].bounds
+//全屏幕的宽
+#define kScreenW [UIScreen mainScreen].bounds.size.width
+//全屏幕的高
+#define kScreenH [UIScreen mainScreen].bounds.size.height
+
+//设备缓存
+#define kStanderDefault [NSUserDefaults standardUserDefaults]
+#define kCGSizeMake CGSizeMake(0, kScreenW / 10)
+#define kBigText 18
+#define kLittleText 12
+#define kHeight 64
+#define kTabBarHeight 48
+
+#define BackGroupHeight kScreenH / 2.964444
+
+#define kVersion @"3.2.1"
+
+//192.168.1.104  本地ip
+//114.55.5.92    外网ip
+#define kHost @"192.168.1.104"
+#define kPort 6003
+#define localhost @"192.168.1.104"
+
+#define kXinTiao @"xinTiao"
+#define kZhiLing @"zhiLing"
+#define kLianJie @"lianJie"
+#define kAddService @"addService"
+#define kQuite @"quite"
+
+
+#define kNew @"new"
+#define kOld @"old"
+
+#define kFontWithName @"STHeitiSC-Light"
+
+
+#define kKongJingLvXinShouMing 1600
+#define kSumLvWangJieDu 800
+
+#define kLengFengShanShuiWei 720
+#define kLengFengShanSumLvWang 700
+#define kLengFengShanBingJing 2400
+
+#define kXinFengLvXinTime 2700
+
+
+#define kMainColor [UIColor colorWithRed: 70/255.0  green: 195/255.0  blue: 247/255.0  alpha: 1.0]
+#define kLvSe [UIColor colorWithRed: 34/255.0  green: 191/255.0  blue: 100/255.0  alpha: 1.0]
+#define kRandomColor [UIColor colorWithRed:arc4random()% 256 / 256.0 green:arc4random() % 256 / 256.0 blue:arc4random() % 256 / 256.0 alpha:1.0]
+#define kKongJingYanSe [UIColor colorWithRed:50/255.0 green:201/255.0 blue:218/255.0 alpha:1.0]
+#define kKongJingHuangSe [UIColor colorWithRed:250/255.0 green:201/255.0 blue:77/255.0 alpha:1.0]
+#define kFenGeXianYanSe [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1.0]
+#define kCangBaiSe [UIColor colorWithRed:218/255.0 green:235/255.0 blue:254/255.0 alpha:1.0]
+#define kZiSe [UIColor colorWithRed:182/255.0 green:157/255.0 blue:221/255.0 alpha:1.0]
+
+//#define kXinFengKongJingYanSe [UIColor colorWithRed:28/255.0 green:157/255.0 blue:247/255.0 alpha:1.0]
+
+#define kXinFengKongJingYanSe kACOLOR(28, 157, 247, 1.0)
+
+
+//字体的大小
+#define k14 kScreenW/26.7857
+#define k12 kScreenW/31.25
+#define k17 kScreenW/22.058823
+#define k15 kScreenW/25
+#define k16 kScreenW/23.4375
+#define k19 kScreenW/19.736842
+#define k20 kScreenW/18.75
+#define k25 kScreenW/15
+#define k30 kScreenW/12.5
+#define k40 kScreenW/9.375
+#define k50 kScreenW/7.5
+#define k60 kScreenW/6.25
+#define k70 kScreenW/5.3571
+#define k80 kScreenW/4.6875
+#define k90 kScreenW/4.1667
+#define k100 kScreenW/3.75
+#define k110 kScreenW/3.409
+#define k120 kScreenW/3.125
+
+#define kDaMi 25
+
+#define kNavHidth kScreenH / 14
+
+#define kStandardW kScreenW / 1.47
+#define kCommonW (kScreenW - kScreenW / 8)
+
+//把数值转化为对应的PI值
+#define degreesToRadians(x) (M_PI*(x) / 180.0)
+
+//商标的大小
+#define kShangBiaoW kScreenW / 3
+#define kShangBiaoH kScreenW / 3
+
+#import "Masonry.h"
+#import "UIView+Extension.h"
+#import "UILabel+Custom.h"
+#import "UITextField+Custom.h"
+#import "UIButton+Custom.h"
+#import <CoreData/CoreData.h>
+#import "AppDelegate.h"
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "NSObject+GetDeviceModel.h"
+#import "UIAlertController+Custom.h"
+#import "UserModel.h"
+#import "HelpFunction.h"
+#import "SDWebImageManager.h"
+#import "UIImageView+WebCache.h"
+#import "ServicesDataModel.h"
+#import "StateModel.h"
+#import "ServicesModel.h"
+#import "Singleton.h"
+#import "UIImage+Extension.h"
+#import "UIImageView+Extension.h"
+#import "NSString+Extension.h"
+#import "UIColor+Extensions.h"
+#import "UIViewController+Swizzled.h"
+#import "AddServiceModel.h"
+#import "UIBarButtonItem+Extension.h"
+#import "SVProgressHUD.h"
+
+
+
+//#import "UIView+Btn.h"
+
+//#import "UINavigationController+Custom.h"
+// CoaData宏定义
+#define kApplicate (AppDelegate *)[UIApplication sharedApplication].delegate
+#define kWindowRoot [UIApplication sharedApplication].keyWindow.rootViewController
+#define kContext ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext
+#define kSocketTCP [Singleton sharedInstance]
+
+// 友盟分享
+#define kUMAppKey @"56e40fc3e0f55ad89b000921"
+
+//#define kDeviceSn [kStanderDefault objectForKey:@"deviceSn"]
+
+
+// 个推开发者网站中申请App时，注册的AppId、AppKey、AppSecret
+#define kGtAppId @"TWxme3OkYjA89rlIuBgyE2"
+#define kGtAppKey @"tzVHOHA6N36htmftfUwq3A"
+#define kGtAppSecret @"JAVioqKoyp96woS4wXSDC6"
+
+/**
+ *  干衣机协议宏定义
+ */
+
+#define kCOLOR(R, G, B) [UIColor colorWithRed:R / 255.0 green:G / 255.0 blue:B / 255.0 alpha:1.0]
+
+#define kACOLOR(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
+
+#define GanYiJiXieYi(devTypeSn , devSn , kaiGuan , dangWei , shaJun , fuLiZi) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@000000000000000000000000#" , devTypeSn , devSn , kaiGuan , dangWei , shaJun , fuLiZi]
+
+#define GanYiJi4332SendToHostXieYi(devTypeSn , devSn , kaiGuan , ozone , power , time) [NSString stringWithFormat:@"HMFFM%@%@w%@%@000000000000%@0000%@00000000#" , devTypeSn , devSn , kaiGuan , ozone , power , time]
+#define GanYiJi4332SendToHTMLXieYi(kaiGuan , ozone , power , time) [NSString stringWithFormat:@"%@%@000000000000%@0000%@00000000" ,kaiGuan , ozone , power , time]
+
+#define XinFengKongJing(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@0000000000000000000000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu]
+#define XinFengKongJingTime(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@0000%@%@00000000000000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime]
+#define XinFengKongJingSetTime(devTypeSn , devSn , hourTime , minuteTime) [NSString stringWithFormat:@"HMFFA%@%@w0000000000000000000000000000%@%@0000000000000000#" , devTypeSn , devSn , hourTime , minuteTime]
+
+/**
+ *  注册登录
+ */
+
+/**
+ *  用户注册
+ * 在出册用户之前，查询用户手机是否已被注册
+ */
+#define kJiaoYanZhangHu [NSString stringWithFormat:@"http://%@:8080/smarthome/user/queryPhone" , localhost]
+
+/**
+ *  查询用户设备
+ *
+ */
+#define kQueryTheUserdevice [NSString stringWithFormat:@"http://%@:8080/smarthome/user/queryUserDevice", localhost]
+
+/**
+ *  发送短信
+ *
+ */
+#define kFaSongDuanXin [NSString stringWithFormat:@"http://%@:8080/smarthome/user/sendCode" , localhost]
+
+/**
+ *  注册信息提交
+ *
+ */
+#define kDuanXinTiJiao [NSString stringWithFormat:@"http://%@:8080/smarthome/user/register" , localhost]
+
+/**
+ *  修改密码，包括登入后修改密码和忘记密码
+ *
+ */
+#define kChongZhiMiMa [NSString stringWithFormat:@"http://%@:8080/smarthome/user/modifyPassword" , localhost]
+
+/**
+ *  用户登入
+ *
+ */
+#define kLogin [NSString stringWithFormat:@"http://%@:8080/smarthome/user/login", localhost]
+
+
+
+
+
+/**
+ *  用户信息
+ */
+
+/**
+ *  修改用户信息
+ *
+ */
+#define kXiuGaiXinXi [NSString stringWithFormat:@"http://%@:8080/smarthome/user/modifyUserInfo", localhost]
+
+/**
+ *  用户上传头像
+ *
+ */
+#define kShangChuanTouXiang [NSString stringWithFormat:@"http://%@:8080/smarthome/user/uploadUserHeadphoto", localhost]
+
+/**
+ *  查询用户地址
+ *
+ */
+#define kChaXunYongHuDiZhi [NSString stringWithFormat:@"http://%@:8080/smarthome/user/queryUserAddress", localhost]
+
+/**
+ *  修改用户地址
+ *
+ */
+#define kXiuGaiYongHuDiZhi [NSString stringWithFormat:@"http://%@:8080/smarthome/user/modifyUserAddress", localhost]
+
+
+
+
+/**
+ *  个人中心
+ */
+
+/**
+ *  查询最新版本号
+ *
+ */
+#define kChaXunBanBenHao [NSString stringWithFormat:@"http://%@:8080/smarthome/app/queryLatestVersion", localhost]
+
+/**
+ *  查询消息接口
+ *
+ */
+#define kXiaoXiJieKou [NSString stringWithFormat:@"http://%@:8080/smarthome/app/queryMessage", localhost]
+
+/**
+ *  查询消息接口
+ *
+ */
+#define kSystemMessageJieKou [NSString stringWithFormat:@"http://%@:8080/smarthome/app/queryPublicMessage", localhost]
+
+/**
+ *  查询消息接口
+ *
+ */
+#define kUserReadSystemMessageCount [NSString stringWithFormat:@"http://%@:8080/smarthome/app/increasePMReadCount", localhost]
+/**
+ *  用户反馈借口
+ *
+ */
+#define kYongHuFanKui [NSString stringWithFormat:@"http://%@:8080/smarthome/app/addFeedback", localhost]
+
+/**
+ *  更多产品
+ *
+ */
+#define kGengDuoChanPin [NSString stringWithFormat:@"http://%@:8080/smarthome/device/queryMoreProduct", localhost]
+
+
+
+
+/**
+ *  HTML网页
+ */
+
+/**
+ *  关于我们
+ *
+ */
+#define kAboutOurs [NSString stringWithFormat:@"http://%@:8080/smarthome/app/aboutus", localhost]
+
+/**
+ *  产品说明
+ *
+ */
+#define kChanPinShuo [NSString stringWithFormat:@"http://%@:8080/smarthome/app/introduction", localhost]
+/**
+ *  冷风扇
+ *
+ */
+#define kChanPinShuoLengFengShan [NSString stringWithFormat:@"http://%@:8080/smarthome/app/introduction/fan", localhost]
+/**
+ *  空气净化器
+ *
+ */
+#define kChanPinShuoKongJing [NSString stringWithFormat:@"http://%@:8080/smarthome/app/introduction/air", localhost]
+/**
+ *  干衣机
+ *
+ */
+#define kChanPinShuoGanYiJi [NSString stringWithFormat:@"http://%@:8080/smarthome/app/introduction/dryer", localhost]
+
+/**
+ *  在线帮助
+ *
+ */
+#define kZaiXianBangZhu [NSString stringWithFormat:@"http://%@:8080/smarthome/app/help", localhost]
+
+/**
+ *  更新日志
+ *
+ */
+#define kGengXinRiZhi [NSString stringWithFormat:@"http://%@:8080/smarthome/app/log/ios", localhost]
+
+/**
+ *  冷风扇的接口
+ */
+/**
+ *  查询冷风扇当前状态
+ *
+ */
+#define kChaXunLengFengShanDangQianZhuangTai [NSString stringWithFormat:@"http://%@:8080/smarthome/fan/queryDeviceState", localhost]
+
+/**
+ *  查询冷风扇当前数据
+ *
+ */
+#define kChaXunLengFengShanDangQianShuJu [NSString stringWithFormat:@"http://%@:8080/smarthome/fan/queryDeviceData", localhost]
+
+/**
+ *  冷风扇复位按钮接口
+ *
+ */
+#define kLengFengShanFuWi [NSString stringWithFormat:@"http://%@:8080/smarthome/fan/resetDeviceData", localhost]
+
+/**
+ *  冷风扇历史记录
+ *
+ */
+#define kLengFengShanLiShiJiLu [NSString stringWithFormat:@"http://%@:8080/smarthome/fan/queryDeviceHistory", localhost]
+
+/**
+ *  冷风扇定时任务
+ *
+ */
+#define kLengFengShanDingShiYuYue [NSString stringWithFormat:@"http://%@:8080/smarthome/fan/jobTask", localhost]
+
+
+
+
+/**
+ *  空气净化器接口
+ */
+
+/**
+ *  查询空净当前状态
+ *
+ */
+#define kChaXunKongJingDangQianZhuangTai [NSString stringWithFormat:@"http://%@:8080/smarthome/air/queryDeviceState", localhost]
+
+/**
+ *  查询空净当前数据
+ *
+ */
+#define kChaXunKongJingDangQianShuJu [NSString stringWithFormat:@"http://%@:8080/smarthome/air/queryDeviceData", localhost]
+
+/**
+ *  空净历史记录
+ *
+ */
+#define kKongJingLiShiJiLu [NSString stringWithFormat:@"http://%@:8080/smarthome/air/queryDeviceHistory", localhost]
+
+/**
+ *  查询设备pm25的值
+ *
+ */
+#define kKongJingPM25State [NSString stringWithFormat:@"http://%@:8080/smarthome/air/queryDeviceAirAqi", localhost]
+
+/**
+ *  空净定时任务
+ *
+ */
+#define kKongJingDingShiYuYue [NSString stringWithFormat:@"http://%@:8080/smarthome/air/jobTask", localhost]
+
+
+/**
+ *  系统数据
+ */
+/**
+ *  查询历史空气质量数据
+ */
+#define kLiShiKongQiZhiLiang [NSString stringWithFormat:@"http://%@:8080/smarthome/weather/queryAqiHistory", localhost]
+
+/**
+ *  查询当天空气质量数据
+ */
+#define kDangTianKongQiZhiLiang [NSString stringWithFormat:@"http://%@:8080/smarthome/weather/queryAqi", localhost]
+
+/**
+ *  查询干衣机的状态
+ *
+ */
+#define kChaXunGanYiJiZhuangTai [NSString stringWithFormat:@"http://%@:8080/smarthome/dryer/queryDeviceState", localhost]
+
+/**
+ *  查询干衣机的数据
+ *
+ */
+#define kChaXunGanYiJiShuJu [NSString stringWithFormat:@"http://%@:8080/smarthome/dryer/queryDeviceData", localhost]
+
+/**
+ *  查询干衣机的历史数据
+ *
+ */
+#define kChaXunGanYiJiLiShiShuJu [NSString stringWithFormat:@"http://%@:8080/smarthome/dryer/queryDeviceHistory", localhost]
+
+/**
+*  干衣机的定时URL
+*
+*/
+#define kGanYiJiDeDingShiURL [NSString stringWithFormat:@"http://%@:8080/smarthome/dryer/jobTask", localhost]
+
+/**
+ *  移除设备
+ */
+#define kDeleteServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/user/deleteUserDevice", localhost]
+
+/**
+ *  所有设备类型借口
+ */
+#define kAllTypeServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/device/queryTypeList", localhost]
+
+
+#endif
