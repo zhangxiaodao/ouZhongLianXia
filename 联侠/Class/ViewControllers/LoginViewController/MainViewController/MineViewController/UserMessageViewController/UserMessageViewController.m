@@ -306,15 +306,14 @@
     } else if (indexPath.section == 4) {
         LoginViewController *loginVC = [[LoginViewController alloc]init];
         
-        [kStanderDefault removeObjectForKey:@"isAfterTwoHours"];
+       
         [kStanderDefault removeObjectForKey:@"Login"];
         [kStanderDefault removeObjectForKey:@"cityName"];
         [kStanderDefault removeObjectForKey:@"password"];
         [kStanderDefault removeObjectForKey:@"phone"];
         [kStanderDefault removeObjectForKey:@"userSn"];
         [kStanderDefault removeObjectForKey:@"userId"];
-        [kStanderDefault removeObjectForKey:@"weartherImage"];
-        [kStanderDefault removeObjectForKey:@"wearthDic"];
+        
         [kStanderDefault removeObjectForKey:@"first"];
         [kStanderDefault removeObjectForKey:@"zhuYe"];
         [kStanderDefault removeObjectForKey:@"XinFengTime"];

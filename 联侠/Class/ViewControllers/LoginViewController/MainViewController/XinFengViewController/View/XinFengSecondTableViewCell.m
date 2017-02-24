@@ -118,10 +118,20 @@
 
 - (void)malertItemSelect:(NSInteger)index {
     
-    if (index - 100 + 1 >= 10 ) {
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%ld0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  index - 100 + 1 , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+    index = index - 100 + 1;
+    
+    
+    
+    if (index == 1) {
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"08", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+    } else if (index == 2) {
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"09", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+    } else if (index == 8) {
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"01", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+    } else if (index == 9) {
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"02", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
     } else {
-         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%ld0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  index - 100 + 1 , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%ld0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  index, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
     }
     
 }
@@ -153,7 +163,7 @@
             break;
         }
         case 4: {
-            _alert = [[MalertView alloc] initWithImageArrOfButton:@[@"自动" , @"关闭", @"红紫绿",  @"粉蓝黄" , @"暗彩" , @"亮彩", @"多彩" , @"红" , @"蓝"]];
+            _alert = [[MalertView alloc] initWithImageArrOfButton:@[@"红" , @"蓝" , @"红紫绿",  @"粉蓝黄" , @"暗彩" , @"亮彩", @"多彩" ,@"自动" , @"关闭"]];
             _alert.delegate = self;
             [kWindowRoot.view addSubview:_alert];
             

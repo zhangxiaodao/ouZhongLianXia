@@ -140,24 +140,9 @@
 
 - (void)submitXinFengTimeBtnAtcion {
     
-    if (self.openSwitch.on == 0 && self.closeSwitch.on == 0) {
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"定时开关未开，定时时间无效"];
-    } else if (self.openSwitch.on == 1 && self.closeSwitch.on == 0) {
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self setTiming];
-        } andSuperViewController:self Title:@"定时关闭开关未开，关闭时间无效"];
-    } else if (self.openSwitch.on == 0 && self.closeSwitch.on == 1) {
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self setTiming];
-        } andSuperViewController:self Title:@"定时开启开关未开，开启时间无效"];
-    } else if (self.openSwitch.on == 1 && self.closeSwitch.on == 1) {
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self setTiming];
-        } andSuperViewController:self Title:@"定时成功"];
-    }
-    
-    
+    [self setTiming];
 }
+
 
 - (void)setTiming {
     
@@ -209,11 +194,23 @@
         durTime = closeTimeInteger - openTimeInteger;
     }
     
-    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"task.fSwitchOn" : @(self.openSwitch.on) , @"task.fSwitchOff" : @(self.closeSwitch.on) , @"task.onJobTime" : openArray[1] , @"task.offJobTime" : closeArray[1] , @"task.durTime" : @(durTime) , @"task.runWeek" : repeatStr};
-    NSLog(@"%@ , %@" , parames , openArray[0]);
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"task.fSwitchOn" : @(self.openSwitch.on) , @"task.fSwitchOff" : @(self.closeSwitch.on) , @"task.onJobTime" : openTime , @"task.offJobTime" : closeTime , @"task.durTime" : [NSString stringWithFormat:@"%ld" , durTime] , @"task.runWeek" : repeatStr};
+
+    NSLog(@"%@" , parames);
     [HelpFunction requestDataWithUrlString:kKongJingDingShiYuYue andParames:parames andDelegate:self];
+}
+
+- (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
+    NSLog(@"%@" , dic);
     
-    [self.navigationController popViewControllerAnimated:YES];
+    if (![dic[@"state"] isKindOfClass:[NSNull class]]) {
+        if ([dic[@"state"] isEqualToString:@"0"]) {
+            [UIAlertController creatRightAlertControllerWithHandle:^{
+                [self.navigationController popViewControllerAnimated:YES];
+            } andSuperViewController:kWindowRoot Title:@"定时成功"];
+        }
+    }
+    
 }
 
 - (void)ensurePickView {

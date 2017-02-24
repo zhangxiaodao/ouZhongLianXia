@@ -336,7 +336,7 @@
         if (_stateModel.fSwitch == 1) {
            
             UIImage *image = nil;
-            NSInteger time = 0;
+            NSInteger time = MAXFLOAT;
             if (_stateModel.fWind == 1) {
                 image = [UIImage imageNamed:@"xinFengWindDi"];
                 time = kDuration * 2;
@@ -353,6 +353,10 @@
             _fengSuBiaoShiImageView.image = image;
             [self addAnimationWithDurtion:time];
             [self resumeLayer:_spinImageView.layer];
+            
+            if (self.stateModel.fWind == 0) {
+                [self pauseLayer:_spinImageView.layer];
+            }
         }
         
         

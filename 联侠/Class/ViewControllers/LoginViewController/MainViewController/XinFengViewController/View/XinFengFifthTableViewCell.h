@@ -10,5 +10,6 @@
 
 @interface XinFengFifthTableViewCell : UITableViewCell
 
+@property (nonatomic , strong) ServicesModel *servicModel;
 @property (nonatomic , strong) UILabel *shuoMingLabel;
 @end

@@ -15,10 +15,19 @@
 #define  CCLastCity      @"CCLastCity"
 #define  CCLastAddress   @"CCLastAddress"
 
+
+@protocol CCLocationManagerZHCDelegate <NSObject>
+
+- (void)getNowCityName:(NSString *)cityName;
+
+@end
+
 typedef void (^LocationBlock)(CLLocationCoordinate2D locationCorrrdinate);
 typedef void (^LocationErrorBlock) (NSError *error);
 typedef void(^NSStringBlock)(NSString *cityString);
 typedef void(^NSStringBlock)(NSString *addressString);
+
+
 
 @interface CCLocationManager : NSObject<CLLocationManagerDelegate>
 @property (nonatomic) CLLocationCoordinate2D lastCoordinate;
@@ -28,6 +37,7 @@ typedef void(^NSStringBlock)(NSString *addressString);
 @property(nonatomic,assign)float latitude;
 @property(nonatomic,assign)float longitude;
 
+@property (nonatomic , assign) id<CCLocationManagerZHCDelegate> delegate;
 
 + (CCLocationManager *)shareLocation;
 

@@ -133,6 +133,13 @@
     _isDuanXianChongLian = @"YES";
     //[self cutOffSocket];
     [self socketConnectHost];
+    
+    if (self.userSn && self.serviceModel) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , self.userSn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+        });
+    }
+    
 }
 
 -(void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
@@ -156,8 +163,16 @@
         devSnByte[i] = strtoul([devSnSubStr[i] UTF8String],0,16);
     }
     
-//    NSLog(@"%@ , %@" , sock.connectedHost , newMessage);
+    NSLog(@"%@ , %@" , sock.connectedHost , newMessage);
     
+//    if ([newMessage isKindOfClass:[NSNull class]]) {
+//        
+//        NSLog(@"%@ , %@" , self.userSn , self.serviceModel);
+//        
+//        if (self.userSn && self.serviceModel) {
+//            [self sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , self.userSn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+//        }
+//    }
     
     if (![newMessage isEqualToString:@"QUIT"] && ![newMessage isEqualToString:@"CONNECTED"]) {
        

@@ -10,7 +10,7 @@
 
 #define kCircleW view.height * 2 / 3
 
-@interface XinFengFifthTableViewCell ()
+@interface XinFengFifthTableViewCell ()<HelpFunctionDelegate>
 
 @property (nonatomic , strong) NSMutableArray *timeArray;
 @end
@@ -21,9 +21,17 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
+        if (self.servicModel.devSn) {
+            [HelpFunction requestDataWithUrlString:kKongJingTiming andParames:@{@"devSn" : self.servicModel.devSn} andDelegate:self];
+        }
+        
         [self customUI];
     }
     return self;
+}
+
+- (void)requestServicesTimeing:(NSDictionary *)dic {
+    NSLog(@"%@" , dic);
 }
 
 - (void)getXinFengKongJingTimeMessage:(NSNotification *)post {
@@ -208,6 +216,10 @@
     layer.path = [path CGPath];
     
     return layer;
+}
+
+- (void)setServicModel:(ServicesModel *)servicModel {
+    _servicModel = servicModel;
 }
 
 @end

@@ -38,7 +38,7 @@
     self.window.rootViewController = [[UIViewController alloc]init];
     [self.window makeKeyAndVisible];
     
-    
+        
     NSLog(@"%f , %f" , kScreenW , kScreenH);
     _alertController = nil;
     

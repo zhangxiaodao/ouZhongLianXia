@@ -52,8 +52,16 @@
         _contentViewLeft = [[UIView alloc] initWithFrame:self.frame];
         [_bgView addSubview:_contentViewLeft];
         
+        UILabel *titleLabel = [UILabel creatLableWithTitle:@"智能彩灯" andSuperView:_contentViewLeft andFont:k20 andTextAligment:NSTextAlignmentCenter];
+        titleLabel.layer.borderWidth = 0;
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
+            make.centerX.mas_equalTo(_contentViewLeft.mas_centerX);
+            make.top.mas_equalTo(_contentViewLeft.mas_top).offset(kScreenW / 5);
+        }];
+        
         self.array = imgArr;
-        _clolorArray = @[kCOLOR(212, 212, 212) , kFenGeXianYanSe  , kCOLOR(219, 175, 40) , kCOLOR(251, 157, 176) , kCOLOR(196, 126, 251) ,   kCOLOR(157, 123, 250) , kCOLOR(125, 99, 250) , kCOLOR(251, 13, 27) , kCOLOR(11, 36, 250)];
+        _clolorArray = @[kCOLOR(251, 13, 27) , kCOLOR(11, 36, 250) ,  kCOLOR(219, 175, 40) , kCOLOR(251, 157, 176) , kCOLOR(196, 126, 251) ,   kCOLOR(157, 123, 250) , kCOLOR(125, 99, 250) ,kCOLOR(212, 212, 212) , kFenGeXianYanSe ];
         for (int i = 0; i < imgArr.count; i++) {
             
             UIButton *btn = [UIButton creatBtnWithTitle:imgArr[i] withLabelFont:k14 withLabelTextColor:[UIColor blackColor] andSuperView:_contentViewLeft andBackGroundColor:[UIColor clearColor] andHighlightedBackGroundColor:[UIColor clearColor] andwhtherNeendCornerRadius:YES WithTarget:self andDoneAtcion:@selector(colorBtnAtcion:)];
@@ -74,6 +82,7 @@
             btn.layer.borderWidth = 2;
             btn.layer.borderColor = [_clolorArray[i] CGColor];
             btn.tag = 100 + i;
+            
             [self.btnArray addObject:btn];
             
         }
@@ -99,16 +108,35 @@
 - (void)getXinFengCaiDengAtcion:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
     NSString *caiDeng = [mingLing substringWithRange:NSMakeRange(32, 2)];
-    NSLog(@"彩灯回传命令%@ , %ld" , caiDeng , caiDeng.integerValue);
+    NSLog(@"彩灯回传命令%@ , %ld , %@" , caiDeng , caiDeng.integerValue , mingLing);
     
     for (UIButton *btn in self.btnArray) {
         btn.backgroundColor = [UIColor clearColor];
     }
     
-    if (caiDeng.intValue > 0) {
-        NSInteger index = caiDeng.intValue - 1;
-        UIButton *btn = self.btnArray[index];
-        btn.backgroundColor = self.clolorArray[index];
+    NSInteger index = caiDeng.intValue;
+    
+    if (index > 0) {
+        NSInteger index = caiDeng.intValue;
+        
+        
+        if (index == 1) {
+            UIButton *btn = self.btnArray[7];
+            btn.backgroundColor = self.clolorArray[7];
+        } else if (index == 2) {
+            UIButton *btn = self.btnArray[8];
+            btn.backgroundColor = self.clolorArray[8];
+        } else if (index == 8) {
+            UIButton *btn = self.btnArray[0];
+            btn.backgroundColor = self.clolorArray[0];
+        } else if (index == 9) {
+            UIButton *btn = self.btnArray[1];
+            btn.backgroundColor = self.clolorArray[1];
+        } else {
+            UIButton *btn = self.btnArray[index];
+            btn.backgroundColor = self.clolorArray[index];
+        }
+        
     }
     
     

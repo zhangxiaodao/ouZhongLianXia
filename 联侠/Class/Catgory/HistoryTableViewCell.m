@@ -73,7 +73,7 @@
 
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     
-    //    NSLog(@"%@" , data);
+//    NSLog(@"%@" , data);
     
     NSMutableDictionary *dddd = data[0];
     if ([dddd[@"data"] isKindOfClass:[NSArray class]]) {
@@ -94,7 +94,7 @@
             
             int i = (int)(useTime.integerValue / 24);
             
-            if (i >= 1) {
+            if (i >= 1 && i <= 7) {
                 for (int j = i - 1;j >= 1; j--) {
                     
                     NSNumber *lastUseTime = @(24);

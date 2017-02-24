@@ -25,7 +25,7 @@
 
 #import "WeatherView.h"
 
-@interface MineSerivesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , HelpFunctionDelegate , SendViewControllerToParentVCDelegate>
+@interface MineSerivesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , HelpFunctionDelegate , SendViewControllerToParentVCDelegate , CCLocationManagerZHCDelegate>
 @property (nonatomic , strong) UICollectionView *collectionView;
 
 @property (nonatomic , strong) UIView *topView;
@@ -35,6 +35,8 @@
 @property (nonatomic , strong) NSMutableDictionary *wearthDic;
 
 @property (nonatomic , strong) UIViewController *childViewController;
+
+@property (nonatomic , copy) NSString *cityName;
 @end
 
 @implementation MineSerivesViewController
@@ -48,9 +50,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor whiteColor];
     
+    NSDictionary *parameters = @{@"userSn": [kStanderDefault objectForKey:@"userSn"]};
+    kSocketTCP.userSn = [NSString stringWithFormat:@"%@" , [kStanderDefault objectForKey:@"userSn"]];
+    [kSocketTCP socketConnectHost];
+    NSLog(@"%@" , parameters);
     [self setUI];
     
 
@@ -71,7 +76,10 @@
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@Q#" , self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kQuite andIsNewOrOld:nil];
     }
     
+    [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
     
+    
+    NSLog(@"%@" , [kStanderDefault objectForKey:@"requestWeatherTime"]);
     
     NSInteger nowTimeInterval = [NSString getNowTimeInterval];
     if ([kStanderDefault objectForKey:@"requestWeatherTime"]) {
@@ -86,6 +94,8 @@
         [self startWearthData];
     }
 
+    
+    
     NSDictionary *parameters = @{@"userSn": [kStanderDefault objectForKey:@"userSn"]};
     [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:parameters andDelegate:self];
     
@@ -205,12 +215,23 @@
     [self getWeatherDic:self.wearthDic];
 }
 
+- (void)getNowCityName:(NSString *)cityName {
+    if (cityName) {
+        [kStanderDefault setObject:cityName forKey:@"cityName"];
+        self.cityName = cityName;
+        NSLog(@"%@" , cityName);
+    }
+}
 
 #pragma mark - 请求天气参数
 - (void)startWearthData {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getWeartherImage:) name:@"weartherImage" object:nil];
 
+    if (self.cityName) {
+        [HelpFunction requestWeatherDataWithDelegate:self andCityName:self.cityName];
+    }
+    
     
     [[CCLocationManager shareLocation]getCity:^(NSString *cityString) {
         
@@ -328,6 +349,13 @@
     
     ServicesModel *model = [[ServicesModel alloc]init];
     model = self.haveArray[indexPath.row];
+    kSocketTCP.serviceModel = model;
+    
+    NSLog(@"%@" , [NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , model.devTypeSn , model.devSn]);
+    
+    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn] andType:kAddService andIsNewOrOld:nil];
+    
+    
     
     self.tabBarController.tabBar.hidden = YES;
     if ([model.devTypeSn isEqualToString:@"4131"] || [model.devTypeSn isEqualToString:@"4132"]) {

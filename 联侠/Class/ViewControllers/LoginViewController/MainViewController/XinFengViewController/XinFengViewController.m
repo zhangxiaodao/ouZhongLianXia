@@ -46,6 +46,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
 
+//    NSLog(@"%@" , [NSString sendXinFengNowTime]);
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     NSDictionary *parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
@@ -79,8 +80,8 @@
             [_userModel setValue:user[key] forKey:key];
         }
         
-        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
-        [kSocketTCP socketConnectHost];
+//        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
+//        [kSocketTCP socketConnectHost];
         
         [kApplicate initLastViewController:self];
         [kApplicate initUserModel:_userModel];
@@ -117,11 +118,13 @@
             
             [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
             
-            kSocketTCP.serviceModel = self.serviceModel;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
-                [self sendXinFengNowTime];
-            });
+//            kSocketTCP.serviceModel = self.serviceModel;
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+//                [self sendXinFengNowTime];
+//            });
+            
+            [self sendXinFengNowTime];
             
             
             [kStanderDefault setObject:@(self.userModel.sn) forKey:@"userSn"];
@@ -225,6 +228,8 @@
 - (void)xinFengOpenAtcion:(UIButton *)btn {
     
     [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"01", @"00", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
+    
+    NSLog(@"%@" , XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"01", @"00", @"00", @"00" , @"00"));
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJing:) name:@"4232" object:nil];
 }
 
@@ -508,6 +513,7 @@
                 cell = [[XinFengFifthTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
             }
             
+            cell.servicModel = self.serviceModel;
             return cell;
         } else  {
             static NSString *celled = @"forth";

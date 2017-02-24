@@ -95,6 +95,11 @@
              _lastCity = placemark.locality;
              
              [standard setObject:_lastCity forKey:CCLastCity];//省市地址
+             
+             if (_delegate && [_delegate respondsToSelector:@selector(getNowCityName:)]) {
+                 [_delegate getNowCityName:_lastCity];
+             }
+             
              NSLog(@"______%@",_lastCity);
              _lastAddress = placemark.name;
 //             NSLog(@"______%@ , %@",_lastAddress , placemark.addressDictionary[@"State"]);

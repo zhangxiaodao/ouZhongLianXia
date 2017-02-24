@@ -116,27 +116,27 @@
         case 0:
         {
 //            model = @"高效";
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"01", @"00", @"00", @"00" , @"04") andType:kZhiLing andIsNewOrOld:kNew];
-            [UIButton setBtnOfImageAndLableWithSelected:gaoXiaoBtn andBackGroundColor:kXinFengKongJingYanSe];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"00" , @"04") andType:kZhiLing andIsNewOrOld:kNew];
+//            [UIButton setBtnOfImageAndLableWithSelected:gaoXiaoBtn andBackGroundColor:kXinFengKongJingYanSe];
             break;
         }
         case 1: {
 //            model = @"自然";
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"01", @"01", @"00", @"01" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
-            [UIButton setBtnOfImageAndLableWithSelected:ziRanBtn andBackGroundColor:kXinFengKongJingYanSe];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"00", @"01" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
+//            [UIButton setBtnOfImageAndLableWithSelected:ziRanBtn andBackGroundColor:kXinFengKongJingYanSe];
             break;
         }
         case 2: {
 //            model = @"睡眠";
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"01", @"01", @"00", @"00" , @"01") andType:kZhiLing andIsNewOrOld:kNew];
-            [UIButton setBtnOfImageAndLableWithSelected:shuiMianBtn andBackGroundColor:kXinFengKongJingYanSe];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"02" , @"01") andType:kZhiLing andIsNewOrOld:kNew];
+//            [UIButton setBtnOfImageAndLableWithSelected:shuiMianBtn andBackGroundColor:kXinFengKongJingYanSe];
             break;
         }
             
         case 3:{
 //            model = @"舒适";
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"01", @"01", @"00", @"01" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
-            [UIButton setBtnOfImageAndLableWithSelected:shuShiBtn andBackGroundColor:kXinFengKongJingYanSe];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"01" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
+//            [UIButton setBtnOfImageAndLableWithSelected:shuShiBtn andBackGroundColor:kXinFengKongJingYanSe];
             break;
         }
             
@@ -157,6 +157,8 @@
     NSString *ziDong = [mingLing substringWithRange:NSMakeRange(30, 2)];
     NSString *wind = [mingLing substringWithRange:NSMakeRange(40, 2)];
     NSString *fuLiZi = [mingLing substringWithRange:NSMakeRange(34, 2)];
+    
+    
     
     NSString *modelStr = nil;
     

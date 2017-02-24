@@ -24,9 +24,13 @@
 
 - (void)requestFuWeiShuJu:(HelpFunction *)request didYes:(NSDictionary *)dic;
 
+- (void)requestServicesTimeing:(NSDictionary *)dic;
+
 - (void)requestKongQiZhiLiangShuJu:(HelpFunction *)request didYes:(NSDictionary *)dic;
 
 - (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd;
+
+
 
 //请求失败的代理
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error;

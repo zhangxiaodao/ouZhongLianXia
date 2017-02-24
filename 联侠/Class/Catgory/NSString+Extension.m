@@ -198,6 +198,7 @@
         }
         
     }
+
     
     if (str.intValue <= 9) {
         str = [NSString stringWithFormat:@"0%@" , str];
@@ -241,6 +242,9 @@
     
     NSString *hourTime = [nowTime substringWithRange:NSMakeRange(0, 2)];
     NSString *minuteTime = [nowTime substringWithRange:NSMakeRange(3, 2)];
+    
+    hourTime = @"10";
+    minuteTime = @"15";
     
     NSString *hourHex = [[NSString ToHex:hourTime.integerValue] substringFromIndex:2];
     NSString *minuteHex = [[NSString ToHex:minuteTime.integerValue] substringFromIndex:2];
