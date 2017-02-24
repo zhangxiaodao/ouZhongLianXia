@@ -36,9 +36,9 @@
 
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip
-#define kHost @"192.168.1.104"
+#define kHost @"114.55.5.92"
 #define kPort 6003
-#define localhost @"192.168.1.104"
+#define localhost @"114.55.5.92"
 
 #define kXinTiao @"xinTiao"
 #define kZhiLing @"zhiLing"
@@ -174,8 +174,8 @@
 #define GanYiJi4332SendToHostXieYi(devTypeSn , devSn , kaiGuan , ozone , power , time) [NSString stringWithFormat:@"HMFFM%@%@w%@%@000000000000%@0000%@00000000#" , devTypeSn , devSn , kaiGuan , ozone , power , time]
 #define GanYiJi4332SendToHTMLXieYi(kaiGuan , ozone , power , time) [NSString stringWithFormat:@"%@%@000000000000%@0000%@00000000" ,kaiGuan , ozone , power , time]
 
-#define XinFengKongJing(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@0000000000000000000000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu]
-#define XinFengKongJingTime(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@0000%@%@00000000000000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime]
+#define XinFengKongJing(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@00000000000000%@%@0000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]
+#define XinFengKongJingTime(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@0000%@%@000000%@%@0000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]
 #define XinFengKongJingSetTime(devTypeSn , devSn , hourTime , minuteTime) [NSString stringWithFormat:@"HMFFA%@%@w0000000000000000000000000000%@%@0000000000000000#" , devTypeSn , devSn , hourTime , minuteTime]
 
 /**

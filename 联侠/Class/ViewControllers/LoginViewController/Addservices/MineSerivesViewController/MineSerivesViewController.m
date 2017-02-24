@@ -76,7 +76,7 @@
     NSInteger nowTimeInterval = [NSString getNowTimeInterval];
     if ([kStanderDefault objectForKey:@"requestWeatherTime"]) {
         NSInteger weatherTime = [[kStanderDefault objectForKey:@"requestWeatherTime"] integerValue];
-        NSLog(@"%ld , %ld , %ld" , nowTimeInterval , weatherTime , weatherTime + 2 * 3600);
+        
         if (nowTimeInterval > weatherTime + 2 * 3600) {
             [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
             [self startWearthData];
@@ -87,8 +87,6 @@
     }
 
     NSDictionary *parameters = @{@"userSn": [kStanderDefault objectForKey:@"userSn"]};
-    NSLog(@"%@" , parameters);
-    
     [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:parameters andDelegate:self];
     
 }
@@ -102,7 +100,7 @@
 #pragma mark - 获取代理的数据
 - (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd{
     
-    NSLog(@"%@" , dddd);
+//    NSLog(@"%@" , dddd);
     NSInteger state = [dddd[@"state"] integerValue];
     if (state == 0) {
         
@@ -285,7 +283,6 @@
 }
 
 - (void)sendViewControllerToParentVC:(UIViewController *)viewController {
-    NSLog(@"%@" , viewController);
     _childViewController = viewController;
 }
 

@@ -234,4 +234,19 @@
     
 }
 
+#pragma mark - 把当前时间的 时 和 分  转化为十六进制
++ (NSArray *)sendXinFengNowTime {
+    NSString *nowTime = [NSString getNowTimeString];
+    nowTime = [nowTime substringWithRange:NSMakeRange(11, 5)];
+    
+    NSString *hourTime = [nowTime substringWithRange:NSMakeRange(0, 2)];
+    NSString *minuteTime = [nowTime substringWithRange:NSMakeRange(3, 2)];
+    
+    NSString *hourHex = [[NSString ToHex:hourTime.integerValue] substringFromIndex:2];
+    NSString *minuteHex = [[NSString ToHex:minuteTime.integerValue] substringFromIndex:2];
+    
+    NSArray *array = @[hourHex , minuteHex];
+    return array;
+}
+
 @end

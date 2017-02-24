@@ -649,9 +649,10 @@
 //            NSLog(@"%x" , addServiceBao[i]);
 //        }
         
+        
         NSData *data = [NSData dataWithBytes:addServiceBao length:sizeof(addServiceBao)];
         [self.socket writeData:data withTimeout:-1 tag:0];
-        
+        NSLog(@"设备连接成功");
     } else if ([type isEqualToString:kQuite]) {
         
         NSInteger userSn = [string substringWithRange:NSMakeRange(2, 9)].integerValue;

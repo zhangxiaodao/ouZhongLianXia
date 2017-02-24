@@ -140,11 +140,6 @@
 
 - (void)submitXinFengTimeBtnAtcion {
     
-//    NSString *hourHex = [[NSString ToHex:_hourTime.integerValue] substringFromIndex:2];
-//    NSString *minuteHex = [[NSString ToHex:_minuteTime.integerValue] substringFromIndex:2];
-    
-//    [kSocketTCP sendDataToHost:XinFengKongJingTime(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00" , @"00" , hourHex , minuteHex) andType:kZhiLing andIsNewOrOld:kNew];
-    
     if (self.openSwitch.on == 0 && self.closeSwitch.on == 0) {
         [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"定时开关未开，定时时间无效"];
     } else if (self.openSwitch.on == 1 && self.closeSwitch.on == 0) {

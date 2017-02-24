@@ -12,11 +12,13 @@
 #import "GeTuiSdk.h"
 #import "ServicesModel.h"
 #import "UserModel.h"
+#import "XinFengViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate , GCDAsyncSocketDelegate , GeTuiSdkDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
+- (void)initLastViewController:(XinFengViewController *)viewController;
 - (void)initUserModel:(UserModel *)userModel;
 - (void)initServiceModel:(ServicesModel *)serviceModel;
 @end

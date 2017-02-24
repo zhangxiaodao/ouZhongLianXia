@@ -212,8 +212,6 @@
     monkeyAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     monkeyAnimation.toValue = [NSNumber numberWithFloat:2.0 *M_PI];
     monkeyAnimation.duration = duration;
-//    monkeyAnimation.cumulative = NO;
-//    monkeyAnimation.removedOnCompletion = NO; //No Remove
     monkeyAnimation.repeatCount = MAXFLOAT;
     [_spinImageView.layer addAnimation:monkeyAnimation forKey:@"AnimatedKey"];
     
@@ -238,18 +236,6 @@
     layer.beginTime = timeSincePause;
 }
 
-//开始动画
-//- (void)startAnimate {
-////    if ([_isPlay isEqualToString:@"NO"]) {
-////        _isPlay = @"YES";
-//        _spinImageView.layer.speed = 1.0;
-//        _spinImageView.layer.beginTime = 0.0;
-//        CFTimeInterval pausedTime = [_spinImageView.layer timeOffset];
-//        CFTimeInterval timeSincePause = [_spinImageView.layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
-//        _spinImageView.layer.beginTime = timeSincePause;
-////    }
-//    
-//}
 
 - (void)creatUpAndDownLabelWith:(NSString *)upTitle andUpFont:(CGFloat)upFont andTextColor:(UIColor *)upColor andDownTitle:(NSString *)downTitle andDownFont:(CGFloat)downFont andDownTextColor:(UIColor *)downColor andSuperView:(UIView *)superView{
     UILabel *upLable = [UILabel creatLableWithTitle:upTitle andSuperView:superView andFont:upFont andTextAligment:NSTextAlignmentCenter];
@@ -276,7 +262,7 @@
     NSString *messsage = post.userInfo[@"Message"];
 //    NSLog(@"%@" , messsage);
     
-    
+    NSString *kaiGuan = [messsage substringWithRange:NSMakeRange(28, 2)];
     NSString *temprature = [messsage substringWithRange:NSMakeRange(36, 2)];
     NSString *humidity = [messsage substringWithRange:NSMakeRange(38, 2)];
     
@@ -305,33 +291,28 @@
     
     _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , kXinFengLvXinTime - sumTime];
     
-    
-    if ([kStanderDefault objectForKey:@"XinFengWind"]) {
-        if (![_wind isEqualToString:[kStanderDefault objectForKey:@"XinFengWind"]]) {
-            
-            if ([_wind isEqualToString:@"01"]) {
-                _fengSuBiaoShiImageView.image = [UIImage imageNamed:@"xinFengWindDi"];
-                [self addAnimationWithDurtion:kDuration * 2];
-            } else if ([_wind isEqualToString:@"02"]) {
-                _fengSuBiaoShiImageView.image = [UIImage imageNamed:@"xinFengWindZhong"];
-                [self addAnimationWithDurtion:kDuration * 3 / 2];
-            } else if ([_wind isEqualToString:@"03"]) {
-                _fengSuBiaoShiImageView.image = [UIImage imageNamed:@"xinFengWindGao"];
-                [self addAnimationWithDurtion:kDuration];
-            } else if ([_wind isEqualToString:@"04"]) {
-                _fengSuBiaoShiImageView.image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-                [self addAnimationWithDurtion:kDuration * 2 / 3];
-            }
-            
-//            [self startAnimate];
-            
-            [self resumeLayer:_spinImageView.layer];
+    if ([kaiGuan isEqualToString:@"01"]) {
+        UIImage *image = nil;
+        NSInteger time = 0;
+        if ([_wind isEqualToString:@"01"]) {
+            image = [UIImage imageNamed:@"xinFengWindDi"];
+            time = kDuration * 2;
+        } else if ([_wind isEqualToString:@"02"]) {
+            image = [UIImage imageNamed:@"xinFengWindZhong"];
+            time = kDuration * 3 / 2;
+        } else if ([_wind isEqualToString:@"03"]) {
+            image = [UIImage imageNamed:@"xinFengWindGao"];
+            time = kDuration;
+        } else if ([_wind isEqualToString:@"04"]) {
+            image = [UIImage imageNamed:@"xinFengWindZuiGao"];
+            time = kDuration * 2 / 3 ;
         }
+        
+        _fengSuBiaoShiImageView.image = image;
+        [self addAnimationWithDurtion:time];
+        [self resumeLayer:_spinImageView.layer];
     }
     
-    
-    
-    [kStanderDefault setObject:_wind forKey:@"XinFengWind"];
 }
 
 
@@ -353,21 +334,24 @@
         _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , kXinFengLvXinTime - _stateModel.changeFilterScreen];
     
         if (_stateModel.fSwitch == 1) {
+           
+            UIImage *image = nil;
+            NSInteger time = 0;
             if (_stateModel.fWind == 1) {
-                _fengSuBiaoShiImageView.image = [UIImage imageNamed:@"xinFengWindDi"];
-                [self addAnimationWithDurtion:kDuration * 2];
+                image = [UIImage imageNamed:@"xinFengWindDi"];
+                time = kDuration * 2;
             } else if (_stateModel.fWind == 2) {
-                _fengSuBiaoShiImageView.image = [UIImage imageNamed:@"xinFengWindZhong"];
-                [self addAnimationWithDurtion:kDuration * 3 / 2];
+                image = [UIImage imageNamed:@"xinFengWindZhong"];
+                time = kDuration * 3 / 2;
             } else if (_stateModel.fWind == 3) {
-                _fengSuBiaoShiImageView.image = [UIImage imageNamed:@"xinFengWindGao"];
-                [self addAnimationWithDurtion:kDuration];
+                image = [UIImage imageNamed:@"xinFengWindGao"];
+                time = kDuration;
             } else if (_stateModel.fWind == 4) {
-                _fengSuBiaoShiImageView.image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-                [self addAnimationWithDurtion:kDuration * 2 / 3];
+                image = [UIImage imageNamed:@"xinFengWindZuiGao"];
+                time = kDuration * 2 / 3 ;
             }
-//            [self startAnimate];
-            
+            _fengSuBiaoShiImageView.image = image;
+            [self addAnimationWithDurtion:time];
             [self resumeLayer:_spinImageView.layer];
         }
         

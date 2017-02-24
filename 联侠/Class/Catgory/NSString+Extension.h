@@ -72,4 +72,7 @@
 
 +(NSString *)ToHex:(long long int)tmpid;
 
+#pragma mark - 把当前时间的 时 和 分  转化为十六进制
++ (NSArray *)sendXinFengNowTime;
+
 @end

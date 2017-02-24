@@ -82,6 +82,7 @@
         kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
         [kSocketTCP socketConnectHost];
         
+        [kApplicate initLastViewController:self];
         [kApplicate initUserModel:_userModel];
         [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:@{@"userSn" : @(_userModel.sn)} andDelegate:self];
     }
@@ -117,23 +118,21 @@
             [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
             
             kSocketTCP.serviceModel = self.serviceModel;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+                [self sendXinFengNowTime];
             });
             
-            [self sendXinFengNowTime];
             
             [kStanderDefault setObject:@(self.userModel.sn) forKey:@"userSn"];
             [kStanderDefault setObject:@(self.userModel.idd) forKey:@"userId"];
             
             [kApplicate initServiceModel:self.serviceModel];
-            NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
             
             if ([self.serviceModel.devTypeSn isEqualToString:@"4232"]) {
-                
-                [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianShuJu andParames:parames andDelegate:self];
-                
-                [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
+                [self requestServiceData];
+                [self requestServiceState];
+            
             }
         } else {
             AllTypeServiceViewController *allServicesVC = [[AllTypeServiceViewController alloc]init];
@@ -143,6 +142,16 @@
         AllTypeServiceViewController *addServiceVC = [[AllTypeServiceViewController alloc]init];
         [self.navigationController pushViewController:addServiceVC animated:YES];
     }
+}
+
+- (void)requestServiceState {
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
+    [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
+}
+
+- (void)requestServiceData {
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
+    [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianShuJu andParames:parames andDelegate:self];
 }
 
 - (void)sendXinFengNowTime {
@@ -171,9 +180,7 @@
 
 #pragma mark - 获取设备的状态
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd{
-    
 //    NSLog(@"%@" , dddd);
-    
     if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dataDic = dddd[@"data"];
         
@@ -218,14 +225,15 @@
 - (void)xinFengOpenAtcion:(UIButton *)btn {
     
     [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"01", @"00", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJing:) name:@"4232" object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJing:) name:@"4232" object:nil];
 }
 
 #pragma mark - 按钮关点击事件
 - (void)xinFengCloseAtcion:(UIButton *)btn {
     
     [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"02", @"00", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJing:) name:@"4232" object:nil];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJing:) name:@"4232" object:nil];
     
 }
 
@@ -430,6 +438,9 @@
 
 #pragma mark - tableView的代理
 #pragma mark - 分区的个数
+
+
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }

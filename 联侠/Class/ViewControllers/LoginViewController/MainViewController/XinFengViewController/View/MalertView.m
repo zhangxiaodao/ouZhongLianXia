@@ -53,10 +53,10 @@
         [_bgView addSubview:_contentViewLeft];
         
         self.array = imgArr;
-        _clolorArray = @[kCOLOR(251, 13, 27) ,kCOLOR(41, 252, 48) , kCOLOR(11, 36, 250) , kCOLOR(254, 254, 56) , kCOLOR(251, 40, 246) , kCOLOR(44, 252, 254) , kCOLOR(212, 212, 212) , kCOLOR(116, 137, 157) , kCOLOR(116, 137, 157)];
+        _clolorArray = @[kCOLOR(212, 212, 212) , kFenGeXianYanSe  , kCOLOR(219, 175, 40) , kCOLOR(251, 157, 176) , kCOLOR(196, 126, 251) ,   kCOLOR(157, 123, 250) , kCOLOR(125, 99, 250) , kCOLOR(251, 13, 27) , kCOLOR(11, 36, 250)];
         for (int i = 0; i < imgArr.count; i++) {
             
-            UIButton *btn = [UIButton creatBtnWithTitle:imgArr[i] withLabelFont:k14 withLabelTextColor:[UIColor blackColor] andSuperView:_contentViewLeft andBackGroundColor:[UIColor clearColor] andHighlightedBackGroundColor:_clolorArray[i] andwhtherNeendCornerRadius:YES WithTarget:self andDoneAtcion:@selector(colorBtnAtcion:)];
+            UIButton *btn = [UIButton creatBtnWithTitle:imgArr[i] withLabelFont:k14 withLabelTextColor:[UIColor blackColor] andSuperView:_contentViewLeft andBackGroundColor:[UIColor clearColor] andHighlightedBackGroundColor:[UIColor clearColor] andwhtherNeendCornerRadius:YES WithTarget:self andDoneAtcion:@selector(colorBtnAtcion:)];
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(kBtnW , kBtnW));
                 if (i < 3) {
@@ -99,15 +99,17 @@
 - (void)getXinFengCaiDengAtcion:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
     NSString *caiDeng = [mingLing substringWithRange:NSMakeRange(32, 2)];
-    NSLog(@"%@ , %ld" , caiDeng , caiDeng.integerValue);
+    NSLog(@"彩灯回传命令%@ , %ld" , caiDeng , caiDeng.integerValue);
     
     for (UIButton *btn in self.btnArray) {
         btn.backgroundColor = [UIColor clearColor];
     }
     
-    NSInteger index = caiDeng.intValue - 1;
-    UIButton *btn = self.btnArray[index];
-    btn.backgroundColor = self.clolorArray[index];
+    if (caiDeng.intValue > 0) {
+        NSInteger index = caiDeng.intValue - 1;
+        UIButton *btn = self.btnArray[index];
+        btn.backgroundColor = self.clolorArray[index];
+    }
     
     
 }
@@ -117,11 +119,11 @@
         [_delegate malertItemSelect:btn.tag];
     }
     
-    for (UIButton *colorbtn in self.btnArray) {
-        colorbtn.backgroundColor = [UIColor clearColor];
-    }
-    
-    btn.backgroundColor = self.clolorArray[btn.tag - 100];
+//    for (UIButton *colorbtn in self.btnArray) {
+//        colorbtn.backgroundColor = [UIColor clearColor];
+//    }
+//    
+//    btn.backgroundColor = self.clolorArray[btn.tag - 100];
 }
 
 - (void)showAlert
@@ -143,7 +145,6 @@
         });
     });
     
-    
     for (int i=0; i<_array.count; i++) {
         
         dispatch_async(queue, ^{
@@ -152,7 +153,7 @@
                 
                 UIButton *itemView = [_contentViewLeft viewWithTag:i + 100];
                 
-                [UIView animateWithDuration:(i + 0.5) / 5 animations:^{
+                [UIView animateWithDuration:(0.25 + i * 0.05) animations:^{
                     itemView.transform = CGAffineTransformTranslate(itemView.transform, 0, -distance);
                     
                 }completion:nil];
@@ -183,13 +184,13 @@
         if (i != 0) {
             dispatch_async(queue1, ^{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [UIView animateWithDuration:(1.3 - (i - 0.5) / 5) animations:^{
+                    [UIView animateWithDuration:(0.65 - i * 0.05) animations:^{
                         itemView.transform = CGAffineTransformIdentity;
                     }];
                 });
             });
         } else {
-            [UIView animateWithDuration:1.3 animations:^{
+            [UIView animateWithDuration:0.65 animations:^{
                 itemView.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
                 [UIView animateWithDuration:0.2 animations:^{

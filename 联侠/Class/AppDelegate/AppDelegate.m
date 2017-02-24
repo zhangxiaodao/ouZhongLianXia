@@ -26,6 +26,7 @@
 @property (nonatomic , strong) UIAlertController *alertController;
 @property (nonatomic , strong) UserModel *userModel;
 @property (nonatomic , strong) ServicesModel *serviceModel;
+@property (nonatomic , strong) XinFengViewController *viewController;
 @end
 
 @implementation AppDelegate
@@ -108,17 +109,7 @@
             NSLog(@"%@" , self.alertVC);
             
             self.isHaveConnect = @"YES";
-        } else if (netStatus == ReachableViaWWAN) {
-            
-            NSLog(@"%@ , %@" , self.userModel , self.serviceModel);
-            
-            if (self.userModel && self.serviceModel) {
-                kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
-                [kSocketTCP socketConnectHost];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
-                });
-            }
+        } else if (netStatus == ReachableViaWWAN || netStatus == ReachableViaWiFi) {
             
             if (self.alertVC || [Singleton sharedInstance].socket.isConnected != 1) {
                 
@@ -130,42 +121,13 @@
                     }];
                 }
             }
-            
-            self.alertVC = nil;
-            
-            
-        } else if (netStatus == ReachableViaWiFi) {
-            
-            NSLog(@"%@ , %@" , self.userModel , self.serviceModel);
-            if (self.userModel && self.serviceModel) {
-                kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
-                [kSocketTCP socketConnectHost];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
-                });
-            }
-            
-            NSLog(@"%@ , %d" , self.alertVC , [self.alertVC isKindOfClass:[NSNull class]]);
-            if (self.alertVC) {
-                
-                if ([kStanderDefault objectForKey:@"userSn"]) {
-                    
-                    [kWindowRoot dismissViewControllerAnimated:self.alertVC completion:^{
-                        
-                        [[[TabBarViewController alloc]init] removeFromParentViewController];
-                        self.window.rootViewController = [[TabBarViewController alloc]init];
-                    }];
-                }
-            }
-            
-            
             self.alertVC = nil;
         }
     }
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    NSLog(@"%@" , dddd);
+//    NSLog(@"%@" , dddd);
     NSDictionary *data = dddd[@"data"];
     
     if ([dddd[@"success"] integerValue] == 1) {
@@ -182,20 +144,15 @@
                         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
                         [[UIApplication sharedApplication] openURL:url];
                     } andSuperViewController:kWindowRoot Title:@"您当前的版本过低，无法使用请更新！"];
-                    
                 } else {
                     [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
                         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
                         [[UIApplication sharedApplication] openURL:url];
                     } andSuperViewController:kWindowRoot Title:@"检查到有新的版本，是否更新?"];
                 }
-                
             }
-            
         }
-        
     }
-    
 }
 
 
@@ -332,6 +289,20 @@
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     [GeTuiSdk resetBadge];
+    
+    if (self.viewController) {
+        [self.viewController requestServiceState];
+    }
+    
+    if (self.userModel && self.serviceModel) {
+        
+        [kSocketTCP cutOffSocket];
+        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
+        [kSocketTCP socketConnectHost];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+        });
+    }
 
 }
 
@@ -354,6 +325,10 @@
     self.serviceModel = [[ServicesModel alloc]init];
     self.serviceModel = serviceModel;
     NSLog(@"%@" , _serviceModel);
+}
+
+- (void)initLastViewController:(XinFengViewController *)viewController {
+    self.viewController = viewController;
 }
 
 @end

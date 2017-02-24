@@ -117,9 +117,13 @@
 }
 
 - (void)malertItemSelect:(NSInteger)index {
-    NSLog(@"%ld" , index);
     
-    [NSString stringWithFormat:@"HMFFA%@%@w0000%ld000000000000000000000000000000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  index - 100];
+    if (index - 100 + 1 >= 10 ) {
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%ld0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  index - 100 + 1 , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+    } else {
+         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%ld0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  index - 100 + 1 , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+    }
+    
 }
 
 - (void)xinFengBtnDoneAtcion:(UIButton *)btn {
@@ -140,28 +144,20 @@
             
         case 2: {
             [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
-            NSLog(@"自动");
+           
             break;
         }
         case 3: {
             [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
-            NSLog(@"手动");
+            
             break;
         }
         case 4: {
-            _alert = [[MalertView alloc] initWithImageArrOfButton:@[@"红" , @"绿", @"蓝",  @"红绿" , @"红蓝" , @"绿蓝", @"红绿蓝" , @"自动" , @"关闭"]];
+            _alert = [[MalertView alloc] initWithImageArrOfButton:@[@"自动" , @"关闭", @"红紫绿",  @"粉蓝黄" , @"暗彩" , @"亮彩", @"多彩" , @"红" , @"蓝"]];
             _alert.delegate = self;
             [kWindowRoot.view addSubview:_alert];
             
             [_alert showAlert];
-            
-//            CaiDengView *view = [[CaiDengView alloc]init];
-//            [kWindowRoot.view addSubview:view];
-//            view.backgroundColor = [UIColor whiteColor];
-//            [UIView animateWithDuration:.5 animations:^{
-//                view.frame = CGRectMake(0, 0, kScreenW, kScreenH / 2);
-//            }];
-            
             
             break;
         }
@@ -287,15 +283,11 @@
     
     if (_stateModel.fMode == 1) {
         [UIButton setBtnOfImageAndLableWithSelected:ziDongBtn andBackGroundColor:kXinFengKongJingYanSe];
-        [self btnCancleAtcion:ziDongBtn];
-        [self setBtnSubViewsOfLable:@"自动" withWhichBtn:ziDongBtn];
+//        [self btnCancleAtcion:ziDongBtn];
+
     } else if (_stateModel.fMode == 2) {
         [UIButton setBtnOfImageAndLableWithSelected:ziDongBtn andBackGroundColor:kXinFengKongJingYanSe];
-        [self btnSureAtcion:ziDongBtn];
-        [self setBtnSubViewsOfLable:@"手动" withWhichBtn:ziDongBtn];
-    } else {
-        [UIButton setBtnOfImageAndLableWithUnSelected:ziDongBtn andTintColor:kXinFengKongJingYanSe];
-        [self btnSureAtcion:ziDongBtn];
+//        [self btnSureAtcion:ziDongBtn];
     }
     
     if (_stateModel.fWind == 1) {
@@ -314,9 +306,6 @@
         [UIButton setBtnOfImageAndLableWithSelected:windBtn andBackGroundColor:kXinFengKongJingYanSe];
         [self btnAfterRemoveAddWhichAtcion:@selector(xinFengBtnDoneAtcion:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:windBtn];
         [self setBtnSubViewsOfLable:@"四档" withWhichBtn:windBtn];
-    } else {
-        [UIButton setBtnOfImageAndLableWithUnSelected:windBtn andTintColor:kXinFengKongJingYanSe];
-        [self btnSureAtcion:windBtn];
     }
     
     if (_stateModel.fAnion == 1) {
@@ -348,7 +337,7 @@
     [btn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
     [btn addTarget:self action:atcion forControlEvents:UIControlEventTouchUpInside];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:selector name:@"4232" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:selector name:@"4232" object:nil];
 }
 
 - (void)setBtnSubViewsOfLable:(NSString *)title withWhichBtn:(UIButton *)btn {
