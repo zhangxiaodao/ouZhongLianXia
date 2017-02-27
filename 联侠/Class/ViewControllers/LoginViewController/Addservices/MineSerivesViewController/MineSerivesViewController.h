@@ -10,9 +10,4 @@
 
 @interface MineSerivesViewController : UIViewController
 
-@property (nonatomic , strong) NSMutableArray *haveArray;
-
-@property (nonatomic , strong) UserModel *userModel;
-@property (nonatomic , strong) ServicesModel *serviceModel;
-
 @end

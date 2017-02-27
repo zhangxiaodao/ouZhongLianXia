@@ -30,19 +30,20 @@
 
 
 @property (nonatomic , strong) NSMutableArray *serviceArray;
-@property (nonatomic , strong) NSIndexPath *indexPath;
-
 
 @property (nonatomic , strong) UIView *bottomView;
 @property (nonatomic , strong) UIButton *bottomBtn;
 @property (nonatomic , strong) UITableView *tableView;
+@property (nonatomic , strong) NSMutableDictionary *wearthDic;
 
 @property (nonatomic , assign) id<SendViewControllerToParentVCDelegate> sendVCDelegate;
 
+
+
+
 - (void)swipeGesture:(UISwipeGestureRecognizer *)swipe;
 - (void)zhiDaoLeAtcion:(UIButton *)btn;
-- (void)openAtcion3333:(UIButton *)btn;
-- (void)btnAtcion3333:(UIButton *)btn;
-- (void)xxxxAtcion:(UIButton *)btn;
+- (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn;
+- (void)lengFengShanOpenAtcion:(UIButton *)btn;
 - (void)ganYiJiOpenAtcion:(UIButton *)btn;
 @end

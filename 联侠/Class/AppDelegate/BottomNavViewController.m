@@ -32,42 +32,32 @@
     
     self.navigationBar.hidden = YES;
     
-    NSUserDefaults *stander = [NSUserDefaults standardUserDefaults];
-    NSString *isLaunchLoad = [stander objectForKey:@"isLaunch"];
+    NSString *isLaunchLoad = [kStanderDefault objectForKey:@"isLaunch"];
     if ([isLaunchLoad isEqualToString:@"NO"]) {
         [kStanderDefault setObject:@"NO" forKey:@"firstRun"];
         
         if ([kStanderDefault objectForKey:@"Login"]) {
             
             if ([[kStanderDefault objectForKey:@"isHaveService"] isEqualToString:@"YES"]) {
-                MineSerivesViewController *mineVC = [[MineSerivesViewController alloc]init];
-                
-                [self addChildViewController:mineVC];
+                [self setAddViewController:[[MineSerivesViewController alloc]init]];
              
             } else {
-                
-                AddSViewController *addServiceVC = [[AddSViewController alloc]init];
-                [self addChildViewController:addServiceVC];
-                
+                [self setAddViewController:[[AddSViewController alloc]init]];
             }
             
         } else {
-            LoginViewController *loginVC = [[LoginViewController alloc]init];
-            
-            [self addChildViewController:loginVC];
+            [self setAddViewController:[[LoginViewController alloc]init]];
         }
     } else{
         [kStanderDefault setObject:@"YES" forKey:@"firstRun"];
-        Launch1ViewController *launchVC = [[Launch1ViewController alloc]init];
-        [self addChildViewController:launchVC];
+      
+        [self setAddViewController:[[Launch1ViewController alloc]init]];
     }
     
     if ([[kStanderDefault objectForKey:@"isRun"] isEqualToString:@"YES"]) {
         
         LaunchScreenViewController *launScreenVC = [[LaunchScreenViewController alloc]init];
-        [self addChildViewController:launScreenVC];
-        
-        
+        [self setAddViewController:launScreenVC];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
@@ -88,6 +78,10 @@
         });
 
     }
+}
+
+- (void)setAddViewController:(UIViewController *)viewController {
+    [self addChildViewController:viewController];
 }
 
 @end

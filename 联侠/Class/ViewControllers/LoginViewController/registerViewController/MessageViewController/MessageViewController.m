@@ -34,7 +34,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-//    _count = 5;
     _secondsCountDown = 60;
     
     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"注册"];
@@ -85,21 +84,20 @@
     }];
     
     self.sendDuanXinBtn = [UIButton initWithTitle:@"发送短信" andColor:[UIColor redColor] andSuperView:self.view];
-    [self.sendDuanXinBtn addTarget:self action:@selector(sendDuanXinBtnAtcion11) forControlEvents:UIControlEventTouchUpInside];
-    self.sendDuanXinBtn.layer.cornerRadius = kStandardW / 20;
-    self.sendDuanXinBtn.backgroundColor = kMainColor;
     [self.sendDuanXinBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 3, kStandardW / 10));
         make.bottom.mas_equalTo(xiaHuaXian.mas_bottom).offset(-5);
         make.right.mas_equalTo(xiaHuaXian.mas_right);
     }];
+    [self.sendDuanXinBtn addTarget:self action:@selector(sendDuanXinBtnAtcion11) forControlEvents:UIControlEventTouchUpInside];
+    self.sendDuanXinBtn.layer.cornerRadius = kStandardW / 20;
+    self.sendDuanXinBtn.backgroundColor = kMainColor;
+    self.sendDuanXinBtn.titleLabel.font = [UIFont systemFontOfSize:k14];
     
     //创建注册按钮
     UIButton *doneBtn = [UIButton initWithTitle:@"下一步" andColor:[UIColor redColor] andSuperView:self.view];
     doneBtn.layer.cornerRadius = kScreenW / 18;
-    
     doneBtn.backgroundColor = kMainColor;
-    
     [doneBtn addTarget:self action:@selector(doneBtnAtcion1) forControlEvents:UIControlEventTouchUpInside];
     //注册按钮的约束
     [doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {

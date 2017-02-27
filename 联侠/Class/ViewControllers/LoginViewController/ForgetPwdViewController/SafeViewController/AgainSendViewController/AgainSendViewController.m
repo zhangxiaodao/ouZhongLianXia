@@ -90,6 +90,7 @@
         make.bottom.mas_equalTo(xiaHuaXian.mas_bottom).offset(-5);
         make.right.mas_equalTo(xiaHuaXian.mas_right);
     }];
+    self.sendDuanXinBtn.titleLabel.font = [UIFont systemFontOfSize:k14];
     
     //创建注册按钮
     UIButton *doneBtn = [UIButton initWithTitle:@"下一步" andColor:[UIColor redColor] andSuperView:self.view];
@@ -218,7 +219,7 @@
 }
 
 -(void)timeFireMethod{
-    [self.sendDuanXinBtn setTitle:[NSString stringWithFormat:@"%lds",(long)self.secondsCountDown] forState:UIControlStateNormal];
+    [self.sendDuanXinBtn setTitle:[NSString stringWithFormat:@"%lds后重新发送",(long)self.secondsCountDown] forState:UIControlStateNormal];
     
     if(self.secondsCountDown==0){
         [self.countDownTimer invalidate];

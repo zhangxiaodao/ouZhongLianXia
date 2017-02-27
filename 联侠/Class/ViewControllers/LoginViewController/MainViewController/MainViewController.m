@@ -16,7 +16,7 @@
 #import "LoginViewController.h"
 #import "AllServicesViewController.h"
 
-@interface MainViewController ()<UIScrollViewDelegate , HelpFunctionDelegate>{
+@interface MainViewController ()<UIScrollViewDelegate , HelpFunctionDelegate , CCLocationManagerZHCDelegate>{
     UIImageView *imageBG;
     UIView *banTouMingLableView;
     UIView *setVIew;
@@ -24,7 +24,7 @@
 @property (nonatomic , strong) UIImage *werthImage;
 @property (nonatomic , strong) NSMutableArray *zhuYeArray;
 @property (nonatomic , strong) NSArray *arrImage;
-@property (nonatomic , strong) NSMutableDictionary *wearthDic;
+
 
 @property (nonatomic , strong) UIImageView *firstView;
 @property (nonatomic , strong) UIImageView *headImageView;
@@ -43,18 +43,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    [kStanderDefault setObject:@"YES" forKey:@"Login"];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.navigationController.navigationBarHidden = YES;
     
     
     NSDictionary *parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
-    NSLog(@"%@" , parames);
     [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
-            
     
     [self setMainUI];
     
@@ -64,21 +57,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    NSInteger nowTimeInterval = [NSString getNowTimeInterval];
-    if ([kStanderDefault objectForKey:@"requestWeatherTime"]) {
-        NSInteger weatherTime = [[kStanderDefault objectForKey:@"requestWeatherTime"] integerValue];
-        NSLog(@"%ld , %ld , %ld" , nowTimeInterval , weatherTime , weatherTime + 2 * 3600);
-        if (nowTimeInterval > weatherTime + 2 * 3600) {
-            [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
-            [self startWearthData];
-        }
-    } else {
-        [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
-        [self startWearthData];
-    }
-    
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getWeartherImage:) name:@"weartherImage" object:nil];
     
@@ -90,52 +68,16 @@
     }
 
     
-    
-    if (_serviceModel.devSn.length > 0 && _serviceModel.devTypeSn.length != 0) {
-        
+    if (self.serviceModel && self.userModel) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
-        
-        NSDictionary *parames = @{@"devSn" : _serviceModel.devSn , @"devTypeSn" : _serviceModel.devTypeSn};
-        
-        if ([_serviceModel.devTypeSn isEqualToString:@"4131"] || [_serviceModel.devTypeSn isEqualToString:@"4132"]) {
-            
-            [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianZhuangTai andParames:parames andDelegate:self];
-            
-            [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianShuJu andParames:parames andDelegate:self];
-        } else if ([_serviceModel.devTypeSn isEqualToString:@"4231"]) {
-            
-            [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
-            
-            [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianShuJu andParames:parames andDelegate:self];
-        } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {
-            
-            [HelpFunction requestDataWithUrlString:kChaXunGanYiJiZhuangTai andParames:parames andDelegate:self];
-            
-            [HelpFunction requestDataWithUrlString:kChaXunGanYiJiShuJu andParames:parames andDelegate:self];
-        }
-        
     }
-    
-}
-
-
-#pragma mark - 请求天气参数
-- (void)startWearthData {
-    
-    [[CCLocationManager shareLocation]getCity:^(NSString *cityString) {
-        
-        [kStanderDefault setObject:cityString forKey:@"cityName"];
-        [HelpFunction requestWeatherDataWithDelegate:self andCityName:cityString];
-        
-    }];
-    
 }
 
 
 #pragma mark - 获取代理的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     NSDictionary *dic = data[0];
-//    NSLog(@"%@" , dic);
+    //    NSLog(@"%@" , dic);
     if ([dic[@"state"] integerValue] == 0) {
         
         NSDictionary *user = dic[@"data"];
@@ -147,49 +89,25 @@
         for (NSString *key in [user allKeys]) {
             [_userModel setValue:user[key] forKey:key];
         }
-        
-//        NSLog(@"%@" , _userModel);
-        
-        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
-        [kSocketTCP socketConnectHost];
         [kApplicate initUserModel:_userModel];
-    
-        [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:@{@"userSn" : @(_userModel.sn)} andDelegate:self];
+        
+        if (![self.userModel.headImageUrl isKindOfClass:[NSNull class]]) {
+            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage new]];
+            if (self.headImageView.image.size.width == 0) {
+                self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
+            }
+            
+        } else {
+            self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
+        }
     }
 }
 
-
-- (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd {
-    
-//    NSLog(@"%@" , dddd);
-    
-    NSInteger state = [dddd[@"state"] integerValue];
-    if (state == 0) {
-        NSMutableArray *dataArray = dddd[@"data"];
-        
-        if (dataArray.count > 0) {
-            [self.serviceArray removeAllObjects];
-            [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSDictionary *dic = obj;
-                ServicesModel *serviceModel = [[ServicesModel alloc]init];
-                [serviceModel setValuesForKeysWithDictionary:dic];
-                
-                [self.serviceArray addObject:serviceModel];
-            }];
-            
-            if (_indexPath) {
-                _serviceModel = [[ServicesModel alloc]init];
-                _serviceModel = self.serviceArray[_indexPath.row];
-            }
-            
-            [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-            kSocketTCP.serviceModel = _serviceModel;
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
-            });
-            
-            [kApplicate initServiceModel:self.serviceModel];
+- (void)setServiceModel:(ServicesModel *)serviceModel {
+    _serviceModel = serviceModel;
+//    NSLog(@"%@" , _serviceModel);
+    if (_serviceModel) {
+        {
             NSDictionary *parames = @{@"devSn" : _serviceModel.devSn , @"devTypeSn" : _serviceModel.devTypeSn};
             if ([_serviceModel.devTypeSn isEqualToString:@"4131"] || [_serviceModel.devTypeSn isEqualToString:@"4132"]) {
                 
@@ -207,33 +125,14 @@
                 
                 [HelpFunction requestDataWithUrlString:kChaXunGanYiJiShuJu andParames:parames andDelegate:self];
             }
-            
-            if (![self.userModel.headImageUrl isKindOfClass:[NSNull class]]) {
-                [self.headImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage new]];
-                if (self.headImageView.image.size.width == 0) {
-                    self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
-                }
-                
-            } else {
-                self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
-            }
-            
-            
-            [self.tableView reloadData];
-        } else {
-            AllServicesViewController *allServicesVC = [[AllServicesViewController alloc]init];
-            allServicesVC.isFromMainVC = @"YES";
-            [self.navigationController pushViewController:allServicesVC animated:YES];
+        
         }
-    } else {
-        AllServicesViewController *addServiceVC = [[AllServicesViewController alloc]init];
-        [self.navigationController pushViewController:addServiceVC animated:YES];
     }
 }
 
 #pragma mark - 查询设备数据
 - (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
-    
+//    NSLog(@"%@" , dic);
     if ([dic[@"data"] isKindOfClass:[NSDictionary class]]) {
         self.serviceDataModel = [[ServicesDataModel alloc]init];
         [self.serviceDataModel setValuesForKeysWithDictionary:dic[@"data"]];
@@ -241,9 +140,15 @@
     }
 }
 
+- (void)setBottomBackGroundColor:(UIColor *)color andSelected:(BOOL)selected andState:(NSString *)state {
+    self.bottomBtn.backgroundColor = color;
+    self.bottomBtn.selected = selected;
+    [kStanderDefault setObject:state forKey:@"offBtn"];
+}
+
 #pragma mark - 查询设备状态
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    
+//    NSLog(@"%@" , dddd);
     if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dic = dddd[@"data"];
         
@@ -255,36 +160,27 @@
         
         if ([_serviceModel.devTypeSn isEqualToString:@"4231"]) {
             if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
-                self.bottomBtn.backgroundColor = [UIColor grayColor];
-                self.bottomBtn.selected = 0;
-                [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
+                [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
+                
             } else if (self.stateModel.fSwitch == 1){
-                self.bottomBtn.backgroundColor = kKongJingYanSe;
-                self.bottomBtn.selected = 1;
-                [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
+             
+                [self setBottomBackGroundColor:kKongJingYanSe andSelected:1 andState:@"YES"];
             }
-            [self.bottomBtn addTarget:self action:@selector(openAtcion3333:) forControlEvents:UIControlEventTouchUpInside];
+            [self.bottomBtn addTarget:self action:@selector(kongQiJingHuaQiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"] || [_serviceModel.devTypeSn isEqualToString:@"4132"]) {
             if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
-                self.bottomBtn.backgroundColor = [UIColor grayColor];
-                self.bottomBtn.selected = 0;
-                [self.bottomBtn addTarget:self action:@selector(btnAtcion3333:) forControlEvents:UIControlEventTouchUpInside];
+                [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
             } else if (self.stateModel.fSwitch == 1){
-                
-                self.bottomBtn.backgroundColor = kMainColor;
-                [self.bottomBtn addTarget:self action:@selector(xxxxAtcion:) forControlEvents:UIControlEventTouchUpInside];
+                [self setBottomBackGroundColor:kKongJingYanSe andSelected:1 andState:@"YES"];
             }
-            
+            [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {
             if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
-                self.bottomBtn.backgroundColor = [UIColor grayColor];
-                self.bottomBtn.selected = 0;
-                [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
+
+                [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
             } else if (self.stateModel.fSwitch == 1){
-                
-                self.bottomBtn.backgroundColor = kKongJingYanSe;
-                self.bottomBtn.selected = 1;
-                [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
+
+                [self setBottomBackGroundColor:kKongJingYanSe andSelected:1 andState:@"YES"];
             }
             
             [self.bottomBtn addTarget:self action:@selector(ganYiJiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
@@ -295,19 +191,16 @@
     } else {
         
         if ([_serviceModel.devTypeSn isEqualToString:@"4231"]) {
-            
-            [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
-            self.bottomBtn.backgroundColor = [UIColor grayColor];
-            [self.bottomBtn addTarget:self action:@selector(openAtcion3333:) forControlEvents:UIControlEventTouchUpInside];
+
+            [self.bottomBtn addTarget:self action:@selector(kongQiJingHuaQiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"] || [_serviceModel.devTypeSn isEqualToString:@"4132"]) {
-            [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
-            self.bottomBtn.backgroundColor = [UIColor grayColor];
-            [self.bottomBtn addTarget:self action:@selector(btnAtcion3333:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {
-            [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
-                self.bottomBtn.backgroundColor = [UIColor grayColor];
-                [self.bottomBtn addTarget:self action:@selector(ganYiJiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            [self.bottomBtn addTarget:self action:@selector(ganYiJiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         }
+        self.bottomBtn.backgroundColor = [UIColor grayColor];
+        [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
         self.bottomBtn.selected = 0;
     }
     
@@ -318,35 +211,6 @@
 - (void)getWeartherImage:(NSNotification *)post {
     self.werthImage = self.arrImage[[post.userInfo[@"weartherImage"] integerValue]];
     [kStanderDefault setObject:post.userInfo[@"weartherImage"] forKey:@"weartherImage"];
-    
-}
-
-- (void)requestWearthData:(HelpFunction *)request didDone:(NSMutableArray *)array {
-    NSMutableDictionary *ddd = [NSMutableDictionary dictionary];
-    ddd = array[0];
-    
-    NSArray *chuanyi = array[1];
-    [ddd setObject:chuanyi[1] forKey:@"chuanYi"];
-    [kStanderDefault setObject:ddd forKey:@"wearthDic"];
-    
-    
-    NSInteger i = [[kStanderDefault objectForKey:@"weartherImage"] integerValue];
-    self.werthImage = self.arrImage[i];
-    
-    if (self.werthImage == nil) {
-        self.werthImage = [UIImage imageNamed:@"duoYun"];
-    }
-    
-    
-    NSArray *subviewsArray = [NSArray arrayWithArray:_touMingImageVIew.subviews];
-    for (int i = 0; i < subviewsArray.count; i++) {
-        [subviewsArray[i] removeFromSuperview];
-    }
-    [banTouMingLableView removeFromSuperview];
-    [self.testLabel removeFromSuperview];
-    [_touMingImageVIew removeFromSuperview];
-//    self.tabView.backgroundView = imageBG;
-    [self getWeatherDic:ddd];
     
 }
 
@@ -629,15 +493,20 @@
     self.headImageView.image = post.userInfo[@"headImage"];
 }
 
+- (void)setWearthDic:(NSMutableDictionary *)wearthDic {
+    _wearthDic = wearthDic;
+    NSLog(@"%@" , _wearthDic);
+    
+}
 
 
 #pragma mark - 懒加载
-- (NSMutableDictionary *)wearthDic{
-    if (!_wearthDic) {
-        self.wearthDic = [NSMutableDictionary dictionary];
-    }
-    return _wearthDic;
-}
+//- (NSMutableDictionary *)wearthDic{
+//    if (!_wearthDic) {
+//        self.wearthDic = [NSMutableDictionary dictionary];
+//    }
+//    return _wearthDic;
+//}
 
 
 #pragma mark - 懒加载
@@ -655,24 +524,24 @@
     }
     return _zhuYeArray;
 }
-- (void)swipeGesture:(UISwipeGestureRecognizer *)swipe {
-    
-}
-- (void)zhiDaoLeAtcion:(UIButton *)btn {
-    
-}
-- (void)openAtcion3333:(UIButton *)btn {
-    
-}
-- (void)btnAtcion3333:(UIButton *)btn {
-    
-}
-- (void)xxxxAtcion:(UIButton *)btn {
-    
-}
-- (void)ganYiJiOpenAtcion:(UIButton *)btn {
-    
-}
+//- (void)swipeGesture:(UISwipeGestureRecognizer *)swipe {
+//    
+//}
+//- (void)zhiDaoLeAtcion:(UIButton *)btn {
+//    
+//}
+//- (void)openAtcion3333:(UIButton *)btn {
+//    
+//}
+//- (void)btnAtcion3333:(UIButton *)btn {
+//    
+//}
+//- (void)xxxxAtcion:(UIButton *)btn {
+//    
+//}
+//- (void)ganYiJiOpenAtcion:(UIButton *)btn {
+//    
+//}
 
 #pragma mark - tableVIew滑动的代理
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

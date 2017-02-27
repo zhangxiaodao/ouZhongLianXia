@@ -23,7 +23,7 @@
 
 #define kStandardW kScreenW / 1.47
 
-@interface LoginViewController ()<UITextFieldDelegate  , HelpFunctionDelegate>
+@interface LoginViewController ()<UITextFieldDelegate  , HelpFunctionDelegate  ,CCLocationManagerZHCDelegate>
 
 @property (nonatomic , strong) UITextField *pwdTectFiled;
 @property (nonatomic , strong) UITextField *acctextFiled;
@@ -56,25 +56,20 @@
     UIImageView *iiii = [backView.subviews objectAtIndex:1];
     iiii.image = [UIImage new];
     
-    [self startWearthData];
+    [self cityAndProvience];
     [self setUI];
-    
-    
-    
-    
     
 }
 
 
 #pragma mark - 请求天气参数
-- (void)startWearthData {
-   
-    [[CCLocationManager shareLocation]getCity:^(NSString *cityString) {
-        [kStanderDefault setObject:cityString forKey:@"cityName"];
-    }];
-    
+- (void)cityAndProvience {
+    [[CCLocationManager shareLocation] getNowCityNameAndProvienceName:self];
 }
 
+- (void)getCityNameAndProvience:(NSArray *)address {
+    NSLog(@"%@" , address);
+}
 
 #pragma mark - 返回主界面
 - (void)backTap:(UITapGestureRecognizer *)tap {
@@ -129,8 +124,6 @@
         make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
     }];
     self.pwdTectFiled.delegate = self;
-    
-    
     self.pwdTectFiled.secureTextEntry = YES;
     
     //创建注册按钮
@@ -204,13 +197,11 @@
         [HelpFunction requestDataWithUrlString:kLogin andParames:parameters andDelegate:self];
     } else {
         if (self.acctextFiled.text.length == 0) {
-           
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"账号输入为空"];
-            
+            [self setAlertText:@"账号输入为空"];
         }
         
         if (self.pwdTectFiled.text.length == 0) {
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"密码为空"];
+            [self setAlertText:@"密码为空"];
         }
         
         if (self.acctextFiled.text.length != 11 || self.acctextFiled.text.length != 9) {
@@ -229,13 +220,9 @@
     NSInteger state = [dddd[@"state"] integerValue];
     
     if (state == 0) {
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"用户未注册"];
-       
-        
+        [self setAlertText:@"用户未注册"];
     } else if (state == 1) {
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"您输入的有误，请重新输入"];
-       
-        
+        [self setAlertText:@"您输入的有误，请重新输入"];
     }
 }
 
@@ -257,9 +244,7 @@
             [userModel setValue:user[key] forKey:key];
         }
         
-//        NSLog(@"%@" , userModel);
         kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , userModel.sn];
-//        [kSocketTCP cutOffSocket];
         [kSocketTCP socketConnectHost];
         
         [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:@{@"userSn" : @(userModel.sn)} andDelegate:self];
@@ -267,46 +252,31 @@
     } else {
         NSInteger state = [dic[@"state"] integerValue];
         if (state == 1) {
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"账号或密码为空"];
-            
+            [self setAlertText:@"账号或密码为空"];
         } else if (state == 2) {
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"用户不存在"];
-            
+            [self setAlertText:@"用户不存在"];
         } else {
-            
-             [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"密码错误"];
+            [self setAlertText:@"密码错误"];
         }
     }
 }
 
-
 - (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd {
     [SVProgressHUD dismiss];
     
-    NSLog(@"%@" , dddd);
+//    NSLog(@"%@" , dddd);
     NSInteger state = [dddd[@"state"] integerValue];
     if (state == 0) {
-       
-        
+
         if (![dddd[@"data"] isKindOfClass:[NSArray class]]) {
             AddSViewController *addServiceVC = [[AddSViewController alloc]init];
             [self.navigationController pushViewController:addServiceVC animated:YES];
         } else {
             NSMutableArray *dataArray = dddd[@"data"];
             if (dataArray.count > 0) {
-                NSMutableArray *serviceArray = [NSMutableArray array];
-                [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    NSDictionary *dic = obj;
-                    ServicesModel *serviceModel = [[ServicesModel alloc]init];
-                    [serviceModel setValuesForKeysWithDictionary:dic];
-                    [serviceArray addObject:serviceModel];
-                    
-                }];
                 
                 [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-                
                 MineSerivesViewController *myMachineVC = [[MineSerivesViewController alloc]init];
-                myMachineVC.haveArray = serviceArray;
                 [self.navigationController pushViewController:myMachineVC animated:YES];
             } else {
                 AddSViewController *addServiceVC = [[AddSViewController alloc]init];
@@ -339,4 +309,7 @@
     _xiaHuaXian2.backgroundColor = [UIColor grayColor];
 }
 
+- (void)setAlertText:(NSString *)text {
+    [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:text];
+}
 @end

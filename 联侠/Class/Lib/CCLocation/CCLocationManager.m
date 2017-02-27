@@ -12,11 +12,12 @@
     CLLocationManager *_manager;
 
 }
-@property (nonatomic, strong) LocationBlock locationBlock;
-@property (nonatomic, strong) NSStringBlock cityBlock;
-@property (nonatomic, strong) NSStringBlock addressBlock;
-@property (nonatomic, strong) LocationErrorBlock errorBlock;
+@property (nonatomic) CLLocationCoordinate2D lastCoordinate;
+@property(nonatomic,strong)NSString *lastCity;
+@property (nonatomic,strong) NSString *lastProvience;
 
+@property(nonatomic,assign)float latitude;
+@property(nonatomic,assign)float longitude;
 @end
 
 @implementation CCLocationManager
@@ -31,109 +32,20 @@
     return _sharedObject;
 }
 
-- (id)init {
+- (id)initWithDelegate:(id<CCLocationManagerZHCDelegate>)delegate {
     self = [super init];
     if (self) {
-        NSUserDefaults *standard = [NSUserDefaults standardUserDefaults];
-        
-        float longitude = [standard floatForKey:CCLastLongitude];
-        float latitude = [standard floatForKey:CCLastLatitude];
-        self.longitude = longitude;
-        self.latitude = latitude;
-        self.lastCoordinate = CLLocationCoordinate2DMake(longitude,latitude);
-        self.lastCity = [standard objectForKey:CCLastCity];
-        self.lastAddress=[standard objectForKey:CCLastAddress];
+        self.delegate = delegate;
     }
     return self;
 }
-//获取经纬度
-- (void) getLocationCoordinate:(LocationBlock) locaiontBlock
-{
-    self.locationBlock = [locaiontBlock copy];
+
+- (CCLocationManager *)getNowCityNameAndProvienceName:(id<CCLocationManagerZHCDelegate>)delegate {
+    CCLocationManager *manager =  [self initWithDelegate:delegate];
     [self startLocation];
+    return manager;
+
 }
-
-- (void) getLocationCoordinate:(LocationBlock) locaiontBlock  withAddress:(NSStringBlock) addressBlock
-{
-    self.locationBlock = [locaiontBlock copy];
-    self.addressBlock = [addressBlock copy];
-    [self startLocation];
-}
-
-- (void) getAddress:(NSStringBlock)addressBlock
-{
-    self.addressBlock = [addressBlock copy];
-    [self startLocation];
-}
-//获取省市
-- (void) getCity:(NSStringBlock)cityBlock
-{
-    self.cityBlock = [cityBlock copy];
-    [self startLocation];
-}
-
-//- (void) getCity:(NSStringBlock)cityBlock error:(LocationErrorBlock) errorBlock
-//{
-//    self.cityBlock = [cityBlock copy];
-//    self.errorBlock = [errorBlock copy];
-//    [self startLocation];
-//}
-#pragma mark CLLocationManagerDelegate
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    
-    NSUserDefaults *standard = [NSUserDefaults standardUserDefaults];
-    CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
-    CLLocation * marsLoction =   [location locationMarsFromEarth];
-
-
-    CLGeocoder *geocoder=[[CLGeocoder alloc]init];
-    [geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error)
-     {
-         if (placemarks.count > 0) {
-             CLPlacemark *placemark = [placemarks objectAtIndex:0];
-             _lastCity = placemark.locality;
-             
-             [standard setObject:_lastCity forKey:CCLastCity];//省市地址
-             
-             if (_delegate && [_delegate respondsToSelector:@selector(getNowCityName:)]) {
-                 [_delegate getNowCityName:_lastCity];
-             }
-             
-             NSLog(@"______%@",_lastCity);
-             _lastAddress = placemark.name;
-//             NSLog(@"______%@ , %@",_lastAddress , placemark.addressDictionary[@"State"]);
-             [kStanderDefault setObject:placemark.addressDictionary[@"State"] forKey:@"provience"];
-         }
-         if (_cityBlock) {
-             _cityBlock(_lastCity);
-             _cityBlock = nil;
-         }
-         if (_addressBlock) {
-             _addressBlock(_lastAddress);
-             _addressBlock = nil;
-         }
-
-         
-     }];
-    
-    
-
-    
-    _lastCoordinate = CLLocationCoordinate2DMake(marsLoction.coordinate.latitude ,marsLoction.coordinate.longitude);
-    if (_locationBlock) {
-        _locationBlock(_lastCoordinate);
-        _locationBlock = nil;
-    }
-
-    NSLog(@"%f--%f",marsLoction.coordinate.latitude,marsLoction.coordinate.longitude);
-    [standard setObject:@(marsLoction.coordinate.latitude) forKey:CCLastLatitude];
-    [standard setObject:@(marsLoction.coordinate.longitude) forKey:CCLastLongitude];
-
-    [manager stopUpdatingLocation];
-    
-}
-
 
 -(void)startLocation
 {
@@ -145,15 +57,48 @@
         [_manager requestAlwaysAuthorization];
         _manager.distanceFilter=100;
         [_manager startUpdatingLocation];
-    }
-    else
-    {
+    } else {
         UIAlertView *alvertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alvertView show];
-        
     }
     
 }
+
+#pragma mark CLLocationManagerDelegate
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    CLLocation * location = [[CLLocation alloc]initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+    CLLocation * marsLoction =   [location locationMarsFromEarth];
+    _lastCoordinate = CLLocationCoordinate2DMake(marsLoction.coordinate.latitude ,marsLoction.coordinate.longitude);
+    
+    CLGeocoder *geocoder=[[CLGeocoder alloc]init];
+    [geocoder reverseGeocodeLocation:marsLoction completionHandler:^(NSArray *placemarks,NSError *error)
+     {
+         if (placemarks.count > 0) {
+             CLPlacemark *placemark = [placemarks objectAtIndex:0];
+             _lastCity = placemark.locality;
+
+             _lastProvience = placemark.addressDictionary[@"State"];
+             [kStanderDefault setObject:placemark.addressDictionary[@"State"] forKey:@"provience"];
+             
+             NSLog(@"%@ , %@" , _lastCity , _lastProvience);
+            
+             if (_lastCity && _lastProvience) {
+                 
+                 NSArray *address = @[_lastCity , _lastProvience];
+                 
+                 if (_delegate && [_delegate respondsToSelector:@selector(getCityNameAndProvience:)]) {
+                     [_delegate getCityNameAndProvience:address];
+                 }
+             }
+         }
+         
+     }];
+    
+    [manager stopUpdatingLocation];
+    
+}
+
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error{
     [self stopLocation];

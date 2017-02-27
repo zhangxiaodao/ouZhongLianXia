@@ -20,7 +20,7 @@
     //button文字自适应button的高度
     btn.titleLabel.adjustsFontSizeToFitWidth = YES;
     btn.backgroundColor = color;
-    
+
     [view addSubview:btn];
     return btn;
 }

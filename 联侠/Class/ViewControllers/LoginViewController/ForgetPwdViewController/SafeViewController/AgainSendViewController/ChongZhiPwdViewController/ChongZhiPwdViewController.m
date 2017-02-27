@@ -22,7 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"重置密码"];    [self setUI];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"重置密码"];
+    [self setUI];
 }
 #pragma mark - 返回主界面
 - (void)backTap:(UITapGestureRecognizer *)tap {

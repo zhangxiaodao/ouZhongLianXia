@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.view.backgroundColor = [UIColor whiteColor];
+    
     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"重置密码"];
     [self setUI];
 }
@@ -123,7 +123,7 @@
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    NSLog(@"%@" , dddd);
+//    NSLog(@"%@" , dddd);
     NSInteger state = [dddd[@"state"] integerValue];
     if (state == 0) {
         
@@ -141,9 +141,7 @@
 #pragma mark - 下一步点击事件
 - (void)nextBtnAction{
     
-    //判断输入的时候是验证图片中显示的验证码
     if (![self.pwdTectFiled.text isEqualToString:self.authView.authCodeStr]) {
-        //验证不匹配，验证码和输入框抖动
         CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
         anim.repeatCount = 1;
         anim.values = @[@-20 , @20 , @-20];

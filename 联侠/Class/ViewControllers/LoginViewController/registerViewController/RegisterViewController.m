@@ -51,7 +51,7 @@
     [xiaHuaXian mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH/4.18181818);
+        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH/4.2);
     }];
     
     self.accTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入您的手机号码" andSuperView:self.view];
@@ -75,11 +75,9 @@
     [self.pwdTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(xiaHuaXian2.mas_top);
         make.size.mas_equalTo(CGSizeMake(kStandardW / 2, kScreenW / 12));
-        //        make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
         make.left.mas_equalTo(xiaHuaXian2.mas_left);
     }];
     self.pwdTectFiled.delegate = self;
-    
     
     
     self.authView = [[AuthcodeView alloc]init];
@@ -192,8 +190,6 @@
                 [self.navigationController pushViewController:messageVC animated:YES];
                 
             }
-            
-            
         }
         
     } else if (state == 1) {

@@ -44,15 +44,9 @@
     
     self.window.rootViewController = [[TabBarViewController alloc]init];
     
-    [UMSocialData setAppKey:kUMAppKey];
-    [UMSocialWechatHandler setWXAppId:@"wx4fca522e10aba260" appSecret:@"054b2ba4f76f67310b716e631a6dd5bd" url:@"www.ouzhongiot.com"];
-    //打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。
-    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"2648263927"   secret:@"53c58898fa46d492ab3758debec3716e" RedirectURL:@"http://www.ouzhongiot.com"];
-    
-    //通过个人退平台分配的appID、appKey、appSerect自动SDK，注：该法法需要在主线程中调用
-    [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
-    //注册APNs
-    [self registerUserNotification];
+    [self setYouMeng];
+    [self setGeTui];
+    [self checkNetwork];
     
     //自动锁屏
     [UIApplication sharedApplication].idleTimerDisabled = NO;
@@ -60,6 +54,10 @@
     
     [HelpFunction requestDataWithUrlString:kChaXunBanBenHao andParames:@{@"type" : @(2)} andDelegate:self];
     
+    return YES;
+}
+
+- (void)checkNetwork {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     
     NSString *remoteHostName = @"www.baidu.com";
@@ -70,9 +68,20 @@
     self.internetReachAbility = [Reachability reachabilityForInternetConnection];
     [self.internetReachAbility startNotifier];
     [self updateInterfaceWithReachAbility:self.internetReachAbility];
-    
-    
-    return YES;
+}
+
+- (void)setGeTui {
+    //通过个人退平台分配的appID、appKey、appSerect自动SDK，注：该法法需要在主线程中调用
+    [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
+    //注册APNs
+    [self registerUserNotification];
+}
+
+- (void)setYouMeng {
+    [UMSocialData setAppKey:kUMAppKey];
+    [UMSocialWechatHandler setWXAppId:@"wx4fca522e10aba260" appSecret:@"054b2ba4f76f67310b716e631a6dd5bd" url:@"www.ouzhongiot.com"];
+    //打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。
+    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"2648263927"   secret:@"53c58898fa46d492ab3758debec3716e" RedirectURL:@"http://www.ouzhongiot.com"];
 }
 
 - (void) reachabilityChanged:(NSNotification *)note
@@ -87,7 +96,6 @@
     if (reachability == self.hostReachability) {
         BOOL connectionRequired = [reachability connectionRequired];
         if (connectionRequired) {
-            
             [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您当前连接的是手机网络"];
         }
     }
@@ -96,8 +104,6 @@
         NetworkStatus netStatus = [reachability currentReachabilityStatus];
         
         if (netStatus == NotReachable) {
-            NSLog(@"未联网");
-            
             self.alertVC = [UIAlertController creatRightAlertControllerWithHandle:^{
                 [UIView animateWithDuration:1.0f animations:^{
                     self.window.alpha = 0;
@@ -106,7 +112,6 @@
                     exit(0);
                 }];
             } andSuperViewController:kWindowRoot Title:@"您当前的设备未联网，APP无法使用"];
-            NSLog(@"%@" , self.alertVC);
             
             self.isHaveConnect = @"YES";
         } else if (netStatus == ReachableViaWWAN || netStatus == ReachableViaWiFi) {
@@ -115,7 +120,6 @@
                 
                 if ([kStanderDefault objectForKey:@"userSn"]) {
                     [kWindowRoot dismissViewControllerAnimated:self.alertVC completion:^{
-                        
                         [[[TabBarViewController alloc]init] removeFromParentViewController];
                         self.window.rootViewController = [[TabBarViewController alloc]init];
                     }];
@@ -127,7 +131,7 @@
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-//    NSLog(@"%@" , dddd);
+    NSLog(@"%@" , dddd);
     NSDictionary *data = dddd[@"data"];
     
     if ([dddd[@"success"] integerValue] == 1) {
@@ -141,25 +145,23 @@
                     return ;
                 }
                 
-                
                 if ([data[@"isForce"] integerValue] == 1) {
                     
-                    [UIAlertController creatRightAlertControllerWithHandle:^{
-                        
-                        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
-                        [[UIApplication sharedApplication] openURL:url];
-                    } andSuperViewController:kWindowRoot Title:@"您当前的版本过低，无法使用请更新！"];
+                    [self wheatherUpdate:@"您当前的版本过低，无法使用请更新！"];
                 } else {
-                    [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
-                        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
-                        [[UIApplication sharedApplication] openURL:url];
-                    } andSuperViewController:kWindowRoot Title:@"检查到有新的版本，是否更新?"];
+                    [self wheatherUpdate:@"检查到有新的版本，是否更新?"];
                 }
             }
         }
     }
 }
 
+- (void)wheatherUpdate:(NSString *)title {
+    [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];
+        [[UIApplication sharedApplication] openURL:url];
+    } andSuperViewController:kWindowRoot Title:title];
+}
 
 /**
  *  实现推送功能
@@ -167,24 +169,12 @@
  */
 /** 注册APNS */
 - (void)registerUserNotification {
-#ifdef __IPHONE_8_0
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-        
-        UIUserNotificationType types = (UIUserNotificationTypeAlert |UIUserNotificationTypeSound |UIUserNotificationTypeBadge);
-        
-        UIUserNotificationSettings *settings;
-        settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-        
-    } else {
-        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |                          UIRemoteNotificationTypeSound |                          UIRemoteNotificationTypeBadge);
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
-    }
-#else
-    UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |                         UIRemoteNotificationTypeSound |                            UIRemoteNotificationTypeBadge);
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
-#endif
+    UIUserNotificationType types = (UIUserNotificationTypeAlert |UIUserNotificationTypeSound |UIUserNotificationTypeBadge);
+    
+    UIUserNotificationSettings *settings;
+    settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
 }
 
 #pragma mark - 获取deviceToken
@@ -193,7 +183,6 @@
  *
  */
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    
     
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -323,13 +312,11 @@
     
     self.userModel = [[UserModel alloc]init];
     self.userModel = userModel;
-    NSLog(@"%@" , _userModel);
 }
 
 - (void)initServiceModel:(ServicesModel *)serviceModel {
     self.serviceModel = [[ServicesModel alloc]init];
     self.serviceModel = serviceModel;
-    NSLog(@"%@" , _serviceModel);
 }
 
 - (void)initLastViewController:(XinFengViewController *)viewController {

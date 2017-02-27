@@ -76,23 +76,19 @@
     [self.tiShiView removeFromSuperview];
 }
 
-- (void)xxxxAtcion:(UIButton *)btn {
-    [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
-    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S0#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4131" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4132" object:nil];
-}
-
 - (void)btnAtcion3333:(UIButton *)btn {
     
-    [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
-    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+    if (btn.selected == 1) {
+        [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S0#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+    } else {
+        [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4131" object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4132" object:nil];
+    btn.selected = !btn.selected;
 }
 
 #pragma mark - 取得tcp返回的数据
@@ -104,15 +100,10 @@
     
     if ([self.serviceModel.devSn isEqualToString:devSn]) {
         if ([kaiGuan isEqualToString:@"02"]) {
-            [self.bottomBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
             self.bottomBtn.backgroundColor = [UIColor grayColor];
-            [self.bottomBtn addTarget:self action:@selector(btnAtcion3333:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([kaiGuan isEqualToString:@"01"]) {
-            [self.bottomBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
             self.bottomBtn.backgroundColor = kMainColor;
-            [self.bottomBtn addTarget:self action:@selector(xxxxAtcion:) forControlEvents:UIControlEventTouchUpInside];
         }
-        
     }
 }
 
@@ -159,18 +150,6 @@
     if ([post.userInfo[@"lvWang"] isEqualToString:@"YES"]) {
         self.serviceDataModel.filterScreenNeat = 0;
         [self.tableView reloadData];
-    }
-}
-
-
-#pragma mark - 通知获得offBtn的状态
-- (void)getOffBtn:(NSNotification *)post {
-    if ([post.userInfo[@"offBtn"] integerValue] == 1) {
-        self.bottomBtn.backgroundColor = kMainColor;
-        [self.bottomBtn addTarget:self action:@selector(xxxxAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    } else if ([post.userInfo[@"offBtn"] integerValue] == 2) {
-        self.bottomBtn.backgroundColor = [UIColor grayColor];
-        [self.bottomBtn addTarget:self action:@selector(btnAtcion3333:) forControlEvents:UIControlEventTouchUpInside];
     }
 }
 

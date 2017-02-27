@@ -74,7 +74,7 @@
 #pragma mark - 代理返回的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     NSDictionary *dic = data[0];
-    NSLog(@"%@" , dic);
+//    NSLog(@"%@" , dic);
     if ([dic[@"state"] integerValue] == 0) {
         
         NSDictionary *user = dic[@"data"];
@@ -98,10 +98,9 @@
 
 - (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd {
     
-    NSLog(@"%@" , dddd);
+//    NSLog(@"%@" , dddd);
     NSInteger state = [dddd[@"state"] integerValue];
     if (state == 0) {
-        
         
         if (![dddd[@"data"] isKindOfClass:[NSArray class]]) {
             AddSViewController *addServiceVC = [[AddSViewController alloc]init];
@@ -109,19 +108,9 @@
         } else {
             NSMutableArray *dataArray = dddd[@"data"];
             if (dataArray.count > 0) {
-                NSMutableArray *serviceArray = [NSMutableArray array];
-                [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    NSDictionary *dic = obj;
-                    ServicesModel *serviceModel = [[ServicesModel alloc]init];
-                    [serviceModel setValuesForKeysWithDictionary:dic];
-                    [serviceArray addObject:serviceModel];
-                    
-                }];
-                
                 [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
                 
                 MineSerivesViewController *myMachineVC = [[MineSerivesViewController alloc]init];
-                myMachineVC.haveArray = serviceArray;
                 [self.navigationController pushViewController:myMachineVC animated:YES];
             } else {
                 AddSViewController *addServiceVC = [[AddSViewController alloc]init];
