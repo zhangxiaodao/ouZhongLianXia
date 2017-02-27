@@ -62,8 +62,6 @@
         [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
     }
     
-    
-    
     [self.view addSubview:self.tiShiView];
 }
 

@@ -76,8 +76,8 @@
     
 }
 
-- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    NSLog(@"%@" , dddd);
+- (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
+    NSLog(@"%@" , dic);
 }
 
 #pragma mark - 返回主界面

@@ -135,7 +135,12 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 12) {
+            if ([data[@"id"] integerValue] > 16) {
+                
+                if ([data[@"isForce"] integerValue] == 0) {
+                    return ;
+                }
+                
                 
                 if ([data[@"isForce"] integerValue] == 1) {
                     

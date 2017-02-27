@@ -201,10 +201,13 @@
 }
 
 - (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
-    NSLog(@"%@" , dic);
+//    NSLog(@"%@" , dic);
     
     if (![dic[@"state"] isKindOfClass:[NSNull class]]) {
-        if ([dic[@"state"] isEqualToString:@"0"]) {
+        
+        NSInteger state = [dic[@"state"] integerValue];
+        
+        if (state == 0) {
             [UIAlertController creatRightAlertControllerWithHandle:^{
                 [self.navigationController popViewControllerAnimated:YES];
             } andSuperViewController:kWindowRoot Title:@"定时成功"];

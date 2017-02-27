@@ -137,7 +137,7 @@
     leiJiGuoLvFenChenLable = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     leiJiGuoLvFenChenLable.layer.borderWidth = 0;
     [leiJiGuoLvFenChenLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, kScreenW / 8));
+        make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, kScreenW / 7));
         make.centerX.mas_equalTo(view.mas_centerX);
         make.top.mas_equalTo(leiJiJingHua.mas_bottom).offset(kScreenW / 33.35);
     }];
