@@ -8,11 +8,17 @@
 
 #import "MainViewController.h"
 
+@protocol SendServiceModelToParentVCDelegate <NSObject>
+
+- (void)sendServiceModelToParentVC:(ServicesModel *)serviceModel;
+
+@end
+
 @interface XinFengViewController : UIViewController
 
 - (void)requestServiceState;
 @property (nonatomic , strong) NSIndexPath *indexPath;
 @property (nonatomic , strong) NSMutableArray *serviceArray;
-
+@property (nonatomic , assign) id<SendServiceModelToParentVCDelegate> sendServiceModelToParentVCDelegate;
 
 @end

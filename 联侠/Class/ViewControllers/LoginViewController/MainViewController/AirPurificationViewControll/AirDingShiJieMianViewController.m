@@ -9,8 +9,6 @@
 #import "AirDingShiJieMianViewController.h"
 #import "AirDingShiTableViewCell.h"
 
-
-
 @interface AirDingShiJieMianViewController ()< UITableViewDataSource , UITableViewDelegate , HelpFunctionDelegate , AirDingShiTableViewCellDelegate>{
     NSArray *moShiArray;
 }
@@ -32,7 +30,6 @@
 
     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:[NSString stringWithFormat:@"%@" , _titleText]];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAirTimeTextArray:) name:@"AirTimeText" object:nil];
     [self setUI];
     
     
@@ -68,16 +65,18 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.tableView reloadData];
-    
-    
-    
-//    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"AirTimeText" object:self userInfo:[NSDictionary dictionaryWithObject:_timeTextArray forKey:@"AirTimeTextArray"]]];
-    
-    
 }
 
 - (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
-    NSLog(@"%@" , dic);
+    
+    if ([dic[@"state"] isKindOfClass:[NSNull class]]) {
+        return ;
+    }
+    
+    if ([dic[@"state"] integerValue] == 0) {
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"预约完成"];
+    }
+    
 }
 
 #pragma mark - 返回主界面
@@ -141,27 +140,27 @@
     self.cancleBtn.tag = 0;
     
     
-        if ([_fromWhich isEqualToString:@"thirt"]) {
-            
-            [self.doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake((kScreenW - kScreenW * 3 / 20) / 2, kScreenW / 9));
-                make.right.mas_equalTo(self.view.mas_right).offset(-kScreenW / 20);
-                make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 1.588);
-            }];
-            [self.cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake((kScreenW - kScreenW * 3 / 20) / 2, kScreenW / 9));
-                make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 1.588);
-                make.left.mas_equalTo(kScreenW / 20);
-            }];
-            
-            if ([_buttonSelected isEqual:@0]) {
-                self.doneBtn.userInteractionEnabled = NO;
-                self.cancleBtn.userInteractionEnabled = NO;
-            } else {
-                self.doneBtn.userInteractionEnabled = YES;
-                self.cancleBtn.userInteractionEnabled = YES;
-            }
+    if ([_fromWhich isEqualToString:@"thirt"]) {
+        
+        [self.doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake((kScreenW - kScreenW * 3 / 20) / 2, kScreenW / 9));
+            make.right.mas_equalTo(self.view.mas_right).offset(-kScreenW / 20);
+            make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 1.588);
+        }];
+        [self.cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake((kScreenW - kScreenW * 3 / 20) / 2, kScreenW / 9));
+            make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 1.588);
+            make.left.mas_equalTo(kScreenW / 20);
+        }];
+        
+        if ([_buttonSelected isEqual:@0]) {
+            self.doneBtn.userInteractionEnabled = NO;
+            self.cancleBtn.userInteractionEnabled = NO;
+        } else {
+            self.doneBtn.userInteractionEnabled = YES;
+            self.cancleBtn.userInteractionEnabled = YES;
         }
+    }
     
 }
 
@@ -172,17 +171,13 @@
     
     if ([self.fromWhich isEqualToString:@"thirt"]) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@A1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-        [btn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+        [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
         [btn addTarget:self action:@selector(cancleBtnAtcionQQQ:) forControlEvents:UIControlEventTouchUpInside];
         
     } else {
         if (self.serviceModel.devSn) {
             
-            
-//            NSLog(@"%@ , %@ , %@ , %@ , %@" , self.serviceModel.devSn , @(self.doneBtn.tag) , @(self.cancleBtn.tag) , _timeTextArray[0] , _timeTextArray[1]);
-            
             if (![_fromWhich isEqualToString:@"thirt"]) {
-                
                 
                 if ([_timeTextArray[3] integerValue] == 0) {
                     NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn, @"task.fSwitchOn" : @(1), @"task.fSwitchOff" : @(1) , @"task.onJobTime" : _timeTextArray[0] , @"task.offJobTime" : _timeTextArray[1]};
@@ -195,7 +190,7 @@
                     [HelpFunction requestDataWithUrlString:kKongJingDingShiYuYue andParames:parames andDelegate:self];
                 }
                 
-                [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"预约完成"];
+                
             }
             
         }
@@ -231,7 +226,7 @@
     
     if ([_fromWhich isEqualToString:@"thirt"]) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@A2#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-        [btn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+        [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
         [btn addTarget:self action:@selector(doneBtnAtcionQQQ:) forControlEvents:UIControlEventTouchUpInside];
        
     }
@@ -265,8 +260,7 @@
     lable.textColor = [UIColor lightGrayColor];
     
     NSArray *array = nil;
-   
-        array = @[@"当您需要外出时，可以使用外出模式的默认值，也可以以自己安排开启和关闭的时间，在您外出的时候，空气净化器为您营造出良好的生活环境。" , @"在周末的时候，使用周末模式的默认模式，愉快和好心情伴随着呼吸，享受一个清新的周末。" , @"开启智能模式，空气净化器会根据室内空气质量情况自动调节工作时间，让空气长久保持健康状态。我很机智，您很健康！" , @"自定义模式下，您可以自由地安排开启和关闭空气净化器，针对您个人的作息做出合理的安排，享受每一个呼吸。"];
+    array = @[@"当您需要外出时，可以使用外出模式的默认值，也可以以自己安排开启和关闭的时间，在您外出的时候，空气净化器为您营造出良好的生活环境。" , @"在周末的时候，使用周末模式的默认模式，愉快和好心情伴随着呼吸，享受一个清新的周末。" , @"开启智能模式，空气净化器会根据室内空气质量情况自动调节工作时间，让空气长久保持健康状态。我很机智，您很健康！" , @"自定义模式下，您可以自由地安排开启和关闭空气净化器，针对您个人的作息做出合理的安排，享受每一个呼吸。"];
     
     
     if ([_fromWhich isEqualToString:@"first"]) {

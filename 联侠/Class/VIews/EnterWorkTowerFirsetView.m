@@ -8,10 +8,14 @@
 
 #import "EnterWorkTowerFirsetView.h"
 
+@interface EnterWorkTowerFirsetView ()
+
+@end
+
 @implementation EnterWorkTowerFirsetView
 
-+ (UIView *)creatViewWithState:(NSArray *)stateArray withColor:(UIColor *)color withSuperView:(UIView *)superView{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 5.558333)];
++ (EnterWorkTowerFirsetView *)creatViewWithColor:(UIColor *)color withSuperView:(UIView *)superView{
+    EnterWorkTowerFirsetView *view = [[EnterWorkTowerFirsetView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 5.558333)];
     view.backgroundColor = color;
     [superView addSubview:view];
     
@@ -28,24 +32,15 @@
     NSArray *arr = [NSArray arrayWithObjects:@"模式", @"风速" , @"摆风" , @"制冷",  nil];
     for (int i = 0; i < 4; i ++) {
         
-        NSString *text = stateArray[i];
-        if (text.length == 0) {
-            text = @"==";
-        }
-        UILabel *arrayLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" , text] andSuperView:view andFont:k19 andTextAligment:NSTextAlignmentCenter];
-        arrayLable.tag = i;
+        UILabel *arrayLable = [UILabel creatLableWithTitle:@"==" andSuperView:view andFont:k19 andTextAligment:NSTextAlignmentCenter];
+        arrayLable.tag = i + 100;
         arrayLable.textColor = [UIColor whiteColor];
         arrayLable.layer.borderWidth = 0;
         [arrayLable mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            
             make.size.mas_equalTo(CGSizeMake((kScreenW * 2 / 3 - kScreenW / 20) / 4, kScreenH / 26.68));
-            
             make.left.mas_equalTo(kScreenW / 20 + i * (kScreenW * 2 / 3 - kScreenW / 20) / 4);
             make.top.mas_equalTo(nowStateLable.mas_bottom).offset(kScreenH / 26.68);
         }];
-        
-        
         
         
         UILabel *downLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" , arr[i]] andSuperView:view andFont:k14 andTextAligment:NSTextAlignmentCenter];
@@ -76,6 +71,26 @@
     }];
     
     return view;
+}
+
+- (void)setStateArray:(NSArray *)stateArray {
+    _stateArray = stateArray;
+    
+    NSLog(@"%@" , _stateArray);
+    
+    if (_stateArray) {
+        UILabel *firstLabel = [self viewWithTag:100];
+        firstLabel.text = [NSString stringWithFormat:@"%@" , _stateArray[0]];
+        
+        UILabel *secondLabel = [self viewWithTag:101];
+        secondLabel.text = [NSString stringWithFormat:@"%@" , _stateArray[1]];
+        
+        UILabel *thirtLabel = [self viewWithTag:102];
+        thirtLabel.text = [NSString stringWithFormat:@"%@" , _stateArray[2]];
+        
+        UILabel *forthLabel = [self viewWithTag:103];
+        forthLabel.text = [NSString stringWithFormat:@"%@" , _stateArray[3]];
+    }
 }
 
 @end

@@ -19,10 +19,6 @@
 
 @interface LengFengShanViewController ()<HelpFunctionDelegate , UITableViewDataSource , UITableViewDelegate>
 
-@property (nonatomic , assign) NSInteger sumShuiWei;
-@property (nonatomic , assign) NSInteger shuiWei;
-@property (nonatomic , assign) NSInteger sumLVWang;
-@property (nonatomic , assign) NSInteger sumBingJingTime;
 @property (nonatomic , strong) NSMutableDictionary *dic;
 @end
 
@@ -31,9 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.sumShuiWei = 720;
-    self.sumLVWang = 700;
-    self.sumBingJingTime = 2400;
+   
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBingJing:) name:@"bingJing" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getShuiWei:) name:@"ShuiWei" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLvWang:) name:@"lvWang" object:nil];
@@ -42,16 +36,11 @@
     [self setUI];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LFSTableView" object:nil];
-    
-}
-
 - (void)setUI {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanInfo:) name:@"4131" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4132" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanInfo:) name:@"4132" object:nil];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -76,7 +65,7 @@
     [self.tiShiView removeFromSuperview];
 }
 
-- (void)btnAtcion3333:(UIButton *)btn {
+- (void)lengFengShanOpenAtcion:(UIButton *)btn {
     
     if (btn.selected == 1) {
         [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
@@ -86,13 +75,13 @@
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4132" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4131" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4132" object:nil];
     btn.selected = !btn.selected;
 }
 
 #pragma mark - 取得tcp返回的数据
-- (void)getDate111:(NSNotification *)post {
+- (void)getLengFengShanInfo:(NSNotification *)post {
     NSString *str = post.userInfo[@"Message"];
     
     NSString *kaiGuan = [str substringWithRange:NSMakeRange(26, 2)];
@@ -113,18 +102,9 @@
 {
     
     EnterWorkTowerViewController *enterVC = [[EnterWorkTowerViewController alloc]init];
-    enterVC.model = [[UserModel alloc]init];
     enterVC.model = self.userModel;
-    
-    enterVC.serviceDataModel = [[ServicesDataModel alloc]init];
     enterVC.serviceDataModel = self.serviceDataModel;
-    
-    enterVC.serviceModel = [[ServicesModel alloc]init];
     enterVC.serviceModel = self.serviceModel;
-    
-    enterVC.sumBingJingTime = self.sumBingJingTime;
-    enterVC.deviceSn = [NSString stringWithString:self.serviceModel.devSn];
-    
     [self.navigationController pushViewController:enterVC animated:YES];
 }
 
@@ -135,7 +115,6 @@
     if ([post.userInfo[@"bingJing"] isEqualToString:@"YES"]) {
         self.serviceDataModel.iceCrystalTime = 0;
         [self.tableView reloadData];
-        
     }
 }
 
@@ -267,7 +246,7 @@
         }
         
         cell.devSn = self.serviceModel.devSn;
-        [cell setUIBuJuWith:self.serviceDataModel.waterStateTime andSumShuiWei:self.sumShuiWei andImage:[UIImage imageNamed:@"shuiWei1.png"] andViewController:self];
+        [cell setUIBuJuWith:self.serviceDataModel.waterStateTime andSumShuiWei:kLengFengShanShuiWei andImage:[UIImage imageNamed:@"shuiWei1.png"] andViewController:self];
         return cell;
     } if (indexPath.section == 3 && indexPath.row == 0) {
         static NSString *cellId3 = @"3";
@@ -278,7 +257,7 @@
         }
         
         cell.devSn = self.serviceModel.devSn;
-        NSInteger i = self.serviceDataModel.totalTime / (self.sumLVWang * 3600000);
+        NSInteger i = self.serviceDataModel.totalTime / ((NSInteger)kLengFengShanSumLvWang * 3600000);
         
         [cell setZhiZhenView:i andViewController:self];
         return cell;

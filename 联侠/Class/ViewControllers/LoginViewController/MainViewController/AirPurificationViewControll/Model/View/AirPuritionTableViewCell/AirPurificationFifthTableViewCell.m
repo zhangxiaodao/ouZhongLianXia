@@ -347,6 +347,7 @@
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
     
+    NSLog(@"%@" , self.contentView.subviews);
     if (self.contentView.subviews.count > 0) {
         [self.contentView.subviews[0] removeFromSuperview];
         [self customUI];

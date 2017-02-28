@@ -392,7 +392,7 @@
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kStandardW, kScreenW / 12)];
     [superView addSubview:view];
     
-    
+
     UITextField *textfiled = [UITextField creatTextfiledWithPlaceHolder:placeholder andSuperView:view];
     [textfiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(view.width - kScreenW / 10, view.height));

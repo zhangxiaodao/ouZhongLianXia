@@ -11,6 +11,12 @@
 #import "StateModel.h"
 #import "ServicesModel.h"
 
+@protocol SendServiceModelToParentVCDelegate <NSObject>
+
+- (void)sendServiceModelToParentVC:(ServicesModel *)serviceModel;
+
+@end
+
 @protocol SendViewControllerToParentVCDelegate <NSObject>
 
 - (void)sendViewControllerToParentVC:(UIViewController *)viewController;
@@ -37,7 +43,7 @@
 @property (nonatomic , strong) NSMutableDictionary *wearthDic;
 
 @property (nonatomic , assign) id<SendViewControllerToParentVCDelegate> sendVCDelegate;
-
+@property (nonatomic , assign) id<SendServiceModelToParentVCDelegate> sendServiceModelToParentVCDelegate;
 
 
 

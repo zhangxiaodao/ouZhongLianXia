@@ -22,6 +22,5 @@
 
 @property (nonatomic , copy) NSString *isAnimation;
 
-
 @property (nonatomic , assign) id<ModelDelegate> delegate;
 @end

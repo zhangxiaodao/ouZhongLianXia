@@ -29,7 +29,7 @@
 @property (nonatomic , strong) NSArray *switchArray;
 @property (nonatomic , strong) NSArray *zhiLengArray;
 @property (nonatomic , strong) NSMutableArray *stateArray;
-@property (nonatomic , strong) UIView *firstBackView;
+@property (nonatomic , strong) EnterWorkTowerFirsetView *firstBackView;
 
 @property (nonatomic , strong) UILabel *modelLable;
 @property (nonatomic , strong) UILabel *windLable;
@@ -41,7 +41,16 @@
 @property (nonatomic , strong) NSMutableDictionary *dic;
 @property (nonatomic , copy) NSString *isAnimation;
 
+@property (nonatomic , strong) UIView *placeholderView;
 @end
+
+
+static NSString *firstCelled = @"first";
+static NSString *secondCelled = @"second";
+static NSString *thirtCelled = @"thirt";
+static NSString *forthCelled = @"forth";
+static NSString *fifthCelled = @"fifth";
+
 
 @implementation EnterWorkTowerViewController
 
@@ -49,18 +58,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBarHidden = YES;
 
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     self.imageVIew = [[UIImageView alloc]initWithFrame:kScreenFrame];
     [self.view insertSubview:self.imageVIew atIndex:0];
    
+    [self setUI];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate222222:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate222222:) name:@"4132" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:@"4132" object:nil];
 
-    NSDictionary *parames = @{@"devSn" : self.deviceSn , @"devTypeSn" : self.serviceModel.devTypeSn};
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
     
     [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianZhuangTai andParames:parames andDelegate:self];
 
@@ -88,9 +97,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
- 
-    self.isAnimation = @"NO";
-    
     
     [[NSNotificationCenter defaultCenter]postNotification:[NSNotification notificationWithName:@"offBtn" object:self userInfo:[NSDictionary dictionaryWithObject:@(self.offBtn.tag) forKey:@"offBtn"]]];
     
@@ -109,26 +115,41 @@
             [self.stateModel setValue:dic[key] forKey:key];
         }
         
-    } else {
-        self.stateModel = [[StateModel alloc]init];
-        self.stateModel.fLock = 0;
-        self.stateModel.fWind = 0;
-        self.stateModel.fUV = 0;
-        self.stateModel.fSwitch = 0;
-        self.stateModel.fSwing = 0;
-        self.stateModel.fState = 0;
-        self.stateModel.fMode = 0;
-        self.stateModel.fLock = 0;
+        if (self.stateModel.fSwitch == 2 || self.stateModel.fSwitch == 0) {
+            self.offBtn.alpha = 0.4;
+            self.offBtn.tag = 2;
+            [self.offBtn addTarget:self action:@selector(openLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
+        } else if (self.stateModel.fSwitch == 1){
+            self.offBtn.alpha = 1.0;
+            self.offBtn.tag = 1;
+            [self.offBtn addTarget:self action:@selector(closeLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        self.firstBackView.stateArray = self.stateArray;
+        
+        [self.tableView reloadData];
     }
+}
+
+- (void)drawStateView {
+    self.firstBackView = [EnterWorkTowerFirsetView creatViewWithColor:[UIColor clearColor] withSuperView:self.placeholderView];
+    [self.firstBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.backView.mas_bottom);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 5.558333));
+    }];
     
-    [self setUI];
+    self.offBtn = self.firstBackView.subviews[9];
+    self.modelLable = self.firstBackView.subviews[1];
+    self.windLable = self.firstBackView.subviews[3];
+    self.baiFengLable = self.firstBackView.subviews[5];
+    self.zhiLengLable = self.firstBackView.subviews[7];
+    
+    
     
 }
 
-#pragma mark - 设置UI
-- (void)setUI{
-    
-    
+- (void)setNavView {
     self.backView = [UIView creatViewWithBackView:[UIImage imageNamed:@"iconfont-fanhui"] andSuperView:self.view];
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kScreenW / 30);
@@ -158,39 +179,28 @@
     }];
     UITapGestureRecognizer *huanTuPianTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(huanTuPianTap:)];
     [huanTuPianView addGestureRecognizer:huanTuPianTap];
+}
+
+#pragma mark - 设置UI
+- (void)setUI{
     
-    
-    self.firstBackView = [EnterWorkTowerFirsetView creatViewWithState:self.stateArray withColor:[UIColor clearColor] withSuperView:self.view];
-    
-    [self.firstBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self setNavView];
+    self.placeholderView = [[UIView alloc]init];
+    [self.view addSubview:self.placeholderView];
+    [self.placeholderView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.backView.mas_bottom);
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 5.558333));
     }];
     
-    self.offBtn = self.firstBackView.subviews[9];
-    self.modelLable = self.firstBackView.subviews[1];
-    self.windLable = self.firstBackView.subviews[3];
-    self.baiFengLable = self.firstBackView.subviews[5];
-    self.zhiLengLable = self.firstBackView.subviews[7];
-    
-    
-    if (self.stateModel.fSwitch == 2 || self.stateModel.fSwitch == 0) {
-        self.offBtn.alpha = 0.4;
-        self.offBtn.tag = 2;
-        [self.offBtn addTarget:self action:@selector(offBtnaaaa:) forControlEvents:UIControlEventTouchUpInside];
-    } else if (self.stateModel.fSwitch == 1){
-        self.offBtn.alpha = 1.0;
-        self.offBtn.tag = 1;
-        [self.offBtn addTarget:self action:@selector(btnAtcion5555:) forControlEvents:UIControlEventTouchUpInside];
-    }
+    [self drawStateView];
     
     UIView *view = [[UIView alloc]init];
     view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
-        make.top.mas_equalTo(self.firstBackView.mas_bottom);
+        make.top.mas_equalTo(self.placeholderView.mas_bottom);
         make.size.mas_equalTo(CGSizeMake(kScreenW, 1));
     }];
     
@@ -201,16 +211,15 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     [self.tableView setTableHeaderView:[[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0.1)]];
-
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.firstBackView.mas_bottom);
+        make.top.mas_equalTo(self.placeholderView.mas_bottom);
         make.left.mas_equalTo(0);
         make.right.mas_equalTo(self.view.mas_right);
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
     
+    [self setTableViewRegisterCell];
     
     for (int i = 1; i < 3; i++) {
         [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
@@ -236,57 +245,48 @@
 
 
 #pragma mark - 开关的点击事件
-- (void)offBtnaaaa:(UIButton *)btn {
+- (void)openLFSAtcion:(UIButton *)btn {
     
     self.offBtn.tag = 1;
     self.isAnimation = @"NO";
-    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.deviceSn] andType:kZhiLing andIsNewOrOld:kOld];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate222222:) name:@"Message" object:nil];
-    
+    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:0];
     [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
         
 }
 
-- (void)btnAtcion5555:(UIButton *)btn {
+- (void)closeLFSAtcion:(UIButton *)btn {
     self.offBtn.tag = 2;
     self.isAnimation = @"NO";
     
-    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S0#", self.serviceModel.devTypeSn,self.deviceSn] andType:kZhiLing andIsNewOrOld:kOld];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate222222:) name:@"Message" object:nil];
+    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S0#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+   
     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:0];
     [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark - 取得tcp返回的数据
-- (void)getDate222222:(NSNotification *)post {
+- (void)getLengFengShanFunction:(NSNotification *)post {
     NSString *str = post.userInfo[@"Message"];
     
     NSString *kaiGuan = [str substringWithRange:NSMakeRange(26, 2)];
     NSString *devSn = [str substringWithRange:NSMakeRange(12, 12)];
-    
-    
-    if ([self.deviceSn isEqualToString:devSn]) {
-        if ([post.userInfo[@"Message"] isKindOfClass:[NSNull class]]) {
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"设备未联网，请检查电源"];
+    if ([self.serviceModel.devSn isEqualToString:devSn]) {
+        if ([kaiGuan isEqualToString:@"01"]) {
             
-        } else {
+            self.offBtn.alpha = 1.0;
             
-            if ([kaiGuan isEqualToString:@"01"]) {
-                
-                self.offBtn.alpha = 1.0;
-                
-                [self.offBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-                [self.offBtn addTarget:self action:@selector(btnAtcion5555:) forControlEvents:UIControlEventTouchUpInside];
-            } else if ([kaiGuan isEqualToString:@"02"]) {
-                
-                self.offBtn.alpha = 0.4;
-               
-                [self.offBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-                [self.offBtn addTarget:self action:@selector(offBtnaaaa:) forControlEvents:UIControlEventTouchUpInside];
-            }
+            [self.offBtn removeTarget:self action:@selector(openLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            [self.offBtn addTarget:self action:@selector(closeLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
+        } else if ([kaiGuan isEqualToString:@"02"]) {
+            
+            self.offBtn.alpha = 0.4;
+            
+            [self.offBtn removeTarget:self action:@selector(closeLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            [self.offBtn addTarget:self action:@selector(openLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
         }
-
+        
+        
     }
 }
 
@@ -299,8 +299,6 @@
             view.tag = section;
             view.backgroundColor = [UIColor clearColor];
             view.userInteractionEnabled = YES;
-            
-            
             
             UIImageView *imageView = view.subviews[0];
             imageView.tintColor = [UIColor whiteColor];
@@ -330,9 +328,6 @@
         } else {
             return nil;
         }
-        
-    
-    
 }
 
 #pragma mark - 分区头的点击事件
@@ -350,8 +345,8 @@
         historyVC.serviceModel = [[ServicesModel alloc]init];
         historyVC.serviceModel = self.serviceModel;
         
-        historyVC.sumBingJingTime = self.sumBingJingTime;
-        historyVC.deviceSn = self.deviceSn;
+        historyVC.sumBingJingTime = kLengFengShanBingJing;
+        historyVC.deviceSn = self.serviceModel.devSn;
         [self.navigationController pushViewController:historyVC animated:YES];
     } else {
         if ([self.dic[section] integerValue] == 0) {
@@ -380,18 +375,22 @@
     self.baiFengLable.text = stateTypeArray[1];
 }
 
+- (void)setTableViewRegisterCell {
+    [self.tableView registerClass:[EnterFirstTableViewCell class] forCellReuseIdentifier:firstCelled];
+    [self.tableView registerClass:[EnterThirtTableViewCell class] forCellReuseIdentifier:secondCelled];
+    [self.tableView registerClass:[EnterSecondTableViewCell class] forCellReuseIdentifier:thirtCelled];
+    [self.tableView registerClass:[EnterThirtTableViewCell class] forCellReuseIdentifier:forthCelled];
+    [self.tableView registerClass:[DingShiYuYueCell class] forCellReuseIdentifier:fifthCelled];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (indexPath.section == 0) {
         
         if (indexPath.row == 0) {
-            static NSString *cellId = @"aaaa";
-            EnterFirstTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-            if (cell == nil) {
-                cell = [[EnterFirstTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId
-                        ];
-            }
+            
+            EnterFirstTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:firstCelled];
             
             cell.serviceModel =  self.serviceModel;
             cell.isAnimation = self.isAnimation;
@@ -403,14 +402,10 @@
             
             return cell;
         } else if (indexPath.row == 1) {
-            static NSString *cellId = @"bbbb";
-            EnterThirtTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-            if (cell == nil) {
-                cell = [[EnterThirtTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId
-                        ];
-            }
             
-            cell.serviceModel =  self.serviceModel;
+            EnterThirtTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:secondCelled];
+            
+            cell.serviceModel = self.serviceModel;
             cell.model = self.stateModel;
             if (self.offBtn.tag == 2) {
                 cell.userInteractionEnabled = NO;
@@ -419,13 +414,9 @@
             
             return cell;
         }  else {
-            static NSString *cellId = @"cccc";
-            EnterSecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-            if (cell == nil) {
-                cell = [[EnterSecondTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId
-                        ];
-            }
-       
+            
+            EnterSecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:thirtCelled];
+            
             cell.serviceModel =  self.serviceModel;
             cell.isAimation = self.isAnimation;
             cell.model = self.stateModel;
@@ -437,12 +428,9 @@
             return cell;
         }
     } else {
-        static NSString *cellId = @"xxxx";
-        DingShiYuYueCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-        if (cell == nil) {
-            cell = [[DingShiYuYueCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId
-                    ];
-        }
+        
+        DingShiYuYueCell *cell = [tableView dequeueReusableCellWithIdentifier:fifthCelled];
+     
         cell.serviceModel = [[ServicesModel alloc]init];
         cell.serviceModel =  self.serviceModel;
         
@@ -450,8 +438,6 @@
         
     }
 }
-
-
 
 #pragma mark - cell将要显示
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{

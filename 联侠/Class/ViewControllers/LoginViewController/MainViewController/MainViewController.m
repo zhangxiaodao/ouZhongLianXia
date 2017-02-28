@@ -67,7 +67,6 @@
         imageBG.image=[UIImage imageNamed:@"主页背景图4"];
     }
 
-    
     if (self.serviceModel && self.userModel) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
     }
@@ -77,7 +76,7 @@
 #pragma mark - 获取代理的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     NSDictionary *dic = data[0];
-    //    NSLog(@"%@" , dic);
+//        NSLog(@"%@" , dic);
     if ([dic[@"state"] integerValue] == 0) {
         
         NSDictionary *user = dic[@"data"];
@@ -216,16 +215,11 @@
 
 #pragma mark - 设置滚动Lable 
 - (void)setScrollLable:(NSMutableDictionary *)dic {
-    self.testLabel = [[RollLabel alloc] initWithFrame:CGRectMake(0 , 0 , kScreenW - kScreenW * 2 / 8.72093 , kScreenH / 29) text:dic[@"chuanYi"] font:[UIFont systemFontOfSize:15] textColor:[UIColor whiteColor]];
+    self.testLabel = [[RollLabel alloc] initWithFrame:CGRectMake(kScreenW / 9 , kScreenH / 22.72 - kScreenH / 58 , kScreenW - kScreenW * 2 / 9 , kScreenH / 29) text:dic[@"chuanYi"] font:[UIFont systemFontOfSize:15] textColor:[UIColor whiteColor]];
     [self.testLabel startRoll];
     
     [imageBG addSubview:self.testLabel];
     self.testLabel.tag = 2;
-    [self.testLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8.72093, kScreenH / 29));
-        make.centerY.mas_equalTo(banTouMingLableView.mas_centerY);
-        make.left.mas_equalTo(kScreenW / 8.72093);
-    }];
     self.testLabel.backgroundColor = [UIColor clearColor];
     self.testLabel.layer.cornerRadius = kScreenH / 58;
     self.testLabel.layer.masksToBounds = YES;
@@ -238,7 +232,7 @@
     banTouMingLableView.layer.opacity = 0.2;
     [imageBG addSubview:banTouMingLableView];
     banTouMingLableView.tag = 1;
-    banTouMingLableView.frame = CGRectMake(kScreenW / 8.72093, kScreenH / 22.72 - kScreenH / 58 , kScreenW - kScreenW * 2 / 8.72093, kScreenH / 29);
+    banTouMingLableView.frame = CGRectMake(kScreenW / 9, kScreenH / 22.72 - kScreenH / 58 , kScreenW - kScreenW * 2 / 9, kScreenH / 29);
     
     banTouMingLableView.layer.cornerRadius = kScreenH / 59;
     
@@ -467,6 +461,12 @@
         [_sendVCDelegate sendViewControllerToParentVC:self];
     }
     
+    if (self.serviceModel) {
+        if (_sendServiceModelToParentVCDelegate && [_sendServiceModelToParentVCDelegate respondsToSelector:@selector(sendServiceModelToParentVC:)]) {
+            [_sendServiceModelToParentVCDelegate sendServiceModelToParentVC:self.serviceModel];
+        }
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
     
 }
@@ -495,19 +495,9 @@
 
 - (void)setWearthDic:(NSMutableDictionary *)wearthDic {
     _wearthDic = wearthDic;
-    NSLog(@"%@" , _wearthDic);
+//    NSLog(@"%@" , _wearthDic);
     
 }
-
-
-#pragma mark - 懒加载
-//- (NSMutableDictionary *)wearthDic{
-//    if (!_wearthDic) {
-//        self.wearthDic = [NSMutableDictionary dictionary];
-//    }
-//    return _wearthDic;
-//}
-
 
 #pragma mark - 懒加载
 - (NSMutableArray *)serviceArray {
@@ -524,24 +514,6 @@
     }
     return _zhuYeArray;
 }
-//- (void)swipeGesture:(UISwipeGestureRecognizer *)swipe {
-//    
-//}
-//- (void)zhiDaoLeAtcion:(UIButton *)btn {
-//    
-//}
-//- (void)openAtcion3333:(UIButton *)btn {
-//    
-//}
-//- (void)btnAtcion3333:(UIButton *)btn {
-//    
-//}
-//- (void)xxxxAtcion:(UIButton *)btn {
-//    
-//}
-//- (void)ganYiJiOpenAtcion:(UIButton *)btn {
-//    
-//}
 
 #pragma mark - tableVIew滑动的代理
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

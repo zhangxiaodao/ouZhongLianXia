@@ -10,8 +10,8 @@
 
 @interface EnterWorkTowerFirsetView : UIView
 
++ (EnterWorkTowerFirsetView *)creatViewWithColor:(UIColor *)color withSuperView:(UIView *)superView;
 
-
-+ (UIView *)creatViewWithState:(NSArray *)stateArray withColor:(UIColor *)color withSuperView:(UIView *)superView;
-
+@property (nonatomic , strong) NSArray *stateArray;
+- (void)setStateArray:(NSArray *)stateArray;
 @end

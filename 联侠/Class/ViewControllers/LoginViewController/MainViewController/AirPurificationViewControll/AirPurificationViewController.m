@@ -25,6 +25,13 @@
 @property (nonatomic , copy)  NSString *gengHaunLvWang;
 @end
 
+static NSString *firstCelled = @"first";
+static NSString *secondCelled = @"second";
+static NSString *thirtCelled = @"thirt";
+static NSString *forthCelled = @"forth";
+static NSString *fifthCelled = @"fifth";
+static NSString *sexthCelled = @"sexedth";
+static NSString *seventhCelled = @"seventhCelled";
 @implementation AirPurificationViewController
 - (NSMutableDictionary *)dic {
     if (!_dic) {
@@ -58,6 +65,7 @@
     self.tableView.dataSource = self;
     self.isAnimation = @"YES";
     
+    [self setTableViewRegisterCell];
     for (int i = 1; i < 3; i++) {
         [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
     }
@@ -65,25 +73,27 @@
     [self.view addSubview:self.tiShiView];
 }
 
+
+- (void)setTableViewRegisterCell {
+    [self.tableView registerClass:[AirPurificationFirstTableViewCell class] forCellReuseIdentifier:firstCelled];
+    [self.tableView registerClass:[AirPurificationThirtTableViewCell class] forCellReuseIdentifier:secondCelled];
+    [self.tableView registerClass:[AirPurificationForthTableViewCell class] forCellReuseIdentifier:thirtCelled];
+    [self.tableView registerClass:[AirPurificationFifthTableViewCell class] forCellReuseIdentifier:forthCelled];
+    [self.tableView registerClass:[AirThirtTableViewCell class] forCellReuseIdentifier:fifthCelled];
+    [self.tableView registerClass:[BingJingShouMingTableViewCell class] forCellReuseIdentifier:sexthCelled];
+    [self.tableView registerClass:[LvWangJieDuTableViewCell class] forCellReuseIdentifier:seventhCelled];
+}
+
 #pragma mark - 知道了
 - (void)zhiDaoLeAtcion:(UIButton *)btn {
     
     [kStanderDefault setObject:@"YES" forKey:@"first"];
 
-    //    self.view.userInteractionEnabled = YES;
     self.tiShiView.hidden = YES;
     [self.tiShiView removeFromSuperview];
 }
 
-- (void)closeAtcion333:(UIButton *)btn {
-    [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
-    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S2#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingDataMain:) name:@"4231" object:nil];
-}
-
-- (void)openAtcion3333:(UIButton *)btn {
-    
-//    NSLog(@"%@ , %@" , self.serviceModel.devSn , self.serviceModel.devTypeSn);
+- (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn {
     
     if (btn.selected == 1) {
         [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
@@ -93,7 +103,7 @@
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingDataMain:) name:@"4231" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingDataMain:) name:@"4231" object:nil];
     btn.selected = !btn.selected;
     
 }
@@ -134,23 +144,15 @@
         
         if (indexPath.row == 0) {
             
-            static NSString *celled = @"aaaa";
             AirPurificationFirstTableViewCell *cell
-            =[tableView dequeueReusableCellWithIdentifier:celled];
-            if (!cell) {
-                cell = [[AirPurificationFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-            }
+            =[tableView dequeueReusableCellWithIdentifier:firstCelled];
+            
             cell.isAnimation = self.isAnimation;
             cell.stateModel = self.stateModel;
             return cell;
         } else if (indexPath.row == 1) {
-            
-            static NSString *celled = @"cccc";
             AirPurificationThirtTableViewCell *cell
-            =[tableView dequeueReusableCellWithIdentifier:celled];
-            if (!cell) {
-                cell = [[AirPurificationThirtTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-            }
+            =[tableView dequeueReusableCellWithIdentifier:secondCelled];
             
             if (self.serviceModel) {
                 cell.serviceModel = self.serviceModel;
@@ -161,38 +163,24 @@
             return cell;
         } else if (indexPath.row == 2) {
             
-            static NSString *celled = @"dddd";
             AirPurificationForthTableViewCell *cell
-            =[tableView dequeueReusableCellWithIdentifier:celled];
-            if (!cell) {
-                cell = [[AirPurificationForthTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-            }
-            
+            =[tableView dequeueReusableCellWithIdentifier:thirtCelled];
+         
             cell.serviceModel = self.serviceModel;
             cell.stateModel = self.stateModel;
             cell.buttonSelected = @(self.bottomBtn.selected);
             return cell;
         } else if (indexPath.row == 3 ){
-            static NSString *celled = @"eeee";
             AirPurificationFifthTableViewCell *cell
-            =[tableView dequeueReusableCellWithIdentifier:celled];
-            if (!cell) {
-                cell = [[AirPurificationFifthTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-            }
-            
+            =[tableView dequeueReusableCellWithIdentifier:forthCelled];
             cell.serviceModel = self.serviceModel;
             cell.vc = self;
             cell.buttonSelected = @(self.bottomBtn.selected);
             
             return cell;
-        } else if (indexPath.row == 4 ){
-            static NSString *celled = @"ffff";
+        } else {
             AirThirtTableViewCell *cell
-            =[tableView dequeueReusableCellWithIdentifier:celled];
-            if (!cell) {
-                cell = [[AirThirtTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-            }
-            
+            =[tableView dequeueReusableCellWithIdentifier:fifthCelled];
             cell.airVC = self;
             cell.model = self.userModel;
             if (self.serviceModel) {
@@ -203,39 +191,17 @@
             
             
             return cell;
-        } else {
-            static NSString *celled = @"gggg";
-            
-            UITableViewCell *cell
-            =[tableView dequeueReusableCellWithIdentifier:celled];
-            if (!cell) {
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-            }
-            
-            return cell;
-            
         }
     }  else if (indexPath.section == 1){
-        static NSString *celled = @"hhhh";
         BingJingShouMingTableViewCell *cell
-        =[tableView dequeueReusableCellWithIdentifier:celled];
-        if (!cell) {
-            cell = [[BingJingShouMingTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-        }
-        
+        =[tableView dequeueReusableCellWithIdentifier:sexthCelled];
         cell.isKongJing = @"YES";
-        
         [cell setUIbuJuWithNowUesrTime:self.stateModel.changeFilterScreen andViewController:self];
         
         return cell;
     } else {
-        static NSString *celled = @"iiii";
         LvWangJieDuTableViewCell *cell
-        =[tableView dequeueReusableCellWithIdentifier:celled];
-        if (!cell) {
-            cell = [[LvWangJieDuTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-        }
-        
+        =[tableView dequeueReusableCellWithIdentifier:seventhCelled];
         cell.isKongJingLvWang = @"YES";
         long int a ;
         

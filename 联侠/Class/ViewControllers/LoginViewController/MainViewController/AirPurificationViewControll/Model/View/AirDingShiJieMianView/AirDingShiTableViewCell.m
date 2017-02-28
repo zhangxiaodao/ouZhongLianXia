@@ -7,26 +7,54 @@
 //
 
 #import "AirDingShiTableViewCell.h"
+#import "CustomPickerView.h"
 
-@interface AirDingShiTableViewCell ()<UIPickerViewDataSource , UIPickerViewDelegate , HelpFunctionDelegate>
+@interface AirDingShiTableViewCell ()<UIPickerViewDataSource , UIPickerViewDelegate , HelpFunctionDelegate , SendPickerViewSelectDataToParentView>
 @property (nonatomic , strong) NSMutableDictionary *dic;
-@property (nonatomic , strong) NSMutableArray *hourArray;
-@property (nonatomic , strong) NSMutableArray *minuteArray;
+//@property (nonatomic , strong) NSMutableArray *hourArray;
+//@property (nonatomic , strong) NSMutableArray *minuteArray;
 @property (nonatomic  ,strong) UIView *pickerBgView;
 @property (nonatomic , strong) UIPickerView *myPicker;
 @property (strong, nonatomic) UIView *maskView;
-@property (nonatomic , strong) UIView *openPickerBgView;
-@property (nonatomic , strong) UIView *offPickerBgView;
-
+@property (nonatomic , strong) CustomPickerView *openPickerBgView;
+@property (nonatomic , strong) CustomPickerView *offPickerBgView;
+@property (nonatomic , strong) NSMutableArray *dataArray;
 @end
 
 @implementation AirDingShiTableViewCell
-
+- (NSMutableArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+        NSMutableArray *minuteArray = [NSMutableArray array];
+        for (int i = 0; i < 60; i++) {
+            if (i < 10) {
+                [minuteArray addObject:[NSString stringWithFormat:@"0%d分" , i]];
+            } else {
+                [minuteArray addObject:[NSString stringWithFormat:@"%d分" , i]];
+            }
+            
+        }
+        
+        NSMutableArray *hourArray = [NSMutableArray array];
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) {
+                [hourArray addObject:[NSString stringWithFormat:@"0%d时" , i]];
+            } else {
+                [hourArray addObject:[NSString stringWithFormat:@"%d时" , i]];
+            }
+            
+        }
+        
+        [_dataArray addObject:hourArray];
+        [_dataArray addObject:minuteArray];
+    }
+    return _dataArray;
+}
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self creatPickViewData];
+//        [self creatPickViewData];
     }
     return self;
 }
@@ -205,124 +233,135 @@
 
 #pragma mark - 弹出pickView
 - (void)pickerViewTap:(UITapGestureRecognizer *)tap {
+//    [CustomPickerView shareCustomPickerView].dataArray = [NSMutableArray array];
     
+    
+    [CustomPickerView shareCustomPickerView].dataArray = [NSArray arrayWithArray:self.dataArray];
     if (tap.view.tag == 1 || tap.view.tag == 2) {
-      self.openPickerBgView = [self creatPickView];
+        
+      self.openPickerBgView = [[CustomPickerView alloc]initWithBackGroundColor:kKongJingYanSe withFrame:kScreenFrame];
+        [kWindowRoot.view addSubview:self.openPickerBgView];
     } else {
-      self.offPickerBgView = [self creatPickView];
+      self.offPickerBgView = [[CustomPickerView alloc]initWithBackGroundColor:kKongJingYanSe withFrame:kScreenFrame];
+        [kWindowRoot.view addSubview:self.offPickerBgView];
+
     }
     
+}
+
+- (void)sendPickerViewSelectedData:(NSArray *)dataArray {
+    NSLog(@"%@" , dataArray);
 }
 
 #pragma mark - 创建UIPickView
-- (UIView *)creatPickView{
-    
-    self.maskView = [[UIView alloc] initWithFrame:kScreenFrame];
-    self.maskView.backgroundColor = [UIColor clearColor];
-    //    self.maskView.alpha = 0;
-    self.maskView.userInteractionEnabled = YES;
-    //    [self.view addSubview:self.maskView];
-    [self.maskView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideMyPicker)]];
-    
-    
-    self.pickerBgView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH - kScreenH / 2.61568, kScreenW, kScreenH / 2.61568)];
-    
-    self.pickerBgView.backgroundColor = [UIColor whiteColor];
-    
-    self.myPicker = [[UIPickerView alloc]init];
-    [self.pickerBgView addSubview:self.myPicker];
-    [self.myPicker mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.08796));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(kScreenH / 17.1025);
-    }];
-    self.myPicker.tag = 1;
-    self.myPicker.delegate = self;
-    self.myPicker.dataSource = self;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.pickerBgView.alpha = 1.0;
-    }];
-    
-    
-    UIView *view  =[[UIView alloc]init];
-    view.backgroundColor = kFenGeXianYanSe;
-    [self.pickerBgView addSubview:view];
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 17.1025));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(0);
-    }];
-    
-    UIButton *cancleBtn = [UIButton initWithTitle:@"取消" andColor:[UIColor clearColor] andSuperView:view]
-    ;
-    [cancleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [cancleBtn addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
-    [cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
-        make.top.mas_equalTo(0);
-    }];
-    
-    UIButton *sureBtn = [UIButton initWithTitle:@"确定" andColor:[UIColor clearColor] andSuperView:view]
-    ;
-    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [sureBtn addTarget:self action:@selector(ensure:) forControlEvents:UIControlEventTouchUpInside];
-    [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
-        make.top.mas_equalTo(0);
-    }];
-    
-    [self.vc.view addSubview:self.maskView];
-    [self.vc.view addSubview:self.pickerBgView];
-    
-    self.pickerBgView.top = self.vc.view.height;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        self.myPicker.alpha = 1.0;
-        self.pickerBgView.bottom = self.vc.view.height;
-    }];
-    
-    return self.pickerBgView;
-    
-}
+//- (UIView *)creatPickView{
+//    
+//    self.maskView = [[UIView alloc] initWithFrame:kScreenFrame];
+//    self.maskView.backgroundColor = [UIColor clearColor];
+//    //    self.maskView.alpha = 0;
+//    self.maskView.userInteractionEnabled = YES;
+//    //    [self.view addSubview:self.maskView];
+//    [self.maskView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideMyPicker)]];
+//    
+//    
+//    self.pickerBgView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH - kScreenH / 2.61568, kScreenW, kScreenH / 2.61568)];
+//    
+//    self.pickerBgView.backgroundColor = [UIColor whiteColor];
+//    
+//    self.myPicker = [[UIPickerView alloc]init];
+//    [self.pickerBgView addSubview:self.myPicker];
+//    [self.myPicker mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.08796));
+//        make.left.mas_equalTo(0);
+//        make.top.mas_equalTo(kScreenH / 17.1025);
+//    }];
+//    self.myPicker.tag = 1;
+//    self.myPicker.delegate = self;
+//    self.myPicker.dataSource = self;
+//    
+//    [UIView animateWithDuration:0.3 animations:^{
+//        self.pickerBgView.alpha = 1.0;
+//    }];
+//    
+//    
+//    UIView *view  =[[UIView alloc]init];
+//    view.backgroundColor = kFenGeXianYanSe;
+//    [self.pickerBgView addSubview:view];
+//    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 17.1025));
+//        make.left.mas_equalTo(0);
+//        make.top.mas_equalTo(0);
+//    }];
+//    
+//    UIButton *cancleBtn = [UIButton initWithTitle:@"取消" andColor:[UIColor clearColor] andSuperView:view]
+//    ;
+//    [cancleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [cancleBtn addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
+//    [cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(0);
+//        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
+//        make.top.mas_equalTo(0);
+//    }];
+//    
+//    UIButton *sureBtn = [UIButton initWithTitle:@"确定" andColor:[UIColor clearColor] andSuperView:view]
+//    ;
+//    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [sureBtn addTarget:self action:@selector(ensure:) forControlEvents:UIControlEventTouchUpInside];
+//    [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.mas_equalTo(0);
+//        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
+//        make.top.mas_equalTo(0);
+//    }];
+//    
+//    [self.vc.view addSubview:self.maskView];
+//    [self.vc.view addSubview:self.pickerBgView];
+//    
+//    self.pickerBgView.top = self.vc.view.height;
+//    
+//    [UIView animateWithDuration:0.3 animations:^{
+//        
+//        self.myPicker.alpha = 1.0;
+//        self.pickerBgView.bottom = self.vc.view.height;
+//    }];
+//    
+//    return self.pickerBgView;
+//    
+//}
 
 #pragma mark - 确定  取消  的点击事件
-- (void)cancel:(UIButton *)btn {
-    [self hideMyPicker];
-}
+//- (void)cancel:(UIButton *)btn {
+//    [self hideMyPicker];
+//}
 
 
-- (void)ensure:(UIButton *)btn {
-    
-    UIPickerView *openPickerView = [self.openPickerBgView viewWithTag:1];
-    UIPickerView *offPickerView = [self.offPickerBgView viewWithTag:1];
-    
-    if ([self.myPicker isEqual:openPickerView]) {
-        self.openTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[openPickerView selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[openPickerView selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
-        
-    }
-    
-    if ([self.myPicker isEqual:offPickerView]) {
-        self.offTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[offPickerView selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[offPickerView selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
-        
-    }
-    
-    [self.dic setObject:self.openTime.text forKey:@"openTime"];
-    [self.dic setObject:self.offTime.text forKey:@"offTime"];
-    [self.dic setObject:self.fromWhich forKey:@"fromWhich"];
-    [self.dic setObject:@(self.isSelectedBtn.selected) forKey:@"isSelectedBtn"];
-    [kStanderDefault setObject:self.dic forKey:@"AirData"];
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(getKongJingDingShiData:andData:)]) {
-        [self.delegate getKongJingDingShiData:self andData:self.dic];
-    }
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"AirTimeText" object:nil userInfo:@{@"AirTimeText" : self.dic}]];
-    
-    [self hideMyPicker];
-}
+//- (void)ensure:(UIButton *)btn {
+//    
+//    UIPickerView *openPickerView = [self.openPickerBgView viewWithTag:1];
+//    UIPickerView *offPickerView = [self.offPickerBgView viewWithTag:1];
+//    
+//    if ([self.myPicker isEqual:openPickerView]) {
+//        self.openTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[openPickerView selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[openPickerView selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
+//        
+//    }
+//    
+//    if ([self.myPicker isEqual:offPickerView]) {
+//        self.offTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[offPickerView selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[offPickerView selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
+//        
+//    }
+//    
+//    [self.dic setObject:self.openTime.text forKey:@"openTime"];
+//    [self.dic setObject:self.offTime.text forKey:@"offTime"];
+//    [self.dic setObject:self.fromWhich forKey:@"fromWhich"];
+//    [self.dic setObject:@(self.isSelectedBtn.selected) forKey:@"isSelectedBtn"];
+//    [kStanderDefault setObject:self.dic forKey:@"AirData"];
+//    
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(getKongJingDingShiData:andData:)]) {
+//        [self.delegate getKongJingDingShiData:self andData:self.dic];
+//    }
+//    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"AirTimeText" object:nil userInfo:@{@"AirTimeText" : self.dic}]];
+//    
+//    [self hideMyPicker];
+//}
 
 
 #pragma mark - 隐藏UIPickView
@@ -336,52 +375,54 @@
     }];
 }
 
-#pragma mark - UIPickView的代理
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-        return 2;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    
-        if (component == 0) {
-            return self.hourArray.count;
-        } else {
-            return self.minuteArray.count;
-        }
-    
-}
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
-    if (component == 0) {
-        return [self.hourArray objectAtIndex:row];
-    } else {
-        return [self.minuteArray objectAtIndex:row];
-    }
-    
-}
+//#pragma mark - UIPickView的代理
+//- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+//        return 2;
+//}
+//
+//- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+//    
+//        if (component == 0) {
+//            return self.hourArray.count;
+//        } else {
+//            return self.minuteArray.count;
+//        }
+//    
+//}
+//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+//    
+//    if (component == 0) {
+//        return [self.hourArray objectAtIndex:row];
+//    } else {
+//        return [self.minuteArray objectAtIndex:row];
+//    }
+//    
+//}
 
 
 - (void)creatPickViewData{
-    
-    self.minuteArray = [NSMutableArray array];
+    NSMutableArray *minuteArray = [NSMutableArray array];
     for (int i = 0; i < 60; i++) {
         if (i < 10) {
-            [self.minuteArray addObject:[NSString stringWithFormat:@"0%d分" , i]];
+            [minuteArray addObject:[NSString stringWithFormat:@"0%d分" , i]];
         } else {
-            [self.minuteArray addObject:[NSString stringWithFormat:@"%d分" , i]];
+            [minuteArray addObject:[NSString stringWithFormat:@"%d分" , i]];
         }
         
     }
     
-    self.hourArray = [NSMutableArray array];
+    NSMutableArray *hourArray = [NSMutableArray array];
     for (int i = 0; i < 24; i++) {
         if (i < 10) {
-            [self.hourArray addObject:[NSString stringWithFormat:@"0%d时" , i]];
+            [hourArray addObject:[NSString stringWithFormat:@"0%d时" , i]];
         } else {
-            [self.hourArray addObject:[NSString stringWithFormat:@"%d时" , i]];
+            [hourArray addObject:[NSString stringWithFormat:@"%d时" , i]];
         }
         
     }
+    
+    [self.dataArray addObject:hourArray];
+    [self.dataArray addObject:minuteArray];
 }
 
 - (NSMutableDictionary *)dic{
@@ -394,9 +435,6 @@
 - (void)setFromWhich:(NSString *)fromWhich {
     _fromWhich = fromWhich;
     
-    
-    
-
     if (self.contentView.subviews.count > 0) {
         [self.contentView.subviews[0] removeFromSuperview];
         [self customUI];
@@ -407,32 +445,31 @@
     if (![[self.dic objectForKey:@"fromWhich"] isEqualToString:_fromWhich]) {
         if ([_fromWhich isEqualToString:@"first"]) {
             
-          
-                self.openTime.text = @"08:00";
             
-                self.offTime.text = @"12:00";
+            self.openTime.text = @"08:00";
+            
+            self.offTime.text = @"12:00";
             
             
         } else if ([_fromWhich isEqualToString:@"second"]) {
-                self.openTime.text = @"06:00";
+            self.openTime.text = @"06:00";
             
-                self.offTime.text = @"23:00";
+            self.offTime.text = @"23:00";
             
             
         } else if ([_fromWhich isEqualToString:@"thirt"]) {
-                self.openTime.text = @"10:00";
+            self.openTime.text = @"10:00";
             
-                self.offTime.text = @"22:00";
+            self.offTime.text = @"22:00";
             
             
         } else {
-                self.openTime.text = @"00:00";
+            self.openTime.text = @"00:00";
             
-                self.offTime.text = @"00:00";
-            
+            self.offTime.text = @"00:00";
             
         }
-
+        
     }
 }
 

@@ -126,7 +126,6 @@
     [self.slider mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.contentView.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(kScreenW / 1.63, 30));
-        //        make.centerY.mas_equalTo(self.contentView.mas_centerY);
         make.top.mas_equalTo(fuLiZiBtn.mas_bottom).offset(kScreenW / 20);
     }];
     
@@ -193,7 +192,7 @@
             break;
     }
     
-    [btn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+    [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     [btn addTarget:self action:@selector(againDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:@"4231" object:nil];
@@ -232,7 +231,7 @@
             break;
     }
     
-    [btn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
+    [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     [btn addTarget:self action:@selector(doneAtcion:) forControlEvents:UIControlEventTouchUpInside];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:@"4231" object:nil];

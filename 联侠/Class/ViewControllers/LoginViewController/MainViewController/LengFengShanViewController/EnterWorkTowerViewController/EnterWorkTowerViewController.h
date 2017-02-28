@@ -20,8 +20,6 @@
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) UserModel *model;
 @property (nonatomic , strong) UIButton *offBtn;
-@property (nonatomic , assign) NSInteger sumBingJingTime;
-@property (nonatomic , strong) NSString *deviceSn;
 @property (nonatomic , strong) StateModel *stateModel;
 
 @property (nonatomic , assign) id<SendLengFengShanKaiGuanZhuangTaiDelegate> lengFengShanStateDelegate;

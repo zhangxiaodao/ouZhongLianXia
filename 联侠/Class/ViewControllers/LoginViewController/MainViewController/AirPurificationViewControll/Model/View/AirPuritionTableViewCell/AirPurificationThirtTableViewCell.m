@@ -184,11 +184,10 @@
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
     
-    
     if ([kStanderDefault objectForKey:@"cityName"]) {
         NSString *city = [kStanderDefault objectForKey:@"cityName"];
         NSDictionary *parames2 = @{@"city" : city , @"times" : @12};
-        
+//        NSLog(@"%@" , parames2);
         [HelpFunction requestDataWithUrlString:kDangTianKongQiZhiLiang andParames:parames2 andDelegate:self];
     }
     
@@ -235,7 +234,6 @@
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    
 //    NSLog(@"室内%@" , dddd);
     
     [self shiNeiPm25Key];
@@ -243,7 +241,6 @@
     
     if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *data = dddd[@"data"];
-        
         
         NSMutableArray *keys = [[data allKeys] mutableCopy];
         

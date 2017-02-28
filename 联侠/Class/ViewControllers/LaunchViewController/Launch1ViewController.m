@@ -32,7 +32,7 @@
 #pragma mark - 界面布局
 - (void) setLayoutUI{
     self.scrollerView = [[UIScrollView alloc] initWithFrame:kScreenFrame];
-    self.scrollerView.backgroundColor = kMainColor;
+    self.scrollerView.backgroundColor = [UIColor whiteColor];
     self.scrollerView.bounces = NO;
     self.scrollerView.pagingEnabled = YES;
     self.scrollerView.showsVerticalScrollIndicator = NO;
@@ -95,6 +95,12 @@
 #pragma mark - scrollerView 的代理方法
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     self.pageControl.currentPage = self.scrollerView.contentOffset.x / [UIScreen mainScreen].bounds.size.width;
+    
+    if (self.pageControl.currentPage == 2) {
+        self.pageControl.hidden = YES;
+    } else {
+        self.pageControl.hidden = NO;
+    }
 }
 
 @end

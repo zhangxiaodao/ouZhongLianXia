@@ -25,7 +25,7 @@
 
 #import "WeatherView.h"
 
-@interface MineSerivesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , HelpFunctionDelegate , SendViewControllerToParentVCDelegate , CCLocationManagerZHCDelegate>
+@interface MineSerivesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , HelpFunctionDelegate , SendViewControllerToParentVCDelegate , CCLocationManagerZHCDelegate , SendServiceModelToParentVCDelegate>
 @property (nonatomic , strong) UICollectionView *collectionView;
 
 @property (nonatomic , strong) UIView *topView;
@@ -69,15 +69,16 @@
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
     
+    NSLog(@"%@ , %@" , self.userSn , self.serviceModel);
+    
     if (self.userSn && self.serviceModel) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@Q#" , self.userSn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kQuite andIsNewOrOld:nil];
     }
     
-    
     NSInteger nowTimeInterval = [NSString getNowTimeInterval];
     if ([kStanderDefault objectForKey:@"requestWeatherTime"]) {
         NSInteger weatherTime = [[kStanderDefault objectForKey:@"requestWeatherTime"] integerValue];
-        
+        NSLog(@"%@ , %@" , [NSString turnTimeIntervalToString:nowTimeInterval] , [NSString turnTimeIntervalToString:weatherTime]);
         if (nowTimeInterval > weatherTime + 2 * 3600) {
             [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
             [self startWearthData];
@@ -209,6 +210,7 @@
 - (void)getCityNameAndProvience:(NSArray *)address {
     NSString *cityName = address[0];
     [HelpFunction requestWeatherDataWithDelegate:self andCityName:cityName];
+    [kStanderDefault setObject:cityName forKey:@"cityName"];
 }
 
 - (void)getWeartherImage:(NSNotification *)post {
@@ -271,6 +273,11 @@
 
 - (void)sendViewControllerToParentVC:(UIViewController *)viewController {
     _childViewController = viewController;
+    
+}
+
+- (void)sendServiceModelToParentVC:(ServicesModel *)serviceModel {
+    self.serviceModel = serviceModel;
 }
 
 #pragma mark - 开关的点击事件
@@ -325,6 +332,7 @@
         LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
         lengFengShanVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         lengFengShanVC.sendVCDelegate = self;
+        lengFengShanVC.sendServiceModelToParentVCDelegate = self;
         lengFengShanVC.serviceModel = model;
         lengFengShanVC.wearthDic = self.wearthDic;
         [self.navigationController pushViewController:lengFengShanVC animated:YES];
@@ -333,11 +341,12 @@
         testAirDeviceVC.serviceModel = model;
         testAirDeviceVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         testAirDeviceVC.sendVCDelegate = self;
+        testAirDeviceVC.sendServiceModelToParentVCDelegate = self;
         testAirDeviceVC.wearthDic = self.wearthDic;
         [self.navigationController pushViewController:testAirDeviceVC animated:YES];
     } else if ([model.devTypeSn isEqualToString:@"4232"]) {
         XinFengViewController *xinFengAirVC = [[XinFengViewController alloc]init];
-        
+        xinFengAirVC.sendServiceModelToParentVCDelegate = self;
         xinFengAirVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         xinFengAirVC.indexPath = [[NSIndexPath alloc]init];
         xinFengAirVC.indexPath = indexPath;
@@ -345,6 +354,7 @@
         [self.navigationController pushViewController:xinFengAirVC animated:YES];
     }  else if ([model.devTypeSn isEqualToString:@"4331"]) {
         GanYiJiViewController *ganYiJiVC = [[GanYiJiViewController alloc]init];
+        ganYiJiVC.sendServiceModelToParentVCDelegate = self;
         ganYiJiVC.serviceModel = model;
         ganYiJiVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         ganYiJiVC.sendVCDelegate = self;

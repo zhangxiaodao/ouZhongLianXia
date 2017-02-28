@@ -439,6 +439,13 @@
 - (void)xinFengBackAtcion:(UITapGestureRecognizer *)tap{
 
     [self.navigationController popViewControllerAnimated:YES];
+    
+    if (self.serviceModel) {
+        if (_sendServiceModelToParentVCDelegate && [_sendServiceModelToParentVCDelegate respondsToSelector:@selector(sendServiceModelToParentVC:)]) {
+            [_sendServiceModelToParentVCDelegate sendServiceModelToParentVC:self.serviceModel];
+        }
+    }
+    
 }
 
 #pragma mark - tableView的代理
