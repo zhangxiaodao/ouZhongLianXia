@@ -12,5 +12,5 @@
 
 @property (strong, nonatomic)  UILabel *ssidLabel;
 @property (strong, nonatomic) NSString *bssid;
-@property (nonatomic , strong) AddServiceModel *addServiceModel;
+//@property (nonatomic , strong) AddServiceModel *addServiceModel;
 @end

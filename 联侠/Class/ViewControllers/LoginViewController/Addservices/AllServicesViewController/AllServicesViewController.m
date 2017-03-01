@@ -107,7 +107,7 @@
 #pragma mark - 代理返回的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     NSDictionary *dic = data[0];
-//    NSLog(@"%@" , dic);
+    NSLog(@"%@" , dic);
     
     
     self.array = [NSMutableArray array];
@@ -170,21 +170,21 @@
     } else {
         
         
-        SetServicesViewController *serVC = [[SetServicesViewController alloc]init];
-        serVC.addServiceModel = [[AddServiceModel alloc]init];
-        serVC.addServiceModel.typeSn = model.typeSn;
-        serVC.addServiceModel.protocol = model.protocol;
-        serVC.addServiceModel.typeName = model.typeName;
-        serVC.addServiceModel.bindUrl = model.bindUrl;
-        serVC.addServiceModel.slType = model.slTypeInt;
+//        SetServicesViewController *serVC = [[SetServicesViewController alloc]init];
+//        serVC.addServiceModel = [[AddServiceModel alloc]init];
+//        serVC.addServiceModel.typeSn = model.typeSn;
+//        serVC.addServiceModel.protocol = model.protocol;
+//        serVC.addServiceModel.typeName = model.typeName;
+//        serVC.addServiceModel.bindUrl = model.bindUrl;
+//        serVC.addServiceModel.slType = model.slTypeInt;
         
-        if ([serVC.addServiceModel.typeSn hasPrefix:@"41"] || [serVC.addServiceModel.typeSn hasPrefix:@"42"] || [serVC.addServiceModel.typeSn hasPrefix:@"43"]) {
-            
-            [self.navigationController pushViewController:serVC animated:YES];
-        } else {
-            
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您当前的版本无法添加此设备，请更新版本"];
-        }
+//        if ([serVC.addServiceModel.typeSn hasPrefix:@"41"] || [serVC.addServiceModel.typeSn hasPrefix:@"42"] || [serVC.addServiceModel.typeSn hasPrefix:@"43"]) {
+//            
+//            [self.navigationController pushViewController:serVC animated:YES];
+//        } else {
+//            
+//            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您当前的版本无法添加此设备，请更新版本"];
+//        }
         
     }
 }

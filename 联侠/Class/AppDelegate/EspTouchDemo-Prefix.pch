@@ -463,5 +463,10 @@
  */
 #define kAllTypeServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/device/queryTypeList", localhost]
 
+#define kBindLengFengShanURL [NSString stringWithFormat:@"http://%@:8080/smarthome/fan/bindDevice", localhost]
+
+#define kBindKongQiJingHuaQiURL [NSString stringWithFormat:@"http://%@:8080/smarthome/air/bindDevice", localhost]
+
+#define kBindGanYiJiURL [NSString stringWithFormat:@"http://%@:8080/smarthome/dryer/bindDevice", localhost]
 
 #endif

@@ -10,7 +10,7 @@
 
 @interface SearchServicesViewController : UIViewController
 
-@property (nonatomic , strong) AddServiceModel *addServiceModel;
+//@property (nonatomic , strong) AddServiceModel *addServiceModel;
 
 @property (strong, nonatomic) NSString *bssid;
 @property (strong, nonatomic)  NSString *ssidText;

@@ -70,15 +70,23 @@
 @property (nonatomic , strong) UILabel *circleLabel;
 @property (nonatomic , strong) NSTimer *progressTimer;
 @property (nonatomic , assign) CGFloat index;
+@property (nonatomic , strong) NSArray *protocolArray;
 @end
 
 @implementation SearchServicesViewController
 
-- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
-    _addServiceModel = addServiceModel;
-    NSLog(@"%@" , _addServiceModel);
-
+- (NSArray *)protocolArray {
+    if (!_protocolArray) {
+        _protocolArray = [NSArray arrayWithObjects:@"HMCOLDFANA" , @"HMSMARTA2" , @"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" , @"HMSMARTALL" ,nil];
+    }
+    return _protocolArray;
 }
+
+//- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
+//    _addServiceModel = addServiceModel;
+//    NSLog(@"%@" , _addServiceModel);
+//
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -255,7 +263,14 @@
     }
     
     
-    [HelpFunction requestDataWithUrlString:_addServiceModel.bindUrl andParames:parames andDelegate:self];
+    if ([self.devTypeSn isEqualToString:@"4131"] || [self.devTypeSn isEqualToString:@"4132"]) {
+        [HelpFunction requestDataWithUrlString:kBindLengFengShanURL andParames:parames andDelegate:self];
+    } else if ([self.devTypeSn isEqualToString:@"4231"] || [self.devTypeSn isEqualToString:@"4232"]) {
+        [HelpFunction requestDataWithUrlString:kBindKongQiJingHuaQiURL andParames:parames andDelegate:self];
+    } else if ([self.devTypeSn isEqualToString:@"4331"] || [self.devTypeSn isEqualToString:@"4332"]) {
+        [HelpFunction requestDataWithUrlString:kBindGanYiJiURL andParames:parames andDelegate:self];
+    }
+    
     [_progressTimer setFireDate:[NSDate distantPast]];
     return YES;
 }
@@ -326,7 +341,9 @@
 
 - (void)chongFuSendUDP {
     
-    [self sendMessage:self.addServiceModel.protocol];
+    for (int i = 0; i < self.protocolArray.count; i++) {
+        [self sendMessage:self.protocolArray[i]];
+    }
     
 }
 
@@ -371,6 +388,9 @@
                                 break;
                             }
                             self.deviceSn = [mutableStr substringWithRange:NSMakeRange(35, 12)];
+                            
+//                            NSLog(@"%@" , mutableStr);
+                            
                         }
                         
                         if (count < [esptouchResultArray count])
@@ -384,7 +404,11 @@
                         _circleView.progress = 0.33;
                         
                         [self openUDPServer];
-                        [self sendMessage:self.addServiceModel.protocol];
+                       
+                      
+                        for (int i = 0; i < self.protocolArray.count; i++) {
+                            [self sendMessage:self.protocolArray[i]];
+                        }
                         
                         _myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
                         

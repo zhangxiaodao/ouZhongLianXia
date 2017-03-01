@@ -8,7 +8,8 @@
 
 #import "AddSViewController.h"
 //#import "AllServicesViewController.h"
-#import "AllTypeServiceViewController.h"
+//#import "AllTypeServiceViewController.h"
+#import "SetServicesViewController.h"
 @interface AddSViewController ()
 @property (nonatomic , strong) UIView *navView;
 
@@ -83,8 +84,8 @@
 }
 
 - (void)addSerViceAtcion:(UIButton *)btn {
-    AllTypeServiceViewController *allServiceVC = [[AllTypeServiceViewController alloc]init];
-    [self.navigationController pushViewController:allServiceVC animated:YES];
+    SetServicesViewController *setServiceVC = [[SetServicesViewController alloc]init];
+    [self.navigationController pushViewController:setServiceVC animated:YES];
 }
 
 

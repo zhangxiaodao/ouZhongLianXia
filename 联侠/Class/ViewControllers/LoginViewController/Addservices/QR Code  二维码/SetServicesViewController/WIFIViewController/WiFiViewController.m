@@ -27,7 +27,7 @@
     searVC.apSsid = [NSString stringWithFormat:@"%@" , self.bssid];
     searVC.ssidText = [NSString stringWithFormat:@"%@" , self.ssidLabel.text];
     searVC.bssid = [NSString stringWithFormat:@"%@" , self._pwdTextView.text];
-    searVC.addServiceModel = self.addServiceModel;
+//    searVC.addServiceModel = self.addServiceModel;
     [self.navigationController pushViewController:searVC animated:YES];
 }
 
@@ -221,9 +221,9 @@
     [UIView commitAnimations];
 }
 
-- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
-    _addServiceModel = addServiceModel;
-}
+//- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
+//    _addServiceModel = addServiceModel;
+//}
 
 @end
 

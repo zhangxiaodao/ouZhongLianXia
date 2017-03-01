@@ -11,8 +11,10 @@
 
 #import "MineViewController.h"
 
-#import "AllServicesViewController.h"
+//#import "AllServicesViewController.h"
 #import "AllTypeServiceViewController.h"
+#import "SetServicesViewController.h"
+#import "WiFiViewController.h"
 
 #import "MainViewController.h"
 #import "LengFengShanViewController.h"
@@ -282,12 +284,10 @@
 
 #pragma mark - 开关的点击事件
 - (void)bottomBtnAtcion2:(UIButton *)btn{
-    
-    AllTypeServiceViewController *allTypeServiceVC = [[AllTypeServiceViewController alloc]init];
-    [self.navigationController pushViewController:allTypeServiceVC animated:YES];
-    
     self.tabBarController.tabBar.hidden = YES;
-    
+    SetServicesViewController *setServiceVC = [[SetServicesViewController alloc]init];
+//    AllTypeServiceViewController *alll = [[AllTypeServiceViewController alloc]init];
+    [self.navigationController pushViewController:setServiceVC animated:YES];
 }
 
 #pragma mark - collectionView有多少分区

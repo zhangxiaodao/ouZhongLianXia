@@ -14,7 +14,7 @@
 @interface SetServicesViewController ()
 @property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) NSMutableArray *array;
-@property (nonatomic , strong) NSTimer *myTimer;
+//@property (nonatomic , strong) NSTimer *myTimer;
 @property (nonatomic , strong) UIImageView *imageView;
 @end
 
@@ -46,11 +46,13 @@
 - (void)setUI {
     
     UIImage *image = nil;
-    if (self.addServiceModel.slType == 3) {
-        image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
-    } else {
-        image = [UIImage imageNamed:@"peiWangMoShiKai"];
-    }
+//    if (self.addServiceModel.slType == 3) {
+//        image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
+//    } else {
+//        image = [UIImage imageNamed:@"peiWangMoShiKai"];
+//    }
+    
+    image = [UIImage imageNamed:@"peiWangMoShiKai"];
     
     _imageView = [[UIImageView alloc]initWithImage:image];
     [self.view addSubview:_imageView];
@@ -60,19 +62,20 @@
         make.centerY.mas_equalTo(self.view.mas_centerY).offset(-kScreenW / 5);
     }];
     
-    NSString *brandName = self.addServiceModel.typeName;
-    NSString *typePosition = nil;
+//    NSString *brandName = self.addServiceModel.typeName;
+//    NSString *typePosition = nil;
+//    
+//    if (self.addServiceModel.slType == 1) {
+//        typePosition = @"定时";
+//    } else if (self.addServiceModel.slType == 2) {
+//        typePosition = @"开关";
+//    } else if (self.addServiceModel.slType == 3) {
+//        typePosition = @"WIFI按钮";
+//    }
     
-    if (self.addServiceModel.slType == 1) {
-        typePosition = @"定时";
-    } else if (self.addServiceModel.slType == 2) {
-        typePosition = @"开关";
-    } else if (self.addServiceModel.slType == 3) {
-        typePosition = @"WIFI按钮";
-    }
     
-    
-    UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@设备通电后,长按“%@“键约3秒后,“滴”声响后松开,进入无线配网状态." , brandName , typePosition] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
+//    UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@设备通电后,长按“%@“键约3秒后,“滴”声响后松开,进入无线配网状态." , brandName , typePosition] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
+    UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"开机长按电器定时按钮，将电源指示灯调节到快速闪烁状态"] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     firstLable.textColor = [UIColor blackColor];
     firstLable.layer.borderWidth = 0;
     
@@ -101,62 +104,62 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    _myTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(qieHuanTuPian) userInfo:nil repeats:YES];
+//    _myTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(qieHuanTuPian) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    [_myTimer invalidate];
-    _myTimer = nil;
+//    [_myTimer invalidate];
+//    _myTimer = nil;
 }
 
-- (void)qieHuanTuPian{
-    
-    if (self.addServiceModel.slType == 3) {
-        if ([_imageView.image isEqual:[UIImage imageNamed:@"wifianjianpeiwangmoshi0"]]) {
-            [self qieHuanTuPianGuan];
-        } else{
-            [self qieHuanTuPianKai];
-        }
-    } else {
-        
-        if ([_imageView.image isEqual:[UIImage imageNamed:@"peiWangMoShiKai"]]) {
-            [self qieHuanTuPianGuan];
-        } else{
-            [self qieHuanTuPianKai];
-        }
-    }
-}
+//- (void)qieHuanTuPian{
+//    
+//    if (self.addServiceModel.slType == 3) {
+//        if ([_imageView.image isEqual:[UIImage imageNamed:@"wifianjianpeiwangmoshi0"]]) {
+//            [self qieHuanTuPianGuan];
+//        } else{
+//            [self qieHuanTuPianKai];
+//        }
+//    } else {
+//        
+//        if ([_imageView.image isEqual:[UIImage imageNamed:@"peiWangMoShiKai"]]) {
+//            [self qieHuanTuPianGuan];
+//        } else{
+//            [self qieHuanTuPianKai];
+//        }
+//    }
+//}
 
-- (void)qieHuanTuPianKai{
-    
-    if (self.addServiceModel.slType == 3) {
-        _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
-    } else {
-        _imageView.image = [UIImage imageNamed:@"peiWangMoShiKai"];
-    }
-    
-}
+//- (void)qieHuanTuPianKai{
+//    
+//    if (self.addServiceModel.slType == 3) {
+//        _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
+//    } else {
+//        _imageView.image = [UIImage imageNamed:@"peiWangMoShiKai"];
+//    }
+//    
+//}
 
-- (void)qieHuanTuPianGuan{
-    
-    if (self.addServiceModel.slType == 3) {
-        _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi1"];
-    } else {
-        _imageView.image = [UIImage imageNamed:@"peiWangMoShiGuan"];
-    }
-}
+//- (void)qieHuanTuPianGuan{
+//    
+//    if (self.addServiceModel.slType == 3) {
+//        _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi1"];
+//    } else {
+//        _imageView.image = [UIImage imageNamed:@"peiWangMoShiGuan"];
+//    }
+//}
 
 #pragma mark - 下一步按钮点击事件
 - (void)neaxtBtnAction {
 
     WiFiViewController *wifiVC = [[WiFiViewController alloc]init];
-    wifiVC.addServiceModel = self.addServiceModel;
+//    wifiVC.addServiceModel = self.addServiceModel;
     
     [self.navigationController pushViewController:wifiVC animated:YES];
 }
 
-- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
-    _addServiceModel = addServiceModel;
-}
+//- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
+//    _addServiceModel = addServiceModel;
+//}
 
 @end
