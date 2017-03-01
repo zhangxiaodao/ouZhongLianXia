@@ -153,7 +153,6 @@
 		ED12E2BF1CF5C5470011CD2C /* UserMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED12E1D91CF5C5470011CD2C /* UserMessageTableViewCell.m */; };
 		ED19075D1E4D5B970024C9B0 /* AboutOusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19075C1E4D5B970024C9B0 /* AboutOusTableViewController.m */; };
 		ED1907611E4D60D10024C9B0 /* TableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1907601E4D60D10024C9B0 /* TableViewHeaderView.m */; };
-		ED1D679E1E655FA6001EAFE4 /* CustomPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1D679D1E655FA6001EAFE4 /* CustomPickerView.m */; };
 		ED2297991DAC9949008DEBA4 /* CircleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = ED2297981DAC9949008DEBA4 /* CircleAnimation.m */; };
 		ED22979C1DAC9960008DEBA4 /* XinFengFifthTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED22979B1DAC9960008DEBA4 /* XinFengFifthTableViewCell.m */; };
 		ED2297A51DACCB55008DEBA4 /* XinFengForthTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED2297A41DACCB55008DEBA4 /* XinFengForthTableViewCell.m */; };
@@ -210,6 +209,7 @@
 		ED6C78191D07B576007883EF /* AirDingShiJieMianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6C78181D07B576007883EF /* AirDingShiJieMianViewController.m */; };
 		ED6C781D1D07BC53007883EF /* AirDingShiTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6C781C1D07BC53007883EF /* AirDingShiTableViewCell.m */; };
 		ED6CB24F1DD1C98200294D57 /* AddServiceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6CB24E1DD1C98200294D57 /* AddServiceModel.m */; };
+		ED8078291E6681880001B205 /* CustomPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8078281E6681880001B205 /* CustomPickerView.m */; };
 		ED9CE65C1E286FF40029CFCA /* LockClock.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED9CE65B1E286F7B0029CFCA /* LockClock.ttf */; };
 		EDA7C70A1E5EC4DD003EB2D7 /* MalertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA7C7091E5EC4DD003EB2D7 /* MalertView.m */; };
 		EDAD366E1E25DEF9001DE474 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD366D1E25DEF9001DE474 /* CircleView.m */; };
@@ -552,8 +552,6 @@
 		ED19075C1E4D5B970024C9B0 /* AboutOusTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutOusTableViewController.m; sourceTree = "<group>"; };
 		ED19075F1E4D60D10024C9B0 /* TableViewHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewHeaderView.h; sourceTree = "<group>"; };
 		ED1907601E4D60D10024C9B0 /* TableViewHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewHeaderView.m; sourceTree = "<group>"; };
-		ED1D679C1E655FA6001EAFE4 /* CustomPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPickerView.h; sourceTree = "<group>"; };
-		ED1D679D1E655FA6001EAFE4 /* CustomPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPickerView.m; sourceTree = "<group>"; };
 		ED2297971DAC9949008DEBA4 /* CircleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleAnimation.h; sourceTree = "<group>"; };
 		ED2297981DAC9949008DEBA4 /* CircleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleAnimation.m; sourceTree = "<group>"; };
 		ED22979A1DAC9960008DEBA4 /* XinFengFifthTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XinFengFifthTableViewCell.h; sourceTree = "<group>"; };
@@ -663,6 +661,8 @@
 		ED6C781C1D07BC53007883EF /* AirDingShiTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirDingShiTableViewCell.m; sourceTree = "<group>"; };
 		ED6CB24D1DD1C98200294D57 /* AddServiceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddServiceModel.h; sourceTree = "<group>"; };
 		ED6CB24E1DD1C98200294D57 /* AddServiceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddServiceModel.m; sourceTree = "<group>"; };
+		ED8078271E6681880001B205 /* CustomPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPickerView.h; sourceTree = "<group>"; };
+		ED8078281E6681880001B205 /* CustomPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPickerView.m; sourceTree = "<group>"; };
 		ED88CBEB1DB611DF004873DA /* 联侠.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "联侠.entitlements"; sourceTree = "<group>"; };
 		ED9CE65B1E286F7B0029CFCA /* LockClock.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LockClock.ttf; sourceTree = "<group>"; };
 		EDA7C7081E5EC4DD003EB2D7 /* MalertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MalertView.h; sourceTree = "<group>"; };
@@ -1075,6 +1075,8 @@
 		ED12E0211CF5C5460011CD2C /* Catgory */ = {
 			isa = PBXGroup;
 			children = (
+				ED8078271E6681880001B205 /* CustomPickerView.h */,
+				ED8078281E6681880001B205 /* CustomPickerView.m */,
 				ED0BC1401E49B6A9007BF312 /* XMGRefreshFooter.h */,
 				ED0BC1411E49B6A9007BF312 /* XMGRefreshFooter.m */,
 				ED0BC1421E49B6A9007BF312 /* XMGRefreshHeader.h */,
@@ -1731,8 +1733,6 @@
 				ED119DC91CFEB3FC0073094D /* AirgengDuoViewController.m */,
 				ED6C78171D07B576007883EF /* AirDingShiJieMianViewController.h */,
 				ED6C78181D07B576007883EF /* AirDingShiJieMianViewController.m */,
-				ED1D679C1E655FA6001EAFE4 /* CustomPickerView.h */,
-				ED1D679D1E655FA6001EAFE4 /* CustomPickerView.m */,
 				ED119DCB1CFEBC200073094D /* View */,
 				ED27A1E41CF81C1E006BD844 /* Model */,
 			);
@@ -2413,7 +2413,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED12E2B31CF5C5470011CD2C /* EnterSecondTableViewCell.m in Sources */,
-				ED1D679E1E655FA6001EAFE4 /* CustomPickerView.m in Sources */,
 				ED12E2A41CF5C5470011CD2C /* XieYiNeiRongViewController.m in Sources */,
 				ED12E2A21CF5C5470011CD2C /* RegisterViewController.m in Sources */,
 				ED12E27F1CF5C5470011CD2C /* WiFiViewController.m in Sources */,
@@ -2467,6 +2466,7 @@
 				ED12E2BC1CF5C5470011CD2C /* SecondView.m in Sources */,
 				ED27A2441CF81C1E006BD844 /* UserMessageViewController.m in Sources */,
 				ED119DCA1CFEB3FC0073094D /* AirgengDuoViewController.m in Sources */,
+				ED8078291E6681880001B205 /* CustomPickerView.m in Sources */,
 				ED12E1DD1CF5C5470011CD2C /* Foundation+Log.m in Sources */,
 				EDF2DBF21D0FF9F300475E11 /* AirPuritionGengDuoFirstTableViewCell.m in Sources */,
 				ED12E26D1CF5C5470011CD2C /* UITableViewCell+WHC_AutoHeightForCell.m in Sources */,

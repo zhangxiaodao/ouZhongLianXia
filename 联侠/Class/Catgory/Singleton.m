@@ -163,16 +163,7 @@
         devSnByte[i] = strtoul([devSnSubStr[i] UTF8String],0,16);
     }
     
-    NSLog(@"%@ , %@" , sock.connectedHost , newMessage);
-    
-//    if ([newMessage isKindOfClass:[NSNull class]]) {
-//        
-//        NSLog(@"%@ , %@" , self.userSn , self.serviceModel);
-//        
-//        if (self.userSn && self.serviceModel) {
-//            [self sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , self.userSn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
-//        }
-//    }
+//    NSLog(@"%@ , %@" , sock.connectedHost , newMessage);
     
     if (![newMessage isEqualToString:@"QUIT"] && ![newMessage isEqualToString:@"CONNECTED"]) {
        

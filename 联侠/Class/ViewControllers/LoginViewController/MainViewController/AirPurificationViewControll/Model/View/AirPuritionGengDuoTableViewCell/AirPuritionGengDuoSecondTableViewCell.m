@@ -12,8 +12,6 @@
 @interface AirPuritionGengDuoSecondTableViewCell () {
     UILabel *timeLable1;
     UILabel *fenChenLable;
-    NSMutableArray *pm25Key;
-    NSMutableArray *pm25Value;
 }
 
 @end
@@ -28,16 +26,7 @@
     return self;
 }
 
-//- (void)getPmShiWaiKey:(NSNotification *)post {
-//    NSLog(@"%@ , %@" , post.userInfo[@"pmShiWaiKey"] , post.userInfo[@"pmShiWaiValue"]);
-//    pm25Key = post.userInfo[@"pmShiWaiKey"];
-//    pm25Value = post.userInfo[@"pmShiWaiValue"];
-//}
-
 - (void)customUI {
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getPmShiWaiKey:) name:@"pmShiWai" object:nil];
-    
     
     UIView *secondView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 6.94791666)];
     [self.contentView addSubview:secondView];

@@ -48,8 +48,6 @@
     
     self.tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0.5)];
     self.tableView.contentInset=UIEdgeInsetsMake(-kScreenW / 15, 0, 0, 0);
-//    self.tableView.backgroundColor = kKongJingYanSe
-    ;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

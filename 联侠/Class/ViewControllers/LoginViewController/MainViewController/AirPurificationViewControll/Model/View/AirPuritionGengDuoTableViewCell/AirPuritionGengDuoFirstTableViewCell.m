@@ -28,13 +28,13 @@
 - (void)customUI {
     
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 2.575289)];
-    view.backgroundColor = [UIColor redColor];
+    view.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:view];
     
     
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"历史记录背景.jpg"]];
     [view addSubview:imageView];
-    imageView.frame = view.frame;
+    imageView.frame = view.bounds;
     
     
     UILabel *leiJiJiangWenLable = [UILabel creatLableWithTitle:@"已过滤粉尘" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];

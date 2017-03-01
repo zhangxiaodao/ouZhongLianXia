@@ -518,7 +518,6 @@
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
     NSLog(@"%@" , dddd);
     
-    NSString *state = dddd[@"state"];
     
 }
 
@@ -671,25 +670,6 @@
 - (void)cancel:(UIButton *)btn {
     [self hideMyPicker];
 }
-
-//{
-//
-//    UIPickerView *openPickerView = [self.openPickerBgView viewWithTag:1];
-//    UIPickerView *offPickerView = [self.offPickerBgView viewWithTag:1];
-//
-//    self.openTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[openPickerView selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[openPickerView selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
-//
-//    self.offTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[offPickerView selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[offPickerView selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
-//    [self.dic setObject:self.openTime.text forKey:@"openTime"];
-//    [self.dic setObject:self.offTime.text forKey:@"offTime"];
-//
-//    [kStanderDefault setObject:self.dic forKey:@"AirData"];
-//
-//    NSArray *timeTextArray = @[self.openTime.text , self.offTime.text];
-//    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TimeTextArray" object:self userInfo:@{@"TimeTextArray" : timeTextArray}]];
-//    [self hideMyPicker];
-//}
-
 
 - (void)ensure:(UIButton *)btn {
     

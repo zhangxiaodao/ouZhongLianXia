@@ -60,19 +60,6 @@
     return _shiWaiPm25Value;
 }
 
-//- (NSMutableArray *)dateArray {
-//    if (!_dateArray) {
-//        _dateArray = [NSMutableArray array];
-//        
-//        
-//        [_dateArray removeAllObjects];
-//        for (int i = 2 * 10 - 1; i >= 0; i--) {
-//            [_dateArray addObject:[[NSString timeAndAfterHours:@(i) andAfterDays:nil andMonth:nil] substringToIndex:2]];
-//        }
-//    }
-//    return _dateArray;
-//}
-
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self customUI];
