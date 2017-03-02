@@ -183,7 +183,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"fSwitch--%ld , _fWind--%ld , _fAnion--%ld , _fAuto--%ld" , _fSwitch , _fWind , _fAnion , _fAuto];
+    return [NSString stringWithFormat:@"fSwitch--%ld , _fWind--%ld , _fAnion--%ld , _fAuto--%ld , _light--%ld" , _fSwitch , _fWind , _fAnion , _fAuto , _light];
 }
 
 

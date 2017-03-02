@@ -206,7 +206,7 @@
         [kStanderDefault removeObjectForKey:@"wearthDic"];
         [kStanderDefault removeObjectForKey:@"first"];
         [kStanderDefault removeObjectForKey:@"zhuYe"];
-        [kStanderDefault removeObjectForKey:@"XinFengTime"];
+        
         [kStanderDefault removeObjectForKey:@"offBtn"];
         [kStanderDefault removeObjectForKey:@"GanYiJiData"];
         [kStanderDefault removeObjectForKey:@"ganYiJiHongGanDic"];

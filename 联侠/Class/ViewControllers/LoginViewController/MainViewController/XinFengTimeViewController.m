@@ -7,7 +7,7 @@
 //
 
 #import "XinFengTimeViewController.h"
-
+#import "TimeModel.h"
 @interface XinFengTimeViewController ()<UIPickerViewDataSource , UIPickerViewDelegate , HelpFunctionDelegate>
 @property (nonatomic , strong) UILabel *openTimeLabel;
 @property (nonatomic , strong) UILabel *closeLabel;
@@ -96,27 +96,47 @@
         make.top.mas_equalTo(repeatView.mas_bottom).offset(kScreenW / 10);
     }];
     
-    if ([kStanderDefault objectForKey:@"XinFengTime"]) {
-        NSArray *array = [kStanderDefault objectForKey:@"XinFengTime"];
-        NSInteger openTime = [array[0] integerValue];
-        NSInteger closeTime = [array[1] integerValue];
-        
-        NSInteger nowTime = [NSString getNowTimeInterval];
-        
-        if (nowTime > (openTime > closeTime ? openTime : closeTime)) {
-            [kStanderDefault removeObjectForKey:@"XinFengTime"];
-        } else {
-            self.openTimeLabel.text = [[NSString turnTimeIntervalToString:openTime] substringWithRange:NSMakeRange(11, 5)];
-            self.closeLabel.text = [[NSString turnTimeIntervalToString:closeTime] substringWithRange:NSMakeRange(11, 5)];
-            self.openSwitch.on = [array[2] integerValue];
-            self.closeSwitch.on = [array[3] integerValue];
-            self.repeatSwitch.on = [array[4] integerValue];
-        }
-        
-        
+}
+
+
+- (void)requestServicesTimeing:(NSDictionary *)dic {
+    
+    NSLog(@"%@" , dic);
+    if ([dic[@"data"] isKindOfClass:[NSNull class]]) {
+        return ;
     }
     
+    NSDictionary *data = dic[@"data"];
+    TimeModel *timeModel = [[TimeModel alloc]init];
+    
+    for (NSString *key in [data allKeys]) {
+        [timeModel setValue:data[key] forKey:key];
+    }
+    
+    if (timeModel.hasRunOnOnce == 0 || timeModel.hasRunOn == 0) {
+        if ([timeModel.runWeek isEqualToString:@"0000000"]) {
+            self.repeatSwitch.on = NO;
+        }
+        
+        if (timeModel.fSwitchOn == 1) {
+            self.openSwitch.on = YES;
+        }
+        
+        if (timeModel.fSwitchOff == 1) {
+            self.closeSwitch.on = NO;
+        }
+        
+        if (![timeModel.onJobTime isKindOfClass:[NSNull class]]) {
+            self.openTimeLabel.text = timeModel.onJobTime;
+        }
+        
+        if (![timeModel.offJobTime isKindOfClass:[NSNull class]]) {
+            self.closeLabel.text = timeModel.offJobTime;
+        }
+    }
+        
 }
+
 
 - (void)openAtcion:(UITapGestureRecognizer *)tap {
    self.firstPickerBgView = [self creatPickView];
@@ -149,31 +169,13 @@
     NSString *openTime = self.openTimeLabel.text;
     NSString *closeTime = self.closeLabel.text;
     
-    NSString *openHour = [openTime substringToIndex:2];
-    NSString *openMinute = [openTime substringFromIndex:3];
-    NSString *closeHour = [closeTime substringToIndex:2];
-    NSString *closeMinute = [closeTime substringFromIndex:3];
-    
-    NSMutableArray *openArray = [NSMutableArray array];
-    NSMutableArray *closeArray = [NSMutableArray array];
-    openArray = [NSString nowTimeAndAfterHour:openHour andAfterMinutes:openMinute andIsNeedTimeInterval:@"YES"];
-    closeArray = [NSString nowTimeAndAfterHour:closeHour andAfterMinutes:closeMinute andIsNeedTimeInterval:@"YES"];
-    [openArray addObject:@(self.openSwitch.on)];
-    [openArray addObject:@(self.closeSwitch.on)];
-    [openArray addObject:@(self.repeatSwitch.on)];
-    [closeArray addObject:@(self.openSwitch.on)];
-    [closeArray addObject:@(self.closeSwitch.on)];
-    [closeArray addObject:@(self.repeatSwitch.on)];
-    
     NSMutableArray *array = [NSMutableArray array];
     
-    [array addObject:openArray[1]];
-    [array addObject:closeArray[1]];
+    [array addObject:openTime];
+    [array addObject:closeTime];
     [array addObject:@(self.openSwitch.on)];
     [array addObject:@(self.closeSwitch.on)];
     [array addObject:@(self.repeatSwitch.on)];
-    
-    [kStanderDefault setObject:array forKey:@"XinFengTime"];
     
     if (_delegate && [_delegate respondsToSelector:@selector(xinFengTimeVCSendTimeToParentVCDelegate:)]) {
         [_delegate xinFengTimeVCSendTimeToParentVCDelegate:array];
@@ -185,6 +187,17 @@
         repeatStr = @"1111111";
     }
     
+    
+    NSString *openHour = [openTime substringToIndex:2];
+    NSString *openMinute = [openTime substringFromIndex:3];
+    NSString *closeHour = [closeTime substringToIndex:2];
+    NSString *closeMinute = [closeTime substringFromIndex:3];
+    
+    NSMutableArray *openArray = [NSMutableArray array];
+    NSMutableArray *closeArray = [NSMutableArray array];
+    openArray = [NSString nowTimeAndAfterHour:openHour andAfterMinutes:openMinute andIsNeedTimeInterval:@"YES"];
+    closeArray = [NSString nowTimeAndAfterHour:closeHour andAfterMinutes:closeMinute andIsNeedTimeInterval:@"YES"];
+        
     NSInteger durTime = 0;
     NSInteger openTimeInteger = [openArray[1] integerValue];
     NSInteger closeTimeInteger = [closeArray[1] integerValue];
@@ -343,6 +356,11 @@
 
 - (void)setServiceModel:(ServicesModel *)serviceModel{
     _serviceModel = serviceModel;
+    
+    if (_serviceModel.devSn) {
+        [HelpFunction requestDataWithUrlString:kGetKongJingTiming andParames:@{@"devSn" : _serviceModel.devSn} andDelegate:self];
+    }
+    
 }
 
 

@@ -153,6 +153,7 @@
 		ED12E2BF1CF5C5470011CD2C /* UserMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED12E1D91CF5C5470011CD2C /* UserMessageTableViewCell.m */; };
 		ED19075D1E4D5B970024C9B0 /* AboutOusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19075C1E4D5B970024C9B0 /* AboutOusTableViewController.m */; };
 		ED1907611E4D60D10024C9B0 /* TableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1907601E4D60D10024C9B0 /* TableViewHeaderView.m */; };
+		ED1C2C2C1E67CF3000EA79F8 /* TimeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1C2C2B1E67CF3000EA79F8 /* TimeModel.m */; };
 		ED2297991DAC9949008DEBA4 /* CircleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = ED2297981DAC9949008DEBA4 /* CircleAnimation.m */; };
 		ED22979C1DAC9960008DEBA4 /* XinFengFifthTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED22979B1DAC9960008DEBA4 /* XinFengFifthTableViewCell.m */; };
 		ED2297A51DACCB55008DEBA4 /* XinFengForthTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED2297A41DACCB55008DEBA4 /* XinFengForthTableViewCell.m */; };
@@ -552,6 +553,8 @@
 		ED19075C1E4D5B970024C9B0 /* AboutOusTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutOusTableViewController.m; sourceTree = "<group>"; };
 		ED19075F1E4D60D10024C9B0 /* TableViewHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewHeaderView.h; sourceTree = "<group>"; };
 		ED1907601E4D60D10024C9B0 /* TableViewHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewHeaderView.m; sourceTree = "<group>"; };
+		ED1C2C2A1E67CF3000EA79F8 /* TimeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeModel.h; sourceTree = "<group>"; };
+		ED1C2C2B1E67CF3000EA79F8 /* TimeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeModel.m; sourceTree = "<group>"; };
 		ED2297971DAC9949008DEBA4 /* CircleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleAnimation.h; sourceTree = "<group>"; };
 		ED2297981DAC9949008DEBA4 /* CircleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleAnimation.m; sourceTree = "<group>"; };
 		ED22979A1DAC9960008DEBA4 /* XinFengFifthTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XinFengFifthTableViewCell.h; sourceTree = "<group>"; };
@@ -1700,6 +1703,16 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		ED1C2C291E67CEF500EA79F8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ED1C2C2A1E67CF3000EA79F8 /* TimeModel.h */,
+				ED1C2C2B1E67CF3000EA79F8 /* TimeModel.m */,
+			);
+			name = Model;
+			path = XinFengViewController/Model;
+			sourceTree = "<group>";
+		};
 		ED2297961DAC9949008DEBA4 /* CircleAnimation */ = {
 			isa = PBXGroup;
 			children = (
@@ -2054,6 +2067,7 @@
 				ED5101851DAB8A2F0071F32C /* XinFengViewController.m */,
 				ED2ED8071E5BF81400499A54 /* XinFengTimeViewController.h */,
 				ED2ED8081E5BF81400499A54 /* XinFengTimeViewController.m */,
+				ED1C2C291E67CEF500EA79F8 /* Model */,
 				ED5101831DAB8A260071F32C /* View */,
 			);
 			name = XinFengKongJing;
@@ -2585,6 +2599,7 @@
 				ED12E1E41CF5C5470011CD2C /* UILabel+Custom.m in Sources */,
 				ED12E2B11CF5C5470011CD2C /* EnterFirstTableViewCell.m in Sources */,
 				ED27A2391CF81C1E006BD844 /* ConnectWeViewController.m in Sources */,
+				ED1C2C2C1E67CF3000EA79F8 /* TimeModel.m in Sources */,
 				EDB559D31D3E110600DC856C /* GanYiJiDingShiViewController.m in Sources */,
 				ED12E2681CF5C5470011CD2C /* UUBarChart.m in Sources */,
 				ED12E2721CF5C5470011CD2C /* AddSViewController.m in Sources */,

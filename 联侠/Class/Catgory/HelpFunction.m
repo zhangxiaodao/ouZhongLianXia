@@ -297,11 +297,17 @@ static HelpFunction *_request = nil;
             
             
             
-        } else if ([self.urlString isEqualToString:kChaXunLengFengShanDangQianShuJu] || [self.urlString isEqualToString:kChaXunKongJingDangQianShuJu] || [self.urlString isEqualToString:kChaXunGanYiJiShuJu] || [self.urlString isEqualToString:kKongJingTiming] || [self.urlString isEqualToString:kKongJingDingShiYuYue]) {
+        } else if ([self.urlString isEqualToString:kChaXunLengFengShanDangQianShuJu] || [self.urlString isEqualToString:kChaXunKongJingDangQianShuJu] || [self.urlString isEqualToString:kChaXunGanYiJiShuJu] || [self.urlString isEqualToString:kKongJingDingShiYuYue]) {
             
             [self.dataArray addObject:dic];
             if (self.dataArray.count > 0 && _delegate && [_delegate respondsToSelector:@selector(requestServicesData:didOK:)]) {
                 [_delegate requestServicesData:self didOK:dic];
+            } else {
+                [_delegate requestData:self didFailLoadData:self.error];
+            }
+        } else if ([self.urlString isEqualToString:kGetKongJingTiming]) {
+            if (_delegate && [_delegate respondsToSelector:@selector(requestServicesTimeing:)]) {
+                [_delegate requestServicesTimeing:dic];
             } else {
                 [_delegate requestData:self didFailLoadData:self.error];
             }

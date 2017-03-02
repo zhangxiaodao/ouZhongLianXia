@@ -284,9 +284,6 @@
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     [GeTuiSdk resetBadge];
     
-    if (self.viewController) {
-        [self.viewController requestServiceState];
-    }
     
     if (self.userModel && self.serviceModel) {
         
@@ -296,6 +293,10 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
         });
+    }
+    
+    if (self.viewController) {
+        [self.viewController requestServiceState];
     }
 
 }

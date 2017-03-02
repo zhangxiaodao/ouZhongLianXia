@@ -7,11 +7,11 @@
 //
 
 #import "XinFengFifthTableViewCell.h"
-
+#import "TimeModel.h"
 #define kCircleW view.height * 2 / 3
 
 @interface XinFengFifthTableViewCell ()<HelpFunctionDelegate>
-
+@property (nonatomic , strong) UILabel *openOrOffLable;
 @property (nonatomic , strong) NSMutableArray *timeArray;
 @end
 
@@ -21,18 +21,12 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        if (self.servicModel.devSn) {
-            [HelpFunction requestDataWithUrlString:kKongJingTiming andParames:@{@"devSn" : self.servicModel.devSn} andDelegate:self];
-        }
         
         [self customUI];
     }
     return self;
 }
 
-- (void)requestServicesTimeing:(NSDictionary *)dic {
-    NSLog(@"%@" , dic);
-}
 
 - (void)getXinFengKongJingTimeMessage:(NSNotification *)post {
     NSString *messsage = post.userInfo[@"Message"];
@@ -51,75 +45,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJingTimeMessage:) name:@"4232" object:nil];
     
-    
-    NSString *time = nil;
-    
-    if ([kStanderDefault objectForKey:@"XinFengTime"]) {
-//        _timeArray = [NSMutableArray array];
-//        _timeArray = [kStanderDefault objectForKey:@"XinFengTime"];
-//        NSInteger destinationTime = [_timeArray[1] integerValue];
-//        NSInteger nowTime = [NSString getNowTimeInterval];
-//        
-//        if (destinationTime > nowTime) {
-//            
-//            NSInteger timeDifference = destinationTime - nowTime;
-//            time = [NSString stringWithFormat:@"%ld" , timeDifference / 60];
-//            
-//        } else{
-//            [kStanderDefault removeObjectForKey:@"XinFengTime"];
-//        }
-        
-        
-        _timeArray = [NSMutableArray array];
-        _timeArray = [kStanderDefault objectForKey:@"XinFengTime"];
-        
-        NSInteger openTime = [_timeArray[0] integerValue];
-        NSInteger closeTime = [_timeArray[1] integerValue];
-        NSInteger openOn = [_timeArray[2] integerValue];
-        NSInteger closeOn = [_timeArray[3] integerValue];
-        NSInteger nowTime = [NSString getNowTimeInterval];
-        
-        if (openOn == 1 && closeOn == 0) {
-            if (nowTime > openTime) {
-                [kStanderDefault removeObjectForKey:@"XinFengTime"];
-            } else {
-                NSInteger timeDifference = openTime - nowTime;
-                time = [NSString stringWithFormat:@"将于%ld分钟后开启" , timeDifference / 60];
-            }
-        } else if (openOn == 0 && closeOn == 1) {
-            if (nowTime > closeTime) {
-                [kStanderDefault removeObjectForKey:@"XinFengTime"];
-            } else {
-                NSInteger timeDifference = closeTime - nowTime;
-                time = [NSString stringWithFormat:@"将于%ld分钟后关闭" , timeDifference / 60];
-            }
-        } else if (openOn == 1 && closeOn == 1) {
-            
-            if (nowTime > (openTime > closeTime ? openTime : closeTime)) {
-                [kStanderDefault removeObjectForKey:@"XinFengTime"];
-            } else if (nowTime < (openTime < closeTime ? openTime : closeTime)) {
-                if (openTime > closeTime) {
-                    NSInteger timeDifference = closeTime - nowTime;
-                    NSInteger openTimeHourAndMinute = openTime - nowTime;
-                    time = [NSString stringWithFormat:@"于%ld分钟后关,于%ld分钟后开" , timeDifference / 60 , openTimeHourAndMinute / 60];
-                } else if (closeTime > openTime) {
-                    NSInteger timeDifference = closeTime - nowTime;
-                    NSInteger openTimeHourAndMinute = openTime - nowTime;
-                    time = [NSString stringWithFormat:@"于%ld分钟后开,于%ld分钟后关" , openTimeHourAndMinute / 60 , timeDifference / 60];
-                }
-            } else if (nowTime > openTime && nowTime < closeTime) {
-                NSInteger timeDifference = closeTime - nowTime;
-                time = [NSString stringWithFormat:@"将于%ld分钟后关闭" ,timeDifference / 60];
-            } else if (nowTime > closeTime && nowTime < openTime) {
-                NSInteger timeDifference = openTime - nowTime;
-                time = [NSString stringWithFormat:@"将于%ld分钟后开启" ,timeDifference / 60];
-            }
-            
-            
-        }
-        
-        NSLog(@"%@" , time);
-    }
     
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 7)];
     [self.contentView addSubview:view];
@@ -146,16 +71,16 @@
     timeLable.textColor = [UIColor whiteColor];
     timeLable.layer.borderWidth = 0;
     
-    UILabel *openOrOffLable = [UILabel creatLableWithTitle:@"关闭" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
-    [openOrOffLable mas_makeConstraints:^(MASConstraintMaker *make) {
+    _openOrOffLable = [UILabel creatLableWithTitle:@"关闭" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];
+    [_openOrOffLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 8, kScreenW / 18));
         make.left.mas_equalTo(timeLable.mas_right);
         make.centerY.mas_equalTo(timeLable.mas_centerY);
     }];
-    openOrOffLable.layer.borderWidth = 0;
-    openOrOffLable.textColor = [UIColor whiteColor];
-    openOrOffLable.layer.cornerRadius = kScreenW / 36;
-    openOrOffLable.backgroundColor = kACOLOR(86, 188, 252, 1.0);
+    _openOrOffLable.layer.borderWidth = 0;
+    _openOrOffLable.textColor = [UIColor whiteColor];
+    _openOrOffLable.layer.cornerRadius = kScreenW / 36;
+    _openOrOffLable.backgroundColor = kACOLOR(86, 188, 252, 1.0);
     
     _shuoMingLabel = [UILabel creatLableWithTitle:nil andSuperView:view andFont:k17 andTextAligment:NSTextAlignmentLeft];
     [_shuoMingLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -165,15 +90,7 @@
     }];
     _shuoMingLabel.textColor = [UIColor whiteColor];
     _shuoMingLabel.layer.borderWidth = 0;
-    
-    
-    NSLog(@"%@" , time);
-    
-    if (time == nil) {
-        _shuoMingLabel.text = @"暂无定时预约";
-    } else{
-        _shuoMingLabel.text = [NSString stringWithFormat:@"%@" , time];
-    }
+    _shuoMingLabel.text = @"暂无定时预约";
     
     UIImageView *jianTouImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"xiaJianTou"]];
     [UIImageView setImageViewColor:jianTouImageView andColor:[UIColor whiteColor]];
@@ -220,6 +137,54 @@
 
 - (void)setServicModel:(ServicesModel *)servicModel {
     _servicModel = servicModel;
+    NSLog(@"%@" , _servicModel);
+    
+    if (_servicModel.devSn) {
+        [HelpFunction requestDataWithUrlString:kGetKongJingTiming andParames:@{@"devSn" : _servicModel.devSn} andDelegate:self];
+    }
+
+}
+
+- (void)requestServicesTimeing:(NSDictionary *)dic {
+    
+    NSLog(@"%@" , dic);
+    
+    NSString *time = nil;
+    
+    if ([dic[@"data"] isKindOfClass:[NSNull class]]) {
+        return ;
+    }
+    
+    NSDictionary *data = dic[@"data"];
+    TimeModel *timeModel = [[TimeModel alloc]init];
+    
+    for (NSString *key in [data allKeys]) {
+        [timeModel setValue:data[key] forKey:key];
+    }
+    
+    
+    if ([timeModel.runWeek isEqualToString:@"1111111"]) {
+        _openOrOffLable.text = @"每天";
+    } else {
+        _openOrOffLable.text = @"无重复";
+    }
+    
+    if (timeModel.hasRunOn == 0 || timeModel.hasRunOnOnce == 0) {
+        if (timeModel.fSwitchOn == 1 && timeModel.fSwitchOff == 1) {
+            time = [NSString stringWithFormat:@"开启时间%@, 关闭时间%@" , timeModel.onJobTime , timeModel.offJobTime];
+        } else if (timeModel.fSwitchOn == 1 && timeModel.fSwitchOff == 0) {
+            time = [NSString stringWithFormat:@"开启时间%@" , timeModel.onJobTime ];
+        } else if (timeModel.fSwitchOn == 0 && timeModel.fSwitchOff == 1) {
+            time = [NSString stringWithFormat:@"关闭时间%@" , timeModel.offJobTime];
+        } else if (timeModel.fSwitchOn == 0 && timeModel.fSwitchOff == 0) {
+            time = @"暂无定时预约";
+        }
+    } else {
+        time = @"暂无定时预约";
+    }
+    
+    _shuoMingLabel.text = time;
+    
 }
 
 @end

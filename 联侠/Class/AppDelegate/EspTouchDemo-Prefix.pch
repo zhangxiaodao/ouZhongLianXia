@@ -398,10 +398,10 @@
 
 
 /**
- *  空净历史记录
+ *  获取空净定时任务
  *
  */
-#define kKongJingTiming [NSString stringWithFormat:@"http://%@:8080/smarthome/air/queryJobTask", localhost]
+#define kGetKongJingTiming [NSString stringWithFormat:@"http://%@:8080/smarthome/air/queryJobTask", localhost]
 
 /**
  *  查询设备pm25的值

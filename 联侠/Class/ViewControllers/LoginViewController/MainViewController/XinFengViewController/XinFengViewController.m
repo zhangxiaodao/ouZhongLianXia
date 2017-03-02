@@ -198,6 +198,7 @@
                 self.bottomBtn.backgroundColor = [UIColor grayColor];
                 self.bottomBtn.selected = 0;
                 [self.bottomBtn addTarget:self action:@selector(xinFengOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
+                [kStanderDefault setObject:@(0) forKey:@"offBtn"];
             } else if (self.stateModel.fSwitch == 1){
                 
                 [UIView animateWithDuration:0.3 animations:^{
@@ -206,7 +207,7 @@
                 self.bottomBtn.backgroundColor = kXinFengKongJingYanSe;
                 self.bottomBtn.selected = 1;
                 [self.bottomBtn addTarget:self action:@selector(xinFengCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
-                
+                [kStanderDefault setObject:@(1) forKey:@"offBtn"];
             }
             
         }
@@ -216,7 +217,7 @@
     } else {
         
         if ([self.serviceModel.devTypeSn isEqualToString:@"4232"]) {
-            
+            [kStanderDefault setObject:@(0) forKey:@"offBtn"];
             self.bottomBtn.backgroundColor = [UIColor grayColor];
             [self.bottomBtn addTarget:self action:@selector(xinFengOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         }
@@ -224,12 +225,12 @@
     
 }
 
+
 #pragma mark - 按钮开点击事件
 - (void)xinFengOpenAtcion:(UIButton *)btn {
     
     [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"01", @"00", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
     
-    NSLog(@"%@" , XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"01", @"00", @"00", @"00" , @"00"));
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJing:) name:@"4232" object:nil];
 }
 
@@ -253,7 +254,7 @@
         if ([kaiGuan isEqualToString:@"02"]) {
             
             self.bottomBtn.selected = 0;
-            
+            [kStanderDefault setObject:@(0) forKey:@"offBtn"];
             [UIView animateWithDuration:0.3 animations:^{
                 _markView.alpha = 0.3;
             }];
@@ -263,7 +264,7 @@
         } else if ([kaiGuan isEqualToString:@"01"]) {
             
             self.bottomBtn.selected = 1;
-            
+            [kStanderDefault setObject:@(1) forKey:@"offBtn"];
             [UIView animateWithDuration:0.3 animations:^{
                 _markView.alpha = 0;
             }];
@@ -362,12 +363,12 @@
         make.centerY.mas_equalTo(self.bottomBtn.mas_centerY);
     }];
     
-    _markView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kScreenH / 12.3518518 )];
-    [self.view addSubview:_markView];
-    [UIView animateWithDuration:0.3 animations:^{
-        _markView.alpha = 0.3;
-    }];
-    _markView.backgroundColor = [UIColor blackColor];
+//    _markView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kScreenH / 12.3518518 )];
+//    [self.view addSubview:_markView];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        _markView.alpha = 0.3;
+//    }];
+//    _markView.backgroundColor = [UIColor blackColor];
     
     
     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(xinFengBackAtcion:)  andTitle:@"新风智能空气净化器"];
@@ -577,36 +578,18 @@
     NSLog(@"%@" , array);
     
     NSString *time = nil;
-    NSInteger openTime = [array[0] integerValue];
-    NSInteger closeTime = [array[1] integerValue];
+    NSString *openTime = array[0];
+    NSString *closeTime = array[1];
     NSInteger openOn = [array[2] integerValue];
     NSInteger closeOn = [array[3] integerValue];
-    NSInteger nowTime = [NSString getNowTimeInterval];
     
     if (openOn == 1 && closeOn == 0) {
-        if (nowTime > openTime) {
-            [kStanderDefault removeObjectForKey:@"XinFengTime"];
-        } else {
-            NSInteger timeDifference = openTime - nowTime;
-            time = [NSString stringWithFormat:@"将于%ld分钟后开启" , timeDifference / 60];
-        }
+        time = [NSString stringWithFormat:@"将于%@开启" , openTime];
+        
     }  if (openOn == 0 && closeOn == 1) {
-        if (nowTime > closeTime) {
-            [kStanderDefault removeObjectForKey:@"XinFengTime"];
-        } else {
-            NSInteger timeDifference = closeTime - nowTime;
-            time = [NSString stringWithFormat:@"将于%ld分钟后关闭" , timeDifference / 60];
-        }
+       time = [NSString stringWithFormat:@"将于%@关闭" , closeTime];
     }  if (openOn == 1 && closeOn == 1) {
-        if (openTime > closeTime) {
-            NSInteger timeDifference = closeTime - nowTime;
-            NSInteger openTimeHourAndMinute = openTime - nowTime;
-            time = [NSString stringWithFormat:@"于%ld分钟后关,于%ld分钟后开" , timeDifference / 60 , openTimeHourAndMinute / 60];
-        } else if (closeTime > openTime) {
-            NSInteger timeDifference = closeTime - nowTime;
-            NSInteger openTimeHourAndMinute = openTime - nowTime;
-            time = [NSString stringWithFormat:@"于%ld分钟后开,于%ld分钟后关" , openTimeHourAndMinute / 60 , timeDifference / 60];
-        }
+        time = [NSString stringWithFormat:@"将于%@开启 , 将于%@关闭" , openTime , closeTime];
     }
     
     XinFengFifthTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];

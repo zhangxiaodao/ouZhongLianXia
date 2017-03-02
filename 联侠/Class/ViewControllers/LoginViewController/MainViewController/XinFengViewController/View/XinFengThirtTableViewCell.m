@@ -37,6 +37,7 @@
     return self;
 }
 
+
 - (void)customUI {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengModelBtnAtcion:) name:@"4232" object:nil];
@@ -92,6 +93,21 @@
                 break;
         }
         
+    }
+    
+    if ([kStanderDefault objectForKey:@"offBtn"]) {
+        NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
+        if (bottomSelected.integerValue == 0) {
+            for (int i = 0; i < self.backView.subviews.count; i++) {
+                UIButton *btn = self.backView.subviews[i];
+                btn.userInteractionEnabled = NO;
+            }
+        } else if (bottomSelected.integerValue == 1) {
+            for (int i = 0; i < self.backView.subviews.count; i++) {
+                UIButton *btn = self.backView.subviews[i];
+                btn.userInteractionEnabled = YES;
+            }
+        }
     }
     
     UIView *bottomView = [[UIView alloc]init];

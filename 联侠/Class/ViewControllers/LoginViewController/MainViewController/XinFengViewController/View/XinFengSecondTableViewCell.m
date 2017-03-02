@@ -22,7 +22,7 @@
     UIButton *caiDengBtn;
     MalertView *_alert;
 }
-
+@property (nonatomic , strong) UIView *markView;
 @property (nonatomic , strong) NSArray *array;
 @property (nonatomic , strong) UIView *backView;
 
@@ -38,7 +38,31 @@
     return self;
 }
 
+
+- (void)getBottomBtnSelectedMarkViewWhearthShow:(NSNotification *)post {
+    NSString *selected = post.userInfo[@"BottomBtnSelected"];
+    NSLog(@"-----%@ " , selected);
+    
+    if (selected.integerValue == 1){
+        
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = 0;
+        }];
+        
+    } else if (selected.integerValue == 0) {
+//        [self.backView addSubview:self.markView];
+        
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = .3;
+        }];
+    }
+    
+    
+}
+
 - (void)customUI {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBottomBtnSelectedMarkViewWhearthShow:) name:@"BottomBtnSelected" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengFunctionBtnAtcion:) name:@"4232" object:nil];
     
@@ -114,6 +138,22 @@
         make.centerX.mas_equalTo(self.backView.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(kScreenW, 5));
     }];
+    
+    if ([kStanderDefault objectForKey:@"offBtn"]) {
+        NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
+        
+        if (bottomSelected.integerValue == 0) {
+            self.markView = [[UIView alloc]init];
+            [self.backView addSubview:self.markView];
+            self.markView.frame = self.backView.bounds;
+            self.markView.backgroundColor = [UIColor blackColor];
+            
+            
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = .3;
+            }];
+        }
+    }
 }
 
 - (void)malertItemSelect:(NSInteger)index {
@@ -123,15 +163,20 @@
     
     
     if (index == 1) {
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"08", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"08", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+        
+        
     } else if (index == 2) {
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"09", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"09", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
     } else if (index == 8) {
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"01", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"01", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+       
     } else if (index == 9) {
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"02", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  @"02", [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+      
     } else {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w00000%ld0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  index, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+       
     }
     
 }
@@ -163,7 +208,7 @@
             break;
         }
         case 4: {
-            _alert = [[MalertView alloc] initWithImageArrOfButton:@[@"红" , @"蓝" , @"红紫绿",  @"粉蓝黄" , @"暗彩" , @"亮彩", @"多彩" ,@"自动" , @"关闭"]];
+            _alert = [[MalertView alloc] initWithImageArrOfButton:@[@"红" , @"蓝" , @"红紫绿",  @"粉蓝黄" , @"暗彩" , @"亮彩", @"多彩" ,@"自动" , @"关闭"] andDataArray:@[self.stateModel]];
             _alert.delegate = self;
             [kWindowRoot.view addSubview:_alert];
             
@@ -289,7 +334,10 @@
 
 - (void)setStateModel:(StateModel *)stateModel {
     _stateModel = stateModel;
-    
+    [UIButton setBtnOfImageAndLableWithUnSelected:fuLiZiBtn andTintColor:kXinFengKongJingYanSe];
+    [UIButton setBtnOfImageAndLableWithUnSelected:windBtn andTintColor:kXinFengKongJingYanSe];
+    [UIButton setBtnOfImageAndLableWithUnSelected:ziDongBtn andTintColor:kXinFengKongJingYanSe];
+    [UIButton setBtnOfImageAndLableWithUnSelected:shouDongBtn andTintColor:kXinFengKongJingYanSe];
     
     if (_stateModel.fMode == 1) {
         [UIButton setBtnOfImageAndLableWithSelected:ziDongBtn andBackGroundColor:kXinFengKongJingYanSe];

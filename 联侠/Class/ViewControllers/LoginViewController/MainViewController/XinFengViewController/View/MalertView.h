@@ -28,7 +28,7 @@
 @property (nonatomic,strong) UIButton *bottomBtn;
 @property (nonatomic,strong) UIImageView *exitImgvi;
 
-- (instancetype)initWithImageArrOfButton:(NSArray *)imgArr;
+- (instancetype)initWithImageArrOfButton:(NSArray *)imgArr andDataArray:(NSArray *)dataArray;
 - (void)showAlert;
 
 @end

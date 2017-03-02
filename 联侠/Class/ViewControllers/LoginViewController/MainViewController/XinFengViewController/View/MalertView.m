@@ -24,6 +24,7 @@
 @property (nonatomic , strong) NSArray *array;
 @property (nonatomic , strong) NSMutableArray *btnArray;
 @property (nonatomic , strong) NSArray *clolorArray;
+@property (nonatomic , strong) StateModel *stateModel;
 @end
 
 @implementation MalertView
@@ -35,13 +36,12 @@
     return _btnArray;
 }
 
-- (instancetype)initWithImageArrOfButton:(NSArray *)imgArr
-{
+- (instancetype)initWithImageArrOfButton:(NSArray *)imgArr  andDataArray:(NSArray *)dataArray {
     self = [super initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH)];
     
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengCaiDengAtcion:) name:@"4232" object:nil];
-        
+       
         //模糊效果
         UIBlurEffect *light = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         _bgView = [[UIVisualEffectView alloc]initWithEffect:light];
@@ -87,6 +87,25 @@
             
         }
         
+        if ([kStanderDefault objectForKey:@"offBtn"]) {
+            
+            NSLog(@"%@" , [kStanderDefault objectForKey:@"offBtn"]);
+            
+            NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
+            if (bottomSelected.integerValue == 0) {
+                for (int i = 0; i < _contentViewLeft.subviews.count; i++) {
+                    UIView *view = _contentViewLeft.subviews[i];
+                    view.userInteractionEnabled = NO;
+                }
+            } else if (bottomSelected.integerValue == 1) {
+                for (int i = 0; i < _contentViewLeft.subviews.count; i++) {
+                    UIView *view = _contentViewLeft.subviews[i];
+                    view.userInteractionEnabled = YES;
+                }
+                
+            }
+        }
+        
         _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenH-49, kScreenW, 49)];
         _bottomView.backgroundColor = [UIColor whiteColor];
         [_bgView addSubview:_bottomView];
@@ -101,8 +120,43 @@
         _bottomBtn.frame = _bottomView.bounds;
         [_bottomBtn addTarget:self action:@selector(alertDismiss) forControlEvents:UIControlEventTouchUpInside];
         [_bottomView addSubview:_bottomBtn];
+        
+        self.stateModel = [[StateModel alloc]init];
+        self.stateModel = [dataArray firstObject];
+        
+        NSLog(@"%@" , dataArray);
+        [self setLightColors];
     }
     return self;
+}
+
+- (void)setLightColors {
+    for (UIButton *btn in self.btnArray) {
+        btn.backgroundColor = [UIColor clearColor];
+    }
+    
+    NSInteger index = self.stateModel.light;
+    
+    if (index > 0) {
+        
+        if (index == 1) {
+            UIButton *btn = self.btnArray[7];
+            btn.backgroundColor = self.clolorArray[7];
+        } else if (index == 2) {
+            UIButton *btn = self.btnArray[8];
+            btn.backgroundColor = self.clolorArray[8];
+        } else if (index == 8) {
+            UIButton *btn = self.btnArray[0];
+            btn.backgroundColor = self.clolorArray[0];
+        } else if (index == 9) {
+            UIButton *btn = self.btnArray[1];
+            btn.backgroundColor = self.clolorArray[1];
+        } else {
+            UIButton *btn = self.btnArray[index - 1];
+            btn.backgroundColor = self.clolorArray[index - 1];
+        }
+        
+    }
 }
 
 - (void)getXinFengCaiDengAtcion:(NSNotification *)post {
@@ -133,8 +187,8 @@
             UIButton *btn = self.btnArray[1];
             btn.backgroundColor = self.clolorArray[1];
         } else {
-            UIButton *btn = self.btnArray[index];
-            btn.backgroundColor = self.clolorArray[index];
+            UIButton *btn = self.btnArray[index - 1];
+            btn.backgroundColor = self.clolorArray[index - 1];
         }
         
     }
