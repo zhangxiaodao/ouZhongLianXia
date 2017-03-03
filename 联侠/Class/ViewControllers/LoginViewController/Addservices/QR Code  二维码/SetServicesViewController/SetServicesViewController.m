@@ -14,7 +14,7 @@
 @interface SetServicesViewController ()
 @property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) NSMutableArray *array;
-//@property (nonatomic , strong) NSTimer *myTimer;
+@property (nonatomic , strong) NSTimer *myTimer;
 @property (nonatomic , strong) UIImageView *imageView;
 @end
 
@@ -104,16 +104,16 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-//    _myTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(qieHuanTuPian) userInfo:nil repeats:YES];
+    _myTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(qieHuanTuPian) userInfo:nil repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-//    [_myTimer invalidate];
-//    _myTimer = nil;
+    [_myTimer invalidate];
+    _myTimer = nil;
 }
 
-//- (void)qieHuanTuPian{
-//    
+- (void)qieHuanTuPian{
+    
 //    if (self.addServiceModel.slType == 3) {
 //        if ([_imageView.image isEqual:[UIImage imageNamed:@"wifianjianpeiwangmoshi0"]]) {
 //            [self qieHuanTuPianGuan];
@@ -128,26 +128,37 @@
 //            [self qieHuanTuPianKai];
 //        }
 //    }
-//}
+    
+    if ([_imageView.image isEqual:[UIImage imageNamed:@"peiWangMoShiKai"]]) {
+        [self qieHuanTuPianGuan];
+    } else{
+        [self qieHuanTuPianKai];
+    }
+}
 
-//- (void)qieHuanTuPianKai{
-//    
+- (void)qieHuanTuPianKai{
+    
 //    if (self.addServiceModel.slType == 3) {
 //        _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
 //    } else {
 //        _imageView.image = [UIImage imageNamed:@"peiWangMoShiKai"];
 //    }
-//    
-//}
+    
+    _imageView.image = [UIImage imageNamed:@"peiWangMoShiKai"];
+    
+}
 
-//- (void)qieHuanTuPianGuan{
-//    
+- (void)qieHuanTuPianGuan{
+    
 //    if (self.addServiceModel.slType == 3) {
 //        _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi1"];
 //    } else {
 //        _imageView.image = [UIImage imageNamed:@"peiWangMoShiGuan"];
 //    }
-//}
+    
+    _imageView.image = [UIImage imageNamed:@"peiWangMoShiGuan"];
+    
+}
 
 #pragma mark - 下一步按钮点击事件
 - (void)neaxtBtnAction {

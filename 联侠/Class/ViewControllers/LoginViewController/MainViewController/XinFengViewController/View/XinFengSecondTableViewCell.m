@@ -208,7 +208,7 @@
             break;
         }
         case 4: {
-            _alert = [[MalertView alloc] initWithImageArrOfButton:@[@"红" , @"蓝" , @"红紫绿",  @"粉蓝黄" , @"暗彩" , @"亮彩", @"多彩" ,@"自动" , @"关闭"] andDataArray:@[self.stateModel]];
+            _alert = [[MalertView alloc] initWithImageArrOfButton:@[@"红" , @"蓝" , @"红紫绿",  @"粉蓝黄" , @"暗彩" , @"亮彩", @"多彩" ,@"自动" , @"关闭"] andDataArray:@[self.serviceModel]];
             _alert.delegate = self;
             [kWindowRoot.view addSubview:_alert];
             
@@ -373,6 +373,19 @@
         [UIButton setBtnOfImageAndLableWithUnSelected:fuLiZiBtn andTintColor:kXinFengKongJingYanSe];
         
         [self btnSureAtcion:fuLiZiBtn];
+    }
+    
+    if (_stateModel.fSwitch == 1){
+        
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = 0;
+        }];
+        
+    } else if (_stateModel.fSwitch == 0) {
+        
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = .3;
+        }];
     }
     
     [UIButton setBtnOfImageAndLableWithUnSelected:modelBtn andTintColor:kXinFengKongJingYanSe];

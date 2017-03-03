@@ -20,10 +20,11 @@
 #define distance (kScreenH / 2 + 2 * kBtnW)
 #define ksections 3
 
-@interface MalertView ()
+@interface MalertView ()<HelpFunctionDelegate>
 @property (nonatomic , strong) NSArray *array;
 @property (nonatomic , strong) NSMutableArray *btnArray;
 @property (nonatomic , strong) NSArray *clolorArray;
+@property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) StateModel *stateModel;
 @end
 
@@ -121,13 +122,39 @@
         [_bottomBtn addTarget:self action:@selector(alertDismiss) forControlEvents:UIControlEventTouchUpInside];
         [_bottomView addSubview:_bottomBtn];
         
-        self.stateModel = [[StateModel alloc]init];
-        self.stateModel = [dataArray firstObject];
+        self.serviceModel = [[ServicesModel alloc]init];
+        self.serviceModel = [dataArray firstObject];
         
-        NSLog(@"%@" , dataArray);
-        [self setLightColors];
+        [self requestServiceState];
+        
+//        NSLog(@"%@" , dataArray);
+//        [self setLightColors];
+        
+        
+        
     }
     return self;
+}
+
+- (void)requestServiceState {
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
+    [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
+}
+
+- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
+    
+        NSLog(@"%@" , dddd);
+    if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dataDic = dddd[@"data"];
+        
+        self.stateModel = [[StateModel alloc]init];
+        
+        for (NSString *key in [dataDic allKeys]) {
+            [self.stateModel setValue:dataDic[key] forKey:key];
+        }
+        
+        [self setLightColors];
+    }
 }
 
 - (void)setLightColors {
@@ -162,7 +189,7 @@
 - (void)getXinFengCaiDengAtcion:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
     NSString *caiDeng = [mingLing substringWithRange:NSMakeRange(32, 2)];
-    NSLog(@"彩灯回传命令%@ , %ld , %@" , caiDeng , caiDeng.integerValue , mingLing);
+//    NSLog(@"彩灯回传命令%@ , %ld , %@" , caiDeng , caiDeng.integerValue , mingLing);
     
     for (UIButton *btn in self.btnArray) {
         btn.backgroundColor = [UIColor clearColor];

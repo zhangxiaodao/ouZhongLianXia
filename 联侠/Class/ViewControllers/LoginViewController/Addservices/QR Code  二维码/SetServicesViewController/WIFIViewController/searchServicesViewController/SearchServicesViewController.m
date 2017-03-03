@@ -243,7 +243,7 @@
     
     NSString *subStr = [str substringWithRange:NSMakeRange(10, 12)];
 //    self.deviceSn = [NSString stringWithString:subStr];
-    NSLog(@" devsn -- devtypeSn---%@, %@" ,  str, subStr);
+    NSLog(@" devsn -- devtypeSn---%@, %@ , %@" ,  str, subStr , self.protocolArray);
     
     if ([self.devTypeSn isEqualToString:@"412a"]) {
         self.devTypeSn = @"4131";
@@ -254,15 +254,14 @@
     
     NSLog(@"userSn--%@ , deviceSn--%@ , devTypeSn--%@ , provience--%@ , cityName--%@ " ,[kStanderDefault objectForKey:@"userSn"] , self.deviceSn , self.devTypeSn , [kStanderDefault objectForKey:@"provience"] , [kStanderDefault objectForKey:@"cityName"]);
     
-    NSDictionary *parames1 = nil;
     
     if ([kStanderDefault objectForKey:@"cityName"] && [kStanderDefault objectForKey:@"provience"]) {
-        parames1 = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : [kStanderDefault objectForKey:@"cityName"]};
+        parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : [kStanderDefault objectForKey:@"cityName"]};
     } else {
-        parames1 = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
+        parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
     }
     
-    
+    NSLog(@"%@" , parames);
     if ([self.devTypeSn isEqualToString:@"4131"] || [self.devTypeSn isEqualToString:@"4132"]) {
         [HelpFunction requestDataWithUrlString:kBindLengFengShanURL andParames:parames andDelegate:self];
     } else if ([self.devTypeSn isEqualToString:@"4231"] || [self.devTypeSn isEqualToString:@"4232"]) {
@@ -340,6 +339,8 @@
 
 
 - (void)chongFuSendUDP {
+
+//    [self sendMessage:self.protocolArray[6]];
     
     for (int i = 0; i < self.protocolArray.count; i++) {
         [self sendMessage:self.protocolArray[i]];
@@ -405,7 +406,7 @@
                         
                         [self openUDPServer];
                        
-                      
+//                      [self sendMessage:self.protocolArray[6]];
                         for (int i = 0; i < self.protocolArray.count; i++) {
                             [self sendMessage:self.protocolArray[i]];
                         }

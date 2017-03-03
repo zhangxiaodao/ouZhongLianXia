@@ -107,7 +107,7 @@
 #pragma mark - 代理返回的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     NSDictionary *dic = data[0];
-    NSLog(@"%@" , dic);
+//    NSLog(@"%@" , dic);
     
     
     self.array = [NSMutableArray array];

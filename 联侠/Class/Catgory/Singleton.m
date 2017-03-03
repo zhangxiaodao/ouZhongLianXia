@@ -203,7 +203,6 @@
         [kStanderDefault removeObjectForKey:@"userSn"];
         [kStanderDefault removeObjectForKey:@"userId"];
         [kStanderDefault removeObjectForKey:@"weartherImage"];
-        [kStanderDefault removeObjectForKey:@"wearthDic"];
         [kStanderDefault removeObjectForKey:@"first"];
         [kStanderDefault removeObjectForKey:@"zhuYe"];
         

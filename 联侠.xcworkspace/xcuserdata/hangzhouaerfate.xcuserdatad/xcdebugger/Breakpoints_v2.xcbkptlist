@@ -67,13 +67,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/AllTypeServicesHTMLVC/AllTypeServiceViewController.m"
-            timestampString = "510048594.544415"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
+            timestampString = "510137224.75233"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "-requestData:didFinishLoadingDtaArray:"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
+            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -83,13 +83,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/AllServicesViewController/AllServicesViewController.m"
-            timestampString = "510048653.512484"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
+            timestampString = "510137226.888429"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "-requestData:didFinishLoadingDtaArray:"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
+            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

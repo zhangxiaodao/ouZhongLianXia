@@ -170,7 +170,7 @@
             if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
                 [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
             } else if (self.stateModel.fSwitch == 1){
-                [self setBottomBackGroundColor:kKongJingYanSe andSelected:1 andState:@"YES"];
+                [self setBottomBackGroundColor:kMainColor andSelected:1 andState:@"YES"];
             }
             [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {
@@ -356,22 +356,6 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundView = imageBG;
-    
-    
-    
-    self.wearthDic = [kStanderDefault objectForKey:@"wearthDic"];
-    
-    if ([kStanderDefault objectForKey:@"wearthDic"]) {
-        self.wearthDic = [kStanderDefault objectForKey:@"wearthDic"];
-    } else {
-        
-        [self.wearthDic setObject:@"==" forKey:@"quality"];
-        [self.wearthDic setObject:@"==" forKey:@"humidity"];
-        [self.wearthDic setObject:@"==" forKey:@"info"];
-        [self.wearthDic setObject:@"==" forKey:@"temperature"];
-        [self.wearthDic setObject:@"==" forKey:@"cityName"];
-    }
-
     
     
     NSArray *subviewsArray = [NSArray arrayWithArray:_touMingImageVIew.subviews];

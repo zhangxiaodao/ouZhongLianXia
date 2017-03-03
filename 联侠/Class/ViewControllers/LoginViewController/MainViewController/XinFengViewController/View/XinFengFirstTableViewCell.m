@@ -368,52 +368,6 @@
             [self pauseLayer:_spinImageView.layer];
         }
     }
-    
-    
-//    if ([kStanderDefault objectForKey:@"offBtn"]) {
-//        NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
-//        if (bottomSelected.integerValue == 1) {
-//            if (_stateModel) {
-//                _airQulityLable.text = [NSString stringWithFormat:@"%@" , _stateModel.pm25];
-//                _temperatureLabel.text = [NSString stringWithFormat:@"%@" , _stateModel.currentC];
-//                _humidityLabel.text = [NSString stringWithFormat:@"%ld" , _stateModel.currentH];
-//                _methanalLabel.text = [NSString stringWithFormat:@"%ld" , _stateModel.methanal];
-//                _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , kXinFengLvXinTime - _stateModel.changeFilterScreen];
-//                
-//                if (_stateModel.fSwitch == 1) {
-//                    
-//                    UIImage *image = nil;
-//                    NSInteger time = MAXFLOAT;
-//                    if (_stateModel.fWind == 1) {
-//                        image = [UIImage imageNamed:@"xinFengWindDi"];
-//                        time = kDuration * 2;
-//                    } else if (_stateModel.fWind == 2) {
-//                        image = [UIImage imageNamed:@"xinFengWindZhong"];
-//                        time = kDuration * 3 / 2;
-//                    } else if (_stateModel.fWind == 3) {
-//                        image = [UIImage imageNamed:@"xinFengWindGao"];
-//                        time = kDuration;
-//                    } else if (_stateModel.fWind == 4) {
-//                        image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-//                        time = kDuration * 2 / 3 ;
-//                    }
-//                    _fengSuBiaoShiImageView.image = image;
-//                    [self addAnimationWithDurtion:time];
-//                    [self resumeLayer:_spinImageView.layer];
-//                    
-//                    if (self.stateModel.fWind == 0) {
-//                        [self pauseLayer:_spinImageView.layer];
-//                    }
-//                }
-//                
-//                
-//            }
-//        }
-//    }
-    
-    
-    
-   
 }
 
 @end

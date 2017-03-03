@@ -112,6 +112,11 @@
             [self.haveArray removeAllObjects];
             [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSDictionary *dic = obj;
+                
+                if ([dic[@"brand"] isKindOfClass:[NSNull class]]) {
+                    [dic setValue:@"" forKey:@"brand"];
+                }
+                
                 ServicesModel *serviceModel = [[ServicesModel alloc]init];
                 [serviceModel setValuesForKeysWithDictionary:dic];
                 serviceModel.userDeviceID = [obj[@"id"] integerValue];
