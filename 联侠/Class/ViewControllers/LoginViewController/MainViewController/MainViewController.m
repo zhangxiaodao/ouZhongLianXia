@@ -57,6 +57,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = YES;
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getWeartherImage:) name:@"weartherImage" object:nil];
     
@@ -299,8 +301,8 @@
     
     zheGaiView.userInteractionEnabled = YES;
     
-    UITapGestureRecognizer *tap4 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImageAtcion)];
-    [zheGaiView addGestureRecognizer:tap4];
+//    UITapGestureRecognizer *tap4 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImageAtcion)];
+//    [zheGaiView addGestureRecognizer:tap4];
     
     
     
@@ -343,8 +345,8 @@
     self.headImageView.userInteractionEnabled = YES;
     
     
-    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImageAtcion)];
-    [self.headImageView addGestureRecognizer:tap1];
+//    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImageAtcion)];
+//    [self.headImageView addGestureRecognizer:tap1];
     
     
     
@@ -456,15 +458,15 @@
 }
 
 #pragma mark - 头像和设置的点击事件
-- (void)tapImageAtcion{
-    MineViewController *mineVC = [[MineViewController alloc]init];
-    mineVC.fromMainVC = [NSString stringWithFormat:@"YES"];
-    mineVC.headImage = self.headImageView.image;
-   
-    mineVC.userModel = [[UserModel alloc]init];
-    mineVC.userModel = self.userModel;
-    [self.navigationController pushViewController:mineVC animated:YES];
-}
+//- (void)tapImageAtcion{
+//    MineViewController *mineVC = [[MineViewController alloc]init];
+//    mineVC.fromMainVC = [NSString stringWithFormat:@"YES"];
+//    mineVC.headImage = self.headImageView.image;
+//   
+//    mineVC.userModel = [[UserModel alloc]init];
+//    mineVC.userModel = self.userModel;
+//    [self.navigationController pushViewController:mineVC animated:YES];
+//}
 
 #pragma mark - 修改昵称
 - (void)getNiCheng:(NSNotification *)post {

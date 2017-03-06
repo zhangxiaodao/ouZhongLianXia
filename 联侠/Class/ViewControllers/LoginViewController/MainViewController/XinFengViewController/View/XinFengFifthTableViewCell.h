@@ -12,4 +12,5 @@
 
 @property (nonatomic , strong) ServicesModel *servicModel;
 @property (nonatomic , strong) UILabel *shuoMingLabel;
+@property (nonatomic , strong) UILabel *openOrOffLable;
 @end

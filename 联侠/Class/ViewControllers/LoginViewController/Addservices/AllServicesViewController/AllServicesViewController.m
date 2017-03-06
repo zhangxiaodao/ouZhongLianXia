@@ -81,6 +81,7 @@
         make.centerY.mas_equalTo(self.navView.mas_centerY);
         make.right.mas_equalTo(self.navView.mas_right).offset(- kScreenW / 30);
     }];
+    offBtn.hidden = YES;
     
     
     self.collectionView.backgroundColor = [UIColor clearColor];

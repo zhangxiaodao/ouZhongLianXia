@@ -13,19 +13,17 @@
 @property (nonatomic , strong) UIWebView *webView;
 @property (nonatomic , strong) UIActivityIndicatorView *searchView;
 
-@property (nonatomic , strong) JSContext *context;
+//@property (nonatomic , strong) JSContext *context;
 @end
 
 @implementation HTMLGanYiJiViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
-    NSLog(@"%@", self.serviceModel);
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDryingMachineDeviceAtcion:) name:@"4332" object:nil];
     
-    _webView = [[UIWebView alloc]init];
+    _webView = [[UIWebView alloc]initWithFrame:kScreenFrame];
     [self.view addSubview:_webView];
     
     
@@ -52,30 +50,25 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     
-    _context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    NSString *callJSstring = nil;
-    callJSstring = @"PageLoadIOS";
-    [_context evaluateScript:callJSstring];
     
-//    NSArray *keyArray = @[@"devTypeSn" , @"devSn" , @"UserDeviceID" , @"BrandName" , @"userSn" , @"ServieceIP"];
-//    NSArray *valueArray = @[@(self.userModel.sn) , self.serviceModel.devTypeSn , self.serviceModel.devSn , @(self.serviceModel.userDeviceID) , localhost , self.serviceModel.brand];
-//    NSMutableString *keyAndValueStr = [NSMutableString string];
-    
-    
-    NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:@(self.userModel.sn) , @"userSn" , self.serviceModel.devTypeSn , @"devTypeSn" , self.serviceModel.devSn , @"devSn" , @(self.serviceModel.userDeviceID) , @"UserDeviceID" , localhost , @"ServieceIP" , self.serviceModel.brand, @"BrandName" , nil];
-//    NSMutableString *keyAndValueStr = [NSMutableString stringWithFormat:@"%@" , userData];
-//    keyAndValueStr = [[keyAndValueStr substringWithRange:NSMakeRange(1, keyAndValueStr.length - 1)] mutableCopy];
-    
-    
-    NSString *orderStr = [NSString stringWithFormat:@"GetUserData('%@')" , userData];
-    NSLog(@"%@" , orderStr);
-    [_context evaluateScript:orderStr];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [_searchView removeFromSuperview];
     
+    JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    NSString *callJSstring = nil;
+    callJSstring = @"PageLoadIOS";
+    [context evaluateScript:callJSstring];
     
+    NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:@(self.userModel.sn) , @"userSn" , self.serviceModel.devTypeSn , @"devTypeSn" , self.serviceModel.devSn , @"devSn" , @(self.serviceModel.userDeviceID) , @"UserDeviceID" , localhost , @"ServieceIP" , self.serviceModel.brand, @"BrandName" , nil];
+    //    NSMutableString *keyAndValueStr = [NSMutableString stringWithFormat:@"%@" , userData];
+    //    keyAndValueStr = [[keyAndValueStr substringWithRange:NSMakeRange(1, keyAndValueStr.length - 1)] mutableCopy];
+    
+    
+    NSString *orderStr = [NSString stringWithFormat:@"GetUserData('%@')" , userData];
+    NSLog(@"%@" , orderStr);
+    [context evaluateScript:orderStr];
     
     
 }
@@ -126,85 +119,91 @@
 - (void)getDryingMachineDeviceAtcion:(NSNotification *)post {
     NSString *str = post.userInfo[@"Message"];
     
-    NSLog(@"%@" , str);
-    NSString *devSn = [str substringWithRange:NSMakeRange(14, 12)];
-    NSString *kaiGuan = [str substringWithRange:NSMakeRange(28, 2)];
-    NSString *ozone = [str substringWithRange:NSMakeRange(30, 2)];
-    NSString *power = [str substringWithRange:NSMakeRange(38, 2)];
-    NSString *time = [str substringWithRange:NSMakeRange(44, 2)];
-    NSLog(@"%@ , %@ , %@ , %@ , %@" , kaiGuan , devSn , ozone , power , time);
-    
-    if ([kaiGuan isEqualToString:@"02"]) {
-        [self receiveOrderWith:@"02" withOrderType:@"kaiguan"];
-    } else if ([kaiGuan isEqualToString:@"01"]) {
-        [self receiveOrderWith:@"01" withOrderType:@"kaiguan"];
-    }
-    
-    if ([ozone isEqualToString:@"01"]) {
-        [self receiveOrderWith:@"01" withOrderType:@"ozone"];
-    } else if ([ozone isEqualToString:@"02"]) {
-        [self receiveOrderWith:@"02" withOrderType:@"ozone"];
-    }
-    
-    if ([power isEqualToString:@"01"]) {
-        [self receiveOrderWith:@"01" withOrderType:@"power"];
-    } else if ([power isEqualToString:@"02"]) {
-        [self receiveOrderWith:@"02" withOrderType:@"power"];
-    }
-    
-    if ([time isEqualToString:@"00"]) {
-        [self receiveOrderWith:time withOrderType:@"power"];
-    }
-}
 
-- (void)receiveOrderWith:(NSString *)order withOrderType:(NSString *)orderType {
     JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
     
     NSString *callJSstring = nil;
-    
-    if ([orderType isEqualToString:@"kaiguan"]) {
-        callJSstring = [self sendOrderBytesToHTMLWith:GanYiJi4332SendToHTMLXieYi(order, @"00", @"00", @"00")];
-    } else if ([orderType isEqualToString:@"ozone"]) {
-        callJSstring = [self sendOrderBytesToHTMLWith:GanYiJi4332SendToHTMLXieYi(@"00", order, @"00", @"00")];
-    } else if ([orderType isEqualToString:@"power"]) {
-        callJSstring = [self sendOrderBytesToHTMLWith:GanYiJi4332SendToHTMLXieYi(@"00", @"00", order, @"00")];
-    } else if ([orderType isEqualToString:@"time"]) {
-        callJSstring = [self sendOrderBytesToHTMLWith:GanYiJi4332SendToHTMLXieYi(@"00", @"00", @"00", order)];
-    }
-    
-    NSLog(@"%@" , callJSstring);
-    
-    //调用方法(注意：这里是JS里面的定义的方法)
+    callJSstring = [NSString stringWithFormat:@"ReceiveOrder('%@')" , str];
     [context evaluateScript:callJSstring];
+//    NSLog(@"%@" , str);
+//    NSString *devSn = [str substringWithRange:NSMakeRange(14, 12)];
+//    NSString *kaiGuan = [str substringWithRange:NSMakeRange(28, 2)];
+//    NSString *ozone = [str substringWithRange:NSMakeRange(30, 2)];
+//    NSString *power = [str substringWithRange:NSMakeRange(38, 2)];
+//    NSString *time = [str substringWithRange:NSMakeRange(44, 2)];
+//    NSLog(@"%@ , %@ , %@ , %@ , %@" , kaiGuan , devSn , ozone , power , time);
+//    
+//    if ([kaiGuan isEqualToString:@"02"]) {
+//        [self receiveOrderWith:@"02" withOrderType:@"kaiguan"];
+//    } else if ([kaiGuan isEqualToString:@"01"]) {
+//        [self receiveOrderWith:@"01" withOrderType:@"kaiguan"];
+//    }
+//    
+//    if ([ozone isEqualToString:@"01"]) {
+//        [self receiveOrderWith:@"01" withOrderType:@"ozone"];
+//    } else if ([ozone isEqualToString:@"02"]) {
+//        [self receiveOrderWith:@"02" withOrderType:@"ozone"];
+//    }
+//    
+//    if ([power isEqualToString:@"01"]) {
+//        [self receiveOrderWith:@"01" withOrderType:@"power"];
+//    } else if ([power isEqualToString:@"02"]) {
+//        [self receiveOrderWith:@"02" withOrderType:@"power"];
+//    }
+//    
+//    if ([time isEqualToString:@"00"]) {
+//        [self receiveOrderWith:time withOrderType:@"power"];
+//    }
 }
 
-- (void)initStateModel {
-    
-    NSLog(@"%@" , self.stateModel);
-    if (self.stateModel.fSwitch == 1) {
-        
-        [self receiveOrderWith:@"01" withOrderType:@"kaiguan"];
-    } else if (self.stateModel.fSwitch == 2) {
-        
-        [self receiveOrderWith:@"02" withOrderType:@"kaiguan"];
-    }
-    
-    
-    
-}
+//- (void)receiveOrderWith:(NSString *)order withOrderType:(NSString *)orderType {
+//    JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+//    NSString *callStr = [NSString stringWithFormat:@"ReceiveOrder('%@')" , orderStr];
+//    NSString *callJSstring = nil;
+//    
+//    if ([orderType isEqualToString:@"kaiguan"]) {
+//        callJSstring = [self sendOrderBytesToHTMLWith:GanYiJi4332SendToHTMLXieYi(order, @"00", @"00", @"00")];
+//    } else if ([orderType isEqualToString:@"ozone"]) {
+//        callJSstring = [self sendOrderBytesToHTMLWith:GanYiJi4332SendToHTMLXieYi(@"00", order, @"00", @"00")];
+//    } else if ([orderType isEqualToString:@"power"]) {
+//        callJSstring = [self sendOrderBytesToHTMLWith:GanYiJi4332SendToHTMLXieYi(@"00", @"00", order, @"00")];
+//    } else if ([orderType isEqualToString:@"time"]) {
+//        callJSstring = [self sendOrderBytesToHTMLWith:GanYiJi4332SendToHTMLXieYi(@"00", @"00", @"00", order)];
+//    }
+//    
+//    NSLog(@"%@" , callJSstring);
+//    
+//    //调用方法(注意：这里是JS里面的定义的方法)
+//    [context evaluateScript:callJSstring];
+//}
 
-- (NSString *)sendOrderBytesToHTMLWith:(NSString *)order {
-    NSMutableString *orderStr = [NSMutableString string];
-    for (int i = 0; i < order.length; i = i + 2) {
-        orderStr = [[orderStr stringByAppendingString:[NSString stringWithFormat:@"%@ ," , [order substringWithRange:NSMakeRange(i, 2)]]] mutableCopy];
-    }
-    orderStr = [[orderStr substringToIndex:orderStr.length - 1] mutableCopy];
-    orderStr = [[@"[" stringByAppendingString:orderStr] mutableCopy];
-    orderStr = [[orderStr stringByAppendingString:@"]"] mutableCopy];
-    
-    NSString *callStr = [NSString stringWithFormat:@"ReceiveOrder('%@')" , orderStr];
-    return callStr;
-    
-}
+//- (void)initStateModel {
+//    
+//    NSLog(@"%@" , self.stateModel);
+////    if (self.stateModel.fSwitch == 1) {
+////        
+////        [self receiveOrderWith:@"01" withOrderType:@"kaiguan"];
+////    } else if (self.stateModel.fSwitch == 2) {
+////        
+////        [self receiveOrderWith:@"02" withOrderType:@"kaiguan"];
+////    }
+//    
+//    
+//    
+//}
+
+//- (NSString *)sendOrderBytesToHTMLWith:(NSString *)order {
+//    NSMutableString *orderStr = [NSMutableString string];
+//    for (int i = 0; i < order.length; i = i + 2) {
+//        orderStr = [[orderStr stringByAppendingString:[NSString stringWithFormat:@"%@ ," , [order substringWithRange:NSMakeRange(i, 2)]]] mutableCopy];
+//    }
+//    orderStr = [[orderStr substringToIndex:orderStr.length - 1] mutableCopy];
+//    orderStr = [[@"[" stringByAppendingString:orderStr] mutableCopy];
+//    orderStr = [[orderStr stringByAppendingString:@"]"] mutableCopy];
+//    
+//    NSString *callStr = [NSString stringWithFormat:@"ReceiveOrder('%@')" , orderStr];
+//    return callStr;
+//    
+//}
 
 @end

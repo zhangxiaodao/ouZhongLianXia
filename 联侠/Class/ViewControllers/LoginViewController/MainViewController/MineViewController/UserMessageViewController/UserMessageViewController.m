@@ -62,6 +62,12 @@
     [self setUI];
     
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = YES;
+}
+
 #pragma mark - 代理返回数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
 //    NSLog(@"%@" , data[0]);

@@ -8,11 +8,11 @@
 
 #import "XinFengViewController.h"
 #import "XinFengFirstTableViewCell.h"
-#include "XinFengSecondTableViewCell.h"
+#import "XinFengSecondTableViewCell.h"
 #import "XinFengThirtTableViewCell.h"
 #import "XinFengForthTableViewCell.h"
 #import "XinFengFifthTableViewCell.h"
-#import "LoginViewController.h"
+#import "SetServicesViewController.h"
 #import "AllTypeServiceViewController.h"
 #import "ConnectWeViewController.h"
 #import "MineSerivesViewController.h"
@@ -26,7 +26,6 @@
 @property (nonatomic , strong) UIButton *bottomBtn;
 @property (nonatomic , strong) UIView *markView;
 
-@property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) StateModel *stateModel;
 @property (nonatomic , strong) ServicesDataModel *serviceDataModel;
 @property (nonatomic , strong) UserModel *userModel;
@@ -46,7 +45,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
 
-//    NSLog(@"%@" , [NSString sendXinFengNowTime]);
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     NSDictionary *parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
@@ -57,10 +55,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (self.serviceModel.devSn.length > 0 && self.serviceModel.devTypeSn.length != 0) {
+    if (self.serviceModel && self.userModel) {
         
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
     }
+    
+    NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+    
 }
 
 
@@ -80,70 +82,24 @@
             [_userModel setValue:user[key] forKey:key];
         }
         
-//        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
-//        [kSocketTCP socketConnectHost];
-        
         [kApplicate initLastViewController:self];
         [kApplicate initUserModel:_userModel];
-        [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:@{@"userSn" : @(_userModel.sn)} andDelegate:self];
     }
 }
 
 
-- (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd {
+- (void)setServiceModel:(ServicesModel *)serviceModel {
+    _serviceModel = serviceModel;
     
-//    NSLog(@"%@" , dddd);
-    
-    NSInteger state = [dddd[@"state"] integerValue];
-    if (state == 0) {
-        NSMutableArray *dataArray = dddd[@"data"];
+    if (_serviceModel) {
+        [self sendXinFengNowTime];
         
-        if (dataArray.count > 0) {
-            [self.serviceArray removeAllObjects];
-            [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSDictionary *dic = obj;
-                ServicesModel *serviceModel = [[ServicesModel alloc]init];
-                [serviceModel setValuesForKeysWithDictionary:dic];
-                
-                serviceModel.userDeviceID = [dic[@"id"] integerValue];
-                
-                
-                [self.serviceArray addObject:serviceModel];
-            }];
-            
-            if (_indexPath) {
-                self.serviceModel = [[ServicesModel alloc]init];
-                self.serviceModel = self.serviceArray[_indexPath.row];
-            }
-            
-            [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-            
-//            kSocketTCP.serviceModel = self.serviceModel;
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
-//                [self sendXinFengNowTime];
-//            });
-            
-            [self sendXinFengNowTime];
-            
-            
-            [kStanderDefault setObject:@(self.userModel.sn) forKey:@"userSn"];
-            [kStanderDefault setObject:@(self.userModel.idd) forKey:@"userId"];
-            
-            [kApplicate initServiceModel:self.serviceModel];
-            
-            if ([self.serviceModel.devTypeSn isEqualToString:@"4232"]) {
-                [self requestServiceData];
-                [self requestServiceState];
-            
-            }
-        } else {
-            AllTypeServiceViewController *allServicesVC = [[AllTypeServiceViewController alloc]init];
-            [self.navigationController pushViewController:allServicesVC animated:YES];
+        
+        [kApplicate initServiceModel:self.serviceModel];
+        if ([self.serviceModel.devTypeSn isEqualToString:@"4232"]) {
+            [self requestServiceData];
+            [self requestServiceState];
         }
-    } else {
-        AllTypeServiceViewController *addServiceVC = [[AllTypeServiceViewController alloc]init];
-        [self.navigationController pushViewController:addServiceVC animated:YES];
     }
 }
 
@@ -297,12 +253,6 @@
         [self.tableView scrollToRowAtIndexPath:scrollIndexpath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
 
-    
-//    if ([isOpen isEqualToString:@"YES"]) {
-//
-//    } else if ([isOpen isEqualToString:@"NO"]) {
-//        
-//    }
 }
 
 #pragma mark - 布局
@@ -408,8 +358,8 @@
         [UIAlertController creatRightAlertControllerWithHandle:^{
             
             if (self.serviceArray.count == 1) {
-                AllTypeServiceViewController *allTypeServiceVC = [[AllTypeServiceViewController alloc]init];
-                [self.navigationController pushViewController:allTypeServiceVC animated:YES];
+                SetServicesViewController *setSerVC = [[SetServicesViewController alloc]init];
+                [self.navigationController pushViewController:setSerVC animated:YES];
             } else {
                 [self.navigationController popViewControllerAnimated:YES];
             }
@@ -578,10 +528,12 @@
     NSLog(@"%@" , array);
     
     NSString *time = nil;
+    NSString *repeatStr = nil;
     NSString *openTime = array[0];
     NSString *closeTime = array[1];
     NSInteger openOn = [array[2] integerValue];
     NSInteger closeOn = [array[3] integerValue];
+    NSInteger repeatOn = [array[4] integerValue];
     
     if (openOn == 1 && closeOn == 0) {
         time = [NSString stringWithFormat:@"将于%@开启" , openTime];
@@ -592,9 +544,16 @@
         time = [NSString stringWithFormat:@"将于%@开启 , 将于%@关闭" , openTime , closeTime];
     }
     
+    if (repeatOn == 1) {
+        repeatStr = @"每天";
+    } else {
+        repeatStr = @"无重复";
+    }
+    
     XinFengFifthTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     if (time) {
         cell.shuoMingLabel.text = time;
+        cell.openOrOffLable.text = repeatStr;
     }
 }
 

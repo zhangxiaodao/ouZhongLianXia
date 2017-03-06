@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"添加设备"];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"设置设备"];
     
      [self setUI];
 }
@@ -52,7 +52,7 @@
 //        image = [UIImage imageNamed:@"peiWangMoShiKai"];
 //    }
     
-    image = [UIImage imageNamed:@"peiWangMoShiKai"];
+    image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
     
     _imageView = [[UIImageView alloc]initWithImage:image];
     [self.view addSubview:_imageView];
@@ -75,7 +75,7 @@
     
     
 //    UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@设备通电后,长按“%@“键约3秒后,“滴”声响后松开,进入无线配网状态." , brandName , typePosition] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
-    UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"开机长按电器定时按钮，将电源指示灯调节到快速闪烁状态"] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
+    UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"请开机长按功能按键3秒，听到“滴”的声音后指示灯闪烁，进入配网模式。（wifi功能按键请查看说明书）"] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     firstLable.textColor = [UIColor blackColor];
     firstLable.layer.borderWidth = 0;
     
@@ -129,7 +129,7 @@
 //        }
 //    }
     
-    if ([_imageView.image isEqual:[UIImage imageNamed:@"peiWangMoShiKai"]]) {
+    if ([_imageView.image isEqual:[UIImage imageNamed:@"wifianjianpeiwangmoshi1"]]) {
         [self qieHuanTuPianGuan];
     } else{
         [self qieHuanTuPianKai];
@@ -144,7 +144,7 @@
 //        _imageView.image = [UIImage imageNamed:@"peiWangMoShiKai"];
 //    }
     
-    _imageView.image = [UIImage imageNamed:@"peiWangMoShiKai"];
+    _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi1"];
     
 }
 
@@ -156,7 +156,7 @@
 //        _imageView.image = [UIImage imageNamed:@"peiWangMoShiGuan"];
 //    }
     
-    _imageView.image = [UIImage imageNamed:@"peiWangMoShiGuan"];
+    _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
     
 }
 

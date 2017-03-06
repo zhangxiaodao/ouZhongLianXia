@@ -277,6 +277,7 @@
                 
                 [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
                 MineSerivesViewController *myMachineVC = [[MineSerivesViewController alloc]init];
+                myMachineVC.tabBarController.tabBar.hidden = NO;
                 [self.navigationController pushViewController:myMachineVC animated:YES];
             } else {
                 AddSViewController *addServiceVC = [[AddSViewController alloc]init];

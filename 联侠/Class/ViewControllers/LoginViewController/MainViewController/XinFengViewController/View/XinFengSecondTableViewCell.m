@@ -41,17 +41,13 @@
 
 - (void)getBottomBtnSelectedMarkViewWhearthShow:(NSNotification *)post {
     NSString *selected = post.userInfo[@"BottomBtnSelected"];
-    NSLog(@"-----%@ " , selected);
-    
+//    NSLog(@"selected--%@ , %ld" , selected , selected.integerValue);
     if (selected.integerValue == 1){
-        
         [UIView animateWithDuration:.3 animations:^{
             self.markView.alpha = 0;
         }];
         
-    } else if (selected.integerValue == 0) {
-//        [self.backView addSubview:self.markView];
-        
+    } else {
         [UIView animateWithDuration:.3 animations:^{
             self.markView.alpha = .3;
         }];
@@ -139,18 +135,21 @@
         make.size.mas_equalTo(CGSizeMake(kScreenW, 5));
     }];
     
+    self.markView = [[UIView alloc]init];
+    [self.backView addSubview:self.markView];
+    self.markView.frame = self.backView.bounds;
+    self.markView.backgroundColor = [UIColor blackColor];
+    self.markView.alpha = .3;
     if ([kStanderDefault objectForKey:@"offBtn"]) {
         NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
         
         if (bottomSelected.integerValue == 0) {
-            self.markView = [[UIView alloc]init];
-            [self.backView addSubview:self.markView];
-            self.markView.frame = self.backView.bounds;
-            self.markView.backgroundColor = [UIColor blackColor];
-            
-            
             [UIView animateWithDuration:.3 animations:^{
                 self.markView.alpha = .3;
+            }];
+        } else {
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = 0;
             }];
         }
     }
@@ -227,9 +226,11 @@
     }
     
     if (btn.tag == 0 || btn.tag == 5) {
-        [self btnAfterRemoveAddWhichAtcion:@selector(xinFengBtnAgainDoneAtcion:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:btn];
+        [self btnRemoveAtcion:@selector(xinFengBtnDoneAtcion:) andAddSelector:@selector(xinFengBtnAgainDoneAtcion:) withWhichBtn:btn];
+        
     } else if (btn.tag == 1){
-        [self btnAfterRemoveAddWhichAtcion:@selector(windZhongDangWei:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:btn];
+//        [self btnAfterRemoveAddWhichAtcion:@selector(windZhongDangWei:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:btn];
+        [self btnRemoveAtcion:@selector(xinFengBtnDoneAtcion:) andAddSelector:@selector(windZhongDangWei:) withWhichBtn:btn];
     }
     
 }
@@ -254,32 +255,29 @@
         default:
             break;
     }
-    
-   
-    [self btnAfterRemoveAddWhichAtcion:@selector(xinFengBtnDoneAtcion:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:btn];
-   
-    
+    [self btnRemoveAtcion:@selector(xinFengBtnAgainDoneAtcion:) andAddSelector:@selector(xinFengBtnDoneAtcion:) withWhichBtn:btn];
 }
 
 #pragma mark - 风速中档位
 - (void)windZhongDangWei:(UIButton *)btn {
     [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
     btn.tag = 2;
-    [self btnAfterRemoveAddWhichAtcion:@selector(windGaoDangWei:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:btn];
+
+    [self btnRemoveAtcion:@selector(windZhongDangWei:) andAddSelector:@selector(windGaoDangWei:) withWhichBtn:btn];
 }
 
 #pragma mark - 风速高档位
 - (void)windGaoDangWei:(UIButton *)btn {
     [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"03") andType:kZhiLing andIsNewOrOld:kNew];
     btn.tag = 3;
-    [self btnAfterRemoveAddWhichAtcion:@selector(windMaxGaoDangWei:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:btn];
+    [self btnRemoveAtcion:@selector(windGaoDangWei:) andAddSelector:@selector(windMaxGaoDangWei:) withWhichBtn:btn];
 }
 
 #pragma mark - 风速最高档位
 - (void)windMaxGaoDangWei:(UIButton *)btn {
     [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"04") andType:kZhiLing andIsNewOrOld:kNew];
-    btn.tag = 4;
-    [self btnAfterRemoveAddWhichAtcion:@selector(xinFengBtnDoneAtcion:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:btn];
+   
+    [self btnRemoveAtcion:@selector(windMaxGaoDangWei:) andAddSelector:@selector(xinFengBtnDoneAtcion:) withWhichBtn:btn];
     btn.tag = 1;
 }
 
@@ -344,35 +342,40 @@
 //        [self btnCancleAtcion:ziDongBtn];
 
     } else if (_stateModel.fMode == 2) {
-        [UIButton setBtnOfImageAndLableWithSelected:ziDongBtn andBackGroundColor:kXinFengKongJingYanSe];
+        [UIButton setBtnOfImageAndLableWithSelected:shouDongBtn andBackGroundColor:kXinFengKongJingYanSe];
 //        [self btnSureAtcion:ziDongBtn];
     }
     
-    if (_stateModel.fWind == 1) {
+    if (_stateModel.fWind == 1 || _stateModel.fWind == 2 || _stateModel.fWind == 3 || _stateModel.fWind == 4) {
         [UIButton setBtnOfImageAndLableWithSelected:windBtn andBackGroundColor:kXinFengKongJingYanSe];
-        [self btnAfterRemoveAddWhichAtcion:@selector(windZhongDangWei:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:windBtn];
-        [self setBtnSubViewsOfLable:@"一档" withWhichBtn:windBtn];
-    } else if (_stateModel.fWind == 2) {
-        [UIButton setBtnOfImageAndLableWithSelected:windBtn andBackGroundColor:kXinFengKongJingYanSe];
-        [self btnAfterRemoveAddWhichAtcion:@selector(windGaoDangWei:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:windBtn];
-        [self setBtnSubViewsOfLable:@"二档" withWhichBtn:windBtn];
-    } else if (_stateModel.fWind == 3) {
-        [UIButton setBtnOfImageAndLableWithSelected:windBtn andBackGroundColor:kXinFengKongJingYanSe];
-        [self btnAfterRemoveAddWhichAtcion:@selector(windMaxGaoDangWei:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:windBtn];
-        [self setBtnSubViewsOfLable:@"三档" withWhichBtn:windBtn];
-    } else if (_stateModel.fWind == 4) {
-        [UIButton setBtnOfImageAndLableWithSelected:windBtn andBackGroundColor:kXinFengKongJingYanSe];
-        [self btnAfterRemoveAddWhichAtcion:@selector(xinFengBtnDoneAtcion:) andAddNSNotificationSelector:@selector(getXinFengFunctionBtnAtcion:) withWhichBtn:windBtn];
-        [self setBtnSubViewsOfLable:@"四档" withWhichBtn:windBtn];
+        if (_stateModel.fWind == 1) {
+            
+            [self btnRemoveAtcion:@selector(xinFengBtnDoneAtcion:) andAddSelector:@selector(windZhongDangWei:) withWhichBtn:windBtn];
+            [self setBtnSubViewsOfLable:@"一档" withWhichBtn:windBtn];
+        } else if (_stateModel.fWind == 2) {
+            [self btnRemoveAtcion:@selector(windZhongDangWei:) andAddSelector:@selector(windGaoDangWei:) withWhichBtn:windBtn];
+            [self setBtnSubViewsOfLable:@"二档" withWhichBtn:windBtn];
+        } else if (_stateModel.fWind == 3) {
+            [self btnRemoveAtcion:@selector(windGaoDangWei:) andAddSelector:@selector(windMaxGaoDangWei:) withWhichBtn:windBtn];
+            [self setBtnSubViewsOfLable:@"三档" withWhichBtn:windBtn];
+        } else if (_stateModel.fWind == 4) {
+            [self btnRemoveAtcion:@selector(windMaxGaoDangWei:) andAddSelector:@selector(xinFengBtnDoneAtcion:) withWhichBtn:windBtn];
+            [self setBtnSubViewsOfLable:@"四档" withWhichBtn:windBtn];
+        }
+    } else {
+        [UIButton setBtnOfImageAndLableWithUnSelected:windBtn andTintColor:kXinFengKongJingYanSe];
+        [self setBtnSubViewsOfLable:@"无" withWhichBtn:windBtn];
     }
+    
+    
     
     if (_stateModel.fAnion == 1) {
         [UIButton setBtnOfImageAndLableWithSelected:fuLiZiBtn andBackGroundColor:kXinFengKongJingYanSe];
-        [self btnCancleAtcion:fuLiZiBtn];
+        [self btnRemoveAtcion:@selector(xinFengBtnDoneAtcion:) andAddSelector:@selector(xinFengBtnAgainDoneAtcion:) withWhichBtn:windBtn];
     } else {
         [UIButton setBtnOfImageAndLableWithUnSelected:fuLiZiBtn andTintColor:kXinFengKongJingYanSe];
+        [self btnRemoveAtcion:@selector(xinFengBtnAgainDoneAtcion:) andAddSelector:@selector(xinFengBtnDoneAtcion:) withWhichBtn:windBtn];
         
-        [self btnSureAtcion:fuLiZiBtn];
     }
     
     if (_stateModel.fSwitch == 1){
@@ -388,25 +391,24 @@
         }];
     }
     
-    [UIButton setBtnOfImageAndLableWithUnSelected:modelBtn andTintColor:kXinFengKongJingYanSe];
-    
+ 
 }
 
 
-- (void)btnSureAtcion:(UIButton *)btn {
-    [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    [btn addTarget:self action:@selector(xinFengBtnDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
-}
+//- (void)btnSureAtcion:(UIButton *)btn {
+//    [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+//    [btn addTarget:self action:@selector(xinFengBtnDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
+//}
+//
+//- (void)btnCancleAtcion:(UIButton *)btn {
+//    [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+//    [btn addTarget:self action:@selector(xinFengBtnAgainDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
+//}
 
-- (void)btnCancleAtcion:(UIButton *)btn {
-    [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-    [btn addTarget:self action:@selector(xinFengBtnAgainDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
-}
 
-
-- (void)btnAfterRemoveAddWhichAtcion:(nonnull SEL)atcion andAddNSNotificationSelector:(nonnull SEL)selector withWhichBtn:(UIButton *)btn {
-    [btn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-    [btn addTarget:self action:atcion forControlEvents:UIControlEventTouchUpInside];
+- (void)btnRemoveAtcion:(nonnull SEL)atcion  andAddSelector:(nonnull SEL)selector withWhichBtn:(UIButton *)btn {
+    [btn removeTarget:self action:atcion forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:selector name:@"4232" object:nil];
 }

@@ -25,7 +25,7 @@
 #import "AllServicesViewController.h"
 #import "AboutProductViewController.h"
 #import "MainViewController.h"
-#import "AllTypeServiceViewController.h"
+#import "SetServicesViewController.h"
 
 @interface MineViewController ()<UITableViewDataSource , UITableViewDelegate ,  HelpFunctionDelegate>
 
@@ -72,14 +72,10 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
-//    if (![_fromMainVC isEqualToString:@"YES"]) {
-//        self.tabBarController.tabBar.hidden = NO;
-//    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-//    self.tabBarController.tabBar.hidden = YES;
     
     MineViewController *mineServiceVC = [[MineViewController alloc]init];
     mineServiceVC.tabBarController.tabBar.hidden = YES;
@@ -281,10 +277,7 @@
     } else if (indexPath.row == 4) {
         cell.imageViw.image = [UIImage imageNamed:@"aboutous"];
         cell.lable.text = @"关于我们";
-    }  else if (indexPath.row == 5) {
-        cell.imageViw.image = [UIImage imageNamed:@"gengduochanp"];
-        cell.lable.text = @"更多产品";
-    }  else if (indexPath.row == 6) {
+    } else if (indexPath.row == 5) {
         cell.imageViw.image = [UIImage imageNamed:@"clear"];
         cell.lable.text = @"清除缓存";
         cell.clearLabel.text = [NSString stringWithFormat:@"当前缓存 : %@" , [self getBufferSize]];
@@ -301,8 +294,8 @@
     
     self.tabBarController.tabBar.hidden = YES;
     if (indexPath.row == 0) {
-        AllTypeServiceViewController *allServicesVC = [[AllTypeServiceViewController alloc]init];
-        [self.navigationController pushViewController:allServicesVC animated:YES];
+        SetServicesViewController *serServiceVC = [[SetServicesViewController alloc]init];
+        [self.navigationController pushViewController:serServiceVC animated:YES];
     } else if (indexPath.row == 1) {
         
         SumMessageViewController *sumMessageVC = [[SumMessageViewController alloc]init];
@@ -326,19 +319,14 @@
         AboutOusTableViewController *connectVC = [[AboutOusTableViewController alloc]init];
         [self.navigationController pushViewController:connectVC animated:YES];
     } else if (indexPath.row == 5) {
-        AllTypeServiceViewController *allServicesVC = [[AllTypeServiceViewController alloc]init];
-        allServicesVC.fromAboutVC = @"YES";
-        [self.navigationController pushViewController:allServicesVC animated:YES];
-    } else if (indexPath.row == 6) {
         self.tabBarController.tabBar.hidden = NO;
         MessageTableViewCell *cell = [_tableVIew cellForRowAtIndexPath:indexPath];
-    
+        
         [UIAlertController creatRightAlertControllerWithHandle:^{
             [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
-                 cell.clearLabel.text = [NSString stringWithFormat:@"当前缓存 : %@" , [self getBufferSize]];
+                cell.clearLabel.text = [NSString stringWithFormat:@"当前缓存 : %@" , [self getBufferSize]];
             }];
         } andSuperViewController:kWindowRoot Title:@"清除缓存"];
-        
     }
   
 }
@@ -364,41 +352,6 @@
     
 }
 
-// 计算目录大小
-//- (CGFloat)folderSizeAtPath:(NSString *)path{
-//    
-//    // 利用NSFileManager实现对文件的管理
-//    NSFileManager *manager = [NSFileManager defaultManager];
-//    CGFloat size = 0;
-//    if ([manager fileExistsAtPath:path]) {
-//        // 获取该目录下的文件，计算其大小
-//        NSArray *childrenFile = [manager subpathsAtPath:path];
-//        for (NSString *fileName in childrenFile) {
-//            NSString *absolutePath = [path stringByAppendingPathComponent:fileName];
-//            size += [manager attributesOfItemAtPath:absolutePath error:nil].fileSize;
-//        }
-//        // 将大小转化为M
-//        return size / 1024.0 / 1024.0;
-//    }
-//    return 0;
-//}
-// 根据路径删除文件
-//- (void)cleanCaches:(NSString *)path{
-//    // 利用NSFileManager实现对文件的管理
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    if ([fileManager fileExistsAtPath:path]) {
-//        // 获取该路径下面的文件名
-//        NSArray *childrenFiles = [fileManager subpathsAtPath:path];
-//        for (NSString *fileName in childrenFiles) {
-//            // 拼接路径
-//            NSString *absolutePath = [path stringByAppendingPathComponent:fileName];
-//            // 将文件删除
-//            [fileManager removeItemAtPath:absolutePath error:nil];
-//        }
-//    }
-//}
-
-
 //弹出列表方法presentSnsIconSheetView需要设置delegate为self
 -(BOOL)isDirectShareInIconActionSheet
 {
@@ -411,7 +364,7 @@
 
 #pragma mark - rows的个数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 7;
+    return 6;
 }
 
 @end

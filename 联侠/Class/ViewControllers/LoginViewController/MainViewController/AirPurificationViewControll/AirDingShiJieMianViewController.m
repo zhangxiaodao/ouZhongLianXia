@@ -27,7 +27,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-
     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:[NSString stringWithFormat:@"%@" , _titleText]];
     
     [self setUI];
@@ -39,16 +38,18 @@
     [super viewWillAppear:animated];
     
     UIImageView *backImage = [[UIImageView alloc]initWithImage:[UIImage new]];
+    UIImage *image = nil;
     if ([_fromWhich isEqualToString:@"first"]) {
-        backImage.image = [UIImage imageNamed:@"dingShiTuPian"];
+        image = [UIImage imageNamed:@"dingShiTuPian"];
     } else if ([_fromWhich isEqualToString:@"second"]) {
-        backImage.image = [UIImage imageNamed:@"zhouMoMoShi"];
+        image = [UIImage imageNamed:@"zhouMoMoShi"];
     } else if ([_fromWhich isEqualToString:@"thirt"]) {
-        backImage.image = [UIImage imageNamed:@"zhiNengMoShi"];
+        image = [UIImage imageNamed:@"zhiNengMoShi"];
     } else if ([_fromWhich isEqualToString:@"forth"]) {
-        backImage.image = [UIImage imageNamed:@"ziDingYiMoShi"];
+        image = [UIImage imageNamed:@"ziDingYiMoShi"];
     }
-    backImage.frame = CGRectMake(0, 0, kScreenW, BackGroupHeight + BackGroupHeight / 2);
+    backImage.image = image;
+    backImage.frame = CGRectMake(0, kHeight, kScreenW, kScreenW * (image.size.height / image.size.width));
     
     backImage.contentMode = UIViewContentModeScaleToFill;
 

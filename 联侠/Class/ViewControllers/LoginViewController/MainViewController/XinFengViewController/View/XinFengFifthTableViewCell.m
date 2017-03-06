@@ -11,7 +11,7 @@
 #define kCircleW view.height * 2 / 3
 
 @interface XinFengFifthTableViewCell ()<HelpFunctionDelegate>
-@property (nonatomic , strong) UILabel *openOrOffLable;
+
 @property (nonatomic , strong) NSMutableArray *timeArray;
 @end
 
@@ -147,7 +147,7 @@
 
 - (void)requestServicesTimeing:(NSDictionary *)dic {
     
-    NSLog(@"%@" , dic);
+//    NSLog(@"%@" , dic);
     
     NSString *time = nil;
     

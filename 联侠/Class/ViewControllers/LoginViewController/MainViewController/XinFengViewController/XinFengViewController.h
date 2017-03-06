@@ -17,7 +17,7 @@
 @interface XinFengViewController : UIViewController
 
 - (void)requestServiceState;
-@property (nonatomic , strong) NSIndexPath *indexPath;
+@property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) NSMutableArray *serviceArray;
 @property (nonatomic , assign) id<SendServiceModelToParentVCDelegate> sendServiceModelToParentVCDelegate;
 

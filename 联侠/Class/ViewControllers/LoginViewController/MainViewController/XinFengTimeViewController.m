@@ -8,6 +8,7 @@
 
 #import "XinFengTimeViewController.h"
 #import "TimeModel.h"
+#import "CustomPickerView.h"
 @interface XinFengTimeViewController ()<UIPickerViewDataSource , UIPickerViewDelegate , HelpFunctionDelegate>
 @property (nonatomic , strong) UILabel *openTimeLabel;
 @property (nonatomic , strong) UILabel *closeLabel;
@@ -21,7 +22,7 @@
 
 @property (nonatomic  ,strong) UIView *pickerBgView;
 @property (nonatomic , strong) UIPickerView *myPicker;
-@property (strong, nonatomic) UIView *maskView;
+@property (strong, nonatomic) UIView *markView;
 @property (nonatomic , strong) UIView *firstPickerBgView;
 @property (nonatomic , strong) UIView *secondPickerBgView;
 
@@ -139,11 +140,21 @@
 
 
 - (void)openAtcion:(UITapGestureRecognizer *)tap {
-   self.firstPickerBgView = [self creatPickView];
+//   self.firstPickerBgView = [self creatPickView];
+    self.firstPickerBgView  =[[CustomPickerView alloc]createPickerViewWithBackGroundColor:kMainColor withFrame:kScreenFrame andDelegate:self andDataSource:self  andEnsureDelegate:self andEnsureAtcion:@selector(ensureXinFengPickView) andCancleTarget:self andCancleAtcion:@selector(hideXinFengPickView) andTapAtcion:@selector(hideXinFengPickView)];
+    [kWindowRoot.view addSubview:self.firstPickerBgView];
+    self.markView = self.firstPickerBgView.subviews[0];
+    self.pickerBgView = self.markView.subviews[0];
+    self.myPicker = self.pickerBgView.subviews[0];
 }
 
 - (void)closeAtcion:(UITapGestureRecognizer *)tap {
-    self.secondPickerBgView = [self creatPickView];
+//    self.secondPickerBgView = [self creatPickView];
+    self.secondPickerBgView = [[CustomPickerView alloc]createPickerViewWithBackGroundColor:kMainColor withFrame:kScreenFrame andDelegate:self andDataSource:self  andEnsureDelegate:self andEnsureAtcion:@selector(ensureXinFengPickView) andCancleTarget:self andCancleAtcion:@selector(hideXinFengPickView) andTapAtcion:@selector(hideXinFengPickView)];
+    [kWindowRoot.view addSubview:self.secondPickerBgView];
+    self.markView = self.secondPickerBgView.subviews[0];
+    self.pickerBgView = self.markView.subviews[0];
+    self.myPicker = self.pickerBgView.subviews[0];
 }
 
 - (void)openSwitchAtcion:(UISwitch *)rightSwitch {
@@ -229,106 +240,43 @@
     
 }
 
-- (void)ensurePickView {
+- (void)ensureXinFengPickView {
+    
+    UIPickerView *openPickerView = nil;
+    UIPickerView *offPickerView = nil;
+    if (self.firstPickerBgView) {
+        openPickerView = [self.pickerBgView viewWithTag:1];
+    } else {
+        offPickerView = [self.pickerBgView viewWithTag:1];
+    }
+    
     
     _hourTime = [NSString stringWithFormat:@"%@" , [self.hourArray[[self.myPicker selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)]];
     _minuteTime = [NSString stringWithFormat:@"%@" , [self.minuteArray[[self.myPicker selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
     
-    if ([self.myPicker isEqual:self.firstPickerBgView.subviews[0]]) {
+    if ([self.myPicker isEqual:openPickerView]) {
         self.openTimeLabel.text = [NSString stringWithFormat:@"%@:%@" , _hourTime , _minuteTime];
-    } else if ([self.myPicker isEqual:self.secondPickerBgView.subviews[0]]) {
+    } else if ([self.myPicker isEqual:offPickerView]) {
         self.closeLabel.text = [NSString stringWithFormat:@"%@:%@" , _hourTime , _minuteTime];
     }
     
-    [self hidePickView];
+    [self hideXinFengPickView];
 }
 
 
-- (void)hidePickView {
+- (void)hideXinFengPickView {
     
     [UIView animateWithDuration:0.3 animations:^{
-        self.maskView.alpha = 0;
-        self.pickerBgView.top = self.view.height;
+        self.pickerBgView.top = self.markView.bottom;
+        self.markView.alpha = 0;
     } completion:^(BOOL finished) {
-        [self.maskView removeFromSuperview];
         [self.pickerBgView removeFromSuperview];
+        [self.markView removeFromSuperview];
+        [self.firstPickerBgView removeFromSuperview];
+        [self.secondPickerBgView removeFromSuperview];
+        self.firstPickerBgView = nil;
+        self.secondPickerBgView = nil;
     }];
-}
-
-
-#pragma mark - 创建UIPickView
-- (UIView *)creatPickView{
-    
-    self.maskView = [[UIView alloc] initWithFrame:kScreenFrame];
-    self.maskView.backgroundColor = [UIColor clearColor];
-    //    self.maskView.alpha = 0;
-    self.maskView.userInteractionEnabled = YES;
-    //    [self.view addSubview:self.maskView];
-    [self.maskView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePickView)]];
-    
-    
-    self.pickerBgView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH - kScreenH / 2.61568, kScreenW, kScreenH / 2.61568)];
-    
-    self.pickerBgView.backgroundColor = [UIColor whiteColor];
-    
-    self.myPicker = [[UIPickerView alloc]init];
-    [self.pickerBgView addSubview:self.myPicker];
-    [self.myPicker mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.08796));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(kScreenH / 17.1025);
-    }];
-    self.myPicker.tag = 1;
-    self.myPicker.delegate = self;
-    self.myPicker.dataSource = self;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.pickerBgView.alpha = 1.0;
-    }];
-    
-    
-    UIView *view  =[[UIView alloc]init];
-    view.backgroundColor = kACOLOR(86, 188, 252, 1.0);
-    [self.pickerBgView addSubview:view];
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 17.1025));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(0);
-    }];
-    
-    UIButton *cancleBtn = [UIButton initWithTitle:@"取消" andColor:[UIColor clearColor] andSuperView:view]
-    ;
-    [cancleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cancleBtn addTarget:self action:@selector(hidePickView) forControlEvents:UIControlEventTouchUpInside];
-    [cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
-        make.top.mas_equalTo(0);
-    }];
-    
-    UIButton *sureBtn = [UIButton initWithTitle:@"确定" andColor:[UIColor clearColor] andSuperView:view]
-    ;
-    [sureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [sureBtn addTarget:self action:@selector(ensurePickView) forControlEvents:UIControlEventTouchUpInside];
-    [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
-        make.top.mas_equalTo(0);
-    }];
-    
-    [self.view addSubview:self.maskView];
-    [self.view addSubview:self.pickerBgView];
-    
-    self.pickerBgView.top = self.view.height;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        self.myPicker.alpha = 1.0;
-        self.pickerBgView.bottom = self.view.height;
-    }];
-    
-    return self.pickerBgView;
-    
 }
 
 #pragma mark - UIPickView的代理

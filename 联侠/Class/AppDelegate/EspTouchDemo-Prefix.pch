@@ -190,8 +190,10 @@
 
 /**
  *  查询用户设备
- *
+ *  http://%@:8080/smarthome/user/queryUserDevice 以前的
+ *  修改过的 http://localhost:8080/smarthome/userDevice/queryUserDevice
  */
+
 #define kQueryTheUserdevice [NSString stringWithFormat:@"http://%@:8080/smarthome/user/queryUserDevice", localhost]
 
 /**
@@ -455,6 +457,8 @@
 
 /**
  *  移除设备
+ *  以前的     http://%@:8080/smarthome/user/deleteUserDevice
+ *  修改过的  http://localhost:8080/smarthome/userDevice/deleteUserDevice
  */
 #define kDeleteServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/user/deleteUserDevice", localhost]
 

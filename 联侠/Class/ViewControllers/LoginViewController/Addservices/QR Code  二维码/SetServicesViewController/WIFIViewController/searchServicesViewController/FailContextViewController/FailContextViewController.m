@@ -7,7 +7,7 @@
 //
 
 #import "FailContextViewController.h"
-#import "MineSerivesViewController.h"
+#import "SetServicesViewController.h"
 #import "UserFeedBackViewController.h"
 @interface FailContextViewController ()
 @property (nonatomic , strong) UIView *navView;
@@ -45,6 +45,7 @@
         make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 12));
         make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 9.945945);
     }];
+    lable1.textColor = [UIColor whiteColor];
     
     UILabel *lable2 = [UILabel creatLableWithTitle:@"添加失败!" andSuperView:view andFont:k17 andTextAligment:NSTextAlignmentLeft];
     lable2.layer.borderWidth = 0;
@@ -53,6 +54,7 @@
         make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 12));
         make.top.mas_equalTo(lable1.mas_bottom);
     }];
+    lable2.textColor = [UIColor whiteColor];
     
     UIImageView *jingGaoIamgeView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"iconfont-jinggao"]];
     [view addSubview:jingGaoIamgeView];
@@ -61,6 +63,7 @@
         make.right.mas_equalTo(-kScreenW / 15);
         make.top.mas_equalTo(lable1.mas_top);
     }];
+    [UIImageView setImageViewColor:jingGaoIamgeView andColor:[UIColor whiteColor]];
     
     UILabel *jingGaoLable = [UILabel creatLableWithTitle:@"警告" andSuperView:view andFont:k14 andTextAligment:NSTextAlignmentCenter];
     jingGaoLable.layer.borderWidth = 0;
@@ -69,6 +72,7 @@
         make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenW / 14));
         make.top.mas_equalTo(jingGaoIamgeView.mas_bottom);
     }];
+    jingGaoLable.textColor = [UIColor whiteColor];
     
     UILabel *tiShiLable = [UILabel creatLableWithTitle:@"请按以下步骤排查可能的问题并重试" andSuperView:view andFont:k17 andTextAligment:NSTextAlignmentLeft];
     tiShiLable.layer.borderWidth = 0;
@@ -150,9 +154,8 @@
 #pragma mark - 重试按钮点击事件
 - (void)againBtnAction {
     
-    MineSerivesViewController *allServicesVC = [[MineSerivesViewController alloc]init];
-    
-    [self.navigationController pushViewController:allServicesVC animated:YES];
+    SetServicesViewController *setSerVC = [[SetServicesViewController alloc]init];
+    [self.navigationController pushViewController:setSerVC animated:YES];
     
 }
 
@@ -162,11 +165,6 @@
     UserFeedBackViewController *fanKuiVC = [[UserFeedBackViewController alloc]init];
     [self.navigationController pushViewController:fanKuiVC animated:YES];
     
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

@@ -47,11 +47,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [kStanderDefault setObject:@"YES" forKey:@"Login"];
+//    [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
     
     if ([kStanderDefault objectForKey:@"userSn"]) {
         self.userSn = [kStanderDefault objectForKey:@"userSn"];
+        
+//        NSLog(@"%@" , self.userSn);
         kSocketTCP.userSn = [NSString stringWithFormat:@"%@" , [kStanderDefault objectForKey:@"userSn"]];
         [kSocketTCP socketConnectHost];
     }
@@ -71,24 +73,32 @@
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
     
-    NSLog(@"%@ , %@" , self.userSn , self.serviceModel);
+//    NSLog(@"%@ , %@" , self.userSn , self.serviceModel);
     
     if (self.userSn && self.serviceModel) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@Q#" , self.userSn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kQuite andIsNewOrOld:nil];
     }
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // 耗时的操作
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSInteger nowTimeInterval = [NSString getNowTimeInterval];
+            if ([kStanderDefault objectForKey:@"requestWeatherTime"]) {
+                NSInteger weatherTime = [[kStanderDefault objectForKey:@"requestWeatherTime"] integerValue];
+                NSLog(@"%@ , %@" , [NSString turnTimeIntervalToString:nowTimeInterval] , [NSString turnTimeIntervalToString:weatherTime]);
+                if (nowTimeInterval > weatherTime + 2 * 3600) {
+                    [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
+                    [self startWearthData];
+                }
+            } else {
+                [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
+                [self startWearthData];
+            }
+        });
+    });
     
-    NSInteger nowTimeInterval = [NSString getNowTimeInterval];
-    if ([kStanderDefault objectForKey:@"requestWeatherTime"]) {
-        NSInteger weatherTime = [[kStanderDefault objectForKey:@"requestWeatherTime"] integerValue];
-        NSLog(@"%@ , %@" , [NSString turnTimeIntervalToString:nowTimeInterval] , [NSString turnTimeIntervalToString:weatherTime]);
-        if (nowTimeInterval > weatherTime + 2 * 3600) {
-            [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
-            [self startWearthData];
-        }
-    } else {
-        [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
-        [self startWearthData];
-    }
+    
+    
     
     NSDictionary *parameters = @{@"userSn": [kStanderDefault objectForKey:@"userSn"]};
     [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:parameters andDelegate:self];
@@ -236,6 +246,8 @@
     
     [kStanderDefault setObject:dic forKey:@"wearthDic"];
     
+    [self.wearthDic removeAllObjects];
+    self.wearthDic = dic;
     
     NSInteger i = [[kStanderDefault objectForKey:@"weartherImage"] integerValue];
     self.werthImage = self.arrImage[i];
@@ -332,6 +344,8 @@
     kSocketTCP.serviceModel = model;
     [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn] andType:kAddService andIsNewOrOld:nil];
     
+    
+    
     self.tabBarController.tabBar.hidden = YES;
     if ([model.devTypeSn isEqualToString:@"4131"] || [model.devTypeSn isEqualToString:@"4132"]) {
         LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
@@ -353,8 +367,7 @@
         XinFengViewController *xinFengAirVC = [[XinFengViewController alloc]init];
         xinFengAirVC.sendServiceModelToParentVCDelegate = self;
         xinFengAirVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
-        xinFengAirVC.indexPath = [[NSIndexPath alloc]init];
-        xinFengAirVC.indexPath = indexPath;
+        xinFengAirVC.serviceModel = model;
         
         [self.navigationController pushViewController:xinFengAirVC animated:YES];
     }  else if ([model.devTypeSn isEqualToString:@"4331"]) {
