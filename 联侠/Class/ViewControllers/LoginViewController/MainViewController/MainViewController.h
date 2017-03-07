@@ -17,6 +17,7 @@
 
 @end
 
+
 @protocol SendViewControllerToParentVCDelegate <NSObject>
 
 - (void)sendViewControllerToParentVC:(UIViewController *)viewController;
@@ -46,7 +47,7 @@
 @property (nonatomic , assign) id<SendServiceModelToParentVCDelegate> sendServiceModelToParentVCDelegate;
 
 
-
+- (void)requestMainVCServiceState;
 - (void)swipeGesture:(UISwipeGestureRecognizer *)swipe;
 - (void)zhiDaoLeAtcion:(UIButton *)btn;
 - (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn;

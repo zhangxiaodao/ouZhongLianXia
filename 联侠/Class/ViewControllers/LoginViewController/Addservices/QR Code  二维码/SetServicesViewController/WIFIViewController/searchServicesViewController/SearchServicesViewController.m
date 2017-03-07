@@ -135,8 +135,7 @@
 - (void)setUI {
     
     _index = 0.0;
-    
-    
+   
     _progressTimer = [NSTimer scheduledTimerWithTimeInterval:(double)arc4random() / 0x100000000 target:self selector:@selector(progressValue) userInfo:nil repeats:YES];
     
     _circleView = [[CircleView alloc]initWithFrame:CGRectMake((kScreenW - kScreenH / 7.4) / 2, kScreenH / 2.52, kScreenH / 7.4, kScreenH / 7.4)];
@@ -340,10 +339,13 @@
 
 - (void)chongFuSendUDP {
 
-//    [self sendMessage:self.protocolArray[6]];
+//    [self sendMessage:self.protocolArray[3]];
     
     for (int i = 0; i < self.protocolArray.count; i++) {
         [self sendMessage:self.protocolArray[i]];
+        
+        [NSThread sleepForTimeInterval:0.2];
+        
     }
     
 }
@@ -406,12 +408,13 @@
                         
                         [self openUDPServer];
                        
-//                      [self sendMessage:self.protocolArray[6]];
+//                      [self sendMessage:self.protocolArray[3]];
                         for (int i = 0; i < self.protocolArray.count; i++) {
                             [self sendMessage:self.protocolArray[i]];
+                            [NSThread sleepForTimeInterval:0.2];
                         }
                         
-                        _myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
+                        _myTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
                         
                         
                     }

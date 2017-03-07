@@ -26,7 +26,8 @@
 @property (nonatomic , strong) UIAlertController *alertController;
 @property (nonatomic , strong) UserModel *userModel;
 @property (nonatomic , strong) ServicesModel *serviceModel;
-@property (nonatomic , strong) XinFengViewController *viewController;
+@property (nonatomic , strong) XinFengViewController *xinFengVC;
+@property (nonatomic , strong) MainViewController *mainVC;
 @end
 
 @implementation AppDelegate
@@ -295,8 +296,12 @@
         });
     }
     
-    if (self.viewController) {
-        [self.viewController requestServiceState];
+    if (self.xinFengVC) {
+        [self.xinFengVC requestXinFengServiceState];
+    }
+    
+    if (self.mainVC) {
+        [self.mainVC requestMainVCServiceState];
     }
 
 }
@@ -320,8 +325,12 @@
     self.serviceModel = serviceModel;
 }
 
-- (void)initLastViewController:(XinFengViewController *)viewController {
-    self.viewController = viewController;
+- (void)initLastXinFengViewController:(XinFengViewController *)viewController {
+    self.xinFengVC = viewController;
+}
+
+- (void)initLastMainViewController:(MainViewController *)viewController {
+    self.mainVC = viewController;
 }
 
 @end

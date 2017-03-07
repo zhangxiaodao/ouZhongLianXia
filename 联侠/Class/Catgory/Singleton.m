@@ -45,7 +45,7 @@
 }
 
 - (void)setSocketHost:(NSString *)socketHost {
-    _socketHost = kHost;
+    _socketHost = localhost;
     
 }
 
@@ -64,14 +64,14 @@
     self.isActiveDisconnect = @"NO";
     NSError *error = nil;
    
-    [self.socket connectToHost:kHost onPort:kPort withTimeout:-1 error:&error];
+    [self.socket connectToHost:localhost onPort:kPort withTimeout:-1 error:&error];
 
 }
 
 - (void)connectHost {
     
     NSError *error = nil;
-    [self.socket connectToHost:kHost onPort:kPort withTimeout:-1 error:&error];
+    [self.socket connectToHost:localhost onPort:kPort withTimeout:-1 error:&error];
 }
 
 // 连接成功回调

@@ -47,7 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-//    [kStanderDefault setObject:@"YES" forKey:@"Login"];
+    [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
     
     if ([kStanderDefault objectForKey:@"userSn"]) {
@@ -82,6 +82,9 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // 耗时的操作
         dispatch_async(dispatch_get_main_queue(), ^{
+            
+//            [self startWearthData];
+            
             NSInteger nowTimeInterval = [NSString getNowTimeInterval];
             if ([kStanderDefault objectForKey:@"requestWeatherTime"]) {
                 NSInteger weatherTime = [[kStanderDefault objectForKey:@"requestWeatherTime"] integerValue];
@@ -101,6 +104,7 @@
     
     
     NSDictionary *parameters = @{@"userSn": [kStanderDefault objectForKey:@"userSn"]};
+    NSLog(@"%@" , parameters);
     [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:parameters andDelegate:self];
     
 }
@@ -246,7 +250,12 @@
     
     [kStanderDefault setObject:dic forKey:@"wearthDic"];
     
-    [self.wearthDic removeAllObjects];
+    NSLog(@"%@" , self.wearthDic);
+
+//    if (self.wearthDic.count > 0) {
+//        [self.wearthDic removeAllObjects];
+//    }
+    
     self.wearthDic = dic;
     
     NSInteger i = [[kStanderDefault objectForKey:@"weartherImage"] integerValue];

@@ -54,13 +54,19 @@
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     
     _serviceModel = serviceModel;
-    [self.backImage sd_setImageWithURL:[NSURL URLWithString:_serviceModel.imageUrl] placeholderImage:[UIImage new]];
-    self.typeName.text = [NSString stringWithFormat:@"%@%@No%ld" , _serviceModel.brand , _serviceModel.typeName , ((long)_indexPath.row + 1)];
-//    self.backView.backgroundColor = [UIColor clearColor];
-//    self.backView.layer.borderColor = kACOLOR(224, 224, 224, 1.0).CGColor;
-//    self.backView.layer.borderWidth = 0;
-//    self.backView.layer.cornerRadius = 5;
-    self.layer.masksToBounds = YES;
+    
+    if (_serviceModel) {
+        [self.backImage sd_setImageWithURL:[NSURL URLWithString:_serviceModel.imageUrl] placeholderImage:[UIImage new]];
+        
+        if (_serviceModel.definedName) {
+            self.typeName.text = _serviceModel.definedName;
+        } else {
+            self.typeName.text = [NSString stringWithFormat:@"%@%@No%ld" , _serviceModel.brand , _serviceModel.typeName , ((long)_indexPath.row + 1)];
+        }
+        
+        self.layer.masksToBounds = YES;
+    }
+    
 }
 
 @end

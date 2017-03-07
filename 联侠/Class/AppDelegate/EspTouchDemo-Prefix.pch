@@ -36,7 +36,6 @@
 
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip
-#define kHost @"114.55.5.92"
 #define kPort 6003
 #define localhost @"114.55.5.92"
 
@@ -460,7 +459,14 @@
  *  以前的     http://%@:8080/smarthome/user/deleteUserDevice
  *  修改过的  http://localhost:8080/smarthome/userDevice/deleteUserDevice
  */
-#define kDeleteServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/user/deleteUserDevice", localhost]
+#define kDeleteServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/userDevice/deleteUserDevice", localhost]
+
+
+/**
+ *  修改设备名称
+ */
+#define kChangeServiceName [NSString stringWithFormat:@"http://%@:8080/smarthome/userDevice/modifyUserDevice", localhost]
+
 
 /**
  *  所有设备类型借口
@@ -472,5 +478,7 @@
 #define kBindKongQiJingHuaQiURL [NSString stringWithFormat:@"http://%@:8080/smarthome/air/bindDevice", localhost]
 
 #define kBindGanYiJiURL [NSString stringWithFormat:@"http://%@:8080/smarthome/dryer/bindDevice", localhost]
+
+
 
 #endif

@@ -22,6 +22,8 @@
 @property (nonatomic , copy) NSString *protocol;
 @property (nonatomic , assign) NSInteger slTypeInt;
 
+@property (nonatomic , copy) NSString *definedName;
+
 /**
  *  测试使用将来需要删除
  */

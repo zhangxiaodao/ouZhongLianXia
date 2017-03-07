@@ -346,6 +346,10 @@ static HelpFunction *_request = nil;
             if (_delegate && [_delegate respondsToSelector:@selector(requestDataWithDontHaveReturnValue:)]) {
                 [_delegate requestDataWithDontHaveReturnValue:self];
             }
+        } else if ([self.urlString isEqualToString:kChangeServiceName]) {
+            if (_delegate && [_delegate respondsToSelector:@selector(requestData:changeServiceName:)]) {
+                [_delegate requestData:self changeServiceName:dic];
+            }
         } else {
             [self.dataArray addObject:dic];
             if (self.dataArray.count > 0 && _delegate && [_delegate respondsToSelector:@selector(requestData:didFinishLoadingDtaArray:)]) {

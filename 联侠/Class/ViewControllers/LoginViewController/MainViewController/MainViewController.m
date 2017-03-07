@@ -90,8 +90,9 @@
         for (NSString *key in [user allKeys]) {
             [_userModel setValue:user[key] forKey:key];
         }
-        [kApplicate initUserModel:_userModel];
         
+        [kApplicate initLastMainViewController:self];
+        [kApplicate initUserModel:_userModel];
         if (![self.userModel.headImageUrl isKindOfClass:[NSNull class]]) {
             [self.headImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage new]];
             if (self.headImageView.image.size.width == 0) {
@@ -108,28 +109,45 @@
     _serviceModel = serviceModel;
 //    NSLog(@"%@" , _serviceModel);
     if (_serviceModel) {
-        {
-            NSDictionary *parames = @{@"devSn" : _serviceModel.devSn , @"devTypeSn" : _serviceModel.devTypeSn};
-            if ([_serviceModel.devTypeSn isEqualToString:@"4131"] || [_serviceModel.devTypeSn isEqualToString:@"4132"]) {
-                
-                [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianZhuangTai andParames:parames andDelegate:self];
-                
-                [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianShuJu andParames:parames andDelegate:self];
-            } else if ([_serviceModel.devTypeSn isEqualToString:@"4231"]) {
-                
-                [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
-                
-                [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianShuJu andParames:parames andDelegate:self];
-            } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {
-                
-                [HelpFunction requestDataWithUrlString:kChaXunGanYiJiZhuangTai andParames:parames andDelegate:self];
-                
-                [HelpFunction requestDataWithUrlString:kChaXunGanYiJiShuJu andParames:parames andDelegate:self];
-            }
         
-        }
+        [kApplicate initServiceModel:self.serviceModel];
+        [self requestMainVCServiceData];
+        [self requestMainVCServiceState];
     }
 }
+
+- (void)requestMainVCServiceState {
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
+
+    if ([self.serviceModel.devTypeSn isEqualToString:@"4131"] || [self.serviceModel.devTypeSn isEqualToString:@"4132"]) {
+        
+        [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianZhuangTai andParames:parames andDelegate:self];
+ 
+    } else if ([self.serviceModel.devTypeSn isEqualToString:@"4231"]) {
+        
+        [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
+        
+    } else if ([self.serviceModel.devTypeSn isEqualToString:@"4331"]) {
+        
+        [HelpFunction requestDataWithUrlString:kChaXunGanYiJiZhuangTai andParames:parames andDelegate:self];
+    }
+    
+}
+
+- (void)requestMainVCServiceData {
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
+    
+    if ([self.serviceModel.devTypeSn isEqualToString:@"4131"] || [self.serviceModel.devTypeSn isEqualToString:@"4132"]) {
+
+        [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianShuJu andParames:parames andDelegate:self];
+    } else if ([self.serviceModel.devTypeSn isEqualToString:@"4231"]) {
+
+        [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianShuJu andParames:parames andDelegate:self];
+    } else if ([self.serviceModel.devTypeSn isEqualToString:@"4331"]) {
+        [HelpFunction requestDataWithUrlString:kChaXunGanYiJiShuJu andParames:parames andDelegate:self];
+    }
+}
+
 
 #pragma mark - 查询设备数据
 - (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {

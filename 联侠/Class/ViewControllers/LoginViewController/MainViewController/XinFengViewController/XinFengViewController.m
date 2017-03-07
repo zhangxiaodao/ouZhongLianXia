@@ -30,6 +30,9 @@
 @property (nonatomic , strong) ServicesDataModel *serviceDataModel;
 @property (nonatomic , strong) UserModel *userModel;
 @property (nonatomic , strong) NSMutableDictionary *dic;
+
+@property (nonatomic , copy) NSString *deviceName;
+@property (nonatomic , strong) UILabel *titleLabel;
 @end
 
 @implementation XinFengViewController
@@ -82,7 +85,7 @@
             [_userModel setValue:user[key] forKey:key];
         }
         
-        [kApplicate initLastViewController:self];
+        [kApplicate initLastXinFengViewController:self];
         [kApplicate initUserModel:_userModel];
     }
 }
@@ -94,21 +97,20 @@
     if (_serviceModel) {
         [self sendXinFengNowTime];
         
-        
         [kApplicate initServiceModel:self.serviceModel];
         if ([self.serviceModel.devTypeSn isEqualToString:@"4232"]) {
-            [self requestServiceData];
-            [self requestServiceState];
+            [self requestXinFengServiceData];
+            [self requestXinFengServiceState];
         }
     }
 }
 
-- (void)requestServiceState {
+- (void)requestXinFengServiceState {
     NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
     [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
 }
 
-- (void)requestServiceData {
+- (void)requestXinFengServiceData {
     NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
     [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianShuJu andParames:parames andDelegate:self];
 }
@@ -321,7 +323,7 @@
 //    _markView.backgroundColor = [UIColor blackColor];
     
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(xinFengBackAtcion:)  andTitle:@"新风智能空气净化器"];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(xinFengBackAtcion:)  andTitle:nil];
     
     UIView *backView = [self.navView.subviews objectAtIndex:0];
     UIImageView *backImageView = [backView.subviews objectAtIndex:1];
@@ -341,9 +343,17 @@
     [gengDuoImageView addGestureRecognizer:gengDuoTap];
     [UIImageView setImageViewColor:backImageView andColor:[UIColor whiteColor]];
     
-    UILabel *lable = [self.navView.subviews objectAtIndex:2];
-    lable.textColor = [UIColor whiteColor];
-    lable.font = [UIFont systemFontOfSize:k17];
+    self.titleLabel = [self.navView.subviews objectAtIndex:2];
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.font = [UIFont systemFontOfSize:k17];
+    
+    if (self.serviceModel) {
+        if (self.serviceModel.definedName) {
+            self.titleLabel.text = self.serviceModel.definedName;
+        } else {
+            self.titleLabel.text = [NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName];
+        }
+    }
     
 }
 
@@ -372,18 +382,48 @@
 - (void)gengDuoTapAtcion:(UITapGestureRecognizer *)tap {
     
     [UIAlertController creatSheetControllerWithFirstHandle:^{
+
+        [UIAlertController creatAlertControllerWithFirstTextfiledPlaceholder:nil andFirstTextfiledText:[NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName] andFirstAtcion:nil andWhetherEdite:NO WithSecondTextfiledPlaceholder:@"请输入修改名称" andSecondTextfiledText:nil andSecondAtcion:@selector(secondTextFieldsValueDidChange:) andAlertTitle:@"修改设备名称" andAlertMessage:@"你可以再次修改设备名称，便于区分。" andTextfiledAtcionTarget:self andSureHandle:^{
+            if (self.deviceName) {
+                NSDictionary *parames = @{@"ud.devTypeSn" :  self.serviceModel.devTypeSn, @"ud.devSn" :  self.serviceModel.devSn, @"ud.definedName" : self.deviceName};
+                NSLog(@"修改设备名称---%@" , parames);
+                [HelpFunction requestDataWithUrlString:kChangeServiceName andParames:parames andDelegate:self];
+            }
+        } andSuperViewController:self];
+        
+    } andFirstTitle:@"修改名称" andSecondHandle:^{
+        
         NSDictionary *parames = @{@"id" : @(self.serviceModel.userDeviceID)};
-//        NSLog(@"%@" , parames);
+        //        NSLog(@"%@" , parames);
         
         [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
-    } andFirstTitle:@"移除设备" andSecondHandle:^{
-        ConnectWeViewController *connectOueVC = [[ConnectWeViewController alloc]init];
-        [self.navigationController pushViewController:connectOueVC animated:YES];
-    } andSecondTitle:@"联系我们" andThirtHandle:^{
+    } andSecondTitle:@"移除设备" andThirtHandle:^{
         AllTypeServiceViewController *allServicesVC = [[AllTypeServiceViewController alloc]init];
         allServicesVC.fromAboutVC = @"YES";
         [self.navigationController pushViewController:allServicesVC animated:YES];
-    } andThirtTitle:@"使用帮助" andForthHandle:nil andForthTitle:nil andSuperViewController:self];
+    } andThirtTitle:@"使用帮助" andForthHandle:^{
+        ConnectWeViewController *connectOueVC = [[ConnectWeViewController alloc]init];
+        [self.navigationController pushViewController:connectOueVC animated:YES];
+    } andForthTitle:@"联系我们" andSuperViewController:self];
+}
+
+
+- (void)secondTextFieldsValueDidChange:(UITextField *)textfiled {
+    self.deviceName = textfiled.text;
+}
+
+- (void)requestData:(HelpFunction *)request changeServiceName:(NSDictionary *)dic {
+//    NSLog(@"%@" , dic);
+    
+    if ([dic[@"state"] isKindOfClass:[NSNull class]]) {
+        return ;
+    }
+    
+    NSInteger index = [dic[@"state"] integerValue];
+    if (index == 0) {
+        self.titleLabel.text = self.deviceName;
+    }
+    
 }
 
 #pragma mark - 左上角返回点击事件
@@ -460,6 +500,7 @@
         }
         
         cell.serviceModel = self.serviceModel;
+        cell.stateModel = self.stateModel;
         return cell;
     } else {
         

@@ -16,4 +16,7 @@
 
 + (UIAlertController *)creatSheetControllerWithFirstHandle:(void (^)())firstHandle andFirstTitle:(NSString *)firstText andSecondHandle:(void(^)())secondHandle andSecondTitle:(NSString *)secondTitle andThirtHandle:(void(^)())thirtHandle andThirtTitle:(NSString *)thirtTitle andForthHandle:(void(^)())forthHandle andForthTitle:(NSString *)forthTitle andSuperViewController:(UIViewController *)superVC;
 
++ (UIAlertController *)creatAlertControllerWithFirstTextfiledPlaceholder:(NSString *)firstPlaceholder andFirstTextfiledText:(NSString *)firstTitle andFirstAtcion:(SEL)firstAtcion andWhetherEdite:(BOOL)whetherEdite WithSecondTextfiledPlaceholder:(NSString *)secondPlaceholder andSecondTextfiledText:(NSString *)secondTitle andSecondAtcion:(SEL)secondAtcion andAlertTitle:(NSString *)alertTitle andAlertMessage:(NSString *)alertMessage andTextfiledAtcionTarget:(nullable id)target andSureHandle:(void(^)())sureHandle andSuperViewController:(UIViewController *)superVC ;
+
+
 @end

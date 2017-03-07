@@ -62,7 +62,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengFunctionBtnAtcion:) name:@"4232" object:nil];
     
-    self.backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW,  kBtnW * 9 / 4)];
+    self.backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW,  kBtnW * 9 / 4 + 1)];
     self.backView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.backView];
     

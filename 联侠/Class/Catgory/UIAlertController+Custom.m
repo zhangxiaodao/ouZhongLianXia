@@ -47,7 +47,7 @@
     }
     
     if (forthTitle != nil) {
-        [alertController addAction:[UIAlertAction actionWithTitle:secondTitle style: UIAlertActionStyleDefault handler:forthHandle]];
+        [alertController addAction:[UIAlertAction actionWithTitle:forthTitle style: UIAlertActionStyleDefault handler:forthHandle]];
     }
     
     
@@ -55,6 +55,53 @@
     
     [superVC presentViewController:alertController animated:YES completion:nil];
     return alertController;
+}
+
++ (UIAlertController *)creatAlertControllerWithFirstTextfiledPlaceholder:(NSString *)firstPlaceholder andFirstTextfiledText:(NSString *)firstTitle andFirstAtcion:(SEL)firstAtcion andWhetherEdite:(BOOL)whetherEdite WithSecondTextfiledPlaceholder:(NSString *)secondPlaceholder andSecondTextfiledText:(NSString *)secondTitle andSecondAtcion:(SEL)secondAtcion andAlertTitle:(NSString *)alertTitle andAlertMessage:(NSString *)alertMessage andTextfiledAtcionTarget:(nullable id)target andSureHandle:(void(^)())sureHandle andSuperViewController:(UIViewController *)superVC {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:sureHandle]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    
+    if (firstTitle || firstPlaceholder) {
+        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            
+            if (firstTitle) {
+                textField.text = firstTitle;
+            }
+            
+            if (firstPlaceholder) {
+                textField.placeholder = firstPlaceholder;
+            }
+            
+            if (firstAtcion) {
+                [textField addTarget:target action:firstAtcion forControlEvents:UIControlEventEditingDidEnd];
+            }
+            
+            textField.userInteractionEnabled = whetherEdite;
+        }];
+    }
+    
+    if (secondTitle || secondPlaceholder) {
+        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            
+            if (secondTitle) {
+                textField.text = secondTitle;
+            }
+            
+            if (secondPlaceholder) {
+                textField.placeholder = secondPlaceholder;
+            }
+            
+            if (secondAtcion) {
+                [textField addTarget:target action:secondAtcion forControlEvents:UIControlEventEditingDidEnd];
+            }
+        }];
+    }
+    
+    [superVC presentViewController:alert animated:YES completion:nil];
+    
+    return alert;
 }
 
 @end

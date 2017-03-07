@@ -192,34 +192,13 @@
         [_delegate xinFengTimeVCSendTimeToParentVCDelegate:array];
     }
     
-    
     NSString *repeatStr = @"0000000";
     if (self.repeatSwitch.on) {
         repeatStr = @"1111111";
     }
     
-    
-    NSString *openHour = [openTime substringToIndex:2];
-    NSString *openMinute = [openTime substringFromIndex:3];
-    NSString *closeHour = [closeTime substringToIndex:2];
-    NSString *closeMinute = [closeTime substringFromIndex:3];
-    
-    NSMutableArray *openArray = [NSMutableArray array];
-    NSMutableArray *closeArray = [NSMutableArray array];
-    openArray = [NSString nowTimeAndAfterHour:openHour andAfterMinutes:openMinute andIsNeedTimeInterval:@"YES"];
-    closeArray = [NSString nowTimeAndAfterHour:closeHour andAfterMinutes:closeMinute andIsNeedTimeInterval:@"YES"];
-        
-    NSInteger durTime = 0;
-    NSInteger openTimeInteger = [openArray[1] integerValue];
-    NSInteger closeTimeInteger = [closeArray[1] integerValue];
-    if (openTimeInteger > closeTimeInteger) {
-        durTime = openTimeInteger - closeTimeInteger;
-    } else {
-        durTime = closeTimeInteger - openTimeInteger;
-    }
-    
-    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"task.fSwitchOn" : @(self.openSwitch.on) , @"task.fSwitchOff" : @(self.closeSwitch.on) , @"task.onJobTime" : openTime , @"task.offJobTime" : closeTime , @"task.durTime" : [NSString stringWithFormat:@"%ld" , durTime] , @"task.runWeek" : repeatStr};
-
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"task.fSwitchOn" : @(self.openSwitch.on) , @"task.fSwitchOff" : @(self.closeSwitch.on) , @"task.onJobTime" : openTime , @"task.offJobTime" : closeTime ,  @"task.runWeek" : repeatStr};
+//    NSLog(@"%@ , %@" , self.openTimeLabel.text , self.closeLabel.text);
     NSLog(@"%@" , parames);
     [HelpFunction requestDataWithUrlString:kKongJingDingShiYuYue andParames:parames andDelegate:self];
 }

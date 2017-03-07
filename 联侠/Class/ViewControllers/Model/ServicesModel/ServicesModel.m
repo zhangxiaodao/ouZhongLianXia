@@ -25,7 +25,7 @@
 
 - (NSString *)description {
    
-    return [NSString stringWithFormat:@"devTypeSn--%@ , typeSn--%@ , devSn--%@ , typeName--%@ , brand--%@ , bindUrl--%@ , slTypeInt--%ld , indexUrl--%@" , _devTypeSn , _typeSn , _devSn , _typeName , _brand , _bindUrl , _slTypeInt , _indexUrl];
+    return [NSString stringWithFormat:@"devTypeSn--%@ , typeSn--%@ , devSn--%@ , typeName--%@ , brand--%@ , bindUrl--%@ , slTypeInt--%ld , indexUrl--%@ , definedName--%@" , _devTypeSn , _typeSn , _devSn , _typeName , _brand , _bindUrl , _slTypeInt , _indexUrl , _definedName];
 }
 
 @end

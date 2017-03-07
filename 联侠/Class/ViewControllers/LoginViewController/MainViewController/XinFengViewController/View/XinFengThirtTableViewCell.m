@@ -21,7 +21,7 @@
     UIButton *gaoXiaoBtn;
     UIButton *shuShiBtn;
 }
-
+@property (nonatomic , strong) UIView *markView;
 @property (nonatomic , strong) NSArray *array;
 @property (nonatomic , strong) UIView *backView;
 
@@ -38,7 +38,24 @@
 }
 
 
+- (void)getBottomBtnSelectedMarkViewWhearthShowOfModelCell:(NSNotification *)post {
+    NSString *selected = post.userInfo[@"BottomBtnSelected"];
+    //    NSLog(@"selected--%@ , %ld" , selected , selected.integerValue);
+    if (selected.integerValue == 1){
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = 0;
+        }];
+        
+    } else {
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = .3;
+        }];
+    }
+}
+
 - (void)customUI {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBottomBtnSelectedMarkViewWhearthShowOfModelCell:) name:@"BottomBtnSelected" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengModelBtnAtcion:) name:@"4232" object:nil];
     
@@ -95,18 +112,23 @@
         
     }
     
+    
+    self.markView = [[UIView alloc]init];
+    [self.backView addSubview:self.markView];
+    self.markView.frame = self.backView.bounds;
+    self.markView.backgroundColor = [UIColor blackColor];
+    self.markView.alpha = .3;
     if ([kStanderDefault objectForKey:@"offBtn"]) {
         NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
+        
         if (bottomSelected.integerValue == 0) {
-            for (int i = 0; i < self.backView.subviews.count; i++) {
-                UIButton *btn = self.backView.subviews[i];
-                btn.userInteractionEnabled = NO;
-            }
-        } else if (bottomSelected.integerValue == 1) {
-            for (int i = 0; i < self.backView.subviews.count; i++) {
-                UIButton *btn = self.backView.subviews[i];
-                btn.userInteractionEnabled = YES;
-            }
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = .3;
+            }];
+        } else {
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = 0;
+            }];
         }
     }
     
@@ -122,37 +144,26 @@
 
 - (void)modelBtnDoneAtcion:(UIButton *)btn {
     
-    [UIButton setBtnOfImageAndLableWithUnSelected:shuiMianBtn andTintColor:kXinFengKongJingYanSe];
-    [UIButton setBtnOfImageAndLableWithUnSelected:ziRanBtn andTintColor:kXinFengKongJingYanSe];
-    [UIButton setBtnOfImageAndLableWithUnSelected:gaoXiaoBtn andTintColor:kXinFengKongJingYanSe];
-    [UIButton setBtnOfImageAndLableWithUnSelected:shuShiBtn andTintColor:kXinFengKongJingYanSe];
-  
-//    NSString *model = nil;
     switch (btn.tag) {
         case 0:
         {
-//            model = @"高效";
+
             [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"00" , @"04") andType:kZhiLing andIsNewOrOld:kNew];
-//            [UIButton setBtnOfImageAndLableWithSelected:gaoXiaoBtn andBackGroundColor:kXinFengKongJingYanSe];
             break;
         }
         case 1: {
-//            model = @"自然";
+
             [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"00", @"01" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
-//            [UIButton setBtnOfImageAndLableWithSelected:ziRanBtn andBackGroundColor:kXinFengKongJingYanSe];
             break;
         }
         case 2: {
-//            model = @"睡眠";
+
             [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"02" , @"01") andType:kZhiLing andIsNewOrOld:kNew];
-//            [UIButton setBtnOfImageAndLableWithSelected:shuiMianBtn andBackGroundColor:kXinFengKongJingYanSe];
             break;
         }
             
         case 3:{
-//            model = @"舒适";
             [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"01" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
-//            [UIButton setBtnOfImageAndLableWithSelected:shuShiBtn andBackGroundColor:kXinFengKongJingYanSe];
             break;
         }
             
@@ -213,6 +224,51 @@
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
+}
+
+
+- (void)setStateModel:(StateModel *)stateModel {
+    _stateModel = stateModel;
+    
+    
+    if (_stateModel) {
+        [UIButton setBtnOfImageAndLableWithUnSelected:gaoXiaoBtn andTintColor:kXinFengKongJingYanSe];
+        [UIButton setBtnOfImageAndLableWithUnSelected:ziRanBtn andTintColor:kXinFengKongJingYanSe];
+        [UIButton setBtnOfImageAndLableWithUnSelected:shuiMianBtn andTintColor:kXinFengKongJingYanSe];
+        [UIButton setBtnOfImageAndLableWithUnSelected:shuShiBtn andTintColor:kXinFengKongJingYanSe];
+        
+        if (_stateModel.fMode == 2 && _stateModel.fWind == 1 && _stateModel.fAnion == 2) {
+            [UIButton setBtnOfImageAndLableWithSelected:shuiMianBtn andBackGroundColor:kXinFengKongJingYanSe];
+        }
+        
+        if (_stateModel.fAnion == 1 && _stateModel.fMode == 1) {
+            [UIButton setBtnOfImageAndLableWithSelected:ziRanBtn andBackGroundColor:kXinFengKongJingYanSe];
+        }
+        
+        if (_stateModel.fMode == 2 && _stateModel.fAnion == 2 && _stateModel.fWind == 2) {
+            [UIButton setBtnOfImageAndLableWithSelected:gaoXiaoBtn andBackGroundColor:kXinFengKongJingYanSe];
+        }
+        
+        if (_stateModel.fMode == 2 && _stateModel.fAnion == 1 && _stateModel.fWind == 2) {
+            [UIButton setBtnOfImageAndLableWithSelected:shuShiBtn andBackGroundColor:kXinFengKongJingYanSe];
+        }
+        
+    }
+    
+    if (_stateModel.fSwitch == 1){
+        
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = 0;
+        }];
+        
+    } else if (_stateModel.fSwitch == 0) {
+        
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = .3;
+        }];
+    }
+    
+    
 }
 
 @end

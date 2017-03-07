@@ -11,5 +11,5 @@
 @interface XinFengThirtTableViewCell : UITableViewCell
 
 @property (nonatomic , strong) ServicesModel *serviceModel;
-
+@property (nonatomic , strong) StateModel *stateModel;
 @end

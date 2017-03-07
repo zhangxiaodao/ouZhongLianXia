@@ -68,11 +68,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "510137224.75233"
+            timestampString = "510566999.794515"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
             landmarkType = "7">
          </BreakpointContent>
@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "510137226.888429"
+            timestampString = "510566999.794515"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
             landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
             landmarkType = "7">
          </BreakpointContent>

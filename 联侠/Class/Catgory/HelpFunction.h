@@ -10,7 +10,9 @@
 @class HelpFunction;
 @protocol HelpFunctionDelegate <NSObject>
 @optional
-//帮助别人请求数据,一定要告诉别人是否请求成功
+
+- (void)requestData:(HelpFunction *)request changeServiceName:(NSDictionary *)dic;
+
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *) data;
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd;
