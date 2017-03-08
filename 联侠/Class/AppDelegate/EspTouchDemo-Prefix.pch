@@ -137,7 +137,7 @@
 #import "AddServiceModel.h"
 #import "UIBarButtonItem+Extension.h"
 #import "SVProgressHUD.h"
-
+#import "TabBarViewController.h"
 
 
 //#import "UIView+Btn.h"
@@ -459,7 +459,7 @@
  *  以前的     http://%@:8080/smarthome/user/deleteUserDevice
  *  修改过的  http://localhost:8080/smarthome/userDevice/deleteUserDevice
  */
-#define kDeleteServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/userDevice/deleteUserDevice", localhost]
+#define kDeleteServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/user/deleteUserDevice", localhost]
 
 
 /**

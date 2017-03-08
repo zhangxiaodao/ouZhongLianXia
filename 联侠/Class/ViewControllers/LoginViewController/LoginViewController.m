@@ -17,6 +17,7 @@
 #import "MineSerivesViewController.h"
 
 #import "CCLocationManager.h"
+#import "TabBarViewController.h"
 
 
 #define NUMBERS @"0123456789"
@@ -276,9 +277,12 @@
             if (dataArray.count > 0) {
                 
                 [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-                MineSerivesViewController *myMachineVC = [[MineSerivesViewController alloc]init];
-                myMachineVC.tabBarController.tabBar.hidden = NO;
-                [self.navigationController pushViewController:myMachineVC animated:YES];
+//                MineSerivesViewController *myMachineVC = [[MineSerivesViewController alloc]init];
+//                myMachineVC.tabBarController.tabBar.hidden = NO;
+//                [self.navigationController pushViewController:myMachineVC animated:YES];
+                
+                [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
+                
             } else {
                 AddSViewController *addServiceVC = [[AddSViewController alloc]init];
                 [self.navigationController pushViewController:addServiceVC animated:YES];

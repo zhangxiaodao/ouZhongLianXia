@@ -323,7 +323,7 @@
 //    _markView.backgroundColor = [UIColor blackColor];
     
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(xinFengBackAtcion:)  andTitle:nil];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(xinFengBackAtcion:)  andTitle:@""];
     
     UIView *backView = [self.navView.subviews objectAtIndex:0];
     UIImageView *backImageView = [backView.subviews objectAtIndex:1];
@@ -369,6 +369,7 @@
             
             if (self.serviceArray.count == 1) {
                 SetServicesViewController *setSerVC = [[SetServicesViewController alloc]init];
+                setSerVC.onlyHaveOneService = @"YES";
                 [self.navigationController pushViewController:setSerVC animated:YES];
             } else {
                 [self.navigationController popViewControllerAnimated:YES];

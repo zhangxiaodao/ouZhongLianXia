@@ -12,5 +12,7 @@
 
 @property (nonatomic , copy)NSString *fromErWeiMa;
 
+@property (nonatomic , copy) NSString *onlyHaveOneService;
+
 //@property (nonatomic , strong) AddServiceModel *addServiceModel;
 @end

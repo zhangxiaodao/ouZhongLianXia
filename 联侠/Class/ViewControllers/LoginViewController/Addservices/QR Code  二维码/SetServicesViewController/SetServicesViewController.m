@@ -25,6 +25,13 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"设置设备"];
     
+    if ([self.onlyHaveOneService isEqualToString:@"YES"]) {
+        UIView *backView = [self.navView.subviews objectAtIndex:0];
+        UIImageView *backImageView = [backView.subviews objectAtIndex:1];
+        backImageView.image = [UIImage new];
+    }
+    
+    
      [self setUI];
 }
 #pragma mark - 返回主界面
@@ -36,6 +43,8 @@
                 [self.navigationController popToViewController:temp animated:YES];
             }
         }
+    } else if ([self.onlyHaveOneService isEqualToString:@"YES"]) {
+        return ;
     } else {
         [self.navigationController popViewControllerAnimated:YES];
     }

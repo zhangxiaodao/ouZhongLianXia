@@ -110,8 +110,10 @@
             if (dataArray.count > 0) {
                 [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
                 
-                MineSerivesViewController *myMachineVC = [[MineSerivesViewController alloc]init];
-                [self.navigationController pushViewController:myMachineVC animated:YES];
+//                MineSerivesViewController *myMachineVC = [[MineSerivesViewController alloc]init];
+//                [self.navigationController pushViewController:myMachineVC animated:YES];
+                
+                [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
             } else {
                 AddSViewController *addServiceVC = [[AddSViewController alloc]init];
                 [self.navigationController pushViewController:addServiceVC animated:YES];

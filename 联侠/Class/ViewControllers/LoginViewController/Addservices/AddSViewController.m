@@ -23,28 +23,26 @@
     self.view.backgroundColor = kCOLOR(242, 242, 242);
     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"添加设备"];
 
-    if ([self.isFromBottomNav isEqualToString:@"YES"]) {
-        UIView *iii = [self.navView.subviews objectAtIndex:0];
-        UIImageView *jjj = [iii.subviews objectAtIndex:1];
-        jjj.image = [jjj.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        jjj.tintColor = [UIColor whiteColor];
-        
-        UILabel *lable222 = self.navView.subviews[2];
-        lable222.textColor = [UIColor whiteColor];
-    }
+    UIView *backView = [self.navView.subviews objectAtIndex:0];
+    UIImageView *backImageView = [backView.subviews objectAtIndex:1];
+    backImageView.image = [UIImage new];
+    
+    
+//    if ([self.isFromBottomNav isEqualToString:@"YES"]) {
+//        UIView *iii = [self.navView.subviews objectAtIndex:0];
+//        UIImageView *jjj = [iii.subviews objectAtIndex:1];
+//        jjj.image = [jjj.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//        jjj.tintColor = [UIColor whiteColor];
+//        
+//        UILabel *lable222 = self.navView.subviews[2];
+//        lable222.textColor = [UIColor whiteColor];
+//    }
     
     [self setUI];
 }
 #pragma mark - 返回主界面
 - (void)backTap:(UITapGestureRecognizer *)tap {
-    
-    if ([self.isFromMainVC isEqualToString:@"YES"]) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else {
-         return ;
-    }
-    
-   
+    return ;
 }
 
 #pragma mark - 设置UI

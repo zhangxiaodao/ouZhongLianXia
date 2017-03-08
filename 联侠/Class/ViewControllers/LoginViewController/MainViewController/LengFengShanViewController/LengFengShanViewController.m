@@ -13,9 +13,8 @@
 #import "LvWangJieDuTableViewCell.h"
 #import "BingJingShouMingTableViewCell.h"
 #import "EnterWorkTowerViewController.h"
-
-
 #import "BottomNavViewController.h"
+#import "SetServicesViewController.h"
 
 @interface LengFengShanViewController ()<HelpFunctionDelegate , UITableViewDataSource , UITableViewDelegate>
 
@@ -75,8 +74,7 @@
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     }
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4131" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate111:) name:@"4132" object:nil];
+
     btn.selected = !btn.selected;
 }
 

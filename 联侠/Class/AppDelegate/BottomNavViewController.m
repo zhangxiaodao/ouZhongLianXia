@@ -20,6 +20,7 @@
 #import "XinFengViewController.h"
 
 #import "LaunchScreenViewController.h"
+#import "TabBarViewController.h"
 
 @interface BottomNavViewController ()
 
@@ -39,8 +40,8 @@
         if ([kStanderDefault objectForKey:@"Login"]) {
             
             if ([[kStanderDefault objectForKey:@"isHaveService"] isEqualToString:@"YES"]) {
-                [self setAddViewController:[[MineSerivesViewController alloc]init]];
-             
+//                [self setAddViewController:[[MineSerivesViewController alloc]init]];
+                [self addChildViewController:[[TabBarViewController alloc]init]];
             } else {
                 [self setAddViewController:[[AddSViewController alloc]init]];
             }

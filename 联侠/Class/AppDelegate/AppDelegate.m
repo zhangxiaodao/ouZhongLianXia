@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 
 #import "TabBarViewController.h"
-
+#import "BottomNavViewController.h"
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "UMSocialSinaSSOHandler.h"
@@ -43,7 +43,7 @@
     NSLog(@"%f , %f" , kScreenW , kScreenH);
     _alertController = nil;
     
-    self.window.rootViewController = [[TabBarViewController alloc]init];
+    self.window.rootViewController = [[BottomNavViewController alloc]init];
     
     [self setYouMeng];
     [self setGeTui];

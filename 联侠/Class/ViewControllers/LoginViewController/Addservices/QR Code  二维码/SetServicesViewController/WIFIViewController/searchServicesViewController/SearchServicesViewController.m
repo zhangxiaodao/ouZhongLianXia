@@ -308,8 +308,10 @@
     [kStanderDefault setObject:@"YES" forKey:@"isHaveServices"];
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
-    MineSerivesViewController *mineSerVC = [[MineSerivesViewController alloc]init];
-    [self.navigationController pushViewController:mineSerVC animated:YES];
+//    MineSerivesViewController *mineSerVC = [[MineSerivesViewController alloc]init];
+//    [self.navigationController pushViewController:mineSerVC animated:YES];
+    
+    [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
     
     [self.updSocket close];
 }
@@ -339,12 +341,12 @@
 
 - (void)chongFuSendUDP {
 
-//    [self sendMessage:self.protocolArray[3]];
+//    [self sendMessage:self.protocolArray[6]];
     
     for (int i = 0; i < self.protocolArray.count; i++) {
         [self sendMessage:self.protocolArray[i]];
         
-        [NSThread sleepForTimeInterval:0.2];
+        [NSThread sleepForTimeInterval:1];
         
     }
     
@@ -408,13 +410,13 @@
                         
                         [self openUDPServer];
                        
-//                      [self sendMessage:self.protocolArray[3]];
+//                      [self sendMessage:self.protocolArray[6]];
                         for (int i = 0; i < self.protocolArray.count; i++) {
                             [self sendMessage:self.protocolArray[i]];
-                            [NSThread sleepForTimeInterval:0.2];
+                            [NSThread sleepForTimeInterval:1];
                         }
                         
-                        _myTimer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
+                        _myTimer = [NSTimer scheduledTimerWithTimeInterval:7 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
                         
                         
                     }

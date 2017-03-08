@@ -82,8 +82,6 @@ static NSString *fifthCelled = @"fifth";
     
     self.isAnimation = @"YES";
     
-    self.imageVIew = [[UIImageView alloc]initWithFrame:kScreenFrame];
-    [self.view insertSubview:self.imageVIew atIndex:0];
     
     if ([kStanderDefault objectForKey:@"kongZhiTai"]) {
         NSNumber *aa = [kStanderDefault objectForKey:@"kongZhiTai"];

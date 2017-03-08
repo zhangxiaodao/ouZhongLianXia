@@ -7,7 +7,6 @@
 //
 
 #import "TabBarViewController.h"
-#import "BottomNavViewController.h"
 #import "MineViewController.h"
 #import "MineSerivesViewController.h"
 
@@ -22,9 +21,9 @@
     [super viewDidLoad];
     
     
-    BottomNavViewController *bottomVC = [[BottomNavViewController alloc]init];
-    bottomVC.tabBarItem.title = @"我的设备";
-    bottomVC.tabBarItem.image = [[UIImage imageNamed:@"tabbar_service"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    MineSerivesViewController *mineSerVC = [[MineSerivesViewController alloc]init];
+    mineSerVC.tabBarItem.title = @"我的设备";
+    mineSerVC.tabBarItem.image = [[UIImage imageNamed:@"tabbar_service"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
     
    
     
@@ -39,7 +38,7 @@
     self.tabBar.hidden = YES;
     
 
-    [self addChildViewController:bottomVC];
+    [self addChildViewController:mineSerVC];
     [self addChildViewController:userNav];
     
     
