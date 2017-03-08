@@ -8,10 +8,11 @@
 
 #import "ChanPinShuoMingViewController.h"
 
-@interface ChanPinShuoMingViewController (){
+@interface ChanPinShuoMingViewController ()<UIWebViewDelegate>{
     UIWebView *webView;
 }
 @property (nonatomic , strong) UIView *navView;
+@property (nonatomic , strong) UIActivityIndicatorView *searchView;
 @end
 
 @implementation ChanPinShuoMingViewController
@@ -39,6 +40,7 @@
         make.top.mas_equalTo(self.navView.mas_bottom);
         make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
+    webView.delegate = self;
     
     NSString *typeService = [_serviceModel.typeSn substringWithRange:NSMakeRange(0, 2)];
     if ([typeService isEqualToString:@"41"]) {
@@ -48,6 +50,15 @@
     } else if ([typeService isEqualToString:@"43"]) {
         [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kChanPinShuoGanYiJi]]];
     }
+    
+    _searchView = [[UIActivityIndicatorView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    [self.view addSubview:_searchView];
+    _searchView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [_searchView startAnimating];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [_searchView removeFromSuperview];
 }
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {

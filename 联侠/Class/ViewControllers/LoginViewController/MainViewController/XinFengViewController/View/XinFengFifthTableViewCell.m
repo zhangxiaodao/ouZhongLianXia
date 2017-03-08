@@ -28,22 +28,22 @@
 }
 
 
-- (void)getXinFengKongJingTimeMessage:(NSNotification *)post {
-    NSString *messsage = post.userInfo[@"Message"];
-    NSString *hourTime = [NSString turnHexToInt:[messsage substringWithRange:NSMakeRange(46, 2)]];
-    NSString *minuteTime = [NSString turnHexToInt:[messsage substringWithRange:NSMakeRange(48, 2)]];
-    NSInteger sumTimr = hourTime.intValue * 60 + minuteTime.intValue;
-    
-    if (sumTimr == 0) {
-        _shuoMingLabel.text = [NSString stringWithFormat:@"暂无定时预约"];
-    } else {
-        _shuoMingLabel.text = [NSString stringWithFormat:@"本次任务将于%ld分钟结束" , sumTimr];
-    }
-}
+//- (void)getXinFengKongJingTimeMessage:(NSNotification *)post {
+//    NSString *messsage = post.userInfo[@"Message"];
+//    NSString *hourTime = [NSString turnHexToInt:[messsage substringWithRange:NSMakeRange(46, 2)]];
+//    NSString *minuteTime = [NSString turnHexToInt:[messsage substringWithRange:NSMakeRange(48, 2)]];
+//    NSInteger sumTimr = hourTime.intValue * 60 + minuteTime.intValue;
+//    
+//    if (sumTimr == 0) {
+//        _shuoMingLabel.text = [NSString stringWithFormat:@"暂无定时预约"];
+//    } else {
+//        _shuoMingLabel.text = [NSString stringWithFormat:@"本次任务将于%ld分钟结束" , sumTimr];
+//    }
+//}
 
 - (void)customUI {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJingTimeMessage:) name:@"4232" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJingTimeMessage:) name:@"4232" object:nil];
     
     
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 7)];
@@ -147,7 +147,7 @@
 
 - (void)requestServicesTimeing:(NSDictionary *)dic {
     
-    NSLog(@"%@" , dic);
+//    NSLog(@"%@" , dic);
     
     NSString *time = nil;
     

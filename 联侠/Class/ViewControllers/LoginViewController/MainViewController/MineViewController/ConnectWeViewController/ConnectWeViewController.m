@@ -8,11 +8,12 @@
 
 #import "ConnectWeViewController.h"
 
-@interface ConnectWeViewController (){
+@interface ConnectWeViewController ()<UIWebViewDelegate>{
     UIWebView *webView;
 }
 @property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) UITableView *tableView;
+@property (nonatomic , strong) UIActivityIndicatorView *searchView;
 @end
 
 @implementation ConnectWeViewController
@@ -43,8 +44,17 @@
         make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:kAboutOurs]];
-    
     [webView loadRequest:request];
+    webView.delegate = self;
     
+    _searchView = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _searchView.frame = kScreenFrame;
+    [self.view addSubview:_searchView];
+    [_searchView startAnimating];
 }
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [_searchView removeFromSuperview];
+}
+
 @end

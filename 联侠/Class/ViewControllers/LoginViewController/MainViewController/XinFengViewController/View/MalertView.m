@@ -88,25 +88,6 @@
             
         }
         
-        if ([kStanderDefault objectForKey:@"offBtn"]) {
-            
-            NSLog(@"%@" , [kStanderDefault objectForKey:@"offBtn"]);
-            
-            NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
-            if (bottomSelected.integerValue == 0) {
-                for (int i = 0; i < _contentViewLeft.subviews.count; i++) {
-                    UIView *view = _contentViewLeft.subviews[i];
-                    view.userInteractionEnabled = NO;
-                }
-            } else if (bottomSelected.integerValue == 1) {
-                for (int i = 0; i < _contentViewLeft.subviews.count; i++) {
-                    UIView *view = _contentViewLeft.subviews[i];
-                    view.userInteractionEnabled = YES;
-                }
-                
-            }
-        }
-        
         _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenH-49, kScreenW, 49)];
         _bottomView.backgroundColor = [UIColor whiteColor];
         [_bgView addSubview:_bottomView];
@@ -143,7 +124,7 @@
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
     
-        NSLog(@"%@" , dddd);
+//        NSLog(@"%@" , dddd);
     if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dataDic = dddd[@"data"];
         
@@ -227,12 +208,6 @@
     if (_delegate && [_delegate respondsToSelector:@selector(malertItemSelect:)]) {
         [_delegate malertItemSelect:btn.tag];
     }
-    
-//    for (UIButton *colorbtn in self.btnArray) {
-//        colorbtn.backgroundColor = [UIColor clearColor];
-//    }
-//    
-//    btn.backgroundColor = self.clolorArray[btn.tag - 100];
 }
 
 - (void)showAlert

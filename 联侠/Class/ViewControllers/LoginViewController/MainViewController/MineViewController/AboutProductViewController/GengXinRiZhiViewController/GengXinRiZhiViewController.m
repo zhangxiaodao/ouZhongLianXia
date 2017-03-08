@@ -8,10 +8,10 @@
 
 #import "GengXinRiZhiViewController.h"
 
-@interface GengXinRiZhiViewController (){
+@interface GengXinRiZhiViewController ()<UIWebViewDelegate>{
     UIWebView *webView;
 }
-
+@property (nonatomic , strong) UIActivityIndicatorView *searchView;
 @property (nonatomic , strong) UIView *navView;
 @end
 
@@ -39,9 +39,18 @@
         make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:kGengXinRiZhi]];
-    
     [webView loadRequest:request];
+    webView.delegate = self;
+    
+    _searchView = [[UIActivityIndicatorView alloc]initWithFrame:kScreenFrame];
+    _searchView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [self.view addSubview:_searchView];
+    [_searchView startAnimating];
 }
 
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [_searchView removeFromSuperview];
+}
 
 @end

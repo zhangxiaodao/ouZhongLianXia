@@ -245,7 +245,7 @@
             [UIButton setBtnOfImageAndLableWithSelected:ziRanBtn andBackGroundColor:kXinFengKongJingYanSe];
         }
         
-        if (_stateModel.fMode == 2 && _stateModel.fAnion == 2 && _stateModel.fWind == 2) {
+        if (_stateModel.fMode == 2 && _stateModel.fAnion == 2 && _stateModel.fWind == 4) {
             [UIButton setBtnOfImageAndLableWithSelected:gaoXiaoBtn andBackGroundColor:kXinFengKongJingYanSe];
         }
         

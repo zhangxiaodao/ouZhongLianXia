@@ -8,10 +8,11 @@
 
 #import "MineYouHuiQuanViewController.h"
 
-@interface MineYouHuiQuanViewController (){
+@interface MineYouHuiQuanViewController ()<UIWebViewDelegate>{
     UIWebView *webView;
 }
 @property (nonatomic , strong) UIView *navView;
+@property (nonatomic , strong) UIActivityIndicatorView *searchView;
 @end
 
 @implementation MineYouHuiQuanViewController
@@ -62,8 +63,18 @@
             make.centerX.mas_equalTo(self.view.mas_centerX);
         }];
         NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:kZaiXianBangZhu]];
-        
         [webView loadRequest:request];
+        webView.delegate = self;
+        
+        _searchView = [[UIActivityIndicatorView alloc]initWithFrame:kScreenFrame];
+        _searchView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        [self.view addSubview:_searchView];
+        [_searchView startAnimating];
     }
 }
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [_searchView removeFromSuperview];
+}
+
 @end
