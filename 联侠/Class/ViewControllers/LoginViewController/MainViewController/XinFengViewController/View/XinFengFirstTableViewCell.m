@@ -12,7 +12,7 @@
 #define kRadiuesW kScreenW / 1.23
 #define kDuration 4.0
 
-@interface XinFengFirstTableViewCell ()
+@interface XinFengFirstTableViewCell ()<HelpFunctionDelegate>
 @property (nonatomic , strong) UILabel *temperatureLabel;
 @property (nonatomic , strong) UILabel *humidityLabel;
 
@@ -27,6 +27,7 @@
 @property (nonatomic , assign) NSInteger isAnimation;
 @property (nonatomic , copy) NSString *wind;
 
+@property (nonatomic , strong) StateModel *stateModel;
 @end
 
 @implementation XinFengFirstTableViewCell
@@ -34,6 +35,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         [self customUI];
     }
     return self;
@@ -315,6 +317,33 @@
     
 }
 
+- (void)setServiceModel:(ServicesModel *)serviceModel {
+    _serviceModel = serviceModel;
+    
+    if (_serviceModel) {
+        NSDictionary *parames = @{@"devSn" : _serviceModel.devSn , @"devTypeSn" : _serviceModel.devTypeSn};
+        [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
+    }
+    
+}
+
+
+#pragma mark - 获取设备的状态
+- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd{
+        NSLog(@"%@" , dddd);
+    if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dataDic = dddd[@"data"];
+        
+         StateModel *stateModel = [[StateModel alloc]init];
+        
+        for (NSString *key in [dataDic allKeys]) {
+            [stateModel setValue:dataDic[key] forKey:key];
+        }
+        
+        [self setStateModel:stateModel];
+    }
+    
+}
 
 - (void)setServiceDataModel:(ServicesDataModel *)serviceDataModel{
     
@@ -324,6 +353,8 @@
 
 - (void)setStateModel:(StateModel *)stateModel{
     _stateModel = stateModel;
+    
+    NSLog(@"第一个--%@" , _stateModel);
     
     if (_stateModel) {
         _airQulityLable.text = [NSString stringWithFormat:@"%@" , _stateModel.pm25];
@@ -356,18 +387,29 @@
             if (self.stateModel.fWind == 0) {
                 [self pauseLayer:_spinImageView.layer];
             }
-        }
-        
-        
-    }
-    
-    
-    if ([kStanderDefault objectForKey:@"offBtn"]) {
-        NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
-        if (bottomSelected.integerValue == 0) {
+        } else {
             [self pauseLayer:_spinImageView.layer];
         }
     }
+    
+    //        if ([kStanderDefault objectForKey:@"offBtn"]) {
+    //            NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
+    //            if (bottomSelected.integerValue == 0) {
+    //                [self pauseLayer:_spinImageView.layer];
+    //            }
+    //        } else {
+    //            if (_stateModel.fSwitch == 1){
+    //                return ;
+    //
+    //            } else if (_stateModel.fSwitch == 0) {
+    //
+    //                [self pauseLayer:_spinImageView.layer];
+    //            }
+    //        }
+    
+    
+    
+    
 }
 
 @end

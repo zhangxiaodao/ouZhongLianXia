@@ -12,7 +12,7 @@
 #define kArrayCountJiaYi (_array.count + 1)
 #define kBtnW ((kScreenW + 4) / 4)
 #define kContentViewHeight kBtnW * 2 + kBtnW * 2 / 3
-@interface XinFengSecondTableViewCell ()<MalertItemSelectDelegate , MalertItemSelectDelegate>
+@interface XinFengSecondTableViewCell ()<MalertItemSelectDelegate , MalertItemSelectDelegate , HelpFunctionDelegate>
 {
     UIButton *ziDongBtn;
     UIButton *windBtn;
@@ -25,7 +25,7 @@
 @property (nonatomic , strong) UIView *markView;
 @property (nonatomic , strong) NSArray *array;
 @property (nonatomic , strong) UIView *backView;
-
+@property (nonatomic , strong) StateModel *stateModel;
 @end
 
 @implementation XinFengSecondTableViewCell
@@ -33,6 +33,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         [self customUI];
     }
     return self;
@@ -327,71 +328,109 @@
 
 - (void)setServiceModel:(ServicesModel *)serviceModel{
     _serviceModel = serviceModel;
+    
+    if (_serviceModel) {
+        NSDictionary *parames = @{@"devSn" : _serviceModel.devSn , @"devTypeSn" : _serviceModel.devTypeSn};
+        [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
+    }
 }
 
 
+#pragma mark - 获取设备的状态
+- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd{
+    //    NSLog(@"%@" , dddd);
+    if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dataDic = dddd[@"data"];
+        
+        StateModel *stateModel = [[StateModel alloc]init];
+        
+        for (NSString *key in [dataDic allKeys]) {
+            [stateModel setValue:dataDic[key] forKey:key];
+        }
+        
+        [self setStateModel:stateModel];
+    }
+    
+}
+
 - (void)setStateModel:(StateModel *)stateModel {
     _stateModel = stateModel;
-    [UIButton setBtnOfImageAndLableWithUnSelected:fuLiZiBtn andTintColor:kXinFengKongJingYanSe];
-    [UIButton setBtnOfImageAndLableWithUnSelected:windBtn andTintColor:kXinFengKongJingYanSe];
-    [UIButton setBtnOfImageAndLableWithUnSelected:ziDongBtn andTintColor:kXinFengKongJingYanSe];
-    [UIButton setBtnOfImageAndLableWithUnSelected:shouDongBtn andTintColor:kXinFengKongJingYanSe];
     
-    if (_stateModel.fMode == 1) {
-        [UIButton setBtnOfImageAndLableWithSelected:ziDongBtn andBackGroundColor:kXinFengKongJingYanSe];
-//        [self btnCancleAtcion:ziDongBtn];
-
-    } else if (_stateModel.fMode == 2) {
-        [UIButton setBtnOfImageAndLableWithSelected:shouDongBtn andBackGroundColor:kXinFengKongJingYanSe];
-//        [self btnSureAtcion:ziDongBtn];
-    }
-    
-    if (_stateModel.fWind == 1 || _stateModel.fWind == 2 || _stateModel.fWind == 3 || _stateModel.fWind == 4) {
-        [UIButton setBtnOfImageAndLableWithSelected:windBtn andBackGroundColor:kXinFengKongJingYanSe];
-        if (_stateModel.fWind == 1) {
-            
-            [self btnRemoveAtcion:@selector(xinFengBtnDoneAtcion:) andAddSelector:@selector(windZhongDangWei:) withWhichBtn:windBtn];
-            [self setBtnSubViewsOfLable:@"一档" withWhichBtn:windBtn];
-        } else if (_stateModel.fWind == 2) {
-            [self btnRemoveAtcion:@selector(windZhongDangWei:) andAddSelector:@selector(windGaoDangWei:) withWhichBtn:windBtn];
-            [self setBtnSubViewsOfLable:@"二档" withWhichBtn:windBtn];
-        } else if (_stateModel.fWind == 3) {
-            [self btnRemoveAtcion:@selector(windGaoDangWei:) andAddSelector:@selector(windMaxGaoDangWei:) withWhichBtn:windBtn];
-            [self setBtnSubViewsOfLable:@"三档" withWhichBtn:windBtn];
-        } else if (_stateModel.fWind == 4) {
-            [self btnRemoveAtcion:@selector(windMaxGaoDangWei:) andAddSelector:@selector(xinFengBtnDoneAtcion:) withWhichBtn:windBtn];
-            [self setBtnSubViewsOfLable:@"四档" withWhichBtn:windBtn];
-        }
-    } else {
-        [UIButton setBtnOfImageAndLableWithUnSelected:windBtn andTintColor:kXinFengKongJingYanSe];
-        [self setBtnSubViewsOfLable:@"无" withWhichBtn:windBtn];
-    }
-    
-    
-    
-    if (_stateModel.fAnion == 1) {
-        [UIButton setBtnOfImageAndLableWithSelected:fuLiZiBtn andBackGroundColor:kXinFengKongJingYanSe];
-        [self btnRemoveAtcion:@selector(xinFengBtnDoneAtcion:) andAddSelector:@selector(xinFengBtnAgainDoneAtcion:) withWhichBtn:windBtn];
-    } else {
+    NSLog(@"第二个--%@ " , _stateModel);
+  
+    if (_stateModel) {
         [UIButton setBtnOfImageAndLableWithUnSelected:fuLiZiBtn andTintColor:kXinFengKongJingYanSe];
-        [self btnRemoveAtcion:@selector(xinFengBtnAgainDoneAtcion:) andAddSelector:@selector(xinFengBtnDoneAtcion:) withWhichBtn:windBtn];
+        [UIButton setBtnOfImageAndLableWithUnSelected:windBtn andTintColor:kXinFengKongJingYanSe];
+        [UIButton setBtnOfImageAndLableWithUnSelected:ziDongBtn andTintColor:kXinFengKongJingYanSe];
+        [UIButton setBtnOfImageAndLableWithUnSelected:shouDongBtn andTintColor:kXinFengKongJingYanSe];
+        
+        if (_stateModel.fMode == 1) {
+            [UIButton setBtnOfImageAndLableWithSelected:ziDongBtn andBackGroundColor:kXinFengKongJingYanSe];
+            //        [self btnCancleAtcion:ziDongBtn];
+            
+        } else if (_stateModel.fMode == 2) {
+            [UIButton setBtnOfImageAndLableWithSelected:shouDongBtn andBackGroundColor:kXinFengKongJingYanSe];
+            //        [self btnSureAtcion:ziDongBtn];
+        }
+        
+        if (_stateModel.fWind == 1 || _stateModel.fWind == 2 || _stateModel.fWind == 3 || _stateModel.fWind == 4) {
+            [UIButton setBtnOfImageAndLableWithSelected:windBtn andBackGroundColor:kXinFengKongJingYanSe];
+            if (_stateModel.fWind == 1) {
+                [windBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+                [windBtn addTarget:self action:@selector(windZhongDangWei:) forControlEvents:UIControlEventTouchUpInside];
+                //                [self btnRemoveAtcion:NULL andAddSelector:@selector(windZhongDangWei:) withWhichBtn:windBtn];
+                [self setBtnSubViewsOfLable:@"一档" withWhichBtn:windBtn];
+            } else if (_stateModel.fWind == 2) {
+                
+                [windBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+                [windBtn addTarget:self action:@selector(windGaoDangWei:) forControlEvents:UIControlEventTouchUpInside];
+                //                [self btnRemoveAtcion:nil andAddSelector:@selector(windGaoDangWei:) withWhichBtn:windBtn];
+                [self setBtnSubViewsOfLable:@"二档" withWhichBtn:windBtn];
+            } else if (_stateModel.fWind == 3) {
+                
+                [windBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+                [windBtn addTarget:self action:@selector(windMaxGaoDangWei:) forControlEvents:UIControlEventTouchUpInside];
+                //                [self btnRemoveAtcion:nil andAddSelector:@selector(windMaxGaoDangWei:) withWhichBtn:windBtn];
+                [self setBtnSubViewsOfLable:@"三档" withWhichBtn:windBtn];
+            } else if (_stateModel.fWind == 4) {
+                
+                [windBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+                [windBtn addTarget:self action:@selector(xinFengBtnDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
+                //                [self btnRemoveAtcion:nil andAddSelector:@selector(xinFengBtnDoneAtcion:) withWhichBtn:windBtn];
+                [self setBtnSubViewsOfLable:@"四档" withWhichBtn:windBtn];
+            }
+        } else {
+            [UIButton setBtnOfImageAndLableWithUnSelected:windBtn andTintColor:kXinFengKongJingYanSe];
+            [self setBtnSubViewsOfLable:@"无" withWhichBtn:windBtn];
+        }
+        
+        
+        
+        if (_stateModel.fAnion == 1) {
+            [UIButton setBtnOfImageAndLableWithSelected:fuLiZiBtn andBackGroundColor:kXinFengKongJingYanSe];
+            [self btnRemoveAtcion:@selector(xinFengBtnDoneAtcion:) andAddSelector:@selector(xinFengBtnAgainDoneAtcion:) withWhichBtn:windBtn];
+        } else {
+            [UIButton setBtnOfImageAndLableWithUnSelected:fuLiZiBtn andTintColor:kXinFengKongJingYanSe];
+            [self btnRemoveAtcion:@selector(xinFengBtnAgainDoneAtcion:) andAddSelector:@selector(xinFengBtnDoneAtcion:) withWhichBtn:windBtn];
+            
+        }
+        
+        if (_stateModel.fSwitch == 1){
+            
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = 0;
+            }];
+            
+        } else if (_stateModel.fSwitch == 0) {
+            
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = .3;
+            }];
+        }
         
     }
     
-    if (_stateModel.fSwitch == 1){
-        
-        [UIView animateWithDuration:.3 animations:^{
-            self.markView.alpha = 0;
-        }];
-        
-    } else if (_stateModel.fSwitch == 0) {
-        
-        [UIView animateWithDuration:.3 animations:^{
-            self.markView.alpha = .3;
-        }];
-    }
     
- 
 }
 
 

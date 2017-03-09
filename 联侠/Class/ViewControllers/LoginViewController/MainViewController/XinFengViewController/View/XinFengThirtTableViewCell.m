@@ -15,7 +15,7 @@
 #define kContentViewHeight kBtnW * 2 + kBtnW * 2 / 3
 
 
-@interface XinFengThirtTableViewCell (){
+@interface XinFengThirtTableViewCell ()<HelpFunctionDelegate>{
     UIButton *shuiMianBtn;
     UIButton *ziRanBtn;
     UIButton *gaoXiaoBtn;
@@ -24,7 +24,7 @@
 @property (nonatomic , strong) UIView *markView;
 @property (nonatomic , strong) NSArray *array;
 @property (nonatomic , strong) UIView *backView;
-
+@property (nonatomic , strong) StateModel *stateModel;
 @end
 
 @implementation XinFengThirtTableViewCell
@@ -32,6 +32,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+       
         [self customUI];
     }
     return self;
@@ -148,12 +149,12 @@
         case 0:
         {
 
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"00" , @"04") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"02" , @"04") andType:kZhiLing andIsNewOrOld:kNew];
             break;
         }
         case 1: {
 
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"00", @"01" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"00", @"01" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
             break;
         }
         case 2: {
@@ -224,12 +225,36 @@
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
+    
+    if (_serviceModel) {
+        NSDictionary *parames = @{@"devSn" : _serviceModel.devSn , @"devTypeSn" : _serviceModel.devTypeSn};
+        [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
+    }
+    
 }
 
+
+#pragma mark - 获取设备的状态
+- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd{
+    //    NSLog(@"%@" , dddd);
+    if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dataDic = dddd[@"data"];
+        
+        StateModel *stateModel = [[StateModel alloc]init];
+        
+        for (NSString *key in [dataDic allKeys]) {
+            [stateModel setValue:dataDic[key] forKey:key];
+        }
+        
+        [self setStateModel:stateModel];
+    }
+    
+}
 
 - (void)setStateModel:(StateModel *)stateModel {
     _stateModel = stateModel;
     
+    NSLog(@"第三个--%@" , _stateModel);
     
     if (_stateModel) {
         [UIButton setBtnOfImageAndLableWithUnSelected:gaoXiaoBtn andTintColor:kXinFengKongJingYanSe];
@@ -241,7 +266,7 @@
             [UIButton setBtnOfImageAndLableWithSelected:shuiMianBtn andBackGroundColor:kXinFengKongJingYanSe];
         }
         
-        if (_stateModel.fAnion == 1 && _stateModel.fMode == 1) {
+        if (_stateModel.fAnion == 1 && _stateModel.fMode == 1 && _stateModel.fWind == 2) {
             [UIButton setBtnOfImageAndLableWithSelected:ziRanBtn andBackGroundColor:kXinFengKongJingYanSe];
         }
         
@@ -253,22 +278,19 @@
             [UIButton setBtnOfImageAndLableWithSelected:shuShiBtn andBackGroundColor:kXinFengKongJingYanSe];
         }
         
+        if (_stateModel.fSwitch == 1){
+            
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = 0;
+            }];
+            
+        } else if (_stateModel.fSwitch == 0) {
+            
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = .3;
+            }];
+        }
     }
-    
-    if (_stateModel.fSwitch == 1){
-        
-        [UIView animateWithDuration:.3 animations:^{
-            self.markView.alpha = 0;
-        }];
-        
-    } else if (_stateModel.fSwitch == 0) {
-        
-        [UIView animateWithDuration:.3 animations:^{
-            self.markView.alpha = .3;
-        }];
-    }
-    
-    
 }
 
 @end

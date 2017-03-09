@@ -257,6 +257,15 @@
     banTouMingLableView.layer.cornerRadius = kScreenH / 59;
     
     [self setScrollLable:dic];
+//    [dic setValue:@"暂缺" forKey:@"chuanYi"];
+
+    if ([dic[@"chuanYi"] isEqualToString:@"暂缺"]) {
+        self.testLabel.hidden = YES;
+        banTouMingLableView.hidden = YES;
+    } else {
+        self.testLabel.hidden = NO;
+        banTouMingLableView.hidden = NO;
+    }
     
     
     _touMingImageVIew = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"主页透明.jpg"]];

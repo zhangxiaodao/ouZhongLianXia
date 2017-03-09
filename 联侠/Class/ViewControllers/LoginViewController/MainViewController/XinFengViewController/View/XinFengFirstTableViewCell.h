@@ -10,8 +10,7 @@
 
 @interface XinFengFirstTableViewCell : UITableViewCell
 @property (nonatomic , strong) ServicesDataModel *serviceDataModel;
-@property (nonatomic , strong) StateModel *stateModel;
-
+@property (nonatomic , strong) ServicesModel *serviceModel;
 
 
 @end

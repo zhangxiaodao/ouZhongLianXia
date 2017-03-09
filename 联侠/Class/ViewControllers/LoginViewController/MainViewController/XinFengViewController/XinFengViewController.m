@@ -264,7 +264,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengModelIsOpen:) name:@"XinFengModelOpen" object:nil];
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH ) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kHeight ) style:UITableViewStylePlain];
     [self.view addSubview:self.tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -477,9 +477,9 @@
             if (!cell) {
                 cell = [[XinFengFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
             }
-            
+            cell.serviceModel = self.serviceModel;
             cell.serviceDataModel = self.serviceDataModel;
-            cell.stateModel = self.stateModel;
+            
             return cell;
         } else {
             static NSString *celled = @"second";
@@ -489,7 +489,7 @@
                 cell = [[XinFengSecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
             }
             cell.serviceModel = self.serviceModel;
-            cell.stateModel = self.stateModel;
+            
             return cell;
         }
     } else if (indexPath.section == 1) {
@@ -501,7 +501,7 @@
         }
         
         cell.serviceModel = self.serviceModel;
-        cell.stateModel = self.stateModel;
+        
         return cell;
     } else {
         
