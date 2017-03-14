@@ -140,7 +140,7 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 16) {
+            if ([data[@"id"] integerValue] > 18) {
                 
                 if ([data[@"isForce"] integerValue] == 0) {
                     return ;

@@ -55,7 +55,7 @@
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 49, 0);
     self.tableView.sectionFooterHeight = 10;
     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap123:) andTitle:@"系统消息"];
-    
+    [self setRefresh];
     
 }
 
@@ -107,6 +107,8 @@
                 NSLog(@"%@" , model);
                 [self.dataArray addObject:model];
             }];
+            
+            
             
             SystemMessageModel *model = [[SystemMessageModel alloc]init];
             model = [self.dataArray firstObject];
