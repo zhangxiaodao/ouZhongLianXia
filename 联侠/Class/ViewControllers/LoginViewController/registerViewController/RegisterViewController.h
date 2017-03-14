@@ -11,4 +11,5 @@
 @interface RegisterViewController : UIViewController
 @property (nonatomic , retain) UITextField *accTectFiled;
 @property (nonatomic , retain) UITextField *pwdTectFiled;
+@property (nonatomic , retain) UITextField *verificationCodeTectFiled;
 @end

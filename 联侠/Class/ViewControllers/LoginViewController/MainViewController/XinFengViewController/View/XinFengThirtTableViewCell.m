@@ -66,7 +66,7 @@
     
     
     NSArray *imageArray = @[@"xinfeng_gaoxiao" , @"xinfeng_ziran" , @"shuiMian" , @"xinfeng_shushi"];
-    _array = [NSArray arrayWithObjects:@"高效" , @"自然", @"睡眠",  @"舒适", nil];
+    _array = [NSArray arrayWithObjects:@"高效" , @"节能", @"睡眠",  @"舒适", nil];
     
     for (int i = 0; i < kArrayCount; i++) {
         
@@ -154,7 +154,7 @@
         }
         case 1: {
 
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"00", @"01" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"02", @"01" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
             break;
         }
         case 2: {
@@ -197,10 +197,10 @@
    
     if ([ziDong isEqualToString:@"01"] && [fuLiZi isEqualToString:@"01"]) {
         [UIButton setBtnOfImageAndLableWithSelected:ziRanBtn andBackGroundColor:kXinFengKongJingYanSe];
-        modelStr = @"自然";
+        modelStr = @"节能";
     }
     
-    if ([ziDong isEqualToString:@"02"] && [wind isEqualToString:@"01"] && [fuLiZi isEqualToString:@"02"]) {
+    if ([ziDong isEqualToString:@"02"] && [wind isEqualToString:@"01"] && [fuLiZi isEqualToString:@"01"]) {
         [UIButton setBtnOfImageAndLableWithSelected:shuiMianBtn andBackGroundColor:kXinFengKongJingYanSe];
         modelStr = @"睡眠";
     }
@@ -262,7 +262,7 @@
         [UIButton setBtnOfImageAndLableWithUnSelected:shuiMianBtn andTintColor:kXinFengKongJingYanSe];
         [UIButton setBtnOfImageAndLableWithUnSelected:shuShiBtn andTintColor:kXinFengKongJingYanSe];
         
-        if (_stateModel.fMode == 2 && _stateModel.fWind == 1 && _stateModel.fAnion == 2) {
+        if (_stateModel.fMode == 2 && _stateModel.fWind == 1 && _stateModel.fAnion == 1) {
             [UIButton setBtnOfImageAndLableWithSelected:shuiMianBtn andBackGroundColor:kXinFengKongJingYanSe];
         }
         

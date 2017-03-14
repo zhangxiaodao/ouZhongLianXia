@@ -137,7 +137,7 @@
     
     _airQulityLable = pm25Label;
     
-    UILabel *lvXinLastTimeTitleLabel = [UILabel creatLableWithTitle:@"滤芯寿命剩余" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
+    UILabel *lvXinLastTimeTitleLabel = [UILabel creatLableWithTitle:@"滤芯设定剩余" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     [lvXinLastTimeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 15));
         make.centerX.mas_equalTo(view.mas_centerX);

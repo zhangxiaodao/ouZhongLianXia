@@ -12,6 +12,9 @@
 #import "XieYiNeiRongViewController.h"
 #import "AuthcodeView.h"
 #import "LoginViewController.h"
+#import "AlertMessageView.h"
+
+
 @interface RegisterViewController ()<UITextFieldDelegate , HelpFunctionDelegate>
 
 @property (nonatomic , strong) AuthcodeView *authView;
@@ -21,8 +24,13 @@
 //手机
 @property (nonatomic, assign)BOOL phoneRight;
 
+@property (nonatomic , strong) UIView *markView;
+
 @property (nonatomic , strong) UIView *xiaHuaXian1;
 @property (nonatomic , strong) UIView *xiaHuaXian2;
+@property (nonatomic , strong) UIView *xiaHuaXian3;
+
+@property (nonatomic , strong) AlertMessageView *alertMessageView;
 @end
 
 @implementation RegisterViewController
@@ -71,21 +79,38 @@
         make.top.mas_equalTo(xiaHuaXian.mas_bottom).offset(kScreenH/8.8674);
     }];
     
-    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入验证码" andSuperView:self.view];
+    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入密码" andSuperView:self.view];
+    self.pwdTectFiled.delegate = self;
     [self.pwdTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(xiaHuaXian2.mas_top);
-        make.size.mas_equalTo(CGSizeMake(kStandardW / 2, kScreenW / 12));
-        make.left.mas_equalTo(xiaHuaXian2.mas_left);
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 12));
+        make.centerX.mas_equalTo(xiaHuaXian2.mas_centerX);
     }];
-    self.pwdTectFiled.delegate = self;
+    
+    UIView *xiaHuaXian3 = [[UIView alloc]init];
+    [self.view addSubview:xiaHuaXian3];
+    xiaHuaXian3.backgroundColor = [UIColor grayColor];
+    [xiaHuaXian3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
+        make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
+        make.top.mas_equalTo(xiaHuaXian2.mas_bottom).offset(kScreenH/8.8674);
+    }];
+    
+    self.verificationCodeTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入验证码" andSuperView:self.view];
+    [self.verificationCodeTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(xiaHuaXian3.mas_top);
+        make.size.mas_equalTo(CGSizeMake(kStandardW / 2, kScreenW / 12));
+        make.left.mas_equalTo(xiaHuaXian3.mas_left);
+    }];
+    self.verificationCodeTectFiled.delegate = self;
     
     
     self.authView = [[AuthcodeView alloc]init];
     [self.view addSubview:self.authView];
     [self.authView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 3, kScreenW / 10));
-        make.bottom.mas_equalTo(xiaHuaXian2.mas_bottom).offset(-5);
-        make.right.mas_equalTo(xiaHuaXian2.mas_right);
+        make.bottom.mas_equalTo(xiaHuaXian3.mas_bottom).offset(-5);
+        make.right.mas_equalTo(xiaHuaXian3.mas_right);
     }];
     
     
@@ -98,7 +123,7 @@
     [registerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 9));
         make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
-        make.top.mas_equalTo(xiaHuaXian2.mas_bottom).offset(kScreenH / 6.53);
+        make.top.mas_equalTo(xiaHuaXian3.mas_bottom).offset(kScreenH / 6.53);
     }];
     
     UILabel *changLable = [UILabel creatLableWithTitle:@"点击“立即注册”，即表示你同意遵守欧众" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentCenter];
@@ -147,8 +172,26 @@
     UITapGestureRecognizer *tapYinSi = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(yinSiAtcion)];
     [yinSiLable addGestureRecognizer:tapYinSi];
     
+    self.markView = [[UIView alloc]initWithFrame:kScreenFrame];
+    [self.view addSubview:self.markView];
+    self.markView.alpha = .3;
+    
+    //模糊效果
+    UIBlurEffect *light = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *bgView = [[UIVisualEffectView alloc]initWithEffect:light];
+    bgView.frame = self.markView.bounds;
+    [self.markView addSubview:bgView];
+    
+    self.alertMessageView = [[AlertMessageView alloc]initWithFrame:CGRectMake(self.view.width / 4, self.view.height / 4, self.view.width / 2, self.view.height / 2) TitleText:@"短信验证码" andBtnTarget:self andAtcion:@selector(againSendAtcion)];
+    [self.markView addSubview:self.alertMessageView];
+    
     _xiaHuaXian1 = xiaHuaXian;
     _xiaHuaXian2 = xiaHuaXian2;
+    _xiaHuaXian3 = xiaHuaXian3;
+}
+
+- (void)againSendAtcion {
+    
 }
 
 #pragma mark - 输入框代理，点击return按钮
@@ -160,6 +203,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     _xiaHuaXian1.backgroundColor = [UIColor grayColor];
     _xiaHuaXian2.backgroundColor = [UIColor grayColor];
+    _xiaHuaXian3.backgroundColor = [UIColor grayColor];
     
 }
 
@@ -172,12 +216,12 @@
     if (state == 0) {
         
         //判断输入的时候是验证图片中显示的验证码
-        if (![self.pwdTectFiled.text isEqualToString:self.authView.authCodeStr]) {
+        if (![self.verificationCodeTectFiled.text isEqualToString:self.authView.authCodeStr]) {
             //验证不匹配，验证码和输入框抖动
             CAKeyframeAnimation *anim = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
             anim.repeatCount = 1;
             anim.values = @[@-20 , @20 , @-20];
-            [self.pwdTectFiled.layer addAnimation:anim forKey:nil];
+            [self.verificationCodeTectFiled.layer addAnimation:anim forKey:nil];
             
         } else {
             
@@ -185,9 +229,13 @@
                 
                 [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"账户输入为空"];
             } else {
-                MessageViewController *messageVC = [[MessageViewController alloc]init];
-                messageVC.phoneNumber = [NSString stringWithFormat:@"%@" , self.accTectFiled.text];
-                [self.navigationController pushViewController:messageVC animated:YES];
+//                MessageViewController *messageVC = [[MessageViewController alloc]init];
+//                messageVC.phoneNumber = [NSString stringWithFormat:@"%@" , self.accTectFiled.text];
+//                [self.navigationController pushViewController:messageVC animated:YES];
+                
+                [UIView animateWithDuration:.3 animations:^{
+                    self.markView.alpha = 1;
+                }];
                 
             }
         }
@@ -217,16 +265,28 @@
 #pragma mark - 立即注册按钮点击事件
 - (void)registerAction1{
     
-    
     if (self.accTectFiled.text.length > 0) {
-        if ( self.accTectFiled.text.length == 11 && [NSString validateNumber:self.accTectFiled.text]) {
+        if ( self.accTectFiled.text.length == 11 && [NSString validateNumber:self.accTectFiled.text] && self.pwdTectFiled.text.length >= 6 && self.pwdTectFiled.text.length <= 12) {
             NSDictionary *parameters = @{@"phone":self.accTectFiled.text};
             [HelpFunction requestDataWithUrlString:kJiaoYanZhangHu andParames:parameters andDelegate:self];
         } else {
             
-            [UIAlertController creatRightAlertControllerWithHandle:^{
-                self.accTectFiled.text = nil;
-            } andSuperViewController:self Title:@"手机号码格式不正确"];
+            if (self.accTectFiled.text.length != 11 || ![NSString validateNumber:self.accTectFiled.text]) {
+                [UIAlertController creatRightAlertControllerWithHandle:^{
+                    self.accTectFiled.text = nil;
+                } andSuperViewController:self Title:@"手机号码格式不正确"];
+            }
+            
+            if (self.pwdTectFiled.text.length == 0) {
+                [UIAlertController creatRightAlertControllerWithHandle:^{
+                } andSuperViewController:self Title:@"密 码为空"];
+            } else if ( self.pwdTectFiled.text.length < 6 && self.pwdTectFiled.text.length > 12) {
+                [UIAlertController creatRightAlertControllerWithHandle:^{
+                    self.accTectFiled.text = nil;
+                } andSuperViewController:self Title:@"密码长度不正确"];
+            }
+            
+            
         }
         
     } else {
@@ -249,10 +309,10 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if (textField == self.accTectFiled) {
         _xiaHuaXian1.backgroundColor = kMainColor;
-        _xiaHuaXian2.backgroundColor = [UIColor grayColor];
-    } else if (textField == self.pwdTectFiled) {
+        _xiaHuaXian3.backgroundColor = [UIColor grayColor];
+    } else if (textField == self.verificationCodeTectFiled) {
         _xiaHuaXian1.backgroundColor = [UIColor grayColor];
-        _xiaHuaXian2.backgroundColor = kMainColor;
+        _xiaHuaXian3.backgroundColor = kMainColor;
     }
 }
 

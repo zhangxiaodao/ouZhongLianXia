@@ -154,6 +154,9 @@
 		ED19075D1E4D5B970024C9B0 /* AboutOusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED19075C1E4D5B970024C9B0 /* AboutOusTableViewController.m */; };
 		ED1907611E4D60D10024C9B0 /* TableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1907601E4D60D10024C9B0 /* TableViewHeaderView.m */; };
 		ED1C2C2C1E67CF3000EA79F8 /* TimeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1C2C2B1E67CF3000EA79F8 /* TimeModel.m */; };
+		ED1EE7021E77F10E005D4FC4 /* AlertMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1EE6FC1E77F10E005D4FC4 /* AlertMessageView.m */; };
+		ED1EE7031E77F10E005D4FC4 /* PZXVerificationCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1EE6FF1E77F10E005D4FC4 /* PZXVerificationCodeView.m */; };
+		ED1EE7041E77F10E005D4FC4 /* PZXVerificationTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1EE7011E77F10E005D4FC4 /* PZXVerificationTextField.m */; };
 		ED2297991DAC9949008DEBA4 /* CircleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = ED2297981DAC9949008DEBA4 /* CircleAnimation.m */; };
 		ED22979C1DAC9960008DEBA4 /* XinFengFifthTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED22979B1DAC9960008DEBA4 /* XinFengFifthTableViewCell.m */; };
 		ED2297A51DACCB55008DEBA4 /* XinFengForthTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED2297A41DACCB55008DEBA4 /* XinFengForthTableViewCell.m */; };
@@ -555,6 +558,12 @@
 		ED1907601E4D60D10024C9B0 /* TableViewHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewHeaderView.m; sourceTree = "<group>"; };
 		ED1C2C2A1E67CF3000EA79F8 /* TimeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeModel.h; sourceTree = "<group>"; };
 		ED1C2C2B1E67CF3000EA79F8 /* TimeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeModel.m; sourceTree = "<group>"; };
+		ED1EE6FB1E77F10E005D4FC4 /* AlertMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertMessageView.h; sourceTree = "<group>"; };
+		ED1EE6FC1E77F10E005D4FC4 /* AlertMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertMessageView.m; sourceTree = "<group>"; };
+		ED1EE6FE1E77F10E005D4FC4 /* PZXVerificationCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZXVerificationCodeView.h; sourceTree = "<group>"; };
+		ED1EE6FF1E77F10E005D4FC4 /* PZXVerificationCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZXVerificationCodeView.m; sourceTree = "<group>"; };
+		ED1EE7001E77F10E005D4FC4 /* PZXVerificationTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PZXVerificationTextField.h; sourceTree = "<group>"; };
+		ED1EE7011E77F10E005D4FC4 /* PZXVerificationTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PZXVerificationTextField.m; sourceTree = "<group>"; };
 		ED2297971DAC9949008DEBA4 /* CircleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleAnimation.h; sourceTree = "<group>"; };
 		ED2297981DAC9949008DEBA4 /* CircleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleAnimation.m; sourceTree = "<group>"; };
 		ED22979A1DAC9960008DEBA4 /* XinFengFifthTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XinFengFifthTableViewCell.h; sourceTree = "<group>"; };
@@ -1486,6 +1495,7 @@
 		ED12E1871CF5C5470011CD2C /* registerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				ED1EE6FA1E77F10E005D4FC4 /* View */,
 				ED12E1881CF5C5470011CD2C /* MessageViewController */,
 				ED12E1911CF5C5470011CD2C /* RegisterViewController.h */,
 				ED12E1921CF5C5470011CD2C /* RegisterViewController.m */,
@@ -1711,6 +1721,27 @@
 			);
 			name = Model;
 			path = XinFengViewController/Model;
+			sourceTree = "<group>";
+		};
+		ED1EE6FA1E77F10E005D4FC4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED1EE6FB1E77F10E005D4FC4 /* AlertMessageView.h */,
+				ED1EE6FC1E77F10E005D4FC4 /* AlertMessageView.m */,
+				ED1EE6FD1E77F10E005D4FC4 /* PZXVerificationCodeTextField */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		ED1EE6FD1E77F10E005D4FC4 /* PZXVerificationCodeTextField */ = {
+			isa = PBXGroup;
+			children = (
+				ED1EE6FE1E77F10E005D4FC4 /* PZXVerificationCodeView.h */,
+				ED1EE6FF1E77F10E005D4FC4 /* PZXVerificationCodeView.m */,
+				ED1EE7001E77F10E005D4FC4 /* PZXVerificationTextField.h */,
+				ED1EE7011E77F10E005D4FC4 /* PZXVerificationTextField.m */,
+			);
+			path = PZXVerificationCodeTextField;
 			sourceTree = "<group>";
 		};
 		ED2297961DAC9949008DEBA4 /* CircleAnimation */ = {
@@ -2441,6 +2472,7 @@
 				ED27A2351CF81C1E006BD844 /* AboutProductViewController.m in Sources */,
 				ED12E24B1CF5C5470011CD2C /* CCLocationManager.m in Sources */,
 				ED12E2BE1CF5C5470011CD2C /* ThirtView.m in Sources */,
+				ED1EE7031E77F10E005D4FC4 /* PZXVerificationCodeView.m in Sources */,
 				EDF2DBF51D0FFB4300475E11 /* AirPuritionGengDuoSecondTableViewCell.m in Sources */,
 				ED468AD01E46DF7800929607 /* SystemMessageViewController.m in Sources */,
 				ED119DDC1CFEBC200073094D /* CustomView.m in Sources */,
@@ -2503,6 +2535,7 @@
 				ED12E24E1CF5C5470011CD2C /* AsyncUdpSocket.m in Sources */,
 				ED12DF891CF5C0FF0011CD2C /* __.xcdatamodeld in Sources */,
 				ED12E2861CF5C5470011CD2C /* LoginViewController.m in Sources */,
+				ED1EE7021E77F10E005D4FC4 /* AlertMessageView.m in Sources */,
 				ED27A2431CF81C1E006BD844 /* NiChengViewController.m in Sources */,
 				ED6CB24F1DD1C98200294D57 /* AddServiceModel.m in Sources */,
 				ED27A2421CF81C1E006BD844 /* LocationPickerVC.m in Sources */,
@@ -2595,6 +2628,7 @@
 				ED12E2AB1CF5C5470011CD2C /* ServicesModel.m in Sources */,
 				ED677EAA1D210150007D628E /* GanYiJiViewController.m in Sources */,
 				ED12E24F1CF5C5470011CD2C /* GCDAsyncSocket.m in Sources */,
+				ED1EE7041E77F10E005D4FC4 /* PZXVerificationTextField.m in Sources */,
 				ED0BC1451E49B6A9007BF312 /* XMGRefreshHeader.m in Sources */,
 				ED12E1E41CF5C5470011CD2C /* UILabel+Custom.m in Sources */,
 				ED12E2B11CF5C5470011CD2C /* EnterFirstTableViewCell.m in Sources */,
