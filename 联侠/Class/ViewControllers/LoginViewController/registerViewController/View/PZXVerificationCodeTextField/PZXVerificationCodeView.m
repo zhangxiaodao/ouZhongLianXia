@@ -21,15 +21,12 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.VerificationCodeNum = 4;//默认4位
-        self.Spacing = 0;//默认间距为0
+        self.VerificationCodeNum = 6;//默认4位
+        self.Spacing = 3;//默认间距为0
         self.selectedColor = [UIColor cyanColor];
-        self.deselectColor = [UIColor redColor];   //默认边框颜色
+        self.deselectColor = [UIColor grayColor];   //默认边框颜色
 
         [self setView]; //绘制界面
-        
-        
-        NSLog(@"%ld",self.VerificationCodeNum);
     }
     return self;
 }
@@ -47,35 +44,37 @@
     
     self.textFieldArray = [NSMutableArray array];
     NSArray *views = [self subviews];
-    for (UITextField *tf in views) {
+    for (PZXVerificationTextField *tf in views) {
         [tf removeFromSuperview];
     }
     
+    
     for (int i = 0 ; i<self.VerificationCodeNum; i++) {
         
-        PZXVerificationTextField *tf = [[PZXVerificationTextField alloc]init];
-        CGFloat width = (self.width - _Spacing * (_VerificationCodeNum + 1)) / _VerificationCodeNum;
+        CGFloat tfwidth = (self.width - _Spacing * (_VerificationCodeNum + 1)) / _VerificationCodeNum;
+
+        PZXVerificationTextField *tf = [[PZXVerificationTextField alloc]initWithFrame:CGRectMake(_Spacing * (i + 1) + i * tfwidth, (self.height - tfwidth) / 2, tfwidth, tfwidth)];
         [self addSubview:tf];
-        [tf mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(width, width));
-            make.left.mas_equalTo(_Spacing * (i + 1));
-            make.centerY.mas_equalTo(self.centerY);
-        }];
+        
+        
         tf.backgroundColor = [UIColor clearColor];
         tf.pzx_delegate = self;
         tf.keyboardType = UIKeyboardTypeNumberPad;
         tf.layer.borderColor = self.deselectColor.CGColor;
-        tf.layer.borderWidth = 0.5;
+        tf.layer.borderWidth = 1;
         //圆弧度
 //        tf.layer.cornerRadius = 6;
         tf.delegate = self;
         tf.tag = 100+i;
         tf.textAlignment = NSTextAlignmentCenter;
         tf.secureTextEntry = self.isSecure;
+        [tf addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventValueChanged];
+        
         
         [self.textFieldArray addObject:tf];
         
     }
+
 }
 
 //点击退格键的代理
@@ -93,6 +92,10 @@
 }
 
 #pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField:(UITextField *)textField {
+    
+}
 
 //代理（里面有自己的密码线）
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
@@ -117,18 +120,39 @@
 
 //在里面改变选中状态以及获取验证码
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
-
+    
+    
     textField.layer.borderColor = self.selectedColor.CGColor;
-    [self getVertificationCode];
+//    [self getVertificationCode];
+    
+    NSLog(@"getVertificationCode--%@" , [self getVertificationCode]);
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     
     textField.layer.borderColor = self.deselectColor.CGColor;
-    [self getVertificationCode];
+    NSString *vercodeStr = [self getVertificationCode];
+    
+//    NSLog(@"%@ , %@" , vercodeStr , self.sendMessage);
+    
+    if (vercodeStr.length == 6) {
+        if (vercodeStr.integerValue == self.sendMessage.integerValue) {
+
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RegisterSuccess" object:self userInfo:@{@"RegisterSuccess" : @"YES"}]];
+        } else {
+            for (int i = 0; i<_textFieldArray.count; i++) {
+                PZXVerificationTextField *tf = self.textFieldArray[i];
+                tf.text = nil;
+            }
+            PZXVerificationTextField *firstTf = [self viewWithTag:100];
+            [firstTf becomeFirstResponder];
+            
+        }
+        
+    }
 }
 
--(void)getVertificationCode{ //获取验证码方法
+-(NSString *)getVertificationCode{ //获取验证码方法
 
     NSString *str = [NSString string];
     
@@ -136,6 +160,7 @@
         str = [str stringByAppendingString:[NSString stringWithFormat:@"%@",(UITextField *)[_textFieldArray[i] text]]];
     }
     _vertificationCode = str;
+    return _vertificationCode;
     
 }
 #pragma mark - set方法

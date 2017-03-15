@@ -10,8 +10,8 @@
 
 @interface AlertMessageView : UIView
 
+@property (nonatomic , copy) NSString *phoneNumber;
 
-
-- (UIView *)initWithFrame:(CGRect)frame TitleText:(NSString *)titleText andBtnTarget:(nullable id)target andAtcion:(nonnull SEL)atcion;
+- (UIView *)initWithFrame:(CGRect)frame TitleText:(NSString *)titleText andBtnTarget:(nullable id)target andCancleAtcion:(nonnull SEL)cancleAtcion;
 
 @end

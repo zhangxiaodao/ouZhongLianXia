@@ -14,7 +14,7 @@
 @property (nonatomic , strong) UIButton *doneBtn2;
 
 @property (nonatomic , strong) UITextField *pwdTectFiled;
-
+@property (nonatomic , retain) UITextField *accTectFiled;
 //倒计时长度
 @property (nonatomic , assign) NSInteger secondsCountDown;
 //定时器
@@ -23,14 +23,17 @@
 @property (nonatomic , strong)UIButton *sendDuanXinBtn;
 
 @property (nonatomic , strong) UIView *xiaHuaXian1;
+@property (nonatomic , strong) UIView *xiaHuaXian2;
+
+@property (nonatomic , copy) NSString *userSn;
+@property (nonatomic , strong) NSString *data;
+@property (nonatomic , retain) NSString *message;
 @end
 
 @implementation AgainSendViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    
     self.view.backgroundColor = [UIColor whiteColor];
     
      self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"重置密码"];
@@ -45,23 +48,6 @@
 
 #pragma mark - 设置UI
 - (void)setUI{
-    UILabel *tiShiLable = [UILabel creatLableWithTitle:@"我们将发送一条短信到:" andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentLeft];
-    tiShiLable.layer.borderWidth = 0;
-    [tiShiLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 17));
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 5.55);
-    }];
-    
-    UILabel *phoneNumber = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" , self.phoneNumber] andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
-    phoneNumber.textColor = kMainColor;
-    phoneNumber.layer.borderWidth = 0;
-    [phoneNumber mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 14));
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(tiShiLable.mas_bottom);
-    }];
-    
     
     UIView *xiaHuaXian = [[UIView alloc]init];
     [self.view addSubview:xiaHuaXian];
@@ -69,16 +55,34 @@
     [xiaHuaXian mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 2.7);
+        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH/4.2);
     }];
     
+    
+    self.accTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入您的手机号码" andSuperView:self.view];
+    self.accTectFiled.delegate = self;
+    
+    [self.accTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 12));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.bottom.mas_equalTo(xiaHuaXian.mas_top);
+    }];
+    
+    UIView *xiaHuaXian2 = [[UIView alloc]init];
+    [self.view addSubview:xiaHuaXian2];
+    xiaHuaXian2.backgroundColor = [UIColor grayColor];
+    [xiaHuaXian2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(xiaHuaXian.mas_bottom).offset(kScreenH/8.8674);
+    }];
     
     self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入短信验证码" andSuperView:self.view];
     self.pwdTectFiled.delegate = self;
     [self.pwdTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 2, kScreenW / 10));
-        make.left.mas_equalTo(xiaHuaXian.mas_left);
-        make.bottom.mas_equalTo(xiaHuaXian.mas_top);
+        make.left.mas_equalTo(xiaHuaXian2.mas_left);
+        make.bottom.mas_equalTo(xiaHuaXian2.mas_top);
     }];
     
     self.sendDuanXinBtn = [UIButton initWithTitle:@"发送短信" andColor:[UIColor redColor] andSuperView:self.view];
@@ -87,8 +91,8 @@
     self.sendDuanXinBtn.backgroundColor = kMainColor;
     [self.sendDuanXinBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 3, kStandardW / 10));
-        make.bottom.mas_equalTo(xiaHuaXian.mas_bottom).offset(-5);
-        make.right.mas_equalTo(xiaHuaXian.mas_right);
+        make.bottom.mas_equalTo(xiaHuaXian2.mas_bottom).offset(-5);
+        make.right.mas_equalTo(xiaHuaXian2.mas_right);
     }];
     self.sendDuanXinBtn.titleLabel.font = [UIFont systemFontOfSize:k14];
     
@@ -102,7 +106,7 @@
     //注册按钮的约束
     [doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 9));
-        make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
+        make.centerX.mas_equalTo(xiaHuaXian2.mas_centerX);
         make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 2.1);
     }];
     
@@ -121,6 +125,7 @@
     }];
     
     _xiaHuaXian1 = xiaHuaXian;
+    _xiaHuaXian2 = xiaHuaXian2;
     
 }
 
@@ -168,35 +173,72 @@
 #pragma mark - 确定点击事件
 - (void)doneBtnAtcion2{
     
-    if ([_pwdTectFiled.text isEqualToString:[NSString stringWithFormat:@"%@" , _data]]) {
+    if ([_pwdTectFiled.text isEqualToString:[NSString stringWithFormat:@"%@" , _data]] && self.accTectFiled.text.length == 11) {
         ChongZhiPwdViewController *chongZhiPwd = [[ChongZhiPwdViewController alloc]init];
-        chongZhiPwd.phoneNumber = [NSString stringWithFormat:@"%@" , self.phoneNumber];
+        chongZhiPwd.phoneNumber = [NSString stringWithFormat:@"%@" , self.accTectFiled.text];
         chongZhiPwd.userSn = self.userSn;
         [self.navigationController pushViewController:chongZhiPwd animated:YES];
     } else {
         
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            self.pwdTectFiled.text = nil;
-        } andSuperViewController:self Title:@"您输入的验证码错误，请重新输入"];
+        if (self.accTectFiled.text.length != 11) {
+            [UIAlertController creatRightAlertControllerWithHandle:^{
+                self.accTectFiled.text = nil;
+            } andSuperViewController:self Title:@"你的号码输入有误，请重新输入"];
+        } else if (![_pwdTectFiled.text isEqualToString:[NSString stringWithFormat:@"%@" , _data]]) {
+            [UIAlertController creatRightAlertControllerWithHandle:^{
+                self.pwdTectFiled.text = nil;
+            } andSuperViewController:self Title:@"您输入的验证码错误，请重新输入"];
+        }
     }
     
 }
 
+
 #pragma mark - 发送按钮点击事件
 - (void)sendDuanXinBtnAtcion{
-    NSDictionary *parameters = @{@"dest":self.phoneNumber , @"bool" : @(1)};
-    [HelpFunction requestDataWithUrlString:kFaSongDuanXin andParames:parameters andDelegate:self];
     
-    NSInteger sendTimeInterVal = [NSString getNowTimeInterval];
-    [kStanderDefault setObject:@(sendTimeInterVal) forKey:@"sendTimeInterVal"];
+    if (self.accTectFiled.text.length == 11) {
+        NSDictionary *parameters = @{@"phone":self.accTectFiled.text};
+        [HelpFunction requestDataWithUrlString:kJiaoYanZhangHu andParames:parameters andDelegate:self];
+    } else {
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            self.pwdTectFiled.text = nil;
+        } andSuperViewController:self Title:@"手机号码输入不正确"];
+    }
     
-    self.sendDuanXinBtn.userInteractionEnabled = NO;
-    self.sendDuanXinBtn.backgroundColor = [UIColor grayColor];
-
-    self.secondsCountDown = 60;
-    
-    self.countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
 }
+
+
+- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
+    
+    //    NSLog(@"%@" , dddd);
+    
+    NSInteger state = [dddd[@"state"] integerValue];
+    if (state == 0) {
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            self.accTectFiled.text = nil;
+        } andSuperViewController:self Title:@"此账户不存在"];
+    } else if (state == 1) {
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"输入值异常"];
+    } else if (state == 3) {
+        
+        {
+            NSDictionary *parameters = @{@"dest":self.accTectFiled.text , @"bool" : @(1)};
+            [HelpFunction requestDataWithUrlString:kFaSongDuanXin andParames:parameters andDelegate:self];
+            
+            NSInteger sendTimeInterVal = [NSString getNowTimeInterval];
+            [kStanderDefault setObject:@(sendTimeInterVal) forKey:@"sendTimeInterVal"];
+            
+            self.sendDuanXinBtn.userInteractionEnabled = NO;
+            self.sendDuanXinBtn.backgroundColor = [UIColor grayColor];
+            
+            self.secondsCountDown = 60;
+            
+            self.countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
+        }
+    }
+}
+
 
 #pragma mark - 代理返回的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
@@ -240,11 +282,19 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    _xiaHuaXian1.backgroundColor = kMainColor;
+    
+    if (textField == self.accTectFiled) {
+        _xiaHuaXian1.backgroundColor = kMainColor;
+        _xiaHuaXian2.backgroundColor = [UIColor grayColor];
+    } else if (textField == self.pwdTectFiled) {
+        _xiaHuaXian1.backgroundColor = [UIColor grayColor];
+        _xiaHuaXian2.backgroundColor = kMainColor;
+    }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     _xiaHuaXian1.backgroundColor = [UIColor grayColor];
+    _xiaHuaXian2.backgroundColor = [UIColor grayColor];
 }
 
 @end

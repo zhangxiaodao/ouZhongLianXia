@@ -13,10 +13,12 @@
 #import "AuthcodeView.h"
 #import "LoginViewController.h"
 #import "AlertMessageView.h"
-
+#import "PZXVerificationCodeView.h"
 
 @interface RegisterViewController ()<UITextFieldDelegate , HelpFunctionDelegate>
-
+@property (nonatomic , retain) UITextField *accTectFiled;
+@property (nonatomic , retain) UITextField *pwdTectFiled;
+@property (nonatomic , retain) UITextField *verificationCodeTectFiled;
 @property (nonatomic , strong) AuthcodeView *authView;
 @property (nonatomic , assign) BOOL isOrRegister;
 @property (nonatomic , assign) NSInteger success;
@@ -48,10 +50,41 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
+    NSInteger state = [dic[@"state"] integerValue];
+    
+    if (state == 0) {
+        
+        NSDictionary *user = dic[@"data"];
+        
+        [kStanderDefault setObject:user[@"sn"] forKey:@"userSn"];
+        [kStanderDefault setObject:user[@"id"] forKey:@"userId"];
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        } andSuperViewController:self Title:@"恭喜您，注册成功"];
+    }
+}
+
+
+- (void)whetherGegisterSuccess:(NSNotification *)post {
+    NSString *success = post.userInfo[@"RegisterSuccess"];
+//    NSLog(@"%@" , success);
+    if ([success isEqualToString:@"YES"]) {
+        
+        [self cancleAtcion];
+        
+        NSDictionary *parameters = @{@"user.phone":self.accTectFiled.text , @"user.password" : self.pwdTectFiled.text};
+        
+        [HelpFunction requestDataWithUrlString:kDuanXinTiJiao andParames:parameters andDelegate:self];
+    }
+}
+
 #pragma mark - 设置UI
 - (void)setUI{
     
     [kStanderDefault removeObjectForKey:@"shiJian"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(whetherGegisterSuccess:) name:@"RegisterSuccess" object:nil];
     
     UIView *xiaHuaXian = [[UIView alloc]init];
     [self.view addSubview:xiaHuaXian];
@@ -86,6 +119,7 @@
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 12));
         make.centerX.mas_equalTo(xiaHuaXian2.mas_centerX);
     }];
+    self.pwdTectFiled.keyboardType = UIKeyboardTypeDefault;
     
     UIView *xiaHuaXian3 = [[UIView alloc]init];
     [self.view addSubview:xiaHuaXian3];
@@ -174,24 +208,31 @@
     
     self.markView = [[UIView alloc]initWithFrame:kScreenFrame];
     [self.view addSubview:self.markView];
-    self.markView.alpha = .3;
-    
     //模糊效果
     UIBlurEffect *light = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *bgView = [[UIVisualEffectView alloc]initWithEffect:light];
     bgView.frame = self.markView.bounds;
     [self.markView addSubview:bgView];
+    self.markView.alpha = 0;
     
-    self.alertMessageView = [[AlertMessageView alloc]initWithFrame:CGRectMake(self.view.width / 4, self.view.height / 4, self.view.width / 2, self.view.height / 2) TitleText:@"短信验证码" andBtnTarget:self andAtcion:@selector(againSendAtcion)];
-    [self.markView addSubview:self.alertMessageView];
+    self.alertMessageView = [[AlertMessageView alloc]initWithFrame:CGRectMake((kScreenW - kScreenW / 1.4) / 2, (kScreenH - kScreenH / 2.66) / 2, kScreenW / 1.4, kScreenH / 2.66) TitleText:@"输入验证码" andBtnTarget:self andCancleAtcion:@selector(cancleAtcion)];
+    [self.view addSubview:self.alertMessageView];
+
+    self.alertMessageView.alpha = 0;
+    
     
     _xiaHuaXian1 = xiaHuaXian;
     _xiaHuaXian2 = xiaHuaXian2;
     _xiaHuaXian3 = xiaHuaXian3;
 }
 
-- (void)againSendAtcion {
-    
+
+- (void)cancleAtcion {
+    [UIView animateWithDuration:.3 animations:^{
+        self.markView.alpha = 0;
+        self.alertMessageView.alpha = 0;
+    }];
+    [self.view endEditing:YES];
 }
 
 #pragma mark - 输入框代理，点击return按钮
@@ -233,9 +274,33 @@
 //                messageVC.phoneNumber = [NSString stringWithFormat:@"%@" , self.accTectFiled.text];
 //                [self.navigationController pushViewController:messageVC animated:YES];
                 
+                self.alertMessageView.phoneNumber = self.accTectFiled.text;
+                
                 [UIView animateWithDuration:.3 animations:^{
-                    self.markView.alpha = 1;
+                    self.markView.alpha = .8;
+                    self.alertMessageView.alpha = 1;
+                    
                 }];
+                
+                
+                PZXVerificationCodeView *pzxView = [self.alertMessageView viewWithTag:10003];
+                UITextField *firstTf = [pzxView viewWithTag:100];
+                [firstTf becomeFirstResponder];
+                
+                CGRect frame = self.alertMessageView.frame;
+                int offset = frame.origin.y + frame.size.height - (kScreenH - (216+36)) + kScreenW / 10;
+
+                NSTimeInterval animationDuration = 0.30f;
+                [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+                [UIView setAnimationDuration:animationDuration];
+                
+                if(offset > 0)
+                {
+                    self.alertMessageView.frame = CGRectMake((kScreenW - kScreenW / 1.4) / 2, (kScreenH - kScreenH / 2.66) / 2 - offset, kScreenW / 1.4, kScreenH / 2.66);
+
+                }
+                
+                [UIView commitAnimations];
                 
             }
         }
@@ -265,36 +330,33 @@
 #pragma mark - 立即注册按钮点击事件
 - (void)registerAction1{
     
-    if (self.accTectFiled.text.length > 0) {
-        if ( self.accTectFiled.text.length == 11 && [NSString validateNumber:self.accTectFiled.text] && self.pwdTectFiled.text.length >= 6 && self.pwdTectFiled.text.length <= 12) {
+    if (self.accTectFiled.text.length > 0 && self.pwdTectFiled.text.length > 0 && self.verificationCodeTectFiled.text.length > 0) {
+        if (self.accTectFiled.text.length == 11 && [NSString validateNumber:self.accTectFiled.text] && self.pwdTectFiled.text.length >= 6 && self.pwdTectFiled.text.length <= 12 && [self.verificationCodeTectFiled.text isEqualToString:self.authView.authCodeStr]) {
             NSDictionary *parameters = @{@"phone":self.accTectFiled.text};
             [HelpFunction requestDataWithUrlString:kJiaoYanZhangHu andParames:parameters andDelegate:self];
         } else {
-            
-            if (self.accTectFiled.text.length != 11 || ![NSString validateNumber:self.accTectFiled.text]) {
+            if (self.accTectFiled.text.length != 11) {
                 [UIAlertController creatRightAlertControllerWithHandle:^{
                     self.accTectFiled.text = nil;
                 } andSuperViewController:self Title:@"手机号码格式不正确"];
-            }
-            
-            if (self.pwdTectFiled.text.length == 0) {
+            } else if ( self.pwdTectFiled.text.length < 6 || self.pwdTectFiled.text.length > 12) {
                 [UIAlertController creatRightAlertControllerWithHandle:^{
-                } andSuperViewController:self Title:@"密 码为空"];
-            } else if ( self.pwdTectFiled.text.length < 6 && self.pwdTectFiled.text.length > 12) {
-                [UIAlertController creatRightAlertControllerWithHandle:^{
-                    self.accTectFiled.text = nil;
+                    self.pwdTectFiled.text = nil;
                 } andSuperViewController:self Title:@"密码长度不正确"];
+            } else if (![self.verificationCodeTectFiled.text isEqualToString:self.authView.authCodeStr]) {
+                [UIAlertController creatRightAlertControllerWithHandle:^{
+                    self.verificationCodeTectFiled.text = nil;
+                } andSuperViewController:self Title:@"验证码不正确"];
             }
-            
-            
         }
-        
     } else {
-        
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            self.accTectFiled.text = nil;
-        } andSuperViewController:self Title:@"号码输入为空"];
-        
+        if (self.accTectFiled.text.length == 0) {
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"手机号码为空"];
+        } else if (self.pwdTectFiled.text.length == 0) {
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"密码为空"];
+        } else if (self.verificationCodeTectFiled.text.length == 0) {
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"验证码为空"];
+        }
     }
 }
 
@@ -309,9 +371,15 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if (textField == self.accTectFiled) {
         _xiaHuaXian1.backgroundColor = kMainColor;
+        _xiaHuaXian2.backgroundColor = [UIColor grayColor];
+        _xiaHuaXian3.backgroundColor = [UIColor grayColor];
+    } else if (textField == self.pwdTectFiled) {
+        _xiaHuaXian1.backgroundColor = [UIColor grayColor];
+        _xiaHuaXian2.backgroundColor = kMainColor;
         _xiaHuaXian3.backgroundColor = [UIColor grayColor];
     } else if (textField == self.verificationCodeTectFiled) {
         _xiaHuaXian1.backgroundColor = [UIColor grayColor];
+        _xiaHuaXian2.backgroundColor = [UIColor grayColor];
         _xiaHuaXian3.backgroundColor = kMainColor;
     }
 }

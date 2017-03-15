@@ -10,12 +10,8 @@
 
 @interface AgainSendViewController : UIViewController
 
-@property (nonatomic , retain) NSString *phoneNumber;
+//@property (nonatomic , retain) NSString *phoneNumber;
 
-@property (nonatomic , copy) NSString *userSn;
 
-@property (nonatomic , strong) NSString *data;
-
-@property (nonatomic , retain) NSString *message;
 
 @end

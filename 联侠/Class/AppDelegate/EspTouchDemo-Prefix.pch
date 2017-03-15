@@ -37,7 +37,7 @@
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip
 #define kPort 6003
-#define localhost @"114.55.5.92"
+#define localhost @"192.168.1.104"
 
 #define kXinTiao @"xinTiao"
 #define kZhiLing @"zhiLing"
@@ -187,13 +187,8 @@
  */
 #define kJiaoYanZhangHu [NSString stringWithFormat:@"http://%@:8080/smarthome/user/queryPhone" , localhost]
 
-/**
- *  查询用户设备
- *  http://%@:8080/smarthome/user/queryUserDevice 以前的
- *  修改过的 http://localhost:8080/smarthome/userDevice/queryUserDevice
- */
 
-#define kQueryTheUserdevice [NSString stringWithFormat:@"http://%@:8080/smarthome/user/queryUserDevice", localhost]
+#define kQueryTheUserdevice [NSString stringWithFormat:@"http://%@:8080/smarthome/userDevice/queryUserDevice", localhost]
 
 /**
  *  发送短信
@@ -454,12 +449,7 @@
 */
 #define kGanYiJiDeDingShiURL [NSString stringWithFormat:@"http://%@:8080/smarthome/dryer/jobTask", localhost]
 
-/**
- *  移除设备
- *  以前的     http://%@:8080/smarthome/user/deleteUserDevice
- *  修改过的  http://localhost:8080/smarthome/userDevice/deleteUserDevice
- */
-#define kDeleteServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/user/deleteUserDevice", localhost]
+#define kDeleteServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/userDevice/deleteUserDevice", localhost]
 
 
 /**

@@ -10,6 +10,7 @@
 #import "UserMessageTableViewCell.h"
 #import "MineYouHuiQuanViewController.h"
 #import "ForgetPwdViewController.h"
+#import "AgainSendViewController.h"
 #import "MineViewController.h"
 
 #import "LocationPickerVC.h"
@@ -305,8 +306,8 @@
         [self.navigationController pushViewController:youHuiQuanVC animated:YES];
     } else if (indexPath.section == 3) {
         if (indexPath.row == 0) {
-            ForgetPwdViewController *subVC = [[ForgetPwdViewController alloc]init];
-            subVC.phoneNumber = [kStanderDefault objectForKey:@"phone"];
+            AgainSendViewController *subVC = [[AgainSendViewController alloc]init];
+//            subVC.phoneNumber = [kStanderDefault objectForKey:@"phone"];
             [self.navigationController pushViewController:subVC animated:YES];
         }
     } else if (indexPath.section == 4) {

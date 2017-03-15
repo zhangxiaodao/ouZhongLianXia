@@ -9,6 +9,8 @@
 #import "LoginViewController.h"
 #import "ForgetPwdViewController.h"
 #import "RegisterViewController.h"
+#import "AgainSendViewController.h"
+
 #import "MainViewController.h"
 #import "AddSViewController.h"
 
@@ -178,8 +180,7 @@
 #pragma mark - 忘记密码点击事件
 - (void)forgetPwdBtnAction{
     
-    ForgetPwdViewController *forgetPwdVC = [[ForgetPwdViewController alloc]init];
-
+    AgainSendViewController *forgetPwdVC = [[AgainSendViewController alloc]init];
     [self.navigationController pushViewController:forgetPwdVC animated:YES];
 }
 

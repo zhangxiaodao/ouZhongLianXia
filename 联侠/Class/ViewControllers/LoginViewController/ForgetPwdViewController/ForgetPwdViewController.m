@@ -149,7 +149,7 @@
         
     } else if(self.accTectFiled.text.length == 11){
         AgainSendViewController *safeVC = [[AgainSendViewController alloc]init];
-        safeVC.phoneNumber = [NSString stringWithFormat:@"%@" , self.accTectFiled.text];
+//        safeVC.phoneNumber = [NSString stringWithFormat:@"%@" , self.accTectFiled.text];
         [self.navigationController pushViewController:safeVC animated:YES];
     }
 }
