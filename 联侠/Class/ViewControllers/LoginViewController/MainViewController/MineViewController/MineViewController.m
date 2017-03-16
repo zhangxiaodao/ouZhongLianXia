@@ -51,9 +51,14 @@
         UIView *iii = [self.navView.subviews objectAtIndex:0];
         UIImageView *jjj = [iii.subviews objectAtIndex:1];
         jjj.image = [UIImage new];
-
         
-        NSDictionary *parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+        NSDictionary *parames = nil;
+        if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
+            parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+        } else {
+            parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2)};
+        }
+        
         [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
         
     }

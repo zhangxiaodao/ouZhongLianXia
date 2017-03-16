@@ -50,8 +50,15 @@
 
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
-    NSDictionary *parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
-    [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
+    
+    NSDictionary *parameters = nil;
+    if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
+        parameters = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+    } else {
+        parameters = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2)};
+    }
+    
+    [HelpFunction requestDataWithUrlString:kLogin andParames:parameters andDelegate:self];
     
     [self setUI];
 }

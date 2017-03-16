@@ -203,7 +203,7 @@
 /** SDK启动成功返回cid */
 - (void)GeTuiSdkDidRegisterClient:(NSString *)clientId {
     //个推SDK已注册，返回clientId
-//        NSLog(@"\n>>>[GeTuiSdk RegisterClient]:%@\n\n", clientId);
+        NSLog(@"\n>>>[GeTuiSdk RegisterClient]:%@\n\n", clientId);
     [kStanderDefault setObject:clientId forKey:@"GeTuiClientId"];
 }
 

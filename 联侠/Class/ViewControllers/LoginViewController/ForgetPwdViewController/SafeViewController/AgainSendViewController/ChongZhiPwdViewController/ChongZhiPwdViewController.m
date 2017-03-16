@@ -174,7 +174,14 @@
 //        successVC.pwd = [NSString stringWithString:self.againPwdTectFiled.text];
 //        [self.navigationController pushViewController:successVC animated:YES];
         
-        NSDictionary *parameters = @{@"loginName":self.phoneNumber , @"password" : self.againPwdTectFiled.text , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+        NSDictionary *parameters = nil;
+        if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
+            parameters = @{@"loginName":self.phoneNumber , @"password" : self.againPwdTectFiled.text , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+        } else {
+            parameters = @{@"loginName":self.phoneNumber , @"password" : self.againPwdTectFiled.text , @"ua.phoneType" : @(2)};
+        }
+        
+   
         [kStanderDefault setObject:self.againPwdTectFiled.text forKey:@"password"];
         [kStanderDefault setObject:self.phoneNumber forKey:@"phone"];
         [HelpFunction requestDataWithUrlString:kLogin andParames:parameters andDelegate:self];

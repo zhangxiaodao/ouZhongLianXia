@@ -38,6 +38,7 @@
 		ED0BC1481E49BE57007BF312 /* SystemMessageAndMineMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED0BC1471E49BE57007BF312 /* SystemMessageAndMineMessageTableViewCell.m */; };
 		ED0D6A491DF14D5000A84DCA /* AllTypeServiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED0D6A481DF14D5000A84DCA /* AllTypeServiceTableViewCell.m */; };
 		ED0D6A4D1DF16A3000A84DCA /* AllTypeServiceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ED0D6A4C1DF16A3000A84DCA /* AllTypeServiceModel.m */; };
+		ED0F094C1E7A7D8F00794F14 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ED0F094E1E7A7D8F00794F14 /* InfoPlist.strings */; };
 		ED0FCA181D8F98820005420C /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = ED0FCA171D8F98820005420C /* NSString+Extension.m */; };
 		ED104F281E4D9D23004750F1 /* AboutOusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED104F271E4D9D23004750F1 /* AboutOusTableViewCell.m */; };
 		ED119DCA1CFEB3FC0073094D /* AirgengDuoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED119DC91CFEB3FC0073094D /* AirgengDuoViewController.m */; };
@@ -269,7 +270,6 @@
 		E8CECCA1D7BD00B92544F72D /* Pods-联侠.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-联侠.release.xcconfig"; path = "Pods/Target Support Files/Pods-联侠/Pods-联侠.release.xcconfig"; sourceTree = "<group>"; };
 		ED00DAAE1D8BCCFE00EDF817 /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
 		ED00DAAF1D8BCCFE00EDF817 /* UIImageView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Extension.m"; sourceTree = "<group>"; };
-		ED0238CB1E30B39300E2A20D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		ED0238CD1E30B39300E2A20D /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		ED0238CE1E30B39300E2A20D /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
 		ED0238CF1E30B39300E2A20D /* UMSocialBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialBar.h; sourceTree = "<group>"; };
@@ -336,6 +336,8 @@
 		ED0D6A481DF14D5000A84DCA /* AllTypeServiceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllTypeServiceTableViewCell.m; sourceTree = "<group>"; };
 		ED0D6A4B1DF16A3000A84DCA /* AllTypeServiceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllTypeServiceModel.h; sourceTree = "<group>"; };
 		ED0D6A4C1DF16A3000A84DCA /* AllTypeServiceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllTypeServiceModel.m; sourceTree = "<group>"; };
+		ED0F094D1E7A7D8F00794F14 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		ED0F094F1E7A7D9100794F14 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ED0FCA161D8F98820005420C /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
 		ED0FCA171D8F98820005420C /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
 		ED104F261E4D9D23004750F1 /* AboutOusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutOusTableViewCell.h; sourceTree = "<group>"; };
@@ -1080,6 +1082,7 @@
 				ED12E01E1CF5C5460011CD2C /* BottomNavViewController.h */,
 				ED12E01F1CF5C5460011CD2C /* BottomNavViewController.m */,
 				ED12E0201CF5C5460011CD2C /* EspTouchDemo-Prefix.pch */,
+				ED0F094E1E7A7D8F00794F14 /* InfoPlist.strings */,
 			);
 			path = AppDelegate;
 			sourceTree = "<group>";
@@ -2342,9 +2345,9 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				"zh-Hans",
+				en,
 			);
 			mainGroup = ED12DF751CF5C0FF0011CD2C;
 			productRefGroup = ED12DF7F1CF5C0FF0011CD2C /* Products */;
@@ -2372,6 +2375,7 @@
 				EDC7617D1DC99289007E2774 /* scanLine@3x.png in Resources */,
 				ED0239031E30B39300E2A20D /* WeiboSDK.bundle in Resources */,
 				EDAD36771E261EFB001DE474 /* Images.xcassets in Resources */,
+				ED0F094C1E7A7D8F00794F14 /* InfoPlist.strings in Resources */,
 				ED02390F1E30B39300E2A20D /* UMSocialSDKResourcesNew.bundle in Resources */,
 				ED02390E1E30B39300E2A20D /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				ED02390A1E30B39300E2A20D /* UMSnsAccountViewController.xib in Resources */,
@@ -2683,10 +2687,18 @@
 		ED0238CA1E30B39300E2A20D /* UMSocialLocalizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				ED0238CB1E30B39300E2A20D /* en */,
 				ED0238FE1E30B39300E2A20D /* zh-Hans */,
 			);
 			name = UMSocialLocalizable.strings;
+			sourceTree = "<group>";
+		};
+		ED0F094E1E7A7D8F00794F14 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ED0F094D1E7A7D8F00794F14 /* zh-Hans */,
+				ED0F094F1E7A7D9100794F14 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -61,9 +61,13 @@
 
 #pragma mark - 登陆按钮点击事件
 - (void)loginBtnAtcion{
-
+    NSDictionary *parameters = nil;
+    if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
+        parameters = @{@"loginName":self.phoneNumber , @"password" : self.pwd , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+    } else {
+        parameters = @{@"loginName":self.phoneNumber , @"password" : self.pwd , @"ua.phoneType" : @(2)};
+    }
     
-    NSDictionary *parameters = @{@"loginName":self.phoneNumber , @"password" : self.pwd , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
     [kStanderDefault setObject:self.pwd forKey:@"password"];
     [kStanderDefault setObject:self.phoneNumber forKey:@"phone"];
     [HelpFunction requestDataWithUrlString:kLogin andParames:parameters andDelegate:self];

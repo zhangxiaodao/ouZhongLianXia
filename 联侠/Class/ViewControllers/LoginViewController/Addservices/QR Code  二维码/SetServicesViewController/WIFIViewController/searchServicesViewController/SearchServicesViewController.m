@@ -236,40 +236,54 @@
     
     NSString *str = [self convertDataToHexStr:data];
     
-    NSString *subStr2 = [str substringWithRange:NSMakeRange(4, 4)];
+    NSString *devtypeSn = [str substringWithRange:NSMakeRange(4, 4)];
     
-    self.devTypeSn = subStr2;
+//    self.devTypeSn = subStr2;
     
-    NSString *subStr = [str substringWithRange:NSMakeRange(10, 12)];
+    NSString *devsn = [str substringWithRange:NSMakeRange(10, 12)];
 //    self.deviceSn = [NSString stringWithString:subStr];
-    NSLog(@" devsn -- devtypeSn---%@, %@ , %@" ,  str, subStr , self.protocolArray);
+    NSLog(@" devsn --%@ ,  devtypeSn--%@ , self.deviceSn--%@ , str--%@" ,  devsn, devtypeSn , self.deviceSn , str);
     
-    if ([self.devTypeSn isEqualToString:@"412a"]) {
-        self.devTypeSn = @"4131";
-//        self.deviceSn = [NSString stringWithString:[str substringWithRange:NSMakeRange(8, 12)]];
-    }
-    
-    NSDictionary *parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
-    
-    NSLog(@"userSn--%@ , deviceSn--%@ , devTypeSn--%@ , provience--%@ , cityName--%@ " ,[kStanderDefault objectForKey:@"userSn"] , self.deviceSn , self.devTypeSn , [kStanderDefault objectForKey:@"provience"] , [kStanderDefault objectForKey:@"cityName"]);
-    
-    
-    if ([kStanderDefault objectForKey:@"cityName"] && [kStanderDefault objectForKey:@"provience"]) {
-        parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : [kStanderDefault objectForKey:@"cityName"]};
+    if ([devsn isEqualToString:self.deviceSn]) {
+        self.devTypeSn = devtypeSn;
     } else {
-        parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
+        self.devTypeSn = nil;
     }
     
-    NSLog(@"%@" , parames);
-    if ([self.devTypeSn isEqualToString:@"4131"] || [self.devTypeSn isEqualToString:@"4132"]) {
-        [HelpFunction requestDataWithUrlString:kBindLengFengShanURL andParames:parames andDelegate:self];
-    } else if ([self.devTypeSn isEqualToString:@"4231"] || [self.devTypeSn isEqualToString:@"4232"]) {
-        [HelpFunction requestDataWithUrlString:kBindKongQiJingHuaQiURL andParames:parames andDelegate:self];
-    } else if ([self.devTypeSn isEqualToString:@"4331"] || [self.devTypeSn isEqualToString:@"4332"]) {
-        [HelpFunction requestDataWithUrlString:kBindGanYiJiURL andParames:parames andDelegate:self];
+    if (self.devTypeSn) {
+        
+        
+        if ([self.devTypeSn isEqualToString:@"412a"]) {
+            self.devTypeSn = @"4131";
+            //        self.deviceSn = [NSString stringWithString:[str substringWithRange:NSMakeRange(8, 12)]];
+        }
+        
+        NSDictionary *parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
+        
+        NSLog(@"userSn--%@ , deviceSn--%@ , devTypeSn--%@ , provience--%@ , cityName--%@ " ,[kStanderDefault objectForKey:@"userSn"] , self.deviceSn , self.devTypeSn , [kStanderDefault objectForKey:@"provience"] , [kStanderDefault objectForKey:@"cityName"]);
+        
+        
+        if ([kStanderDefault objectForKey:@"cityName"] && [kStanderDefault objectForKey:@"provience"]) {
+            parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : [kStanderDefault objectForKey:@"cityName"]};
+        } else {
+            parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
+        }
+        
+        NSLog(@"%@" , parames);
+        if ([self.devTypeSn isEqualToString:@"4131"] || [self.devTypeSn isEqualToString:@"4132"]) {
+            [HelpFunction requestDataWithUrlString:kBindLengFengShanURL andParames:parames andDelegate:self];
+        } else if ([self.devTypeSn isEqualToString:@"4231"] || [self.devTypeSn isEqualToString:@"4232"]) {
+            [HelpFunction requestDataWithUrlString:kBindKongQiJingHuaQiURL andParames:parames andDelegate:self];
+        } else if ([self.devTypeSn isEqualToString:@"4331"] || [self.devTypeSn isEqualToString:@"4332"]) {
+            [HelpFunction requestDataWithUrlString:kBindGanYiJiURL andParames:parames andDelegate:self];
+        }
+        
+        [_progressTimer setFireDate:[NSDate distantPast]];
+    } else {
+        self._isConfirmState = YES;
+        [self tapConfirmForResults];
     }
     
-    [_progressTimer setFireDate:[NSDate distantPast]];
     return YES;
 }
 

@@ -1,0 +1,62 @@
+/* 
+  InfoPlist.strings
+  联侠
+
+  Created by 杭州阿尔法特 on 2017/3/16.
+  Copyright © 2017年 张海昌. All rights reserved.
+*/
+
+"CFBundleDisplayName" = "联侠"
+
+"LoginVC_login" = "登陆"
+"LoginVC_AccPlaceholder" = "请输入您的手机号码或ID账号"
+"LoginVC_PwdPlacrholder" = "请输入密码"
+"LoginVC_Register" = "立即注册"
+"LoginVC_ForgetPwd" = "忘记密码"
+
+"ResetVC_ResetPwd" = "重置密码"
+
+"RegistVC_Register" = "注册"
+"RegistVC_RegisterSuccess" = "恭喜您，注册成功"
+"RegistVC_Agree" = "点击“立即注册”，即表示你同意遵守欧众"
+"RegistVC_With" = "和"
+"RegistVC_XieYi" = "协议内容"
+"RegistVC_YinSi" = "隐私政策"
+"R" = "此账户已存在，请直接登录"
+
+"AccEmpty" = "账号输入为空"
+"PwdEmpty" = "密码为空"
+"AccountFormatInputError" = "账号格式输入错误"
+"UserNoRegistered" = "用户未注册"
+"EnterdErrorSoReenter" = "您输入的有误，请重新输入"
+"AccOrPwdEmpty" = "账号或密码为空"
+"PwdError" = "密码错误"
+"EnterPhone" = "请输入您的手机号码"
+"EnterVertionCode" = "请输入验证码"
+"Next" = "下一步"
+"PhoneFormattedError" = "手机号码格式不正确"
+"InputValueEmpty" = "输入值为空"
+"EnterSMSVerificationCode" = "请输入短信验证码"
+"SendSMSCode" = "发送短信"
+"Back" = "返回"
+"YourPhoneNumberErrorSoRe-Enter" = "你的号码输入有误，请重新输入"
+"YourVerificationCodeErrorSoRe-Enter" = "您输入的验证码错误，请重新输入"
+"ThisAccNoExist" = "此账户不存在"
+"InputValueError" = "输入值异常"
+"AfterSecondsRe-Send" = "后重新发送"
+
+"RegisterMobilePhoneNumber" = "您注册的手机号码为:"
+"SetYourPwd" = "请设置您的密码。"
+
+"Submit" = "提交"
+"Prompt" = "提示"
+
+"PwdTwiceDifferentRe-enter" = "您两次输入的密码不同，请再次输入"
+
+"Right" = "好的"
+"PwdFormat" = "密码长度必须大于6位并小于16位"
+"PwdEnterError" = "密码输入为空"
+"SystemErrorRestall" = "系统异常，请重试"
+"Congratulations" = "恭喜您，操作成功。"
+"AtOnceLogin" = "马上登陆"
+

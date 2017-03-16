@@ -192,7 +192,13 @@
     if ( (self.acctextFiled.text.length == 11 || self.acctextFiled.text.length == 9) && [UITextField validateNumber:self.acctextFiled.text]  && self.pwdTectFiled.text != nil) {
         
         [SVProgressHUD show];
-        NSDictionary *parameters = @{@"loginName":self.acctextFiled.text , @"password" : self.pwdTectFiled.text , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+        NSDictionary *parameters = nil;
+        if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
+            parameters = @{@"loginName":self.acctextFiled.text , @"password" : self.pwdTectFiled.text , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+        } else {
+            parameters = @{@"loginName":self.acctextFiled.text , @"password" : self.pwdTectFiled.text ,  @"ua.phoneType" : @(2)};
+        }
+        
         [kStanderDefault setObject:self.pwdTectFiled.text forKey:@"password"];
         [kStanderDefault setObject:self.acctextFiled.text forKey:@"phone"];
 
@@ -256,7 +262,7 @@
         if (state == 1) {
             [self setAlertText:@"账号或密码为空"];
         } else if (state == 2) {
-            [self setAlertText:@"用户不存在"];
+            [self setAlertText:@"用户未注册"];
         } else {
             [self setAlertText:@"密码错误"];
         }
