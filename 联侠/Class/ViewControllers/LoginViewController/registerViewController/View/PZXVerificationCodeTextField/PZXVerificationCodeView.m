@@ -68,8 +68,7 @@
         tf.tag = 100+i;
         tf.textAlignment = NSTextAlignmentCenter;
         tf.secureTextEntry = self.isSecure;
-        [tf addTarget:self action:@selector(textFieldDidEndEditing:) forControlEvents:UIControlEventValueChanged];
-        
+
         
         [self.textFieldArray addObject:tf];
         
@@ -93,10 +92,6 @@
 
 #pragma mark - UITextFieldDelegate
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField:(UITextField *)textField {
-    
-}
-
 //代理（里面有自己的密码线）
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
 
@@ -115,29 +110,13 @@
     
     }
 
-    return NO;
-}
-
-//在里面改变选中状态以及获取验证码
--(void)textFieldDidBeginEditing:(UITextField *)textField{
-    
-    
-    textField.layer.borderColor = self.selectedColor.CGColor;
-//    [self getVertificationCode];
-    
-    NSLog(@"getVertificationCode--%@" , [self getVertificationCode]);
-}
-
--(void)textFieldDidEndEditing:(UITextField *)textField{
-    
-    textField.layer.borderColor = self.deselectColor.CGColor;
     NSString *vercodeStr = [self getVertificationCode];
-    
-//    NSLog(@"%@ , %@" , vercodeStr , self.sendMessage);
+    NSLog(@"ValueChanged--%@" , vercodeStr);
     
     if (vercodeStr.length == 6) {
+        textField.layer.borderColor = self.deselectColor.CGColor;
         if (vercodeStr.integerValue == self.sendMessage.integerValue) {
-
+            
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RegisterSuccess" object:self userInfo:@{@"RegisterSuccess" : @"YES"}]];
         } else {
             for (int i = 0; i<_textFieldArray.count; i++) {
@@ -150,6 +129,23 @@
         }
         
     }
+    
+    return NO;
+}
+
+//在里面改变选中状态以及获取验证码
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    
+    
+    textField.layer.borderColor = self.selectedColor.CGColor;
+    textField.tintColor = self.selectedColor;
+//    [self getVertificationCode];
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    
+    textField.layer.borderColor = self.deselectColor.CGColor;
+    
 }
 
 -(NSString *)getVertificationCode{ //获取验证码方法

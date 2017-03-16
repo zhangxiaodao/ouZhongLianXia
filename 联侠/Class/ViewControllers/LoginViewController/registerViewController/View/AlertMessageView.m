@@ -9,6 +9,8 @@
 #import "AlertMessageView.h"
 #import "PZXVerificationCodeView.h"
 
+#define kSpace ((self.height - kScreenW / 20 - 5 - self.height / 7 - self.height / 10 - self.height / 8 - self.height / 5) / 5)
+
 @interface AlertMessageView ()<HelpFunctionDelegate>
 @property(nonatomic,strong)PZXVerificationCodeView *pzxView;
 @property (nonatomic , strong) UILabel *phoneLabel;
@@ -37,7 +39,6 @@
         [cancleBtn addTarget:target action:cancleAtcion forControlEvents:UIControlEventTouchUpInside];
         [cancleBtn setImage:[UIImage imageNamed:@"cancleImage"] forState:UIControlStateNormal];
         
-        
         UILabel *titleLabel = [UILabel creatLableWithTitle:titleText andSuperView:self andFont:k20 andTextAligment:NSTextAlignmentCenter];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(self.width, self.height / 7));
@@ -49,27 +50,27 @@
         [phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(self.width, self.height / 10));
             make.left.mas_equalTo(self.mas_left).offset(0);
-            make.top.mas_equalTo(titleLabel.mas_bottom);
+            make.top.mas_equalTo(titleLabel.mas_bottom).offset(kSpace);
         }];
         self.phoneLabel = phoneLabel;
         
         _countdownBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [self addSubview:_countdownBtn];
-        [_countdownBtn setTitle:@"60s后重发" forState:UIControlStateNormal];
+        [_countdownBtn setTitle:@"重新发送" forState:UIControlStateNormal];
         [_countdownBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         _countdownBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [_countdownBtn addTarget:self action:@selector(againSendAtcion) forControlEvents:UIControlEventTouchUpInside];
         [_countdownBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(self.width / 2, self.height / 8));
             make.centerX.mas_equalTo(self.mas_left).offset(self.width / 2);
-            make.top.mas_equalTo(phoneLabel.mas_bottom).offset(5);
+            make.top.mas_equalTo(phoneLabel.mas_bottom).offset(kSpace);
         }];
         _countdownBtn.layer.cornerRadius = 3;
         _countdownBtn.layer.masksToBounds = YES;
         _countdownBtn.layer.borderColor = [UIColor grayColor].CGColor;
         _countdownBtn.layer.borderWidth = 1;
         
-        _pzxView = [[PZXVerificationCodeView alloc]initWithFrame:CGRectMake(0, self.height * 3 / 5, kScreenW / 1.4, self.height / 5)];
+        _pzxView = [[PZXVerificationCodeView alloc]initWithFrame:CGRectMake(0, self.height * 3 / 5 + kSpace, kScreenW / 1.4, self.height / 5)];
         [self addSubview:_pzxView];
         _pzxView.tag = 10003;
 
@@ -81,7 +82,7 @@
 }
 
 - (void)timeFireMethod {
-    [self.countdownBtn setTitle:[NSString stringWithFormat:@"%lds后发送",(long)self.secondsCountDown] forState:UIControlStateNormal];
+    [self.countdownBtn setTitle:[NSString stringWithFormat:@"%lds后重新发送",(long)self.secondsCountDown] forState:UIControlStateNormal];
     
     if(self.secondsCountDown==0){
         [_countDownTimer invalidate];
@@ -89,7 +90,6 @@
         
         self.data = 0;
         [self.countdownBtn setTitle:@"重新发送" forState:UIControlStateNormal];
-        self.countdownBtn.backgroundColor = kMainColor;
         self.countdownBtn.userInteractionEnabled = YES;
         
     }
