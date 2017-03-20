@@ -308,6 +308,7 @@
         if (indexPath.row == 0) {
             AgainSendViewController *subVC = [[AgainSendViewController alloc]init];
 //            subVC.phoneNumber = [kStanderDefault objectForKey:@"phone"];
+            subVC.changePwd = @"YES";
             [self.navigationController pushViewController:subVC animated:YES];
         }
     } else if (indexPath.section == 4) {

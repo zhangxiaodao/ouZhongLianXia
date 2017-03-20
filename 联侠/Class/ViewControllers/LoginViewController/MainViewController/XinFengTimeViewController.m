@@ -54,7 +54,7 @@
         make.top.mas_equalTo(kScreenW / 5);
     }];
     
-    UIView *openView = [UIView createViewWithTwoLabelAndBottomAndSwitchViewWithSuperView:self.view withFirstLabelTitle:@"开启时间" withFirstLabelTextColor:[UIColor blackColor] withSecondLabelTitle:@"10:00" withSecondLabelTextColor:kMainColor andSecondLabelAtcion:@selector(openAtcion:) andSecondLabelTarget:self andSwitchAtcion:@selector(openSwitchAtcion:) andSwitchTarget:self ];
+    UIView *openView = [UIView createViewWithTwoLabelAndBottomAndSwitchViewWithSuperView:self.view withFirstLabelTitle:@"开启时间" withFirstLabelTextColor:[UIColor blackColor] withSecondLabelTitle:@"10:00" withSecondLabelTextColor:kMainColor andSecondLabelAtcion:@selector(openAtcion:) andSecondLabelTarget:self andSwitchAtcion:@selector(openSwitchAtcion:) andSwitchTarget:self];
     [openView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kCommonW, kScreenW / 8));
         make.centerX.mas_equalTo(self.view.mas_centerX);
@@ -102,7 +102,7 @@
 
 - (void)requestServicesTimeing:(NSDictionary *)dic {
     
-    NSLog(@"%@" , dic);
+//    NSLog(@"%@" , dic);
     if ([dic[@"data"] isKindOfClass:[NSNull class]]) {
         return ;
     }

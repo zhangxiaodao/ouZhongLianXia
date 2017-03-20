@@ -159,7 +159,7 @@
         }
         case 2: {
 
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"02" , @"01") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"01" , @"01") andType:kZhiLing andIsNewOrOld:kNew];
             break;
         }
             

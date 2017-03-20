@@ -83,7 +83,7 @@
 //    }
     
     
-//    UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@设备通电后,长按“%@“键约3秒后,“滴”声响后松开,进入无线配网状态." , brandName , typePosition] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
+
     UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"请开机长按功能按键3秒，听到“滴”的声音后指示灯闪烁，进入配网模式。（wifi功能按键请查看说明书）"] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     firstLable.textColor = [UIColor blackColor];
     firstLable.layer.borderWidth = 0;

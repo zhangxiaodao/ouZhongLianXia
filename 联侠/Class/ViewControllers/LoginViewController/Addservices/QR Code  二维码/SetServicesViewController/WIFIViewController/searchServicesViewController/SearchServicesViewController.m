@@ -77,7 +77,7 @@
 
 - (NSArray *)protocolArray {
     if (!_protocolArray) {
-        _protocolArray = [NSArray arrayWithObjects:@"HMCOLDFANA" , @"HMSMARTA2" , @"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" , @"HMSMARTALL" ,nil];
+        _protocolArray = [NSArray arrayWithObjects:@"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" ,@"HMSMARTALL" , @"HMCOLDFANA", nil];
     }
     return _protocolArray;
 }
@@ -235,12 +235,18 @@
     NSLog(@"%@" , data);
     
     NSString *str = [self convertDataToHexStr:data];
+    NSString *devtypeSn = nil;
+    NSString *devsn = nil;
+    if (str.length == 24) {
+        devtypeSn = [str substringWithRange:NSMakeRange(4, 4)];
+        devsn = [str substringWithRange:NSMakeRange(10, 12)];
+        //    self.devTypeSn = subStr2;
+    } else {
+        devtypeSn = [str substringWithRange:NSMakeRange(4, 4)];
+        devsn = [str substringWithRange:NSMakeRange(8, 12)];
+        //    self.devTypeSn = subStr2;
+    }
     
-    NSString *devtypeSn = [str substringWithRange:NSMakeRange(4, 4)];
-    
-//    self.devTypeSn = subStr2;
-    
-    NSString *devsn = [str substringWithRange:NSMakeRange(10, 12)];
 //    self.deviceSn = [NSString stringWithString:subStr];
     NSLog(@" devsn --%@ ,  devtypeSn--%@ , self.deviceSn--%@ , str--%@" ,  devsn, devtypeSn , self.deviceSn , str);
     
@@ -280,7 +286,9 @@
         
         [_progressTimer setFireDate:[NSDate distantPast]];
     } else {
-        self._isConfirmState = YES;
+       
+        self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
+        [self enableConfirmBtn];
         [self tapConfirmForResults];
     }
     
@@ -430,7 +438,7 @@
                             [NSThread sleepForTimeInterval:1];
                         }
                         
-                        _myTimer = [NSTimer scheduledTimerWithTimeInterval:7 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
+                        _myTimer = [NSTimer scheduledTimerWithTimeInterval:6 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
                         
                         
                     }

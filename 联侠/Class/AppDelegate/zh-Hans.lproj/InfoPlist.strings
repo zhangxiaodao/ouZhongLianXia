@@ -1,11 +1,11 @@
-/* 
-  InfoPlist.strings
-  联侠
-
-  Created by 杭州阿尔法特 on 2017/3/16.
-  Copyright © 2017年 张海昌. All rights reserved.
-*/
-
+///* 
+//  InfoPlist.strings
+//  联侠
+//
+//  Created by 杭州阿尔法特 on 2017/3/16.
+//  Copyright © 2017年 张海昌. All rights reserved.
+//*/
+//
 "CFBundleDisplayName" = "联侠"
 
 "LoginVC_login" = "登陆"
@@ -22,7 +22,103 @@
 "RegistVC_With" = "和"
 "RegistVC_XieYi" = "协议内容"
 "RegistVC_YinSi" = "隐私政策"
-"R" = "此账户已存在，请直接登录"
+
+"AddSerVC_Title" = "添加设备"
+"AddSerVC_NoHaveSer" = "暂时没有添加设备"
+"AddSerVC_AllService" = "所有设备"
+"AddSerVC_ScanResult" = "扫描结果"
+"AddSerVC_ScanErrorRe-Scan" = "扫描错误，请重新扫描"
+
+"AddSerVC_SetSer" = "设置设备"
+"AddSerVC_SetSer_Info" = "请开机长按功能按键3秒，听到“滴”的声音后指示灯闪烁，进入配网模式。（wifi功能按键请查看说明书）"
+"AddSerVC_WIFIAlertInfo" = "请输入正确的WIFI密码，密码错误，设备无法绑定!"
+"AddSerVC_WIFINo" = "您当前没有连接WIFI，设备无法添加"
+"AddSerVC_WIFIName" = "WIFI名字:"
+"AddSerVC_WIFIPwd" = "WIFI密码:"
+"AddSerVC_InputWIFIPwd" = "请输入WIFI密码"
+"AddSerVC_SearchService" = "搜索设备"
+"AddSerVC_SearchingDevice" = "正在搜索设备..."
+"AddSerVC_ConnectingDevice" = "正在连接设备..."
+"AddSerVC_AddDeviceToCloude" = "设备注册到智能云..."
+"AddSerVC_DeviceHaveBound" = "此设备已绑定"
+"AddSerVC_DeviceBoundFailure" = "此设备绑定失败"
+"AddSerVC_Failure" = "失败"
+"AddSerVC_AddDeviceFailure" = "添加失败"
+"AddFailureSerVC_ProductName+ModelNumber" = "产品名称+型号"
+"AddFailureSerVC_Warning" = "警告"
+"AddFailureSerVC_Title" = "请按以下步骤排查可能的问题并重试"
+"AddFailureSerVC_First" = "1.请确保您的设备已按照开始时的提示，设置到配网状态;"
+"AddFailureSerVC_Second" = "2.确保之前输入的WIFI账号密码无误;"
+"AddFailureSerVC_Thirt" = "3.确保设备与家庭路由器的距离不要太远;"
+"AddFailureSerVC_Forth" = "4.您的路由器是否设置到了5GHz，可以进入路由器设置管理检查，确保是2.4GHz;"
+"AddFailureSerVC_Again" = "重试"
+"AddFailureSerVC_OnlineFeedback" = "在线反馈"
+
+"MainVC_BtnOpen" = "开启"
+"MainVC_BtnOff" = "关闭"
+"MainVC_DeviceDelateSuccess" = "设备删除成功"
+"XinFengVC_ChangeDevName" = "修改设备名称"
+"XinFengVC_InputChangeDevName" = "请输入修改名称"
+"XinFengVC_ChangeDevNameAlertInfo" = "你可以再次修改设备名称，便于区分。"
+"XinFengVC_ChangeDevNameAlertTitle" = "修改名称"
+"XinFengVC_RemoveDevAlertTitle" = "移除设备"
+"XinFengVC_ContactAlertTitle" = "联系我们"
+"XinFengVC_EveryDay" = "每天"
+"XinFengVC_NoRepetition" = "无重复"
+"XinFengVC_OpenTime" = "开启时间"
+"XinFengVC_OffTime" = "关闭时间"
+"XinFengVC_RepeatSet" = "重复设置"
+"XinFengVC_WhetherRepeatEveryDay" = "是否每天重复"
+"XinFengVC_SubmitTime" = "提交定时"
+"XinFengVC_TimeSuccess" = "定时成功"
+"XinFengVC_CaiDeng" = "智能彩灯"
+"XinFengVC_LvXinLast" = "滤芯设定剩余"
+"XinFengVC_Tempreture" = "室内温度"
+"XinFengVC_Humidity" = "室内湿度"
+"XinFengVC_FuLiZi" = "负离子"
+"XinFengVC_Wind" = "风速"
+"XinFengVC_Intelligent" = "智能运行"
+"XinFengVC_Manual" = "手动模式"
+"XinFengVC_CaiDeng" = "智能彩灯"
+"XinFengVC_Model" = "模式"
+"XinFengVC_ColorfulGradient" = "七彩渐变"
+"XinFengVC_SymphonyGradient" = "幻彩转动"
+"XinFengVC_Seven-colorBreathing" = "七色呼吸"
+"XinFengVC_Seven-colorRotation" = "七色转动"
+"XinFengVC_RedGreenBlue" = "红绿蓝"
+"XinFengVC_YellowCycanPurple" = "黄青紫"
+"XinFengVC_Red" = "红"
+"XinFengVC_Green" = "绿"
+"XinFengVC_Blue" = "蓝"
+"XinFengVC_Yellow" = "黄"
+"XinFengVC_Cycan" = "青"
+"XinFengVC_Purple" = "紫"
+"XinFengVC_White" = "白"
+"XinFengVC_Auto" = "自动"
+"XinFengVC_Close" = "关闭"
+"XinFengVC_Pause" = "暂停"
+"XinFengVC_FirstFile" = "一档"
+"XinFengVC_SecondFile" = "二档"
+"XinFengVC_ThirtFile" = "三档"
+"XinFengVC_ForthFile" = "四档"
+"XinFengVC_No" = "无"
+"XinFengVC_Efficient" = "高效"
+"XinFengVC_EnergySaving" = "节能"
+"XinFengVC_Sleep" = "睡眠"
+"XinFengVC_Comfortable" = "舒适"
+"XinFengVC_TimingReservation" = "定时预约"
+"XinFengVC_TemporarilyNoTimingReservation" = "暂无定时预约"
+"XinFengVC_OpenTime" = "开启时间"
+"XinFengVC_CloseTime" = "关闭时间"
+"XinFengVC_FilterSetRemaining" = "滤芯设定剩余"
+"XinFengVC_Hour" = "小时"
+
+"Hour" = "时"
+"Minute" = "分"
+
+"TimeSet" = "定时设置"
+
+"AccExiteSoLogin" = "此账户已存在，请直接登录"
 
 "AccEmpty" = "账号输入为空"
 "PwdEmpty" = "密码为空"
@@ -50,6 +146,7 @@
 
 "Submit" = "提交"
 "Prompt" = "提示"
+"Sure" = "确定"
 
 "PwdTwiceDifferentRe-enter" = "您两次输入的密码不同，请再次输入"
 
@@ -59,4 +156,9 @@
 "SystemErrorRestall" = "系统异常，请重试"
 "Congratulations" = "恭喜您，操作成功。"
 "AtOnceLogin" = "马上登陆"
+"Resend" = "重新发送"
+"VerificationCodeSendTo" = "验证码发送至"
+"SMSMessageSendTo" = "短信发送至"
+"PhoneNumberRegister" = "您注册的手机号码为"
+"AgainRepeatPwd" = "请重复输入密码"
 

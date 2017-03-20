@@ -131,7 +131,6 @@
         if (state == 0) {
             NSDictionary *data = dic[@"data"];
             NSString *code = data[@"code"];
-            NSString *userSn = data[@"userSn"];
             self.data = code;
             
             _pzxView.sendMessage = self.data;

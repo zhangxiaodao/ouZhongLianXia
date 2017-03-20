@@ -406,13 +406,9 @@
         
         [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
     } andSecondTitle:@"移除设备" andThirtHandle:^{
-        AllTypeServiceViewController *allServicesVC = [[AllTypeServiceViewController alloc]init];
-        allServicesVC.fromAboutVC = @"YES";
-        [self.navigationController pushViewController:allServicesVC animated:YES];
-    } andThirtTitle:@"使用帮助" andForthHandle:^{
         ConnectWeViewController *connectOueVC = [[ConnectWeViewController alloc]init];
         [self.navigationController pushViewController:connectOueVC animated:YES];
-    } andForthTitle:@"联系我们" andSuperViewController:self];
+    } andThirtTitle:@"联系我们" andForthHandle:nil andForthTitle:nil andSuperViewController:self];
 }
 
 
@@ -574,7 +570,7 @@
 }
 
 - (void)xinFengTimeVCSendTimeToParentVCDelegate:(NSArray *)array {
-    NSLog(@"%@" , array);
+//    NSLog(@"%@" , array);
     
     NSString *time = nil;
     NSString *repeatStr = nil;
@@ -585,12 +581,12 @@
     NSInteger repeatOn = [array[4] integerValue];
     
     if (openOn == 1 && closeOn == 0) {
-        time = [NSString stringWithFormat:@"将于%@开启" , openTime];
+        time = [NSString stringWithFormat:@"%@开启" , openTime];
         
     }  if (openOn == 0 && closeOn == 1) {
-       time = [NSString stringWithFormat:@"将于%@关闭" , closeTime];
+       time = [NSString stringWithFormat:@"%@关闭" , closeTime];
     }  if (openOn == 1 && closeOn == 1) {
-        time = [NSString stringWithFormat:@"将于%@开启 , 将于%@关闭" , openTime , closeTime];
+        time = [NSString stringWithFormat:@"%@开启 , %@关闭" , openTime , closeTime];
     }
     
     if (repeatOn == 1) {

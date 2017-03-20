@@ -109,7 +109,7 @@
 //        setVC.addServiceModel = model;
         [self.navigationController pushViewController:setVC animated:YES];
     } else {
-        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"扫描结果" message:@"二维码扫描错误，请重新扫描" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"扫描结果" message:@"扫描错误，请重新扫描" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
     }
 

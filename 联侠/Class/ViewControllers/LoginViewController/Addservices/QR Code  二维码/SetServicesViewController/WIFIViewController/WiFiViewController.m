@@ -83,7 +83,7 @@
     
     if (dictRef) {
        
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"请输入正确的WIFI密码，密码错误的话，设备无法绑定!"];
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"请输入正确的WIFI密码，密码错误，设备无法绑定!"];
     } else {
         [UIAlertController creatRightAlertControllerWithHandle:^{
             [self.navigationController popViewControllerAnimated:YES];
@@ -147,7 +147,7 @@
     }];
 
     
-    UILabel *pwdWiFi = [UILabel creatLableWithTitle:@"Wi-Fi密码:" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentCenter];
+    UILabel *pwdWiFi = [UILabel creatLableWithTitle:@"WiFi密码:" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentCenter];
     pwdWiFi.layer.borderWidth = 0;
     [pwdWiFi mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenW / 10));

@@ -291,7 +291,7 @@
     _airQulityLable.text = pm25;
     _methanalLabel.text = methanal;
     
-    _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , kXinFengLvXinTime - sumTime];
+    _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , sumTime];
     
     if ([kaiGuan isEqualToString:@"01"]) {
         UIImage *image = nil;
@@ -308,6 +308,9 @@
         } else if ([_wind isEqualToString:@"04"]) {
             image = [UIImage imageNamed:@"xinFengWindZuiGao"];
             time = kDuration * 2 / 3 ;
+        } else if ([_wind isEqualToString:@"00"]) {
+            image = [UIImage imageNamed:@"xinFengWindZuiGao"];
+            time = MAXFLOAT;
         }
         
         _fengSuBiaoShiImageView.image = image;
@@ -330,7 +333,7 @@
 
 #pragma mark - 获取设备的状态
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd{
-        NSLog(@"%@" , dddd);
+//        NSLog(@"%@" , dddd);
     if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dataDic = dddd[@"data"];
         
@@ -354,14 +357,12 @@
 - (void)setStateModel:(StateModel *)stateModel{
     _stateModel = stateModel;
     
-    NSLog(@"第一个--%@" , _stateModel);
-    
     if (_stateModel) {
         _airQulityLable.text = [NSString stringWithFormat:@"%@" , _stateModel.pm25];
         _temperatureLabel.text = [NSString stringWithFormat:@"%@" , _stateModel.currentC];
         _humidityLabel.text = [NSString stringWithFormat:@"%ld" , _stateModel.currentH];
         _methanalLabel.text = [NSString stringWithFormat:@"%ld" , _stateModel.methanal];
-        _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , kXinFengLvXinTime - _stateModel.changeFilterScreen];
+        _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , _stateModel.changeFilterScreen];
         
         if (_stateModel.fSwitch == 1) {
             
@@ -391,24 +392,6 @@
             [self pauseLayer:_spinImageView.layer];
         }
     }
-    
-    //        if ([kStanderDefault objectForKey:@"offBtn"]) {
-    //            NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
-    //            if (bottomSelected.integerValue == 0) {
-    //                [self pauseLayer:_spinImageView.layer];
-    //            }
-    //        } else {
-    //            if (_stateModel.fSwitch == 1){
-    //                return ;
-    //
-    //            } else if (_stateModel.fSwitch == 0) {
-    //
-    //                [self pauseLayer:_spinImageView.layer];
-    //            }
-    //        }
-    
-    
-    
     
 }
 

@@ -10,15 +10,10 @@
 
 #define kArrayCount _array.count
 #define kArrayCountJiaYi (_array.count + 1)
-#define kBtnW ((kScreenW - kScreenW / 2.5) / 3)
+#define kBtnW ((kScreenW - kMargin * 5) / 4)
+#define kMargin (kScreenW / 20)
 
-#define marginX 30 //左右边距
-#define marginY 30 //上下间距
-#define Row     40 //水平间距
-
-#define itemY   Height/2-50  //最上面item的y坐标
 #define distance (kScreenH / 2 + 2 * kBtnW)
-#define ksections 3
 
 @interface MalertView ()<HelpFunctionDelegate>
 @property (nonatomic , strong) NSArray *array;
@@ -62,27 +57,91 @@
         }];
         
         self.array = imgArr;
-        _clolorArray = @[kCOLOR(251, 13, 27) , kCOLOR(11, 36, 250) ,  kCOLOR(219, 175, 40) , kCOLOR(251, 157, 176) , kCOLOR(196, 126, 251) ,   kCOLOR(157, 123, 250) , kCOLOR(125, 99, 250) ,kCOLOR(212, 212, 212) , kFenGeXianYanSe ];
+        _clolorArray = @[kCOLOR(38, 4, 74) , kCOLOR(137, 7, 75) ,  kCOLOR(90, 24, 100) , kCOLOR(40, 42, 123) , kCOLOR(11, 84, 161) , kCOLOR(24, 152, 183) ,   kCOLOR(130, 141, 153) , kCOLOR(251, 13, 27) ,kCOLOR(41, 253, 47) , kCOLOR(35, 57, 250) , kCOLOR(255, 253, 56) , kCOLOR(66, 255, 254) , kCOLOR(252, 61, 251) , kCOLOR(255, 255, 255) ,kCOLOR(110, 135, 169) , kFenGeXianYanSe];
         for (int i = 0; i < imgArr.count; i++) {
             
             UIButton *btn = [UIButton creatBtnWithTitle:imgArr[i] withLabelFont:k14 withLabelTextColor:[UIColor blackColor] andSuperView:_contentViewLeft andBackGroundColor:[UIColor clearColor] andHighlightedBackGroundColor:[UIColor clearColor] andwhtherNeendCornerRadius:YES WithTarget:self andDoneAtcion:@selector(colorBtnAtcion:)];
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(kBtnW , kBtnW));
-                if (i < 3) {
-                    make.left.mas_equalTo(self.mas_left).offset((kScreenW / 10 ) * (i + 1) + i * kBtnW);
-                    make.centerY.mas_equalTo(self.mas_centerY).offset(- kBtnW - kScreenW / 10 + distance);
-                } else if (i >= 3 && i < 6) {
-                    make.left.mas_equalTo(self.mas_left).offset((kScreenW / 10) * (i + 1 - 3) + (i - 3) * kBtnW);
-                    make.centerY.mas_equalTo(self.mas_centerY).offset(distance);
+                if (i < 4) {
+                    make.left.mas_equalTo(self.mas_left).offset((kMargin) * (i + 1) + i * kBtnW);
+                    make.bottom.mas_equalTo(self.mas_centerY).offset(- kBtnW - kMargin * 3 / 2 + distance);
+                } else if (i >= 4 && i < 8) {
+                    make.left.mas_equalTo(self.mas_left).offset(kMargin * (i + 1 - 4) + (i - 4) * kBtnW);
+                    make.bottom.mas_equalTo(self.mas_centerY).offset(- kMargin / 2 + distance);
+                } else if (i >= 8 && i < 12) {
+                    make.left.mas_equalTo(self.mas_left).offset(kMargin * (i + 1 - 8) + (i - 8) * kBtnW);
+                    make.top.mas_equalTo(self.mas_centerY).offset(kMargin / 2 + distance);
                 } else {
-                    make.left.mas_equalTo(self.mas_left).offset((kScreenW / 10) * (i + 1 - 6) + (i - 6) * kBtnW);
-                    make.centerY.mas_equalTo(self.mas_centerY).offset(kBtnW + kScreenW / 10 + distance);
+                    make.left.mas_equalTo(self.mas_left).offset(kMargin * (i + 1 - 12) + (i - 12) * kBtnW);
+                    make.top.mas_equalTo(self.mas_centerY).offset(kBtnW + kMargin * 3 / 2 + distance);
                 }
             }];
             btn.layer.cornerRadius = kBtnW / 2;
             btn.layer.borderWidth = 2;
             btn.layer.borderColor = [_clolorArray[i] CGColor];
-            btn.tag = 100 + i;
+            
+            if (i < 14) {
+                btn.tag = 102 + i;
+            } else if (i == 14) {
+                btn.tag = 116;
+            } else if (i == 15) {
+                btn.tag = 101;
+            }
+            
+//            switch (i) {
+//                case 0:
+//                    btn.tag = 102;
+//                    break;
+//                case 1:
+//                    btn.tag = 103;
+//                    break;
+//                case 2:
+//                    btn.tag = 103;
+//                    break;
+//                case 3:
+//                    btn.tag = 105;
+//                    break;
+//                case 4:
+//                    btn.tag = 106;
+//                    break;
+//                case 5:
+//                    btn.tag = 107;
+//                    break;
+//                case 6:
+//                    btn.tag = 108;
+//                    break;
+//                case 7:
+//                    btn.tag = 109;
+//                    break;
+//                case 8:
+//                    btn.tag = 110;
+//                    break;
+//                case 9:
+//                    btn.tag = 111;
+//                    break;
+//                case 10:
+//                    btn.tag = 112;
+//                    break;
+//                case 11:
+//                    btn.tag = 113;
+//                    break;
+//                case 12:
+//                    btn.tag = 114;
+//                    break;
+//                case 13:
+//                    btn.tag = 115;
+//                    break;
+//                case 14:
+//                    btn.tag = 101;
+//                    break;
+//                case 15:
+//                    btn.tag = 116;
+//                    break;
+//                    
+//                default:
+//                    break;
+//            }
             
             [self.btnArray addObject:btn];
             
@@ -148,20 +207,14 @@
     if (index > 0) {
         
         if (index == 1) {
-            UIButton *btn = self.btnArray[7];
-            btn.backgroundColor = self.clolorArray[7];
-        } else if (index == 2) {
-            UIButton *btn = self.btnArray[8];
-            btn.backgroundColor = self.clolorArray[8];
-        } else if (index == 8) {
-            UIButton *btn = self.btnArray[0];
-            btn.backgroundColor = self.clolorArray[0];
-        } else if (index == 9) {
-            UIButton *btn = self.btnArray[1];
-            btn.backgroundColor = self.clolorArray[1];
+            UIButton *btn = [self.btnArray lastObject];
+            btn.backgroundColor = [self.clolorArray lastObject];
+        } else if (index == 16) {
+            UIButton *btn = self.btnArray[14];
+            btn.backgroundColor = self.clolorArray[14];
         } else {
-            UIButton *btn = self.btnArray[index - 1];
-            btn.backgroundColor = self.clolorArray[index - 1];
+            UIButton *btn = self.btnArray[index - 2];
+            btn.backgroundColor = self.clolorArray[index - 2];
         }
         
     }
@@ -170,33 +223,26 @@
 - (void)getXinFengCaiDengAtcion:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
     NSString *caiDeng = [mingLing substringWithRange:NSMakeRange(32, 2)];
-//    NSLog(@"彩灯回传命令%@ , %ld , %@" , caiDeng , caiDeng.integerValue , mingLing);
+    NSString *indexCaiDeng = [NSString turnHexToInt:caiDeng];
+    NSLog(@"彩灯回传命令%@ , %@" , caiDeng , indexCaiDeng);
     
     for (UIButton *btn in self.btnArray) {
         btn.backgroundColor = [UIColor clearColor];
     }
     
-    NSInteger index = caiDeng.intValue;
+    NSInteger index = indexCaiDeng.intValue;
     
     if (index > 0) {
-        NSInteger index = caiDeng.intValue;
-        
         
         if (index == 1) {
-            UIButton *btn = self.btnArray[7];
-            btn.backgroundColor = self.clolorArray[7];
-        } else if (index == 2) {
-            UIButton *btn = self.btnArray[8];
-            btn.backgroundColor = self.clolorArray[8];
-        } else if (index == 8) {
-            UIButton *btn = self.btnArray[0];
-            btn.backgroundColor = self.clolorArray[0];
-        } else if (index == 9) {
-            UIButton *btn = self.btnArray[1];
-            btn.backgroundColor = self.clolorArray[1];
+            UIButton *btn = [self.btnArray lastObject];
+            btn.backgroundColor = [self.clolorArray lastObject];
+        } else if (index == 16) {
+            UIButton *btn = self.btnArray[14];
+            btn.backgroundColor = self.clolorArray[14];
         } else {
-            UIButton *btn = self.btnArray[index - 1];
-            btn.backgroundColor = self.clolorArray[index - 1];
+            UIButton *btn = self.btnArray[index - 2];
+            btn.backgroundColor = self.clolorArray[index - 2];
         }
         
     }
@@ -234,8 +280,16 @@
         dispatch_async(queue, ^{
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                NSInteger tag = MAXFLOAT;
+                if (i < 14) {
+                    tag = 102 + i;
+                } else if (i == 14) {
+                    tag = 116;
+                } else if (i == 15) {
+                    tag = 101;
+                }
                 
-                UIButton *itemView = [_contentViewLeft viewWithTag:i + 100];
+                UIButton *itemView = [_contentViewLeft viewWithTag:tag];
                 
                 [UIView animateWithDuration:(0.25 + i * 0.05) animations:^{
                     itemView.transform = CGAffineTransformTranslate(itemView.transform, 0, -distance);
@@ -263,8 +317,18 @@
     });
     
     for (int i=(int)(_array.count - 1); i >= 0; i--) {
+        
+        NSInteger tag = MAXFLOAT;
+        if (i < 14) {
+            tag = 102 + i;
+        } else if (i == 14) {
+            tag = 116;
+        } else if (i == 15) {
+            tag = 101;
+        }
+        
         UIButton *itemView = nil;
-        itemView = [_contentViewLeft viewWithTag:i + 100];
+        itemView = [_contentViewLeft viewWithTag:tag];
         if (i != 0) {
             dispatch_async(queue1, ^{
                 dispatch_async(dispatch_get_main_queue(), ^{

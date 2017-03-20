@@ -47,7 +47,7 @@
 
 #pragma mark - 设置UI
 - (void)setUI{
-    UILabel *tiShiLable = [UILabel creatLableWithTitle:@"我们将发送一条短信到:" andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentLeft];
+    UILabel *tiShiLable = [UILabel creatLableWithTitle:@"短信发送至:" andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentLeft];
     tiShiLable.layer.borderWidth = 0;
     [tiShiLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 17));

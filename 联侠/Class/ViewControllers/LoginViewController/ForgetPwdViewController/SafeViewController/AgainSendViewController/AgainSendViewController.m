@@ -127,6 +127,11 @@
     _xiaHuaXian1 = xiaHuaXian;
     _xiaHuaXian2 = xiaHuaXian2;
     
+    if ([self.changePwd isEqualToString:@"YES"]) {
+        self.accTectFiled.text = [kStanderDefault objectForKey:@"phone"];
+        self.accTectFiled.userInteractionEnabled = NO;
+    }
+    
 }
 
 #pragma mark - 发送短信按钮60S倒计时
@@ -178,6 +183,10 @@
         chongZhiPwd.phoneNumber = [NSString stringWithFormat:@"%@" , self.accTectFiled.text];
         chongZhiPwd.userSn = self.userSn;
         [self.navigationController pushViewController:chongZhiPwd animated:YES];
+        
+        [kStanderDefault removeObjectForKey:@"sendTimeInterVal"];
+        [self.countDownTimer invalidate];
+        self.countDownTimer = nil;
     } else {
         
         if (self.accTectFiled.text.length != 11) {
