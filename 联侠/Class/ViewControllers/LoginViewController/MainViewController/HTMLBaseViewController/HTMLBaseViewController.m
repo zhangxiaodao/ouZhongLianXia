@@ -40,7 +40,7 @@
     [super viewWillAppear:animated];
     if (self.serviceModel.devSn.length > 0 && self.serviceModel.devTypeSn.length != 0 && self.userModel.sn != 0) {
         
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
     }
 }
 
@@ -60,7 +60,7 @@
             [_userModel setValue:user[key] forKey:key];
         }
         
-        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
+        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , (long)_userModel.sn];
         [kSocketTCP socketConnectHost];
         
         [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:@{@"userSn" : @(_userModel.sn)} andDelegate:self];
@@ -80,7 +80,7 @@
             
             kSocketTCP.serviceModel = self.serviceModel;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+                [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
             });
             
         

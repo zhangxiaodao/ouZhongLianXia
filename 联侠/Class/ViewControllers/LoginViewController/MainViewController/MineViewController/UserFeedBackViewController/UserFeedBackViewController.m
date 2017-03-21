@@ -164,9 +164,6 @@
         
     }
     
-    
-    
-    
 }
 //上传图片的协议与代理方法
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
@@ -309,7 +306,7 @@
             if ([dic[@"success"] integerValue] == 1) {
                 [UIAlertController creatRightAlertControllerWithHandle:^{
                     [self.navigationController popViewControllerAnimated:YES];
-                } andSuperViewController:self Title:@"亲您的建议我们已经收到，会尽快处理"];
+                } andSuperViewController:self Title:@"亲，您的建议我们已经收到，会尽快处理"];
                    
                 
             }
@@ -318,34 +315,7 @@
             NSLog(@"错误 %@", error.localizedDescription);
         }];
         
-        
-//        [manager POST:kYongHuFanKui parameters:parames constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//            // 上传 多张图片
-//            for(NSInteger i = 0; i < self.photoArrayM.count; i++) {
-//                NSData * imageData = UIImageJPEGRepresentation([self.photoArrayM objectAtIndex: i], 0.5);
-//                // 上传的参数名
-//                //根据当前系统时间生成图片名称
-//                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//                formatter.dateFormat = @"yyyyMMddHHmmss";
-//                NSLog(@"%@" , formatter);
-//                NSString *str = [formatter stringFromDate:[NSDate date]];
-//                NSString *fileName = [NSString stringWithFormat:@"%@_%ld.jpg", str , (long)i];
-//                [formData appendPartWithFileData:imageData name:@"files" fileName:fileName mimeType:@"image/jpg"];
-//            }
-//        } success:^(AFHTTPRequestOperation *operation, id responseObject)     {
-//            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-//            NSLog(@"%@" , dic);
-//            
-//            if ([dic[@"success"] integerValue] == 1) {
-//                [UIAlertController creatAlertControllerWithHandle:^{
-//                    [self.navigationController popViewControllerAnimated:YES];                } andSuperViewController:self Title:@"亲您的建议我们已经收到，会尽快处理"];
-//                
-//            }
-//            
-//        } failure:^(AFHTTPRequestOperation *operation, NSError *error)     {
-//            NSLog(@"错误 %@", error.localizedDescription);
-//        }];
-        
+ 
         
         
     }

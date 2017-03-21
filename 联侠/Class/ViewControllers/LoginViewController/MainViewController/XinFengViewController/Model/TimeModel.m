@@ -84,7 +84,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"_fSwitchOff--%ld , _fSwitchOn--%ld , _hasRunOff--%ld , _hasRunOffOnce--%ld , __hasRunOn--%ld , _hasRunOnOnce--%ld , _offJobTime--%@ , _onJobTime--%@ , _runWeek--%@" , _fSwitchOff , _fSwitchOn , _hasRunOff , _hasRunOffOnce , _hasRunOn , _hasRunOnOnce , _offJobTime , _onJobTime , _runWeek];
+    return [NSString stringWithFormat:@"_fSwitchOff--%ld , _fSwitchOn--%ld , _hasRunOff--%ld , _hasRunOffOnce--%ld , __hasRunOn--%ld , _hasRunOnOnce--%ld , _offJobTime--%@ , _onJobTime--%@ , _runWeek--%@" , (long)_fSwitchOff , _fSwitchOn , _hasRunOff , _hasRunOffOnce , _hasRunOn , _hasRunOnOnce , _offJobTime , _onJobTime , _runWeek];
 }
 
 @end

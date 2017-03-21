@@ -103,7 +103,7 @@
     
     AllTypeServiceModel *allTypeServiceModel = _dataArray[indexPath.row];
     AllServicesViewController *allServiceVC = [[AllServicesViewController alloc]init];
-    allServiceVC.devType = [NSString stringWithFormat:@"%ld" , allTypeServiceModel.typeSn];
+    allServiceVC.devType = [NSString stringWithFormat:@"%ld" , (long)allTypeServiceModel.typeSn];
     allServiceVC.fromAboutVC = self.fromAboutVC;
     [self.navigationController pushViewController:allServiceVC animated:YES];
 }

@@ -11,7 +11,7 @@
 @interface HistoryViewController : UIViewController
 @property (nonatomic , strong) NSString *deviceSn;
 @property (nonatomic , assign) CGFloat temperature;
-
+ 
 @property (nonatomic  ,assign) CGFloat text;
 
 @property (nonatomic  ,assign) NSInteger timeText;

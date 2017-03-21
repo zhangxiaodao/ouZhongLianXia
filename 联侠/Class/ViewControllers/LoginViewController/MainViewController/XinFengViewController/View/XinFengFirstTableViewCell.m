@@ -283,7 +283,7 @@
     lvXinLastTimeLittle = [NSString turnHexToInt:lvXinLastTimeLittle];
     NSInteger sumTime = lvXinLastTimeBig.integerValue * 100 + lvXinLastTimeLittle.integerValue;
     
-    NSLog(@"temprature--%@ , humidity--%@ , pm25--%@ , methanal--%@ , sumTime--%ld , wind--%@" , temprature , humidity , pm25 , methanal , sumTime , _wind);
+    NSLog(@"temprature--%@ , humidity--%@ , pm25--%@ , methanal--%@ , sumTime--%ld , wind--%@" , temprature , humidity , pm25 , methanal , (long)sumTime , _wind);
     
     
     _temperatureLabel.text = temprature;
@@ -291,7 +291,7 @@
     _airQulityLable.text = pm25;
     _methanalLabel.text = methanal;
     
-    _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , sumTime];
+    _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)sumTime];
     
     if ([kaiGuan isEqualToString:@"01"]) {
         UIImage *image = nil;
@@ -360,9 +360,9 @@
     if (_stateModel) {
         _airQulityLable.text = [NSString stringWithFormat:@"%@" , _stateModel.pm25];
         _temperatureLabel.text = [NSString stringWithFormat:@"%@" , _stateModel.currentC];
-        _humidityLabel.text = [NSString stringWithFormat:@"%ld" , _stateModel.currentH];
-        _methanalLabel.text = [NSString stringWithFormat:@"%ld" , _stateModel.methanal];
-        _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , _stateModel.changeFilterScreen];
+        _humidityLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.currentH];
+        _methanalLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.methanal];
+        _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)_stateModel.changeFilterScreen];
         
         if (_stateModel.fSwitch == 1) {
             

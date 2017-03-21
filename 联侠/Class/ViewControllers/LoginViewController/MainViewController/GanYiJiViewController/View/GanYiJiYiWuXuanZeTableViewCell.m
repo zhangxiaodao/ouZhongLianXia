@@ -251,16 +251,16 @@
     
     if ([superView isEqual:_baoView]) {
         _baoNum++;
-        numLabel.text = [NSString stringWithFormat:@"%ld件" , _baoNum];
+        numLabel.text = [NSString stringWithFormat:@"%ld件" , (long)_baoNum];
     } else if ([superView isEqual:_zhongView]) {
         _zhongNum++;
-        numLabel.text = [NSString stringWithFormat:@"%ld件" , _zhongNum];
+        numLabel.text = [NSString stringWithFormat:@"%ld件" , (long)_zhongNum];
     } else if ([superView isEqual:_houView]) {
         _houNum++;
-        numLabel.text = [NSString stringWithFormat:@"%ld件" , _houNum];
+        numLabel.text = [NSString stringWithFormat:@"%ld件" , (long)_houNum];
     }
     _sumJianShu = _baoNum + _zhongNum + _houNum;
-    sumLable.text = [NSString stringWithFormat:@"共%ld件" , _sumJianShu];
+    sumLable.text = [NSString stringWithFormat:@"共%ld件" , (long)_sumJianShu];
     
     _sumTime = _baoNum * baoTime > _zhongNum * zhongTime ? _baoNum * baoTime : _zhongNum * zhongTime;
     _sumTime = _sumTime > _houNum * houTime ? _sumTime : _houNum * houTime;
@@ -285,24 +285,24 @@
         if (_baoNum <= 0) {
             _baoNum = 0;
         }
-        numLabel.text = [NSString stringWithFormat:@"%ld件" , _baoNum];
+        numLabel.text = [NSString stringWithFormat:@"%ld件" , (long)_baoNum];
         
     } else if ([superView isEqual:_zhongView]) {
         _zhongNum--;
         if (_zhongNum <= 0) {
             _zhongNum = 0;
         }
-        numLabel.text = [NSString stringWithFormat:@"%ld件" , _zhongNum];
+        numLabel.text = [NSString stringWithFormat:@"%ld件" , (long)_zhongNum];
         
     } else if ([superView isEqual:_houView]) {
         _houNum--;
         if (_houNum <= 0) {
             _houNum = 0;
         }
-        numLabel.text = [NSString stringWithFormat:@"%ld件" , _houNum];
+        numLabel.text = [NSString stringWithFormat:@"%ld件" , (long)_houNum];
     }
     _sumJianShu = _baoNum + _zhongNum + _houNum;
-    sumLable.text = [NSString stringWithFormat:@"共%ld件" , _sumJianShu];
+    sumLable.text = [NSString stringWithFormat:@"共%ld件" , (long)_sumJianShu];
     
     _sumTime = _baoNum * baoTime > _zhongNum * zhongTime ? _baoNum * baoTime : _zhongNum * zhongTime;
     _sumTime = _sumTime > _houNum * houTime ? _sumTime : _houNum * houTime;

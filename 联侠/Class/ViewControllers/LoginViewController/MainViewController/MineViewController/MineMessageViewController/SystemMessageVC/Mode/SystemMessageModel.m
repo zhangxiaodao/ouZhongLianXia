@@ -17,7 +17,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"_title---%@ \n, _url---%@ , content--%@, readCount--%ld" , _title , _url , _content , _readCount];
+    return [NSString stringWithFormat:@"_title---%@ \n, _url---%@ , content--%@, readCount--%ld" , _title , _url , _content , (long)_readCount];
 }
 
 @end

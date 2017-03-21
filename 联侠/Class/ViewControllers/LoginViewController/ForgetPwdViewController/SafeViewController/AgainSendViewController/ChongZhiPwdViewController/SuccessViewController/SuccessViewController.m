@@ -91,7 +91,7 @@
             [userModel setValue:user[key] forKey:key];
         }
         
-        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , userModel.sn];
+        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , (long)userModel.sn];
 //        [kSocketTCP cutOffSocket];
         [kSocketTCP socketConnectHost];
         

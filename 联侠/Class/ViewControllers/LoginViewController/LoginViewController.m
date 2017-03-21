@@ -52,7 +52,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:)  andTitle:@"登陆"];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:)  andTitle:NSLocalizedString(@"LoginVC_login", nil)];
     UIView *backView = [[UIView alloc]init];
     backView = [_navView.subviews objectAtIndex:0];
 
@@ -101,7 +101,7 @@
     }];
     _xiaHuaXian1 = xiaHuaXian;
     
-    self.acctextFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入您的手机号码或ID账号" andSuperView:self.view];
+    self.acctextFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"LoginVC_AccPlaceholder", nil) andSuperView:self.view];
     self.acctextFiled.delegate = self;
     [self.acctextFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(xiaHuaXian.mas_top);
@@ -119,7 +119,7 @@
     }];
     _xiaHuaXian2 = xiaHuaXian2;
     
-    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入密码" andSuperView:self.view];
+    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"LoginVC_PwdPlacrholder", nil) andSuperView:self.view];
     self.pwdTectFiled.keyboardType = UIKeyboardTypeDefault;
     [self.pwdTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(xiaHuaXian2.mas_top);
@@ -130,7 +130,7 @@
     self.pwdTectFiled.secureTextEntry = YES;
     
     //创建注册按钮
-    self.loginBtn = [UIButton initWithTitle:@"登陆" andColor:[UIColor redColor] andSuperView:self.view];
+    self.loginBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_PwdPlacrholder", nil) andColor:[UIColor redColor] andSuperView:self.view];
     self.loginBtn.layer.cornerRadius = kScreenW / 18;
     
     
@@ -145,7 +145,7 @@
     }];
     
     
-    UIButton *registerBtn = [UIButton initWithTitle:@"立即注册" andColor:[UIColor clearColor] andSuperView:self.view];
+    UIButton *registerBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_Register", nil) andColor:[UIColor clearColor] andSuperView:self.view];
     [registerBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [registerBtn addTarget:self action:@selector(registerBtnAction) forControlEvents:UIControlEventTouchUpInside];
     //注册按钮的约束
@@ -155,7 +155,7 @@
         make.top.mas_equalTo(_loginBtn.mas_bottom).offset(kScreenH / 36.8);
     }];
     
-    UIButton *resertBtn = [UIButton initWithTitle:@"忘记密码" andColor:[UIColor clearColor] andSuperView:self.view];
+    UIButton *resertBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_ForgetPwd", nil) andColor:[UIColor clearColor] andSuperView:self.view];
     [resertBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [resertBtn addTarget:self action:@selector(forgetPwdBtnAction) forControlEvents:UIControlEventTouchUpInside];
     //注册按钮的约束
@@ -205,18 +205,18 @@
         [HelpFunction requestDataWithUrlString:kLogin andParames:parameters andDelegate:self];
     } else {
         if (self.acctextFiled.text.length == 0) {
-            [self setAlertText:@"账号输入为空"];
+            [self setAlertText:NSLocalizedString(@"AccEmpty", nil)];
         }
         
         if (self.pwdTectFiled.text.length == 0) {
-            [self setAlertText:@"密码为空"];
+            [self setAlertText:NSLocalizedString(@"PwdEmpty", nil)];
         }
         
         if (self.acctextFiled.text.length != 11 || self.acctextFiled.text.length != 9) {
 
             [UIAlertController creatRightAlertControllerWithHandle:^{
                 self.acctextFiled.text = nil;
-            } andSuperViewController:self Title:@"账号格式输入错误"];
+            } andSuperViewController:self Title:NSLocalizedString(@"AccountFormatInputError", nil)];
             
         }
     }
@@ -228,9 +228,9 @@
     NSInteger state = [dddd[@"state"] integerValue];
     
     if (state == 0) {
-        [self setAlertText:@"用户未注册"];
+        [self setAlertText:NSLocalizedString(@"UserNoRegistered", nil)];
     } else if (state == 1) {
-        [self setAlertText:@"您输入的有误，请重新输入"];
+        [self setAlertText:NSLocalizedString(@"EnterdErrorSoReenter", nil)];
     }
 }
 
@@ -252,7 +252,7 @@
             [userModel setValue:user[key] forKey:key];
         }
         
-        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , userModel.sn];
+        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , (long)userModel.sn];
         [kSocketTCP socketConnectHost];
         
         [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:@{@"userSn" : @(userModel.sn)} andDelegate:self];
@@ -260,11 +260,11 @@
     } else {
         NSInteger state = [dic[@"state"] integerValue];
         if (state == 1) {
-            [self setAlertText:@"账号或密码为空"];
+            [self setAlertText:NSLocalizedString(@"AccOrPwdEmpty", nil)];
         } else if (state == 2) {
-            [self setAlertText:@"用户未注册"];
+            [self setAlertText:NSLocalizedString(@"UserNoRegistered", nil)];
         } else {
-            [self setAlertText:@"密码错误"];
+            [self setAlertText:NSLocalizedString(@"PwdError", nil)];
         }
     }
 }

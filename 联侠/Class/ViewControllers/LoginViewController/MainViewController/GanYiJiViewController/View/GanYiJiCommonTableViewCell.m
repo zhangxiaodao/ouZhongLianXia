@@ -263,7 +263,7 @@
     NSString *numClothes = self.countArray[[self.myPicker22 selectedRowInComponent:0]];
     lable2.text = [NSString stringWithFormat:@"衣物数量:%@" , numClothes];
     
-    NSString *timeClotfes = [NSString stringWithFormat:@"%ld 分" , numClothes.integerValue * kClothesTime];
+    NSString *timeClotfes = [NSString stringWithFormat:@"%ldd 分" , numClothes.integerValue * kClothesTime];
     
     if ([self.isFromWhich isEqualToString:@"thirt"]) {
 

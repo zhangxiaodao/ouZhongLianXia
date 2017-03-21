@@ -67,7 +67,7 @@
     [super viewWillAppear:animated];
     if (self.serviceModel && self.userModel) {
         
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
     }
     
     NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];

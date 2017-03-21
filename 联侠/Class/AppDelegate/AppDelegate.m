@@ -289,10 +289,10 @@
     if (self.userModel && self.serviceModel) {
         
         [kSocketTCP cutOffSocket];
-        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , _userModel.sn];
+        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , (long)_userModel.sn];
         [kSocketTCP socketConnectHost];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
         });
     }
     

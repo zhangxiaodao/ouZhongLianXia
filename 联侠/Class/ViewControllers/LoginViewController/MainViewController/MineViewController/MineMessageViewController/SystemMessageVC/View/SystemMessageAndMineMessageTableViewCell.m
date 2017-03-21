@@ -82,7 +82,7 @@
         self.titleLabel.text = _systemMessageModel.title;
         self.timeLabel.text = _systemMessageModel.addTime;
         self.subtitleLabel.text = _systemMessageModel.content;
-        self.readCountLabel.text = [NSString stringWithFormat:@"阅读量:%ld" , _systemMessageModel.readCount];
+        self.readCountLabel.text = [NSString stringWithFormat:@"阅读量:%ld" , (long)_systemMessageModel.readCount];
     }
     
 }

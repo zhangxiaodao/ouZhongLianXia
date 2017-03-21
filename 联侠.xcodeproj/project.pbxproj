@@ -174,7 +174,6 @@
 		ED27A2341CF81C1E006BD844 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED27A1FB1CF81C1E006BD844 /* MainViewController.m */; };
 		ED27A2351CF81C1E006BD844 /* AboutProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED27A1FF1CF81C1E006BD844 /* AboutProductViewController.m */; };
 		ED27A2361CF81C1E006BD844 /* GengXinRiZhiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED27A2021CF81C1E006BD844 /* GengXinRiZhiViewController.m */; };
-		ED27A2371CF81C1E006BD844 /* JianChaGengXinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED27A2051CF81C1E006BD844 /* JianChaGengXinViewController.m */; };
 		ED27A2381CF81C1E006BD844 /* ChanPinShuoMingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED27A2081CF81C1E006BD844 /* ChanPinShuoMingViewController.m */; };
 		ED27A2391CF81C1E006BD844 /* ConnectWeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED27A20B1CF81C1E006BD844 /* ConnectWeViewController.m */; };
 		ED27A23C1CF81C1E006BD844 /* MineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED27A2131CF81C1E006BD844 /* MineViewController.m */; };
@@ -596,8 +595,6 @@
 		ED27A1FF1CF81C1E006BD844 /* AboutProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutProductViewController.m; sourceTree = "<group>"; };
 		ED27A2011CF81C1E006BD844 /* GengXinRiZhiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GengXinRiZhiViewController.h; sourceTree = "<group>"; };
 		ED27A2021CF81C1E006BD844 /* GengXinRiZhiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GengXinRiZhiViewController.m; sourceTree = "<group>"; };
-		ED27A2041CF81C1E006BD844 /* JianChaGengXinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JianChaGengXinViewController.h; sourceTree = "<group>"; };
-		ED27A2051CF81C1E006BD844 /* JianChaGengXinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JianChaGengXinViewController.m; sourceTree = "<group>"; };
 		ED27A2071CF81C1E006BD844 /* ChanPinShuoMingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChanPinShuoMingViewController.h; sourceTree = "<group>"; };
 		ED27A2081CF81C1E006BD844 /* ChanPinShuoMingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChanPinShuoMingViewController.m; sourceTree = "<group>"; };
 		ED27A20A1CF81C1E006BD844 /* ConnectWeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectWeViewController.h; sourceTree = "<group>"; };
@@ -1885,7 +1882,6 @@
 				ED27A1FE1CF81C1E006BD844 /* AboutProductViewController.h */,
 				ED27A1FF1CF81C1E006BD844 /* AboutProductViewController.m */,
 				ED27A2001CF81C1E006BD844 /* GengXinRiZhiViewController */,
-				ED27A2031CF81C1E006BD844 /* JianChaGengXinViewController */,
 			);
 			path = AboutProductViewController;
 			sourceTree = "<group>";
@@ -1897,15 +1893,6 @@
 				ED27A2021CF81C1E006BD844 /* GengXinRiZhiViewController.m */,
 			);
 			path = GengXinRiZhiViewController;
-			sourceTree = "<group>";
-		};
-		ED27A2031CF81C1E006BD844 /* JianChaGengXinViewController */ = {
-			isa = PBXGroup;
-			children = (
-				ED27A2041CF81C1E006BD844 /* JianChaGengXinViewController.h */,
-				ED27A2051CF81C1E006BD844 /* JianChaGengXinViewController.m */,
-			);
-			path = JianChaGengXinViewController;
 			sourceTree = "<group>";
 		};
 		ED27A2061CF81C1E006BD844 /* ChanPinShuoMingViewController */ = {
@@ -2483,7 +2470,6 @@
 				ED27A22F1CF81C1E006BD844 /* ExchangeImageCollectionReusableView.m in Sources */,
 				ED104F281E4D9D23004750F1 /* AboutOusTableViewCell.m in Sources */,
 				ED12E27D1CF5C5470011CD2C /* FailContextViewController.m in Sources */,
-				ED27A2371CF81C1E006BD844 /* JianChaGengXinViewController.m in Sources */,
 				ED2A3B6A1D0593870099D8E9 /* LXCircleAnimationView.m in Sources */,
 				EDAD368B1E262DD9001DE474 /* LaunchScreenViewController.m in Sources */,
 				ED3931B01DD170B600A2626F /* AllServicesCollectionViewCell.m in Sources */,

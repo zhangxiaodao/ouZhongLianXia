@@ -395,11 +395,6 @@
 }
 
 
-
-
-
-
-
 #pragma mark - 创建UIPickView
 - (void)creatPickView{
     

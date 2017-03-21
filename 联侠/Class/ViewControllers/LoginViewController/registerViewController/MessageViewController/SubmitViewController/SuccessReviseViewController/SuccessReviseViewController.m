@@ -88,7 +88,7 @@
             [userModel setValue:user[key] forKey:key];
         }
         
-        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , userModel.sn];
+        kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , (long)userModel.sn];
         [kSocketTCP socketConnectHost];
         
         AddSViewController *addServiceVC = [[AddSViewController alloc]init];
