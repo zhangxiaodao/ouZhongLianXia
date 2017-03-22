@@ -38,14 +38,7 @@
         [kStanderDefault setObject:@"NO" forKey:@"firstRun"];
         
         if ([kStanderDefault objectForKey:@"Login"]) {
-            
-            if ([[kStanderDefault objectForKey:@"isHaveService"] isEqualToString:@"YES"]) {
-//                [self setAddViewController:[[MineSerivesViewController alloc]init]];
-                [self addChildViewController:[[TabBarViewController alloc]init]];
-            } else {
-                [self setAddViewController:[[AddSViewController alloc]init]];
-            }
-            
+            [self addChildViewController:[[TabBarViewController alloc]init]];
         } else {
             [self setAddViewController:[[LoginViewController alloc]init]];
         }

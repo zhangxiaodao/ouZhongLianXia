@@ -25,7 +25,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"注册"];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:NSLocalizedString(@"RegistVC_Register", nil)];
     UIView *backView = [[UIView alloc]init];
     backView = [_navView.subviews objectAtIndex:0];
     
@@ -40,7 +40,7 @@
 
 #pragma mark - 设置UI
 - (void)setUI{
-    UILabel *phoneNumberLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"您注册的手机号码为:%@" , self.phoneNumber] andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
+    UILabel *phoneNumberLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@%@" , NSLocalizedString(@"RegisterMobilePhoneNumber", nil) , self.phoneNumber] andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
     phoneNumberLable.layer.borderWidth = 0;
     [phoneNumberLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 17));
@@ -51,7 +51,7 @@
     
     phoneNumberLable.attributedText = [NSString setSubStringOfOriginalString:phoneNumberLable.text andColorString:self.phoneNumber andColor:kMainColor];
     
-    UILabel *tiShiLable = [UILabel creatLableWithTitle:@"请设置您的密码。" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
+    UILabel *tiShiLable = [UILabel creatLableWithTitle:NSLocalizedString(@"SetYourPwd", nil) andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
     tiShiLable.textColor = [UIColor grayColor];
     tiShiLable.layer.borderWidth = 0;
     [tiShiLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,7 +70,7 @@
     }];
     
     
-    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入密码" andSuperView:self.view];
+    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"LoginVC_PwdPlacrholder", nil) andSuperView:self.view];
     self.pwdTectFiled.secureTextEntry = YES;
     self.pwdTectFiled.keyboardType = UIKeyboardTypeDefault;
     self.pwdTectFiled.delegate = self;
@@ -90,7 +90,7 @@
     }];
     
    
-    self.againPwdTextFiled = [UITextField creatTextfiledWithPlaceHolder:@"请重复输入密码" andSuperView:self.view];
+    self.againPwdTextFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"AgainRepeatPwd", nil) andSuperView:self.view];
     self.againPwdTextFiled.keyboardType = UIKeyboardTypeDefault;
     self.againPwdTextFiled.secureTextEntry = YES;
     self.againPwdTextFiled.delegate = self;
@@ -122,7 +122,7 @@
 //        make.size.mas_equalTo(CGSizeMake(kScreenW * 5 / 6, kScreenW / 14));
 //    }];
     
-    UIButton *submitBtn = [UIButton initWithTitle:@"提交" andColor:[UIColor redColor] andSuperView:self.view];
+    UIButton *submitBtn = [UIButton initWithTitle:NSLocalizedString(@"Submit", nil) andColor:[UIColor redColor] andSuperView:self.view];
     [submitBtn addTarget:self action:@selector(submitBtnAtcion) forControlEvents:UIControlEventTouchUpInside];
     submitBtn.layer.cornerRadius = kScreenW / 18;
     
@@ -133,7 +133,7 @@
         make.top.mas_equalTo(xiaHuaXian2.mas_bottom).offset(kScreenH / 11.1);
     }];
     
-    UIButton *backBtn = [UIButton initWithTitle:@"返回" andColor:[UIColor clearColor] andSuperView:self.view];
+    UIButton *backBtn = [UIButton initWithTitle:NSLocalizedString(@"Back", nil) andColor:[UIColor clearColor] andSuperView:self.view];
     [backBtn setTitleColor:kMainColor forState:UIControlStateNormal];
     backBtn.layer.cornerRadius = kScreenW / 18;
     backBtn.layer.borderWidth = 1;
@@ -166,8 +166,8 @@
         
         if ([textField isEqual:self.againPwdTextFiled]) {
             if (![self.pwdTectFiled.text isEqualToString:self.againPwdTextFiled.text] && self.pwdTectFiled.text.length > 0 && self.againPwdTextFiled.text.length > 0) {
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您两次输入的密码不同，请再次输入" preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *rightAtcion = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Prompt", nil) message:NSLocalizedString(@"PwdTwiceDifferentRe-enter", nil) preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *rightAtcion = [UIAlertAction actionWithTitle:NSLocalizedString(@"Right", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     self.pwdTectFiled.text = nil;
                     self.againPwdTextFiled.text = nil;
                 }];
@@ -178,7 +178,7 @@
         }
         
     } else {
-        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:@"密码长度必须大于6位并小于16位" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Prompt", nil) message:NSLocalizedString(@"PwdFormat", nil) preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *rightAtcion = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             textField.text = nil;
         }];

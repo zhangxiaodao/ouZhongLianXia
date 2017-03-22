@@ -39,14 +39,16 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengCaiDengAtcion:) name:@"4232" object:nil];
        
         //模糊效果
-        UIBlurEffect *light = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-        _bgView = [[UIVisualEffectView alloc]initWithEffect:light];
-        _bgView.frame = self.bounds;
-        [self addSubview:_bgView];
+//        UIBlurEffect *light = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+//        _bgView = [[UIVisualEffectView alloc]initWithEffect:light];
+//        _bgView.frame = self.bounds;
+//        [self addSubview:_bgView];
+        
+        self.backgroundColor = [UIColor whiteColor];
         
         //左边的view
         _contentViewLeft = [[UIView alloc] initWithFrame:self.frame];
-        [_bgView addSubview:_contentViewLeft];
+        [self addSubview:_contentViewLeft];
         
         UILabel *titleLabel = [UILabel creatLableWithTitle:@"智能彩灯" andSuperView:_contentViewLeft andFont:k20 andTextAligment:NSTextAlignmentCenter];
         titleLabel.layer.borderWidth = 0;
@@ -57,7 +59,7 @@
         }];
         
         self.array = imgArr;
-        _clolorArray = @[kCOLOR(38, 4, 74) , kCOLOR(137, 7, 75) ,  kCOLOR(90, 24, 100) , kCOLOR(40, 42, 123) , kCOLOR(11, 84, 161) , kCOLOR(24, 152, 183) ,   kCOLOR(130, 141, 153) , kCOLOR(251, 13, 27) ,kCOLOR(41, 253, 47) , kCOLOR(35, 57, 250) , kCOLOR(255, 253, 56) , kCOLOR(66, 255, 254) , kCOLOR(252, 61, 251) , kCOLOR(255, 255, 255) ,kCOLOR(110, 135, 169) , kFenGeXianYanSe];
+        _clolorArray = @[kCOLOR(38, 4, 74) , kCOLOR(137, 7, 75) ,  kCOLOR(90, 24, 100) , kCOLOR(40, 42, 123) , kCOLOR(11, 84, 161) , kCOLOR(24, 152, 183) ,   kCOLOR(130, 141, 153) , kCOLOR(251, 13, 27) ,kCOLOR(41, 253, 47) , kCOLOR(35, 57, 250) , kCOLOR(255, 253, 56) , kCOLOR(66, 255, 254) , kCOLOR(252, 61, 251) , kCOLOR(241, 248, 255) ,kCOLOR(110, 135, 169) , kFenGeXianYanSe];
         for (int i = 0; i < imgArr.count; i++) {
             
             UIButton *btn = [UIButton creatBtnWithTitle:imgArr[i] withLabelFont:k14 withLabelTextColor:[UIColor blackColor] andSuperView:_contentViewLeft andBackGroundColor:[UIColor clearColor] andHighlightedBackGroundColor:[UIColor clearColor] andwhtherNeendCornerRadius:YES WithTarget:self andDoneAtcion:@selector(colorBtnAtcion:)];
@@ -149,7 +151,7 @@
         
         _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenH-49, kScreenW, 49)];
         _bottomView.backgroundColor = [UIColor whiteColor];
-        [_bgView addSubview:_bottomView];
+        [self addSubview:_bottomView];
         
         
         _exitImgvi = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"exit"]];
@@ -268,7 +270,7 @@
             
             [UIView animateWithDuration:0.2 animations:^{
                 
-                _bgView.alpha = 1;
+                self.alpha = 1;
                 _exitImgvi.transform = CGAffineTransformRotate(_exitImgvi.transform, M_PI_4);
                 
             } completion:nil];

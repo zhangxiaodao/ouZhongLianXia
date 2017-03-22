@@ -309,12 +309,12 @@
         }
         
     } else if (state == 1) {
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"输入值异常"];
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:NSLocalizedString(@"InputValueError", nil)];
     } else if (state == 3) {
         
         [UIAlertController creatRightAlertControllerWithHandle:^{
             [self.navigationController popViewControllerAnimated:YES];
-        } andSuperViewController:self Title:@"此账户已存在，请直接登录"];
+        } andSuperViewController:self Title:NSLocalizedString(@"AccExiteSoLogin", nil)];
     }
 }
 
@@ -341,24 +341,24 @@
             if (self.accTectFiled.text.length != 11) {
                 [UIAlertController creatRightAlertControllerWithHandle:^{
                     self.accTectFiled.text = nil;
-                } andSuperViewController:self Title:@"手机号码格式不正确"];
+                } andSuperViewController:self Title:NSLocalizedString(@"PhoneFormattedError", nil)];
             } else if ( self.pwdTectFiled.text.length < 6 || self.pwdTectFiled.text.length > 12) {
                 [UIAlertController creatRightAlertControllerWithHandle:^{
                     self.pwdTectFiled.text = nil;
-                } andSuperViewController:self Title:@"密码长度不正确"];
+                } andSuperViewController:self Title:NSLocalizedString(@"PwdFormat", nil)];
             } else if (![self.verificationCodeTectFiled.text isEqualToString:self.authView.authCodeStr]) {
                 [UIAlertController creatRightAlertControllerWithHandle:^{
                     self.verificationCodeTectFiled.text = nil;
-                } andSuperViewController:self Title:@"验证码不正确"];
+                } andSuperViewController:self Title:NSLocalizedString(@"YourVerificationCodeErrorSoRe-Enter", nil)];
             }
         }
     } else {
         if (self.accTectFiled.text.length == 0) {
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"手机号码为空"];
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:NSLocalizedString(@"PhoneNumberEmpty", nil)];
         } else if (self.pwdTectFiled.text.length == 0) {
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"密码为空"];
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:NSLocalizedString(@"PwdEmpty", nil)];
         } else if (self.verificationCodeTectFiled.text.length == 0) {
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"验证码为空"];
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:NSLocalizedString(@"VerificationCodeEmpty", nil)];
         }
     }
 }

@@ -8,6 +8,7 @@
 
 #import "XinFengSecondTableViewCell.h"
 #import "MalertView.h"
+#import "XinFengCaiDengViewController.h"
 #define kArrayCount _array.count
 #define kArrayCountJiaYi (_array.count + 1)
 #define kBtnW ((kScreenW + 4) / 4)
@@ -194,12 +195,18 @@
         }
         case 4: {
             
-            NSArray *array = @[@"自动模式" , @"七彩渐变" , @"幻彩转动" , @"七色呼吸" , @"红绿蓝" , @"黄青紫" , @"七色转动" , @"红" , @"绿" , @"蓝" , @"黄" , @"青" ,@"紫" , @"白" , @"暂停" , @"关闭"];
-            _alert = [[MalertView alloc] initWithImageArrOfButton:array andDataArray:@[self.serviceModel]];
-            _alert.delegate = self;
-            [kWindowRoot.view addSubview:_alert];
+            XinFengCaiDengViewController *xinFengCaiDengVC = [[XinFengCaiDengViewController alloc]init];
+            xinFengCaiDengVC.serviceModel = self.serviceModel;
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:xinFengCaiDengVC];
             
-            [_alert showAlert];
+            [kWindowRoot presentViewController:nav animated:YES completion:nil];
+            
+//            NSArray *array = @[@"自动模式" , @"七彩渐变" , @"幻彩转动" , @"七色呼吸" , @"红绿蓝" , @"黄青紫" , @"七色转动" , @"红" , @"绿" , @"蓝" , @"黄" , @"青" ,@"紫" , @"白" , @"暂停" , @"关闭"];
+//            _alert = [[MalertView alloc] initWithImageArrOfButton:array andDataArray:@[self.serviceModel]];
+//            _alert.delegate = self;
+//            [kWindowRoot.view addSubview:_alert];
+//            
+//            [_alert showAlert];
             
             break;
         }

@@ -27,6 +27,8 @@
 @property (nonatomic , copy) NSString *isDuanXianChongLian;
 
 @property (nonatomic , strong) UIAlertController *alertController;
+    
+@property (nonatomic , copy) NSString *ssssssss;
 @end
 
 @implementation Singleton
@@ -144,98 +146,103 @@
 
 -(void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
+        
     
-    [_duanXianChongLian invalidate];
-    _duanXianChongLian = nil;
-    
-    if (_alertController) {
-        [_alertController dismissViewControllerAnimated:YES completion:nil];
-        _alertController = nil;
-    }
-    
-    NSString *str = [self convertDataToHexStr:data];
-    NSString *newMessage = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    
-    Byte devSnByte[60];
-    NSMutableArray *devSnSubStr = [NSMutableArray array];
-    for (int i = 0; i < str.length / 2; i++) {
-        [devSnSubStr addObject: [str substringWithRange:NSMakeRange(i * 2, 2)]];
-        devSnByte[i] = strtoul([devSnSubStr[i] UTF8String],0,16);
-    }
-    
-//    NSLog(@"%@ , %@" , sock.connectedHost , newMessage);
-    
-    if (![newMessage isEqualToString:@"QUIT"] && ![newMessage isEqualToString:@"CONNECTED"]) {
-       
-        NSString *typeSn = nil;
-        if (str.length == 56 || str.length == 42) {
-             typeSn = [NSString stringWithFormat:@"%x%x" , devSnByte[4] , devSnByte[5]];
-        } else {
-            typeSn = [NSString stringWithFormat:@"%x%x" , devSnByte[5] , devSnByte[6]];
+    if (data.length < 50 && data) {
+        [_duanXianChongLian invalidate];
+        _duanXianChongLian = nil;
+        
+        if (_alertController) {
+            [_alertController dismissViewControllerAnimated:YES completion:nil];
+            _alertController = nil;
         }
         
-//        NSLog(@"%@ , %@ , %@ , %@" , sock.connectedHost , newMessage , str , typeSn);
+        NSString *str = [self convertDataToHexStr:data];
+        NSString *newMessage = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         
-        if ([typeSn isEqualToString:@"4131"]) {
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4131" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-        } else if ([typeSn isEqualToString:@"4132"]) {
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4132" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-        } else if ([typeSn isEqualToString:@"4231"]) {
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4231" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-        } else if ([typeSn isEqualToString:@"4331"]) {
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4331" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-        } else if ([typeSn isEqualToString:@"4232"]) {
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4232" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-        } else if ([typeSn isEqualToString:@"4332"]) {
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4332" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
+        Byte devSnByte[60];
+        NSMutableArray *devSnSubStr = [NSMutableArray array];
+        for (int i = 0; i < str.length / 2; i++) {
+            [devSnSubStr addObject: [str substringWithRange:NSMakeRange(i * 2, 2)]];
+            devSnByte[i] = strtoul([devSnSubStr[i] UTF8String],0,16);
         }
         
-    } else if ([newMessage isEqualToString:@"QUIT"]){
+        //    NSLog(@"%@ , %@" , sock.connectedHost , newMessage);
         
-//        [self sendDataToHost:@"QUIT" andType:nil andIsNewOrOld:kOld];
-        [self cutOffSocket];
-        self.isActiveDisconnect = @"YES";
-        
-        [kStanderDefault removeObjectForKey:@"Login"];
-        [kStanderDefault removeObjectForKey:@"cityName"];
-        [kStanderDefault removeObjectForKey:@"password"];
-        [kStanderDefault removeObjectForKey:@"phone"];
-        [kStanderDefault removeObjectForKey:@"userSn"];
-        [kStanderDefault removeObjectForKey:@"userId"];
-        [kStanderDefault removeObjectForKey:@"weartherImage"];
-        [kStanderDefault removeObjectForKey:@"first"];
-        [kStanderDefault removeObjectForKey:@"zhuYe"];
-        
-        [kStanderDefault removeObjectForKey:@"offBtn"];
-        [kStanderDefault removeObjectForKey:@"GanYiJiData"];
-        [kStanderDefault removeObjectForKey:@"ganYiJiHongGanDic"];
-        [kStanderDefault removeObjectForKey:@"GanYiJiIsWork"];
-        [kStanderDefault removeObjectForKey:@"AirData"];
-        [kStanderDefault removeObjectForKey:@"AirDingShiData"];
-        [kStanderDefault removeObjectForKey:@"kongZhiTai"];
-        [kStanderDefault removeObjectForKey:@"modelString"];
-        [kStanderDefault removeObjectForKey:@"data"];
-        
-        [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
-        [kStanderDefault removeObjectForKey:@"GeRenModel"];
-        
-        kWindowRoot = [[BottomNavViewController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您的账号在其他设备登陆"];
-        
-    } else {
-        
-        if (newMessage.length == 126) {
-
-        } else {
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@N#" , self.userSn] andType:kLianJie andIsNewOrOld:kOld];
-           
+        if (![newMessage isEqualToString:@"QUIT"] && ![newMessage isEqualToString:@"CONNECTED"]) {
             
-            if ([self.isDuanXianChongLian isEqualToString:@"YES"])
+            NSString *typeSn = nil;
+            if (str.length == 56 || str.length == 42) {
+                typeSn = [NSString stringWithFormat:@"%x%x" , devSnByte[4] , devSnByte[5]];
+            } else {
+                typeSn = [NSString stringWithFormat:@"%x%x" , devSnByte[5] , devSnByte[6]];
+            }
+            
+            //        NSLog(@"%@ , %@ , %@ , %@" , sock.connectedHost , newMessage , str , typeSn);
+            
+            if ([typeSn isEqualToString:@"4131"]) {
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4131" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
+            } else if ([typeSn isEqualToString:@"4132"]) {
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4132" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
+            } else if ([typeSn isEqualToString:@"4231"]) {
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4231" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
+            } else if ([typeSn isEqualToString:@"4331"]) {
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4331" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
+            } else if ([typeSn isEqualToString:@"4232"]) {
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4232" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
+            } else if ([typeSn isEqualToString:@"4332"]) {
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4332" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
+            }
+            self.ssssssss = @"YES";
+        } else if ([newMessage isEqualToString:@"QUIT"]){
+            
+            //        [self sendDataToHost:@"QUIT" andType:nil andIsNewOrOld:kOld];
+            [self cutOffSocket];
+            self.isActiveDisconnect = @"YES";
+            
+            [kStanderDefault removeObjectForKey:@"Login"];
+            [kStanderDefault removeObjectForKey:@"cityName"];
+            [kStanderDefault removeObjectForKey:@"password"];
+            [kStanderDefault removeObjectForKey:@"phone"];
+            [kStanderDefault removeObjectForKey:@"userSn"];
+            [kStanderDefault removeObjectForKey:@"userId"];
+            [kStanderDefault removeObjectForKey:@"weartherImage"];
+            [kStanderDefault removeObjectForKey:@"first"];
+            [kStanderDefault removeObjectForKey:@"zhuYe"];
+            
+            [kStanderDefault removeObjectForKey:@"offBtn"];
+            [kStanderDefault removeObjectForKey:@"GanYiJiData"];
+            [kStanderDefault removeObjectForKey:@"ganYiJiHongGanDic"];
+            [kStanderDefault removeObjectForKey:@"GanYiJiIsWork"];
+            [kStanderDefault removeObjectForKey:@"AirData"];
+            [kStanderDefault removeObjectForKey:@"AirDingShiData"];
+            [kStanderDefault removeObjectForKey:@"kongZhiTai"];
+            [kStanderDefault removeObjectForKey:@"modelString"];
+            [kStanderDefault removeObjectForKey:@"data"];
+            
+            [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
+            [kStanderDefault removeObjectForKey:@"GeRenModel"];
+            
+            kWindowRoot = [[BottomNavViewController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您的账号在其他设备登陆"];
+            
+        } else if ([newMessage isEqualToString:@"CONNECTED"]){
+            
+            if (newMessage.length == 126) {
+                
+            } else {
+                [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@N#" , self.userSn] andType:kLianJie andIsNewOrOld:kOld];
+                
+                
+                if ([self.isDuanXianChongLian isEqualToString:@"YES"])
                 if (self.userSn) self.isDuanXianChongLian = @"NO";
+            }
         }
+        
+        
     }
     
-    [_socket readDataWithTimeout:-1 tag:0];
+   [_socket readDataWithTimeout:-1 tag:0];
     
 }
 

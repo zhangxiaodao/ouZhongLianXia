@@ -91,8 +91,7 @@
         kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , (long)userModel.sn];
         [kSocketTCP socketConnectHost];
         
-        AddSViewController *addServiceVC = [[AddSViewController alloc]init];
-        [self.navigationController pushViewController:addServiceVC animated:YES];
+        [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
         
     }
 }

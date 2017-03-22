@@ -36,7 +36,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     _secondsCountDown = 60;
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"注册"];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:NSLocalizedString(@"RegistVC_Register", nil)];
     [self setUI];
 }
 
@@ -47,7 +47,7 @@
 
 #pragma mark - 设置UI
 - (void)setUI{
-    UILabel *tiShiLable = [UILabel creatLableWithTitle:@"短信发送至:" andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentLeft];
+    UILabel *tiShiLable = [UILabel creatLableWithTitle:NSLocalizedString(@"SMSMessageSendTo", nil) andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentLeft];
     tiShiLable.layer.borderWidth = 0;
     [tiShiLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 17));
@@ -75,7 +75,7 @@
     }];
     
    
-    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入短信验证码" andSuperView:self.view];
+    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"EnterSMSVerificationCode", nil) andSuperView:self.view];
     self.pwdTectFiled.delegate = self;
     [self.pwdTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 2, kScreenW / 10));
@@ -83,7 +83,7 @@
         make.bottom.mas_equalTo(xiaHuaXian.mas_top);
     }];
     
-    self.sendDuanXinBtn = [UIButton initWithTitle:@"发送短信" andColor:[UIColor redColor] andSuperView:self.view];
+    self.sendDuanXinBtn = [UIButton initWithTitle:NSLocalizedString(@"SendSMSCode", nil) andColor:[UIColor redColor] andSuperView:self.view];
     [self.sendDuanXinBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 3, kStandardW / 10));
         make.bottom.mas_equalTo(xiaHuaXian.mas_bottom).offset(-5);
@@ -95,7 +95,7 @@
     self.sendDuanXinBtn.titleLabel.font = [UIFont systemFontOfSize:k14];
     
     //创建注册按钮
-    UIButton *doneBtn = [UIButton initWithTitle:@"下一步" andColor:[UIColor redColor] andSuperView:self.view];
+    UIButton *doneBtn = [UIButton initWithTitle:NSLocalizedString(@"Next", nil) andColor:[UIColor redColor] andSuperView:self.view];
     doneBtn.layer.cornerRadius = kScreenW / 18;
     doneBtn.backgroundColor = kMainColor;
     [doneBtn addTarget:self action:@selector(doneBtnAtcion1) forControlEvents:UIControlEventTouchUpInside];
@@ -106,7 +106,7 @@
         make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 2.1);
     }];
     
-    UIButton *registerBtn = [UIButton initWithTitle:@"返回" andColor:[UIColor clearColor] andSuperView:self.view];
+    UIButton *registerBtn = [UIButton initWithTitle:NSLocalizedString(@"Back", nil) andColor:[UIColor clearColor] andSuperView:self.view];
     [registerBtn setTitleColor:kMainColor forState:UIControlStateNormal];
     registerBtn.layer.cornerRadius = kScreenW / 18;
     registerBtn.layer.borderWidth = 2;
@@ -136,7 +136,7 @@
         
         [UIAlertController creatRightAlertControllerWithHandle:^{
             self.pwdTectFiled.text = nil;
-        } andSuperViewController:self Title:@"您输入的验证码错误，请重新输入"];
+        } andSuperViewController:self Title:NSLocalizedString(@"YourVerificationCodeErrorSoRe-Enter", nil)];
         
     }
 
@@ -181,13 +181,13 @@
 
 -(void)timeFireMethod{
     
-    [self.sendDuanXinBtn setTitle:[NSString stringWithFormat:@"%lds后发送",(long)self.secondsCountDown] forState:UIControlStateNormal];
+    [self.sendDuanXinBtn setTitle:[NSString stringWithFormat:@"%lds%@",(long)self.secondsCountDown , NSLocalizedString(@"AfterSecondsRe-Send", nil)] forState:UIControlStateNormal];
     
     if(self.secondsCountDown==0){
         [_countDownTimer invalidate];
         _countDownTimer = nil;
         self.data = 0;
-        [self.sendDuanXinBtn setTitle:@"发送短信" forState:UIControlStateNormal];
+        [self.sendDuanXinBtn setTitle:NSLocalizedString(@"SendSMSCode", nil) forState:UIControlStateNormal];
         self.sendDuanXinBtn.backgroundColor = kMainColor;
         self.sendDuanXinBtn.userInteractionEnabled = YES;
         

@@ -287,9 +287,7 @@
         [_progressTimer setFireDate:[NSDate distantPast]];
     } else {
        
-        self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
-        [self enableConfirmBtn];
-        [self tapConfirmForResults];
+        _myTimer = [NSTimer scheduledTimerWithTimeInterval:6 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
     }
     
     return YES;
@@ -368,7 +366,7 @@
     for (int i = 0; i < self.protocolArray.count; i++) {
         [self sendMessage:self.protocolArray[i]];
         
-        [NSThread sleepForTimeInterval:1];
+        [NSThread sleepForTimeInterval:0.3];
         
     }
     
@@ -435,10 +433,10 @@
 //                      [self sendMessage:self.protocolArray[6]];
                         for (int i = 0; i < self.protocolArray.count; i++) {
                             [self sendMessage:self.protocolArray[i]];
-                            [NSThread sleepForTimeInterval:1];
+                            [NSThread sleepForTimeInterval:0.3];
                         }
                         
-                        _myTimer = [NSTimer scheduledTimerWithTimeInterval:6 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
+                        _myTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
                         
                         
                     }

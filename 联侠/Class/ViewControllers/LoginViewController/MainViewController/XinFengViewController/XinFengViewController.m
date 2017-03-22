@@ -212,6 +212,8 @@
 - (void)getXinFengKongJing:(NSNotification *)post {
     NSString *str = post.userInfo[@"Message"];
     
+    
+    
     NSString *kaiGuan = [str substringWithRange:NSMakeRange(28, 2)];
     NSString *devSn = [str substringWithRange:NSMakeRange(14, 12)];
     
@@ -445,8 +447,6 @@
 
 #pragma mark - tableView的代理
 #pragma mark - 分区的个数
-
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;

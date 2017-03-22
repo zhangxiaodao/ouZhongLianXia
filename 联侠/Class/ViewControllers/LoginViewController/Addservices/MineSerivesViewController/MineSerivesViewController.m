@@ -41,6 +41,7 @@
 @property (nonatomic , copy) NSString *userSn;
 @property (nonatomic , strong) ServicesModel *serviceModel;
 
+@property (nonatomic , strong) UIView *markView;
 @end
 
 @implementation MineSerivesViewController
@@ -118,6 +119,7 @@
     if (state == 0) {
         
         if ([dddd[@"data"] isKindOfClass:[NSNull class]]) {
+            self.markView.hidden = NO;
             return ;
         }
         NSMutableArray *dataArray = dddd[@"data"];
@@ -138,7 +140,13 @@
                 
             }];
             [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-            [self.collectionView reloadData];
+            
+            if (self.haveArray.count > 0) {
+                [self.collectionView reloadData];
+            } else {
+                self.markView.hidden = NO;
+            }
+            
         }
     }
 }
@@ -196,7 +204,7 @@
     UIButton *offBtn = [UIButton initWithTitle:@"＋" andColor:[UIColor clearColor] andSuperView:_topView];
     offBtn.titleLabel.font = [UIFont systemFontOfSize:k25];
     [offBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [offBtn addTarget:self action:@selector(bottomBtnAtcion2:) forControlEvents:UIControlEventTouchUpInside];
+    [offBtn addTarget:self action:@selector(addSerViceAtcion:) forControlEvents:UIControlEventTouchUpInside];
     [offBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kNavHidth * 4 / 5, kNavHidth * 4 / 5));
         make.right.mas_equalTo(_topView.mas_right).offset(- kScreenW / 30);
@@ -204,6 +212,49 @@
         
     }];
     
+    UIView *markView = [[UIView alloc]init];
+    [self.view addSubview:markView];
+    [markView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH * 3 / 4));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(topView.mas_bottom);
+    }];
+    markView.backgroundColor = kFenGeXianYanSe;
+    self.markView = markView;
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"meiYouSheBei"]];
+    [markView addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 11));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 2.3);
+    }];
+    
+    UILabel *lable = [UILabel creatLableWithTitle:@"暂时没有添加设备" andSuperView:markView andFont:k17 andTextAligment:NSTextAlignmentCenter];
+    [lable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 10));
+        make.top.mas_equalTo(imageView.mas_bottom).offset(kScreenW / 20);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+    }];
+    lable.textColor = kCOLOR(212, 204, 196);
+    lable.layer.borderWidth = 0;
+    
+    UIButton *button = [UIButton initWithTitle:@"添加设备" andColor:kFenGeXianYanSe andSuperView:markView];
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 10));
+        make.top.mas_equalTo(lable.mas_bottom).offset(kScreenW / 10);
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+    }];
+    button.layer.cornerRadius = 5;
+    button.layer.masksToBounds = YES;
+    button.layer.borderWidth = 1;
+    button.backgroundColor = [UIColor whiteColor];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    [button addTarget:self action:@selector(addSerViceAtcion:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    self.markView.hidden = YES;
     
     if ([kStanderDefault objectForKey:@"wearthDic"]) {
         self.wearthDic = [kStanderDefault objectForKey:@"wearthDic"];
@@ -309,7 +360,7 @@
 }
 
 #pragma mark - 开关的点击事件
-- (void)bottomBtnAtcion2:(UIButton *)btn{
+- (void)addSerViceAtcion:(UIButton *)btn{
     self.tabBarController.tabBar.hidden = YES;
     SetServicesViewController *setServiceVC = [[SetServicesViewController alloc]init];
 //    AllTypeServiceViewController *alll = [[AllTypeServiceViewController alloc]init];

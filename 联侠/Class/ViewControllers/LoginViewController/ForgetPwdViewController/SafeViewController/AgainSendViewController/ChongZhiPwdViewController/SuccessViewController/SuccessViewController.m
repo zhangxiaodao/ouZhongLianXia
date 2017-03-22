@@ -107,8 +107,7 @@
     if (state == 0) {
         
         if (![dddd[@"data"] isKindOfClass:[NSArray class]]) {
-            AddSViewController *addServiceVC = [[AddSViewController alloc]init];
-            [self.navigationController pushViewController:addServiceVC animated:YES];
+            [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
         } else {
             NSMutableArray *dataArray = dddd[@"data"];
             if (dataArray.count > 0) {
@@ -119,8 +118,7 @@
                 
                 [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
             } else {
-                AddSViewController *addServiceVC = [[AddSViewController alloc]init];
-                [self.navigationController pushViewController:addServiceVC animated:YES];
+               [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
             }
             
         }

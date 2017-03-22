@@ -130,7 +130,7 @@
     self.pwdTectFiled.secureTextEntry = YES;
     
     //创建注册按钮
-    self.loginBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_PwdPlacrholder", nil) andColor:[UIColor redColor] andSuperView:self.view];
+    self.loginBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_login", nil) andColor:[UIColor redColor] andSuperView:self.view];
     self.loginBtn.layer.cornerRadius = kScreenW / 18;
     
     
@@ -277,8 +277,7 @@
     if (state == 0) {
 
         if (![dddd[@"data"] isKindOfClass:[NSArray class]]) {
-            AddSViewController *addServiceVC = [[AddSViewController alloc]init];
-            [self.navigationController pushViewController:addServiceVC animated:YES];
+           [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
         } else {
             NSMutableArray *dataArray = dddd[@"data"];
             if (dataArray.count > 0) {
@@ -291,8 +290,7 @@
                 [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
                 
             } else {
-                AddSViewController *addServiceVC = [[AddSViewController alloc]init];
-                [self.navigationController pushViewController:addServiceVC animated:YES];
+                [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
             }
 
         }
