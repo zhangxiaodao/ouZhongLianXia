@@ -34,8 +34,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"智能彩灯";
     
-    [self requestServiceState];
-    
     self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - 10) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -62,6 +60,9 @@
     
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self requestServiceState];
+    
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
     
     dispatch_async(queue, ^{
@@ -102,7 +103,7 @@
     
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
     
-    //        NSLog(@"%@" , dddd);
+//            NSLog(@"%@" , dddd);
     if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dataDic = dddd[@"data"];
         
@@ -135,9 +136,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *celled = @"celled";
-    XinFengCaiDengFirstTableViewCell *cell = [[XinFengCaiDengFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
+    
+    XinFengCaiDengFirstTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:celled];
     if (!cell) {
-        cell = [tableView dequeueReusableCellWithIdentifier:celled];
+        cell = [[XinFengCaiDengFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
     }
     cell.titleString = self.nameArray[indexPath.row];
     cell.serviceModel = self.serviceModel;
@@ -145,7 +147,7 @@
     cell.indexPath = indexPath;
     return cell;
 }
-    
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return kScreenW / 8;
 }
@@ -157,9 +159,5 @@
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
 }
-    
-- (void)setStateModel:(StateModel *)stateModel {
-    _stateModel = stateModel;
-}
-    
+        
 @end

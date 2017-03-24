@@ -179,7 +179,7 @@
         
     } else {
         UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Prompt", nil) message:NSLocalizedString(@"PwdFormat", nil) preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *rightAtcion = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *rightAtcion = [UIAlertAction actionWithTitle:NSLocalizedString(@"Right" , nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             textField.text = nil;
         }];
         [alertVC addAction:rightAtcion];
@@ -203,11 +203,11 @@
             
         } else {
            
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"您两次输入的密码不相同，请重新输入"];
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title: NSLocalizedString(@"PwdTwiceDifferentRe-enter", nil)];
         }
     } else {
-        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:@"密码长度必须大于6位并小于16位" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *rightAtcion = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Prompt", nil) message:NSLocalizedString(@"PwdFormat", nil) preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *rightAtcion = [UIAlertAction actionWithTitle:NSLocalizedString(@"Right" , nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             self.pwdTectFiled.text = nil;
             self.againPwdTextFiled.text = nil;
         }];
@@ -239,9 +239,9 @@
         [self.navigationController pushViewController:successVC animated:YES];
     } else if (state == 1) {
         
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"密码输入为空"];
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:NSLocalizedString(@"PwdEnterError", nil)];
     } else {
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"系统异常，请重试"];
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:NSLocalizedString(@"SystemErrorRestall", nil)];
     }
 }
 

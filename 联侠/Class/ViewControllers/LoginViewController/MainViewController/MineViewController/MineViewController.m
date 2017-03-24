@@ -7,6 +7,8 @@
 //
 
 #import "MineViewController.h"
+#import <UShareUI/UShareUI.h>
+
 #import "MineFirstView.h"
 #import "MessageTableViewCell.h"
 #import "UserFeedBackViewController.h"
@@ -16,7 +18,7 @@
 #import "SystemMessageModel.h"
 
 #import "AboutOusTableViewController.h"
-#import "UMSocial.h"
+
 
 #import "MineYouHuiQuanViewController.h"
 #import "ChanPinShuoMingViewController.h"
@@ -87,7 +89,7 @@
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    NSLog(@"%@" , dddd);
+//    NSLog(@"%@" , dddd);
     
     if ([dddd[@"total"] isKindOfClass:[NSNull class]]) {
         return ;
@@ -232,14 +234,58 @@
     self.tableVIew.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
-- (void)fenXiangAtcion:(UIButton *)btn {
+- (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType
+{
+    
     //注意：分享到微信好友、微信朋友圈、微信收藏、QQ空间、QQ好友、来往好友、来往朋友圈、易信好友、易信朋友圈、Facebook、Twitter、Instagram等平台需要参考各自的集成方法
-    [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:kUMAppKey
-                                      shareText:@"http://www.ouzhongiot.com"
-                                     shareImage:[UIImage imageNamed:@"logo"]
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToWechatSession,UMShareToWechatTimeline,nil]
-                                       delegate:nil];
+//    [UMSocialSnsService presentSnsIconSheetView:self
+//                                         appKey:kUMAppKey
+//                                      shareText:@"http://www.ouzhongiot.com"
+//                                     shareImage:[UIImage imageNamed:@"logo"]
+//                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToWechatSession,UMShareToWechatTimeline,nil]
+//                                       delegate:nil];
+    
+    //创建分享消息对象
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    
+    //创建网页内容对象
+//    NSString* thumbURL =  @"http://www.ouzhongiot.com";
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@"欧众联侠-中国物联网的龙头企业" descr:@"杭州欧众物联网科技有限公司" thumImage:[UIImage imageNamed:@"logo"]];
+    //设置网页地址
+    shareObject.webpageUrl = @"http://www.ouzhongiot.com";
+    
+    //分享消息对象设置分享内容对象
+    messageObject.shareObject = shareObject;
+    
+    //调用分享接口
+    [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        if (error) {
+            UMSocialLogInfo(@"************Share fail with error %@*********",error);
+        }else{
+            if ([data isKindOfClass:[UMSocialShareResponse class]]) {
+                UMSocialShareResponse *resp = data;
+                //分享结果消息
+                UMSocialLogInfo(@"response message is %@",resp.message);
+                //第三方原始返回的数据
+                UMSocialLogInfo(@"response originalResponse data is %@",resp.originalResponse);
+                
+            }else{
+                UMSocialLogInfo(@"response data is %@",data);
+            }
+        }
+//        [self alertWithError:error];
+    }];
+}
+
+- (void)fenXiangAtcion:(UIButton *)btn {
+    
+    [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
+        // 根据获取的platformType确定所选平台进行下一步操作
+        
+        [self shareWebPageToPlatformType:platformType];
+        
+    }];
+    
 }
 
 #pragma mark - 头像点击事件
@@ -345,12 +391,12 @@
 
     if (size >= pow(10, 9)) {
         message = [NSString stringWithFormat:@"%.2fGB", size / pow(10, 9)];
-    }else if (size >= pow(10, 6)) {
+    }else if (size >= pow(10, 6) && size < pow(10, 9)) {
         message = [NSString stringWithFormat:@"%.2fMB", size / pow(10, 6)];
-    }else if (size >= pow(10, 3)) {
+    }else if (size >= pow(10, 3) && size < pow(10, 6)) {
         message = [NSString stringWithFormat:@"%.2fKB", size / pow(10, 3)];
     }else {
-        message = [NSString stringWithFormat:@"%zdB", size];
+        message = [NSString stringWithFormat:@"%.0fB", size];
     }
     
     return message;

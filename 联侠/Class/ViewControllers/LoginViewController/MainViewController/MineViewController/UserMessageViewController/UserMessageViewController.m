@@ -97,28 +97,34 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    NSMutableDictionary *parames = [NSMutableDictionary dictionary];
-    
-    [parames setObject:@(self.userModel.sn) forKey:@"user.sn"];
-    [parames setObject:@(self.sex) forKey:@"user.sex"];
-    if (self.niChengLabel.text) {
-        [parames setObject:self.niChengLabel.text forKey:@"user.nickname"];
-    } if (self.birthdayLabel.text) {
-        [parames setObject:self.birthdayLabel.text forKey:@"user.birthdate"];
-    } if (self.emailLabel.text) {
-        [parames setObject:self.emailLabel.text forKey:@"user.email"];
+    if (self.userModel && self.sex && self.niChengLabel.text && self.birthdayLabel.text && self.emailLabel.text) {
+        NSMutableDictionary *parames = [NSMutableDictionary dictionary];
+        [parames setObject:@(self.userModel.sn) forKey:@"user.sn"];
+        [parames setObject:@(self.sex) forKey:@"user.sex"];
+        if (self.niChengLabel.text) {
+            [parames setObject:self.niChengLabel.text forKey:@"user.nickname"];
+        } if (self.birthdayLabel.text) {
+            [parames setObject:self.birthdayLabel.text forKey:@"user.birthdate"];
+        } if (self.emailLabel.text) {
+            [parames setObject:self.emailLabel.text forKey:@"user.email"];
+        }
+        
+        NSLog(@"%@" , parames);
+        
+        [kStanderDefault setObject:parames forKey:@"GeRenModel"];
+        
+        [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
     }
     
-    NSLog(@"%@" , parames);
     
-    [kStanderDefault setObject:parames forKey:@"GeRenModel"];
+    if (self.headImageView.image) {
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"headImage" object:self userInfo:[NSDictionary dictionaryWithObject:self.headImageView.image forKey:@"headImage"]]];
+    }
     
-    [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
+    if (self.niChengLabel.text) {
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"niCheng" object:self userInfo:[NSDictionary dictionaryWithObject:self.niChengLabel.text forKey:@"niCheng"]]];
+    }
     
-    
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"headImage" object:self userInfo:[NSDictionary dictionaryWithObject:self.headImageView.image forKey:@"headImage"]]];
-    
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"niCheng" object:self userInfo:[NSDictionary dictionaryWithObject:self.niChengLabel.text forKey:@"niCheng"]]];
 }
 
 #pragma mark - 返回主界面

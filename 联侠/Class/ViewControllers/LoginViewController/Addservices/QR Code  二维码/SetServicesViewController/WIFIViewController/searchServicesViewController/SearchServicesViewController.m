@@ -71,13 +71,17 @@
 @property (nonatomic , strong) NSTimer *progressTimer;
 @property (nonatomic , assign) CGFloat index;
 @property (nonatomic , strong) NSArray *protocolArray;
+
+@property (nonatomic , strong) UILabel *searchLable;
+@property (nonatomic , strong) UILabel *registerLable;
+@property (nonatomic , strong) UILabel *addLable;
 @end
 
 @implementation SearchServicesViewController
 
 - (NSArray *)protocolArray {
     if (!_protocolArray) {
-        _protocolArray = [NSArray arrayWithObjects:@"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" ,@"HMSMARTALL" , @"HMCOLDFANA", nil];
+        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" ,@"HMSMARTALL" , @"HMCOLDFANA", nil];
     }
     return _protocolArray;
 }
@@ -102,9 +106,6 @@
     
     [self setUI];
     [self tapConfirmForResults];
-    
-    
-    
 }
 
 #pragma mark - 返回主界面
@@ -180,7 +181,9 @@
         make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, kScreenW / 14));
         make.top.mas_equalTo(registerLable.mas_bottom);
     }];
-    
+    self.searchLable = searchLable;
+    self.registerLable = registerLable;
+    self.addLable = addLable;
     
     self._isConfirmState = NO;
     
@@ -223,12 +226,21 @@
     
 }
 
+- (void)onUdpSocket:(AsyncUdpSocket *)sock didSendDataWithTag:(long)tag {
+    NSLog(@"onUdp--SendData");
+}
+
+- (void)onUdpSocketDidClose:(AsyncUdpSocket *)sock {
+    NSLog(@"onUdp--DidClose");
+}
+
 -(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
 {
     
     [_progressTimer setFireDate:[NSDate distantPast]];
     _circleLabel.text = @"66%";
     _circleView.progress = 0.66;
+    self.registerLable.textColor = kMainColor;
     [_myTimer invalidate];
     _myTimer = nil;
     
@@ -286,8 +298,12 @@
         
         [_progressTimer setFireDate:[NSDate distantPast]];
     } else {
-       
-        _myTimer = [NSTimer scheduledTimerWithTimeInterval:6 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
+
+        
+        [self.updSocket close];
+        self.updSocket = nil;
+        [self openUDPServer];
+        _myTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
     }
     
     return YES;
@@ -298,6 +314,7 @@
     
     _circleLabel.text = @"100%";
     _circleView.progress = 1.00;
+    self.addLable.textColor = kMainColor;
     [_progressTimer invalidate];
     _progressTimer = nil;
     
@@ -427,6 +444,7 @@
                         
                         _circleLabel.text = @"33%";
                         _circleView.progress = 0.33;
+                        self.searchLable.textColor = kMainColor;
                         
                         [self openUDPServer];
                        

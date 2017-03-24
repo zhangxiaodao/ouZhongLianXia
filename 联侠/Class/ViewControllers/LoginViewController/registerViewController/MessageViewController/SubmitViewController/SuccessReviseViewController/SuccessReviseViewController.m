@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"注册"];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:NSLocalizedString(@"RegistVC_Register", nil)];
     UIView *backView = [[UIView alloc]init];
     backView = [_navView.subviews objectAtIndex:0];
     
@@ -34,7 +34,7 @@
 
 #pragma mark - 设置UI
 - (void)setUI{
-    UILabel *lable = [UILabel creatLableWithTitle:@"恭喜您,注册成功!" andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentLeft];
+    UILabel *lable = [UILabel creatLableWithTitle:NSLocalizedString(@"RegistVC_RegisterSuccess", nil) andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentLeft];
     lable.layer.borderWidth = 0;
     [lable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kScreenW / 15);
@@ -42,7 +42,7 @@
         make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 7.510204);
     }];
     
-    UIButton *submitBtn = [UIButton initWithTitle:@"马上登陆" andColor:[UIColor redColor] andSuperView:self.view];
+    UIButton *submitBtn = [UIButton initWithTitle:NSLocalizedString(@"AtOnceLogin", nil) andColor:[UIColor redColor] andSuperView:self.view];
     [submitBtn addTarget:self action:@selector(loginBtnAtcion) forControlEvents:UIControlEventTouchUpInside];
     submitBtn.layer.cornerRadius = kScreenW / 18;
     

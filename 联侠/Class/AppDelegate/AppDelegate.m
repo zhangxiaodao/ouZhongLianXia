@@ -7,13 +7,9 @@
 //
 
 #import "AppDelegate.h"
-
+#import <UMSocialCore/UMSocialCore.h>
 #import "TabBarViewController.h"
 #import "BottomNavViewController.h"
-#import "UMSocial.h"
-#import "UMSocialWechatHandler.h"
-#import "UMSocialSinaSSOHandler.h"
-#import "UMSocialQQHandler.h"
 #import "AsyncSocket.h"
 #import "Reachability.h"
 
@@ -75,14 +71,57 @@
     //通过个人退平台分配的appID、appKey、appSerect自动SDK，注：该法法需要在主线程中调用
     [GeTuiSdk startSdkWithAppId:kGtAppId appKey:kGtAppKey appSecret:kGtAppSecret delegate:self];
     //注册APNs
-    [self registerUserNotification];
+    [self registerRemoteNotification];
 }
 
 - (void)setYouMeng {
-    [UMSocialData setAppKey:kUMAppKey];
-    [UMSocialWechatHandler setWXAppId:@"wx4fca522e10aba260" appSecret:@"054b2ba4f76f67310b716e631a6dd5bd" url:@"www.ouzhongiot.com"];
-    //打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。
-    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"2648263927"   secret:@"53c58898fa46d492ab3758debec3716e" RedirectURL:@"http://www.ouzhongiot.com"];
+//    [UMSocialData setAppKey:kUMAppKey];
+//    [UMSocialWechatHandler setWXAppId:@"wx4fca522e10aba260" appSecret:@"054b2ba4f76f67310b716e631a6dd5bd" url:@"www.ouzhongiot.com"];
+//    //打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。
+//    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"2648263927"   secret:@"53c58898fa46d492ab3758debec3716e" RedirectURL:@"http://www.ouzhongiot.com"];
+    
+    
+    /* 打开调试日志 */
+    [[UMSocialManager defaultManager] openLog:YES];
+    
+    /* 设置友盟appkey */
+    [[UMSocialManager defaultManager] setUmSocialAppkey:kUMAppKey];
+    
+    [self configUSharePlatforms];
+    
+    [self confitUShareSettings];
+}
+
+
+- (void)confitUShareSettings
+{
+    /*
+     * 打开图片水印
+     */
+    //[UMSocialGlobal shareInstance].isUsingWaterMark = YES;
+    
+    /*
+     * 关闭强制验证https，可允许http图片分享，但需要在info.plist设置安全域名
+     <key>NSAppTransportSecurity</key>
+     <dict>
+     <key>NSAllowsArbitraryLoads</key>
+     <true/>
+     </dict>
+     */
+    //[UMSocialGlobal shareInstance].isUsingHttpsWhenShareContent = NO;
+    
+}
+
+- (void)configUSharePlatforms
+{
+    /* 设置微信的appKey和appSecret */
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wx4fca522e10aba260" appSecret:@"054b2ba4f76f67310b716e631a6dd5bd" redirectURL:@"www.ouzhongiot.com"];
+    
+    /* 设置新浪的appKey和appSecret */
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:@"2648263927"  appSecret:@"53c58898fa46d492ab3758debec3716e" redirectURL:@"http://www.ouzhongiot.com"];
+    
+    
+    
 }
 
 - (void) reachabilityChanged:(NSNotification *)note
@@ -140,7 +179,7 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 18) {
+            if ([data[@"id"] integerValue] > 20) {
                 
                 if ([data[@"isForce"] integerValue] == 0) {
                     return ;
@@ -169,13 +208,35 @@
  *
  */
 /** 注册APNS */
-- (void)registerUserNotification {
-    UIUserNotificationType types = (UIUserNotificationTypeAlert |UIUserNotificationTypeSound |UIUserNotificationTypeBadge);
-    
-    UIUserNotificationSettings *settings;
-    settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    [[UIApplication sharedApplication] registerForRemoteNotifications];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+- (void)registerRemoteNotification {
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0 // Xcode 8编译会调用
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        center.delegate = self;
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionCarPlay) completionHandler:^(BOOL granted, NSError *_Nullable error) {
+            if (!error) {
+                NSLog(@"request authorization succeeded!");
+            }
+        }];
+        
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+#else // Xcode 7编译会调用
+        UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+#endif
+    } else if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeSound | UIUserNotificationTypeBadge);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    } else {
+        UIRemoteNotificationType apn_type = (UIRemoteNotificationType)(UIRemoteNotificationTypeAlert |
+                                                                       UIRemoteNotificationTypeSound |
+                                                                       UIRemoteNotificationTypeBadge);
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:apn_type];
+    }
 }
 
 #pragma mark - 获取deviceToken
@@ -218,11 +279,8 @@
     //收到个推消息
     NSString *payloadMsg = nil;
     if (payloadData) {
-        payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes
-                                              length:payloadData.length
-                                            encoding:NSUTF8StringEncoding];
+        payloadMsg = [[NSString alloc] initWithBytes:payloadData.bytes length:payloadData.length encoding:NSUTF8StringEncoding];
     }
-        [GeTuiSdk sendFeedbackMessage:90001 taskId:taskId msgId:msgId];
     
     NSString *message = [NSString stringWithFormat:@"%@" , payloadMsg];
 //    NSLog(@"AAAAAQQQQQQQ%@" , message);
@@ -246,23 +304,45 @@
 
 /** APP已经接收到“远程”通知(推送) - 透传推送消息  */
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-    // 处理APNs代码，通过userInfo可以取到推送的信息（包括内容，角标，自定义参数等）。如果需要弹窗等其他操作，则需要自行编码。
-    //    NSLog(@"\n>>>[Receive RemoteNotification - Background Fetch]:%@\n\n",userInfo);
-    
-//    NSLog(@"AAAACCCCCCCCCAAAA%@" , userInfo);
-    
+    // 将收到的APNs信息传给个推统计
+    [GeTuiSdk handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    BOOL result = [UMSocialSnsService handleOpenURL:url];
-    if (result == FALSE) {
-        //调用其他SDK，例如支付宝SDK等
+    //6.3的新的API调用，是为了兼容国外平台(例如:新版facebookSDK,VK等)的调用[如果用6.2的api调用会没有回调],对国内平台没有影响
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
+    if (!result) {
+        // 其他如支付等SDK的回调
     }
     return result;
 }
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+
+//  iOS 10: App在前台获取到通知
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    
+    NSLog(@"willPresentNotification：%@", notification.request.content.userInfo);
+    
+    // 根据APP需要，判断是否要提示用户Badge、Sound、Alert
+    completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert);
+}
+
+//  iOS 10: 点击通知进入App时触发，在该方法内统计有效用户点击数
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    
+    NSLog(@"didReceiveNotification：%@", response.notification.request.content.userInfo);
+    
+    // [ GTSdk ]：将收到的APNs信息传给个推统计
+    [GeTuiSdk handleRemoteNotification:response.notification.request.content.userInfo];
+    
+    completionHandler();
+}
+
+#endif
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     NSLog(@"程序将要进入非活动状态");

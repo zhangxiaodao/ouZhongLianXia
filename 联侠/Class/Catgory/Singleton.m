@@ -146,7 +146,9 @@
 
 -(void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-        
+    
+    
+    
     
     if (data.length < 50 && data) {
         [_duanXianChongLian invalidate];
@@ -193,7 +195,7 @@
             } else if ([typeSn isEqualToString:@"4332"]) {
                 [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4332" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
             }
-            self.ssssssss = @"YES";
+            
         } else if ([newMessage isEqualToString:@"QUIT"]){
             
             //        [self sendDataToHost:@"QUIT" andType:nil andIsNewOrOld:kOld];
