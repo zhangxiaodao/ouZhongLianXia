@@ -216,6 +216,7 @@
 		ED8078291E6681880001B205 /* CustomPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8078281E6681880001B205 /* CustomPickerView.m */; };
 		ED894BB31E84CD470019C8A0 /* libUMSocialCloudShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED894BB11E84CD470019C8A0 /* libUMSocialCloudShare.a */; };
 		ED894BB41E84CD480019C8A0 /* libUMSocialLog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED894BB21E84CD470019C8A0 /* libUMSocialLog.a */; };
+		ED894BB51E852DD80019C8A0 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3931BE1DD19D8B00A2626F /* JavaScriptCore.framework */; };
 		ED9CE65C1E286FF40029CFCA /* LockClock.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED9CE65B1E286F7B0029CFCA /* LockClock.ttf */; };
 		EDA7C70A1E5EC4DD003EB2D7 /* MalertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA7C7091E5EC4DD003EB2D7 /* MalertView.m */; };
 		EDAD366E1E25DEF9001DE474 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD366D1E25DEF9001DE474 /* CircleView.m */; };
@@ -720,6 +721,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED894BB51E852DD80019C8A0 /* JavaScriptCore.framework in Frameworks */,
 				ED894BB41E84CD480019C8A0 /* libUMSocialLog.a in Frameworks */,
 				ED3716901E84B5D600493248 /* libGeTuiSdk-1.6.2.0.a in Frameworks */,
 				ED3716911E84B5D600493248 /* libGtExtensionSdk-1.1.0.a in Frameworks */,

@@ -26,21 +26,12 @@
     _webView = [[UIWebView alloc]initWithFrame:kScreenFrame];
     [self.view addSubview:_webView];
     
-    
-//    NSString *firstRun = [kStanderDefault objectForKey:@"firstRun"];
-//        
-//    if ([firstRun isEqualToString:@"YES"]) {
-//        _webView.frame = CGRectMake(0, 0, kScreenW, kScreenH);
-//    } else {
-//        _webView.frame = CGRectMake(0, 0, kScreenW, kScreenH + kScreenW / 7.5);
-//    }
-    
     self.webView.delegate = self;
 
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.serviceModel.indexUrl]]];
     
     _searchView = [[UIActivityIndicatorView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-//    [self.view addSubview:_searchView];
+    [self.view addSubview:_searchView];
     _searchView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     [_searchView startAnimating];
     
@@ -48,44 +39,48 @@
     
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    
-    
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [_searchView removeFromSuperview];
-    
-    _context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-//    NSString *callJSstring = nil;
-//    callJSstring = @"PageLoadIOS()";
-//    [_context evaluateScript:callJSstring];
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    _context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    //    NSString *callJSstring = nil;
+    //    callJSstring = @"PageLoadIOS()";
+    //    [_context evaluateScript:callJSstring];
     
     __block typeof(self)bself = self;
     _context[@"PageLoadIOS"] = ^{
-//        NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , bself.serviceModel.brand, @"BrandName" , nil];
         
-        NSMutableString *sumStr = [NSMutableString string];
-        NSString *userSnStr = [NSString stringWithFormat:@"userSn:%@" , @(bself.userModel.sn)];
-        NSString *devTypeSnStr = [NSString stringWithFormat:@"devTypeSn:%@" , bself.serviceModel.devTypeSn];
-        NSString *devSnStr = [NSString stringWithFormat:@"devSn:%@" , bself.serviceModel.devSn];
-        NSString *UserDeviceIDStr = [NSString stringWithFormat:@"UserDeviceID:%@" , @(bself.serviceModel.userDeviceID)];
-        NSString *ServieceIPStr = [NSString stringWithFormat:@"ServieceIP:%@" , [NSString stringWithFormat:@"http://%@:8080/" , localhost]];
-        NSString *BrandNameStr = [NSString stringWithFormat:@"BrandName:%@" , bself.serviceModel.brand];
+        [bself.searchView removeFromSuperview];
         
-        NSArray *strArray = @[userSnStr , devTypeSnStr , devSnStr , UserDeviceIDStr , ServieceIPStr , BrandNameStr];
-        for (int i = 0; i < strArray.count; i++) {
-            sumStr = [[sumStr stringByAppendingFormat:@"%@", [NSString stringWithFormat:@"%@," , strArray[i]]] mutableCopy];
-        }
+        NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , bself.serviceModel.brand, @"BrandName" , nil];
         
-        sumStr = [[@"{" stringByAppendingString:sumStr] mutableCopy];
-        sumStr = [[sumStr stringByAppendingString:@"}"] mutableCopy];
-        
-        NSString *orderStr = [NSString stringWithFormat:@"GetUserData('%@')" , sumStr];
-//        orderStr = [orderStr stringByReplacingOccurrencesOfString:@"=" withString:@":"];
+        NSString *orderStr = [NSString stringWithFormat:@"GetUserData(%@)" , userData];
+        orderStr = [orderStr stringByReplacingOccurrencesOfString:@"=" withString:@":"];
         NSLog(@"%@" , orderStr);
         [bself.context evaluateScript:orderStr];
     };
+    
+    return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+//    [_searchView removeFromSuperview];
+    
+//    _context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+////    NSString *callJSstring = nil;
+////    callJSstring = @"PageLoadIOS()";
+////    [_context evaluateScript:callJSstring];
+//    
+//    __block typeof(self)bself = self;
+//    _context[@"PageLoadIOS"] = ^{
+//        
+//        [bself.searchView removeFromSuperview];
+//        
+//        NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , bself.serviceModel.brand, @"BrandName" , nil];
+//        
+//        NSString *orderStr = [NSString stringWithFormat:@"GetUserData(%@)" , userData];
+//        orderStr = [orderStr stringByReplacingOccurrencesOfString:@"=" withString:@":"];
+//        NSLog(@"%@" , orderStr);
+//        [bself.context evaluateScript:orderStr];
+//    };
     
 //    JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
 //    NSString *callJSstring = nil;
@@ -99,27 +94,27 @@
 //    NSLog(@"%@" , orderStr);
 //    [_context evaluateScript:orderStr];
     
-    NSMutableString *sumStr = [NSMutableString string];
-    NSString *userSnStr = [NSString stringWithFormat:@"userSn:%@" , @(bself.userModel.sn)];
-    NSString *devTypeSnStr = [NSString stringWithFormat:@"devTypeSn:%@" , bself.serviceModel.devTypeSn];
-    NSString *devSnStr = [NSString stringWithFormat:@"devSn:%@" , bself.serviceModel.devSn];
-    NSString *UserDeviceIDStr = [NSString stringWithFormat:@"UserDeviceID:%@" , @(bself.serviceModel.userDeviceID)];
-    NSString *ServieceIPStr = [NSString stringWithFormat:@"ServieceIP:%@" , [NSString stringWithFormat:@"http://%@:8080/" , localhost]];
-    NSString *BrandNameStr = [NSString stringWithFormat:@"BrandName:%@" , bself.serviceModel.brand];
-    
-    NSArray *strArray = @[userSnStr , devTypeSnStr , devSnStr , UserDeviceIDStr , ServieceIPStr , BrandNameStr];
-    for (int i = 0; i < strArray.count; i++) {
-        sumStr = [[sumStr stringByAppendingFormat:@"%@", [NSString stringWithFormat:@"%@," , strArray[i]]] mutableCopy];
-    }
-    
-    sumStr = [[@"{" stringByAppendingString:sumStr] mutableCopy];
-    sumStr = [[sumStr substringToIndex:(sumStr.length - 1)] mutableCopy];
-    sumStr = [[sumStr stringByAppendingString:@"}"] mutableCopy];
-    
-    NSString *orderStr = [NSString stringWithFormat:@"GetUserData('%@')" , sumStr];
-    //        orderStr = [orderStr stringByReplacingOccurrencesOfString:@"=" withString:@":"];
-    NSLog(@"%@" , orderStr);
-    [bself.context evaluateScript:orderStr];
+//    NSMutableString *sumStr = [NSMutableString string];
+//    NSString *userSnStr = [NSString stringWithFormat:@"userSn:%@" , @(bself.userModel.sn)];
+//    NSString *devTypeSnStr = [NSString stringWithFormat:@"devTypeSn:%@" , bself.serviceModel.devTypeSn];
+//    NSString *devSnStr = [NSString stringWithFormat:@"devSn:%@" , bself.serviceModel.devSn];
+//    NSString *UserDeviceIDStr = [NSString stringWithFormat:@"UserDeviceID:%@" , @(bself.serviceModel.userDeviceID)];
+//    NSString *ServieceIPStr = [NSString stringWithFormat:@"ServieceIP:%@" , [NSString stringWithFormat:@"http://%@:8080/" , localhost]];
+//    NSString *BrandNameStr = [NSString stringWithFormat:@"BrandName:%@" , bself.serviceModel.brand];
+//    
+//    NSArray *strArray = @[userSnStr , devTypeSnStr , devSnStr , UserDeviceIDStr , ServieceIPStr , BrandNameStr];
+//    for (int i = 0; i < strArray.count; i++) {
+//        sumStr = [[sumStr stringByAppendingFormat:@"%@", [NSString stringWithFormat:@"%@," , strArray[i]]] mutableCopy];
+//    }
+//    
+//    sumStr = [[@"{" stringByAppendingString:sumStr] mutableCopy];
+//    sumStr = [[sumStr substringToIndex:(sumStr.length - 1)] mutableCopy];
+//    sumStr = [[sumStr stringByAppendingString:@"}"] mutableCopy];
+//    
+//    NSString *orderStr = [NSString stringWithFormat:@"GetUserData('%@')" , sumStr];
+//    //        orderStr = [orderStr stringByReplacingOccurrencesOfString:@"=" withString:@":"];
+//    NSLog(@"%@" , orderStr);
+//    [bself.context evaluateScript:orderStr];
     
     _context[@"ShowRemind"] = ^() {
         NSArray *parames = [JSContext currentArguments];
@@ -184,8 +179,16 @@
 - (void)getDryingMachineDeviceAtcion:(NSNotification *)post {
     NSArray *devArray = post.userInfo[@"Message"];
     
+    NSMutableString *sumStr = [NSMutableString string];
+    
+    for (int i = 0; i < devArray.count; i++) {
+       sumStr = [[sumStr stringByAppendingString:[NSString stringWithFormat:@"%@," , devArray[i]]]mutableCopy];
+    }
+    
+    sumStr = [[sumStr substringToIndex:sumStr.length - 1] mutableCopy];
+    
     NSString *callJSstring = nil;
-    callJSstring = [NSString stringWithFormat:@"ReceiveOrder('%@')" , devArray];
+    callJSstring = [NSString stringWithFormat:@"ReceiveOrder('%@')" , sumStr];
     
     NSLog(@"%@" , callJSstring);
     [_context evaluateScript:callJSstring];
