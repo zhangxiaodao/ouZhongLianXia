@@ -40,4 +40,8 @@
     
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"_totalTime--%f" , _totalTime];
+}
+
 @end

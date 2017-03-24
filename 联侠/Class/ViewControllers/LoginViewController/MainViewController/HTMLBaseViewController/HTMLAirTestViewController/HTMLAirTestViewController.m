@@ -59,14 +59,6 @@
     NSString *callJSstring = nil;
     callJSstring = @"PageLoadIOS()";
     [context evaluateScript:callJSstring];
-
-    if (self.stateModel.fSwitch == 1) {
-        _order = YES;
-        [self ReceiveOrder];
-    } else {
-        _order = NO;
-        [self ReceiveOrder];
-    }
 }
 
 - (void)passValueWithBlock {

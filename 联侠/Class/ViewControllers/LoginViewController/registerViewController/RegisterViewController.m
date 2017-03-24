@@ -123,6 +123,7 @@
         make.centerX.mas_equalTo(xiaHuaXian2.mas_centerX);
     }];
     self.pwdTectFiled.keyboardType = UIKeyboardTypeDefault;
+    self.pwdTectFiled.secureTextEntry = YES;
     
     UIView *xiaHuaXian3 = [[UIView alloc]init];
     [self.view addSubview:xiaHuaXian3];
@@ -228,7 +229,6 @@
     _xiaHuaXian2 = xiaHuaXian2;
     _xiaHuaXian3 = xiaHuaXian3;
 }
-
 
 - (void)cancleAtcion {
     [UIView animateWithDuration:.3 animations:^{

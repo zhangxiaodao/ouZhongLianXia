@@ -403,7 +403,7 @@
     [kApplicate initServiceModel:model];
     kSocketTCP.serviceModel = model;
     [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn] andType:kAddService andIsNewOrOld:nil];
-    
+    NSLog(@"%@" , [NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn]);
     
     
     self.tabBarController.tabBar.hidden = YES;
