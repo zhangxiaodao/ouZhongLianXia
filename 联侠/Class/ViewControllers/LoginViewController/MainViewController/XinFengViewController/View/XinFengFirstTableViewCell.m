@@ -12,6 +12,9 @@
 #define kRadiuesW kScreenW / 1.23
 #define kDuration 4.0
 
+static int angle = 0;
+static int speed = 0;
+
 @interface XinFengFirstTableViewCell ()<HelpFunctionDelegate>
 @property (nonatomic , strong) UILabel *temperatureLabel;
 @property (nonatomic , strong) UILabel *humidityLabel;
@@ -26,7 +29,7 @@
 @property (nonatomic , copy) NSString *isPlay;
 @property (nonatomic , assign) NSInteger isAnimation;
 @property (nonatomic , copy) NSString *wind;
-
+@property (nonatomic , strong) NSTimer *myTimer;
 @property (nonatomic , strong) StateModel *stateModel;
 @end
 
@@ -35,10 +38,17 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         [self customUI];
+        _myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 / 60.0 target:self selector:@selector(aircleImageAtcion) userInfo:nil repeats:YES];
+        
+        
     }
     return self;
+}
+
+- (void)aircleImageAtcion {
+    angle = angle + speed;
+    self.spinImageView.transform = CGAffineTransformMakeRotation(angle * M_PI / 180.0);
 }
 
 - (void)getBottomBtnSelected:(NSNotification *)post {
@@ -49,21 +59,28 @@
     if (self.isAnimation == 0) {
 //        _spinImageView.layer.speed = 0.0;
         
-        [self pauseLayer:_spinImageView.layer];
+//        [self pauseLayer:_spinImageView.layer];
+        angle = 0;
+        speed = 0;
         
     } else if (self.isAnimation == 1){
         if ([_wind isEqualToString:@"01"]) {
-            [self addAnimationWithDurtion:kDuration * 2];
+//            [self addAnimationWithDurtion:kDuration * 2];
+            speed = 1;
         } else if ([_wind isEqualToString:@"02"]) {
-            [self addAnimationWithDurtion:kDuration * 3 / 2];
+//            [self addAnimationWithDurtion:kDuration * 3 / 2];
+            speed = 2;
         } else if ([_wind isEqualToString:@"03"]) {
-            [self addAnimationWithDurtion:kDuration];
+//            [self addAnimationWithDurtion:kDuration];
+            speed = 3;
         } else if ([_wind isEqualToString:@"04"]) {
-            [self addAnimationWithDurtion:kDuration * 2 / 3];
+//            [self addAnimationWithDurtion:kDuration * 2 / 3];
+            speed = 4;
         }
 //        [self startAnimate];
         
-        [self resumeLayer:_spinImageView.layer];
+//        [self resumeLayer:_spinImageView.layer];
+        
     }
 }
 
@@ -295,27 +312,32 @@
     
     if ([kaiGuan isEqualToString:@"01"]) {
         UIImage *image = nil;
-        NSInteger time = 0;
+//        NSInteger time = 0;
         if ([_wind isEqualToString:@"01"]) {
             image = [UIImage imageNamed:@"xinFengWindDi"];
-            time = kDuration * 2;
+//            time = kDuration * 2;
+            speed = 1;
         } else if ([_wind isEqualToString:@"02"]) {
             image = [UIImage imageNamed:@"xinFengWindZhong"];
-            time = kDuration * 3 / 2;
+//            time = kDuration * 3 / 2;
+            speed = 2;
         } else if ([_wind isEqualToString:@"03"]) {
             image = [UIImage imageNamed:@"xinFengWindGao"];
-            time = kDuration;
+//            time = kDuration;
+            speed = 3;
         } else if ([_wind isEqualToString:@"04"]) {
             image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-            time = kDuration * 2 / 3 ;
+//            time = kDuration * 2 / 3 ;
+            speed = 4;
         } else if ([_wind isEqualToString:@"00"]) {
             image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-            time = MAXFLOAT;
+//            time = MAXFLOAT;
+            speed = 1;
         }
         
         _fengSuBiaoShiImageView.image = image;
-        [self addAnimationWithDurtion:time];
-        [self resumeLayer:_spinImageView.layer];
+//        [self addAnimationWithDurtion:time];
+//        [self resumeLayer:_spinImageView.layer];
     }
     
 }
@@ -367,29 +389,37 @@
         if (_stateModel.fSwitch == 1) {
             
             UIImage *image = nil;
-            NSInteger time = MAXFLOAT;
+//            NSInteger time = MAXFLOAT;
             if (_stateModel.fWind == 1) {
                 image = [UIImage imageNamed:@"xinFengWindDi"];
-                time = kDuration * 2;
+//                time = kDuration * 2;
+                speed = 1;
             } else if (_stateModel.fWind == 2) {
                 image = [UIImage imageNamed:@"xinFengWindZhong"];
-                time = kDuration * 3 / 2;
+//                time = kDuration * 3 / 2;
+                speed = 2;
             } else if (_stateModel.fWind == 3) {
                 image = [UIImage imageNamed:@"xinFengWindGao"];
-                time = kDuration;
+//                time = kDuration;
+                speed = 3;
             } else if (_stateModel.fWind == 4) {
                 image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-                time = kDuration * 2 / 3 ;
+//                time = kDuration * 2 / 3 ;
+                speed = 4;
             }
             _fengSuBiaoShiImageView.image = image;
-            [self addAnimationWithDurtion:time];
-            [self resumeLayer:_spinImageView.layer];
+//            [self addAnimationWithDurtion:time];
+//            [self resumeLayer:_spinImageView.layer];
             
             if (self.stateModel.fWind == 0) {
-                [self pauseLayer:_spinImageView.layer];
+//                [self pauseLayer:_spinImageView.layer];
+                angle = 0;
+                speed = 0;
             }
         } else {
-            [self pauseLayer:_spinImageView.layer];
+//            [self pauseLayer:_spinImageView.layer];
+            angle = 0;
+            speed = 0;
         }
     }
     

@@ -164,12 +164,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/HTMLBaseViewController/HTMLGanYiJiViewController.m"
-            timestampString = "512046527.091277"
+            timestampString = "512450705.303569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "-webView:shouldStartLoadWithRequest:navigationType:"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "-webViewDidFinishLoad:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

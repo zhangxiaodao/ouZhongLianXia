@@ -129,7 +129,8 @@
 
 - (void)fuWeiAtcion222:(UIButton *)btn {
 
-    [UIAlertController creatRightAlertControllerWithHandle:^{
+    
+    [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"lvWang" object:self userInfo:[NSDictionary dictionaryWithObject:@"YES" forKey:@"lvWang"]]];
         
         NSDictionary *parames = @{@"devSn" : self.devSn, @"devTypeSn" : @"A" , @"reset" : @(3)};

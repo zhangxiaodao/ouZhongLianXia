@@ -36,7 +36,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"重置密码"];
+     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:NSLocalizedString(@"ResetVC_ResetPwd", nil)];
     
     [self setUI];
 }
@@ -59,7 +59,7 @@
     }];
     
     
-    self.accTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入您的手机号码" andSuperView:self.view];
+    self.accTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"EnterPhone", nil) andSuperView:self.view];
     self.accTectFiled.delegate = self;
     
     [self.accTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -77,7 +77,7 @@
         make.top.mas_equalTo(xiaHuaXian.mas_bottom).offset(kScreenH/8.8674);
     }];
     
-    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入短信验证码" andSuperView:self.view];
+    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"EnterSMSVerificationCode", nil) andSuperView:self.view];
     self.pwdTectFiled.delegate = self;
     [self.pwdTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 2, kScreenW / 10));
@@ -85,7 +85,7 @@
         make.bottom.mas_equalTo(xiaHuaXian2.mas_top);
     }];
     
-    self.sendDuanXinBtn = [UIButton initWithTitle:@"发送短信" andColor:[UIColor redColor] andSuperView:self.view];
+    self.sendDuanXinBtn = [UIButton initWithTitle:NSLocalizedString(@"SendSMSCode", nil) andColor:[UIColor redColor] andSuperView:self.view];
     [self.sendDuanXinBtn addTarget:self action:@selector(sendDuanXinBtnAtcion) forControlEvents:UIControlEventTouchUpInside];
     self.sendDuanXinBtn.layer.cornerRadius = kStandardW / 20;
     self.sendDuanXinBtn.backgroundColor = kMainColor;
@@ -97,7 +97,7 @@
     self.sendDuanXinBtn.titleLabel.font = [UIFont systemFontOfSize:k14];
     
     //创建注册按钮
-    UIButton *doneBtn = [UIButton initWithTitle:@"下一步" andColor:[UIColor redColor] andSuperView:self.view];
+    UIButton *doneBtn = [UIButton initWithTitle:NSLocalizedString(@"Next", nil) andColor:[UIColor redColor] andSuperView:self.view];
     doneBtn.layer.cornerRadius = kScreenW / 18;
     
     doneBtn.backgroundColor = kMainColor;
@@ -110,7 +110,7 @@
         make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 2.1);
     }];
     
-    UIButton *registerBtn = [UIButton initWithTitle:@"返回" andColor:[UIColor clearColor] andSuperView:self.view];
+    UIButton *registerBtn = [UIButton initWithTitle:NSLocalizedString(@"Back", nil) andColor:[UIColor clearColor] andSuperView:self.view];
     [registerBtn setTitleColor:kMainColor forState:UIControlStateNormal];
     registerBtn.layer.cornerRadius = kScreenW / 18;
     registerBtn.layer.borderWidth = 2;
@@ -146,7 +146,7 @@
         if (currentTimeInterval >= sendEmailTimeInterval + 60) {
             [kStanderDefault removeObjectForKey:@"sendTimeInterVal"];
 
-            [self.sendDuanXinBtn setTitle:@"发送短信" forState:UIControlStateNormal];
+            [self.sendDuanXinBtn setTitle:NSLocalizedString(@"SendSMSCode", nil) forState:UIControlStateNormal];
             self.sendDuanXinBtn.backgroundColor = kMainColor;
             self.sendDuanXinBtn.userInteractionEnabled = YES;
             
@@ -192,11 +192,11 @@
         if (self.accTectFiled.text.length != 11) {
             [UIAlertController creatRightAlertControllerWithHandle:^{
                 self.accTectFiled.text = nil;
-            } andSuperViewController:self Title:@"你的号码输入有误，请重新输入"];
+            } andSuperViewController:self Title:NSLocalizedString(@"YourPhoneNumberErrorSoRe-Enter", nil)];
         } else if (![_pwdTectFiled.text isEqualToString:[NSString stringWithFormat:@"%@" , _data]]) {
             [UIAlertController creatRightAlertControllerWithHandle:^{
                 self.pwdTectFiled.text = nil;
-            } andSuperViewController:self Title:@"您输入的验证码错误，请重新输入"];
+            } andSuperViewController:self Title:NSLocalizedString(@"YourVerificationCodeErrorSoRe-Enter", nil)];
         }
     }
     
@@ -212,7 +212,7 @@
     } else {
         [UIAlertController creatRightAlertControllerWithHandle:^{
             self.pwdTectFiled.text = nil;
-        } andSuperViewController:self Title:@"手机号码输入不正确"];
+        } andSuperViewController:self Title:NSLocalizedString(@"PhoneFormattedError", nil)];
     }
     
 }
@@ -226,9 +226,9 @@
     if (state == 0) {
         [UIAlertController creatRightAlertControllerWithHandle:^{
             self.accTectFiled.text = nil;
-        } andSuperViewController:self Title:@"此账户不存在"];
+        } andSuperViewController:self Title:NSLocalizedString(@"ThisAccNoExist", nil)];
     } else if (state == 1) {
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"输入值异常"];
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:NSLocalizedString(@"InputValueError", nil)];
     } else if (state == 3) {
         
         {
@@ -270,13 +270,13 @@
 }
 
 -(void)timeFireMethod{
-    [self.sendDuanXinBtn setTitle:[NSString stringWithFormat:@"%lds后重新发送",(long)self.secondsCountDown] forState:UIControlStateNormal];
+    [self.sendDuanXinBtn setTitle:[NSString stringWithFormat:@"%lds%@",(long)self.secondsCountDown , NSLocalizedString(@"AfterSecondsRe-Send", nil)] forState:UIControlStateNormal];
     
     if(self.secondsCountDown==0){
         [self.countDownTimer invalidate];
         self.countDownTimer = nil;
         self.data = 0;
-        [self.sendDuanXinBtn setTitle:@"发送短信" forState:UIControlStateNormal];
+        [self.sendDuanXinBtn setTitle:NSLocalizedString(@"SendSMSCode", nil) forState:UIControlStateNormal];
         self.sendDuanXinBtn.backgroundColor = kMainColor;
         self.sendDuanXinBtn.userInteractionEnabled = YES;
     }

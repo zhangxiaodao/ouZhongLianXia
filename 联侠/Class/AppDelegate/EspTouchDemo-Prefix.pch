@@ -170,7 +170,7 @@
 
 #define GanYiJiXieYi(devTypeSn , devSn , kaiGuan , dangWei , shaJun , fuLiZi) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@000000000000000000000000#" , devTypeSn , devSn , kaiGuan , dangWei , shaJun , fuLiZi]
 
-#define GanYiJi4332SendToHostXieYi(devTypeSn , devSn , kaiGuan , ozone , power , time) [NSString stringWithFormat:@"HMFFM%@%@w%@%@00000000%@0000%@000000000000#" , devTypeSn , devSn , kaiGuan , ozone , power , time]
+#define GanYiJi4332SendToHostXieYi(devTypeSn , devSn , kaiGuan , ozone , power , time) [NSString stringWithFormat:@"HMFFM%@%@w0%@0%@000000000%@0000%@000000000000#" , devTypeSn , devSn , kaiGuan , ozone , power , time]
 #define GanYiJi4332SendToHTMLXieYi(kaiGuan , ozone , power , time) [NSString stringWithFormat:@"%@%@00000000%@0000%@000000000000" ,kaiGuan , ozone , power , time]
 
 #define XinFengKongJing(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@00000000000000%@%@0000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]

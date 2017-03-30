@@ -193,7 +193,7 @@
             } else if ([typeSn isEqualToString:@"4232"]) {
                 [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4232" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
             } else if ([typeSn isEqualToString:@"4332"]) {
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4332" object:self userInfo:[NSDictionary dictionaryWithObject:devSnSubStr forKey:@"Message"]]];
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4332" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
             }
             
         } else if ([newMessage isEqualToString:@"QUIT"]){
@@ -221,7 +221,7 @@
             [kStanderDefault removeObjectForKey:@"kongZhiTai"];
             [kStanderDefault removeObjectForKey:@"modelString"];
             [kStanderDefault removeObjectForKey:@"data"];
-            
+            [kStanderDefault removeObjectForKey:@"wearthDic"];
             [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
             [kStanderDefault removeObjectForKey:@"GeRenModel"];
             

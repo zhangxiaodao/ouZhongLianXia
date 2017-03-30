@@ -342,6 +342,7 @@
         
         [kStanderDefault removeObjectForKey:@"data"];
         [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
+        [kStanderDefault removeObjectForKey:@"wearthDic"];
         [kStanderDefault removeObjectForKey:@"GeRenModel"];
         [kSocketTCP cutOffSocket];
         loginVC.fromUserVC = [NSString stringWithFormat:@"YES"];

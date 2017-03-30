@@ -64,9 +64,6 @@
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getWeartherImage:) name:@"weartherImage" object:nil];
-    
     if ([kStanderDefault objectForKey:@"zhuYe"]) {
         NSNumber *aa = [kStanderDefault objectForKey:@"zhuYe"];
         imageBG.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@" , [self.zhuYeArray objectAtIndex:[aa integerValue]]]];
@@ -231,13 +228,6 @@
 }
 
 
-#pragma mark - 获取天气数据
-- (void)getWeartherImage:(NSNotification *)post {
-    self.werthImage = self.arrImage[[post.userInfo[@"weartherImage"] integerValue]];
-    [kStanderDefault setObject:post.userInfo[@"weartherImage"] forKey:@"weartherImage"];
-    
-}
-
 #pragma mark - 设置滚动Lable 
 - (void)setScrollLable:(NSMutableDictionary *)dic {
     self.testLabel = [[RollLabel alloc] initWithFrame:CGRectMake(kScreenW / 9 , kScreenH / 22.72 - kScreenH / 58 , kScreenW - kScreenW * 2 / 9 , kScreenH / 29) text:dic[@"chuanYi"] font:[UIFont systemFontOfSize:15] textColor:[UIColor whiteColor]];
@@ -262,28 +252,14 @@
     banTouMingLableView.layer.cornerRadius = kScreenH / 59;
     
     [self setScrollLable:dic];
-//    [dic setValue:@"暂缺" forKey:@"chuanYi"];
-
-    if ([dic[@"chuanYi"] isEqualToString:@"暂缺"]) {
-        self.testLabel.hidden = YES;
-        banTouMingLableView.hidden = YES;
-    } else {
-        self.testLabel.hidden = NO;
-        banTouMingLableView.hidden = NO;
-    }
+    self.testLabel.hidden = YES;
+    banTouMingLableView.hidden = YES;
     
     
     _touMingImageVIew = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"主页透明.jpg"]];
     _touMingImageVIew.frame=CGRectMake(0, -BackGroupHeight, self.view.frame.size.width, BackGroupHeight);
     
-    
-    NSInteger i = [[kStanderDefault objectForKey:@"weartherImage"] integerValue];
-    self.werthImage = self.arrImage[i];
-//    NSLog(@"%@" , self.werthImage);
-    if (self.werthImage == nil) {
-        self.werthImage = [UIImage imageNamed:@"duoYun"];
-    }
-    
+    self.werthImage = self.arrImage[[self.wearthDic[@"weather_icon"] integerValue]];
     [MainFirstView creatViewWeatherDic:dic andSuperView:_touMingImageVIew andWearthImage:self.werthImage];
     
     _touMingImageVIew.contentMode = UIViewContentModeScaleAspectFill;
@@ -489,17 +465,6 @@
     
 }
 
-#pragma mark - 头像和设置的点击事件
-//- (void)tapImageAtcion{
-//    MineViewController *mineVC = [[MineViewController alloc]init];
-//    mineVC.fromMainVC = [NSString stringWithFormat:@"YES"];
-//    mineVC.headImage = self.headImageView.image;
-//   
-//    mineVC.userModel = [[UserModel alloc]init];
-//    mineVC.userModel = self.userModel;
-//    [self.navigationController pushViewController:mineVC animated:YES];
-//}
-
 #pragma mark - 修改昵称
 - (void)getNiCheng:(NSNotification *)post {
     self.userModel.nickname = post.userInfo[@"niCheng"];
@@ -513,7 +478,7 @@
 
 - (void)setWearthDic:(NSMutableDictionary *)wearthDic {
     _wearthDic = wearthDic;
-//    NSLog(@"%@" , _wearthDic);
+    NSLog(@"%@" , _wearthDic);
     
 }
 

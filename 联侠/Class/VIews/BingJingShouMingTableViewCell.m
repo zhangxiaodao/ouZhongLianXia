@@ -152,7 +152,8 @@
 
 - (void)fuWeiAtcion333:(UIButton *)btn {
 
-    [UIAlertController creatRightAlertControllerWithHandle:^{
+    
+    [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
         
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"bingJing" object:self userInfo:[NSDictionary dictionaryWithObject:@"YES" forKey:@"bingJing"]]];
         

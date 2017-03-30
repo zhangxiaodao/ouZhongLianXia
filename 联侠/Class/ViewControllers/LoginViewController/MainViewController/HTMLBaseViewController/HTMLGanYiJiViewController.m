@@ -21,10 +21,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDryingMachineDeviceAtcion:) name:@"4332" object:nil];
     
     _webView = [[UIWebView alloc]initWithFrame:kScreenFrame];
     [self.view addSubview:_webView];
+    _webView.backgroundColor = kMainColor;
     
     self.webView.delegate = self;
 
@@ -41,9 +43,6 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     _context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    //    NSString *callJSstring = nil;
-    //    callJSstring = @"PageLoadIOS()";
-    //    [_context evaluateScript:callJSstring];
     
     __block typeof(self)bself = self;
     _context[@"PageLoadIOS"] = ^{
@@ -52,70 +51,38 @@
         
         NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , bself.serviceModel.brand, @"BrandName" , nil];
         
-        NSString *orderStr = [NSString stringWithFormat:@"GetUserData(%@)" , userData];
-        orderStr = [orderStr stringByReplacingOccurrencesOfString:@"=" withString:@":"];
-        NSLog(@"%@" , orderStr);
+        
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userData options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *jsonStr = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"%@" , jsonStr);
+        
+        NSString *orderStr = [NSString stringWithFormat:@"GetUserData(%@)" , jsonStr];
+        
         [bself.context evaluateScript:orderStr];
+        
+        if ([kStanderDefault objectForKey:@"4332Time"]) {
+            NSLog(@"%@" , [kStanderDefault objectForKey:@"4332Time"]);
+            NSString *time = [kStanderDefault objectForKey:@"4332Time"];
+            NSString *sendTimeToHtml = [NSString stringWithFormat:@"GetWebData('%@')" , time];
+            [bself.context evaluateScript:sendTimeToHtml];
+        }
+        
     };
     
     return YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-//    [_searchView removeFromSuperview];
     
-//    _context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-////    NSString *callJSstring = nil;
-////    callJSstring = @"PageLoadIOS()";
-////    [_context evaluateScript:callJSstring];
-//    
-//    __block typeof(self)bself = self;
-//    _context[@"PageLoadIOS"] = ^{
-//        
-//        [bself.searchView removeFromSuperview];
-//        
-//        NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , bself.serviceModel.brand, @"BrandName" , nil];
-//        
-//        NSString *orderStr = [NSString stringWithFormat:@"GetUserData(%@)" , userData];
-//        orderStr = [orderStr stringByReplacingOccurrencesOfString:@"=" withString:@":"];
-//        NSLog(@"%@" , orderStr);
-//        [bself.context evaluateScript:orderStr];
-//    };
-    
-//    JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-//    NSString *callJSstring = nil;
-//    callJSstring = @"PageLoadIOS";
-//    [context evaluateScript:callJSstring];
-//    
-//    NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:@(self.userModel.sn) , @"userSn" , self.serviceModel.devTypeSn , @"devTypeSn" , self.serviceModel.devSn , @"devSn" , @(self.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , self.serviceModel.brand, @"BrandName" , nil];
-//
-//    NSString *orderStr = [NSString stringWithFormat:@"GetUserData('%@')" , userData];
-//    orderStr = [orderStr stringByReplacingOccurrencesOfString:@"=" withString:@":"];
-//    NSLog(@"%@" , orderStr);
-//    [_context evaluateScript:orderStr];
-    
-//    NSMutableString *sumStr = [NSMutableString string];
-//    NSString *userSnStr = [NSString stringWithFormat:@"userSn:%@" , @(bself.userModel.sn)];
-//    NSString *devTypeSnStr = [NSString stringWithFormat:@"devTypeSn:%@" , bself.serviceModel.devTypeSn];
-//    NSString *devSnStr = [NSString stringWithFormat:@"devSn:%@" , bself.serviceModel.devSn];
-//    NSString *UserDeviceIDStr = [NSString stringWithFormat:@"UserDeviceID:%@" , @(bself.serviceModel.userDeviceID)];
-//    NSString *ServieceIPStr = [NSString stringWithFormat:@"ServieceIP:%@" , [NSString stringWithFormat:@"http://%@:8080/" , localhost]];
-//    NSString *BrandNameStr = [NSString stringWithFormat:@"BrandName:%@" , bself.serviceModel.brand];
-//    
-//    NSArray *strArray = @[userSnStr , devTypeSnStr , devSnStr , UserDeviceIDStr , ServieceIPStr , BrandNameStr];
-//    for (int i = 0; i < strArray.count; i++) {
-//        sumStr = [[sumStr stringByAppendingFormat:@"%@", [NSString stringWithFormat:@"%@," , strArray[i]]] mutableCopy];
-//    }
-//    
-//    sumStr = [[@"{" stringByAppendingString:sumStr] mutableCopy];
-//    sumStr = [[sumStr substringToIndex:(sumStr.length - 1)] mutableCopy];
-//    sumStr = [[sumStr stringByAppendingString:@"}"] mutableCopy];
-//    
-//    NSString *orderStr = [NSString stringWithFormat:@"GetUserData('%@')" , sumStr];
-//    //        orderStr = [orderStr stringByReplacingOccurrencesOfString:@"=" withString:@":"];
-//    NSLog(@"%@" , orderStr);
-//    [bself.context evaluateScript:orderStr];
-    
+    _context[@"SaveWebDataAndroid"] = ^() {
+        NSArray *parames = [JSContext currentArguments];
+        NSString *arrStr = [[NSString alloc]init];
+        for (id obj in parames) {
+            arrStr = [arrStr stringByAppendingFormat:@"%@" , obj];
+        }
+        NSLog(@"%@" , arrStr);
+    };
+
     _context[@"ShowRemind"] = ^() {
         NSArray *parames = [JSContext currentArguments];
         NSString *arrarString = [[NSString alloc]init];
@@ -146,52 +113,32 @@
         
         
         NSArray *array = [arrarString componentsSeparatedByString:@","];
-        NSLog(@"array--%@" , arrarString);
-        if ([array[0] isEqualToString:@"2"]) {
-            [kSocketTCP sendDataToHost:GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"02", @"00", @"00", @"00") andType:kZhiLing andIsNewOrOld:kNew];
-            
-        } else if ([array[0] isEqualToString:@"1"]) {
-            [kSocketTCP sendDataToHost:GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"01", @"00", @"00", @"00") andType:kZhiLing andIsNewOrOld:kNew];
-            
-        }
         
-        if ([array[1] isEqualToString:@"1"]) {
-            [kSocketTCP sendDataToHost:GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"01", @"00", @"00") andType:kZhiLing andIsNewOrOld:kNew];
-        } else if ([array[1] isEqualToString:@"2"]) {
-            [kSocketTCP sendDataToHost:GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"02", @"00", @"00") andType:kZhiLing andIsNewOrOld:kNew];
-        }
+//        NSString *firstToHex = [[NSString ToHex:[array[9] intValue]] substringFromIndex:2];
+        NSString *toHex = [[NSString ToHex:[array[9] intValue]] substringFromIndex:2];
+        NSLog(@"arrarString--%@ , toHex--%@" , arrarString , toHex);
+        [kStanderDefault setObject:toHex forKey:@"4332Time"];
+        NSLog(@"%@" , GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, array[0], array[1], array[6], toHex));
         
-        if ([array[6] isEqualToString:@"1"]) {
-            [kSocketTCP sendDataToHost:GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"01", @"00") andType:kZhiLing andIsNewOrOld:kNew];
-        } else if ([array[6] isEqualToString:@"2"]) {
-            [kSocketTCP sendDataToHost:GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"02", @"00") andType:kZhiLing andIsNewOrOld:kNew];
-        } else if ([array[6] isEqualToString:@"3"]) {
-            [kSocketTCP sendDataToHost:GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"03", @"00") andType:kZhiLing andIsNewOrOld:kNew];
-        }
-        
-        if (![array[9] isEqualToString:@"0"]) {
-            [kSocketTCP sendDataToHost:GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", array[9]) andType:kZhiLing andIsNewOrOld:kNew];
-        }
+        [kSocketTCP sendDataToHost:GanYiJi4332SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, array[0], array[1], array[6], toHex) andType:kZhiLing andIsNewOrOld:kNew];
     };
 }
 
 
 - (void)getDryingMachineDeviceAtcion:(NSNotification *)post {
-    NSArray *devArray = post.userInfo[@"Message"];
-    
-    NSMutableString *sumStr = [NSMutableString string];
-    
-    for (int i = 0; i < devArray.count; i++) {
-       sumStr = [[sumStr stringByAppendingString:[NSString stringWithFormat:@"%@," , devArray[i]]]mutableCopy];
+    NSMutableString *sumStr = nil;
+    sumStr = [NSMutableString stringWithString:post.userInfo[@"Message"]];
+    for (NSInteger i = sumStr.length - 2; i > 0; i = i - 2) {
+        [sumStr insertString:@"," atIndex:i];
     }
-    
-    sumStr = [[sumStr substringToIndex:sumStr.length - 1] mutableCopy];
+   
     
     NSString *callJSstring = nil;
     callJSstring = [NSString stringWithFormat:@"ReceiveOrder('%@')" , sumStr];
     
     NSLog(@"%@" , callJSstring);
     [_context evaluateScript:callJSstring];
+    sumStr = nil;
     
 }
 

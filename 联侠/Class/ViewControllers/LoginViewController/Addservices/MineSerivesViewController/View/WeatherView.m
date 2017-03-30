@@ -28,7 +28,7 @@
     wenDu.layer.borderWidth = 0;
     wenDu.textColor = color;
     
-    NSString *temperature = dic[@"temperature"];
+    NSString *temperature = dic[@"temp_curr"];
     
     [NSString setNSMutableAttributedString:temperature.floatValue andSuperLabel:wenDu andDanWei:@"°C" andSize:k110 andTextColor:color isNeedTwoXiaoShuo:@"NO"];
     [wenDu mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -38,7 +38,7 @@
     }];
 
     
-    UILabel *shiDu = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"湿度: %@%%" , dic[@"humidity"]] andSuperView:superView andFont:k17 andTextAligment:NSTextAlignmentLeft];
+    UILabel *shiDu = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"湿度: %@" , dic[@"humidity"]] andSuperView:superView andFont:k17 andTextAligment:NSTextAlignmentLeft];
     shiDu.layer.borderWidth = 0;
     shiDu.textColor = color;
     
@@ -49,16 +49,16 @@
     }];
     
     UIImageView *weatherImageView = [[UIImageView alloc]init];
-    weatherImageView.image = image;
     [superView addSubview:weatherImageView];
     
-    [UIImageView setImageViewColor:weatherImageView andColor:color];
     [weatherImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 8, kScreenW / 8));
         make.right.mas_equalTo(superView.mas_right).offset(-kScreenW / 60);
         make.bottom.mas_equalTo(superView.mas_bottom).offset(-kScreenW / 80);
-//        make.centerY.mas_equalTo(kongQiZhiLiang.mas_centerY);
     }];
+    weatherImageView.image = image;
+    [UIImageView setImageViewColor:weatherImageView andColor:[UIColor whiteColor]];
+    
 }
 
 @end

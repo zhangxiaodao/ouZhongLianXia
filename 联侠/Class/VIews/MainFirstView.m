@@ -16,14 +16,12 @@
     weatherImageView.tag = 1001;
     weatherImageView.image = image;
     [superView addSubview:weatherImageView];
-    weatherImageView.image = [weatherImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    weatherImageView.tintColor = [UIColor whiteColor];
     [weatherImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 8, kScreenW / 8));
         make.centerX.mas_equalTo(superView.mas_centerX).offset(-(kScreenW /2 - kScreenW / 16 - kScreenW / 30));
         make.bottom.mas_equalTo(superView.mas_bottom).offset(- kScreenW / 30);
     }];
-    
+    [UIImageView setImageViewColor:weatherImageView andColor:[UIColor whiteColor]];
     
     NSString *quality = dic[@"quality"];
     
@@ -44,7 +42,7 @@
     wenDu.layer.borderWidth = 0;
     wenDu.textColor = [UIColor whiteColor];
     
-    NSString *temperature = dic[@"temperature"];
+    NSString *temperature = dic[@"temp_curr"];
 
     NSMutableAttributedString *str3 = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"温度 %@°C", temperature]];
     [str3 addAttribute:NSFontAttributeName value:[UIFont fontWithName:kFontWithName size:k20] range:NSMakeRange(3, temperature.length)];
@@ -71,11 +69,11 @@
     
     NSString *humidity = dic[@"humidity"];
 
-    NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"湿度 %@%%" , humidity]];
+    NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"湿度 %@" , humidity]];
     [str2 addAttribute:NSFontAttributeName value:[UIFont fontWithName:kFontWithName size:k20] range:NSMakeRange(3, humidity.length)];
     shiDu.attributedText = str2;
     [shiDu mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenW / 15));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenW / 15));
         make.left.mas_equalTo(fenGenView.mas_right).offset(kScreenW / 30);
         make.top.mas_equalTo(weatherImageView.mas_centerY);
     }];

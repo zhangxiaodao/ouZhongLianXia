@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"重置密码"];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:NSLocalizedString(@"ResetVC_ResetPwd", nil)];
     [self setUI];
 }
 #pragma mark - 返回主界面
@@ -34,7 +34,7 @@
 
 #pragma mark - 设置UI
 - (void)setUI{
-    UILabel *phoneNumberLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"您注册的手机号码为:%@" , self.phoneNumber] andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
+    UILabel *phoneNumberLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@%@" , NSLocalizedString(@"RegisterMobilePhoneNumber", nil) , self.phoneNumber] andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
     phoneNumberLable.layer.borderWidth = 0;
     [phoneNumberLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 17));

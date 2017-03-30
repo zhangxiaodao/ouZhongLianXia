@@ -26,7 +26,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"重置密码"];
+    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:NSLocalizedString(@"ResetVC_ResetPwd", nil)];
     [self setUI];
 }
 #pragma mark - 返回主界面
@@ -47,7 +47,7 @@
     }];
     
     
-    self.accTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入您的手机号码" andSuperView:self.view];
+    self.accTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"EnterPhone", nil) andSuperView:self.view];
     self.accTectFiled.delegate = self;
     
     [self.accTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -66,7 +66,7 @@
     }];
     
     
-    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入验证码" andSuperView:self.view];
+    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"EnterVertionCode", nil) andSuperView:self.view];
     self.pwdTectFiled.delegate = self;
     [self.pwdTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 2, kScreenW / 12));
@@ -86,7 +86,7 @@
     
     
     //创建注册按钮
-    UIButton *registerBtn = [UIButton initWithTitle:@"下一步" andColor:[UIColor redColor] andSuperView:self.view];
+    UIButton *registerBtn = [UIButton initWithTitle:NSLocalizedString(@"Next", nil) andColor:[UIColor redColor] andSuperView:self.view];
     [registerBtn addTarget:self action:@selector(nextBtnAction) forControlEvents:UIControlEventTouchUpInside];
     registerBtn.layer.cornerRadius = kScreenW / 18;
    
@@ -115,7 +115,7 @@
            
             [UIAlertController creatRightAlertControllerWithHandle:^{
                 textField.text = nil;
-            } andSuperViewController:self Title:@"手机号码格式不正确"];
+            } andSuperViewController:self Title:NSLocalizedString(@"PhoneFormattedError", nil)];
         }
         
     }
@@ -129,11 +129,11 @@
         
         [UIAlertController creatRightAlertControllerWithHandle:^{
             [self.navigationController popViewControllerAnimated:YES];
-        } andSuperViewController:self Title:@"账户未注册"];
+        } andSuperViewController:self Title:NSLocalizedString(@"UserNoRegistered", nil)];
         
     } else if (state == 1) {
        
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"输入值为空"];
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:NSLocalizedString(@"InputValueEmpty", nil)];
     }
 }
 

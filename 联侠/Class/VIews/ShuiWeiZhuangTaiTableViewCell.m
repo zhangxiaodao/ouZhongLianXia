@@ -128,14 +128,14 @@
 
 - (void)fuWeiAtcion111:(UIButton *)btn {
     
-    [UIAlertController creatRightAlertControllerWithHandle:^{
+    
+    [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
         
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ShuiWei" object:self userInfo:[NSDictionary dictionaryWithObject:@"YES" forKey:@"ShuiWei"]]];
         NSDictionary *parames = @{@"devSn" : self.devSn, @"devTypeSn" : @"A" , @"reset" : @(1)};
         
         [HelpFunction requestDataWithUrlString:kLengFengShanFuWi andParames:parames andDelegate:self];
     } andSuperViewController:kWindowRoot Title:@"点击复位后，数据将会被清空，重新计数"];
-    
     
 }
 

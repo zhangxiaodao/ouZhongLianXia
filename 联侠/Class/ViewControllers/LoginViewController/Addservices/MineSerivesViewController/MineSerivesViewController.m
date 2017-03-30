@@ -114,7 +114,7 @@
 #pragma mark - 获取代理的数据
 - (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd{
     
-    NSLog(@"%@" , dddd);
+//    NSLog(@"%@" , dddd);
     NSInteger state = [dddd[@"state"] integerValue];
     if (state == 0) {
         
@@ -140,6 +140,8 @@
                 
             }];
             [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
+            
+            
             
             if (self.haveArray.count > 0) {
                 [self.collectionView reloadData];
@@ -262,8 +264,7 @@
         
         [self.wearthDic setObject:@"==" forKey:@"quality"];
         [self.wearthDic setObject:@"==" forKey:@"humidity"];
-        [self.wearthDic setObject:@"==" forKey:@"info"];
-        [self.wearthDic setObject:@"==" forKey:@"temperature"];
+        [self.wearthDic setObject:@"==" forKey:@"temp_curr"];
         [self.wearthDic setObject:@"==" forKey:@"cityName"];
     }
     
@@ -272,9 +273,6 @@
 
 #pragma mark - 请求天气参数
 - (void)startWearthData {
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getWeartherImage:) name:@"weartherImage" object:nil];
-    
     [[CCLocationManager shareLocation] getNowCityNameAndProvienceName:self];
     
 }
@@ -285,49 +283,23 @@
     [kStanderDefault setObject:cityName forKey:@"cityName"];
 }
 
-- (void)getWeartherImage:(NSNotification *)post {
-    self.werthImage = self.arrImage[[post.userInfo[@"weartherImage"] integerValue]];
-    [kStanderDefault setObject:post.userInfo[@"weartherImage"] forKey:@"weartherImage"];
-}
 
 
 - (void)requestWearthData:(HelpFunction *)request didDone:(NSMutableArray *)array {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     dic = array[0];
     
-    
-    NSArray *chuanyi = array[1];
-    [dic setObject:chuanyi[1] forKey:@"chuanYi"];
-    
     [kStanderDefault setObject:dic forKey:@"wearthDic"];
-    
-    NSLog(@"%@" , self.wearthDic);
-
-//    if (self.wearthDic.count > 0) {
-//        [self.wearthDic removeAllObjects];
-//    }
     
     self.wearthDic = dic;
     
-    NSInteger i = [[kStanderDefault objectForKey:@"weartherImage"] integerValue];
-    self.werthImage = self.arrImage[i];
-    
-    if (self.werthImage == nil) {
-        self.werthImage = [UIImage imageNamed:@"duoYun"];
-    }
+    self.werthImage = self.arrImage[[self.wearthDic[@"weather_icon"] integerValue]];
     
     [self getWeatherDic:dic];
     
 }
 
 - (void)getWeatherDic:(NSMutableDictionary *)dic {
-    
-    NSInteger i = [[kStanderDefault objectForKey:@"weartherImage"] integerValue];
-    self.werthImage = self.arrImage[i];
-    //    NSLog(@"%@" , self.werthImage);
-    if (self.werthImage == nil) {
-        self.werthImage = [UIImage imageNamed:@"duoYun"];
-    }
     
     NSArray *array = _backImageView.subviews;
     for (int i = 0; i < array.count; i++) {

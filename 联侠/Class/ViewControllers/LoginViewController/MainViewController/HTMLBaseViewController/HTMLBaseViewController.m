@@ -35,15 +35,6 @@
 }
 
 
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    if (self.serviceModel.devSn.length > 0 && self.serviceModel.devTypeSn.length != 0 && self.userModel.sn != 0) {
-//        
-//        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
-//    }
-//}
-
-
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     NSDictionary *dic = data[0];
 //    NSLog(@"%@" , dic);

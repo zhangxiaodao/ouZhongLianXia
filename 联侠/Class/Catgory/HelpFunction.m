@@ -114,112 +114,201 @@ static HelpFunction *_request = nil;
     
     
     [self.wearthDic setObject:self.cityName forKey:@"cityName"];
-    NSString *httpArg = [self.cityName stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    NSString *httpUrl = [[NSString alloc]initWithFormat: @"http://op.juhe.cn/onebox/weather/query?cityname=%@&dtype=json&key=3486dc22306d3900c5e8df2fa4ddb991", httpArg];
+   
+    NSString *httpUrl = @"http://api.k780.com:88/";
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
-    [manager GET:httpUrl parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-        nil;
+    if ([self.cityName isKindOfClass:[NSNull class]]) {
+        return ;
+    }
+    
+    self.cityName = [self.cityName substringToIndex:self.cityName.length - 1];
+    
+    NSDictionary *parames = @{@"app" : @"weather.today" , @"weaid" : self.cityName , @"appkey" : @"24331" , @"sign" : @"9565f573f3b10e63f5bed3cf04551a3c" , @"format" : @"json"};
+    
+    [manager POST:httpUrl parameters:parames progress:^(NSProgress * _Nonnull uploadProgress) {
+        return ;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@" , dic);
         
-        NSDictionary *dicc = dic[@"result"];
-        NSDictionary *ddic = dicc[@"data"];
-        NSArray *chuanyi = [NSArray array];
-        
-        for (NSString *key in [ddic allKeys]) {
-            
-            
-            if ([key isEqualToString:@"life"]) {
-                
-                NSDictionary *cccc = ddic[key];
-                
-                NSDictionary *info = cccc[@"info"];
-                chuanyi = info[@"chuanyi"];
-                
-            }
-                        
-            if ([key isEqualToString:@"realtime"]) {
-                NSDictionary *data = ddic[key];
-                NSDictionary *weather = data[@"weather"];
-                
-                [self.wearthDic setObject:weather[@"humidity"] forKey:@"humidity"];
-                [self.wearthDic setObject:weather[@"info"] forKey:@"info"];
-                [self.wearthDic setObject:weather[@"temperature"] forKey:@"temperature"];
-                
-            }
-            if ([key isEqualToString:@"pm25"]) {
-                
-                if ([ddic[key] isKindOfClass:[NSDictionary class]]) {
-                    NSDictionary *pm25 = ddic[key];
-                    NSDictionary *pm250 = pm25[@"pm25"];
-                    [self.wearthDic setObject:pm250[@"quality"] forKey:@"quality"];
-                }
-                
-            }
-            
-            if ([key isEqualToString:@"weather"]) {
-                NSArray *weather = ddic[@"weather"];
-                NSDictionary *dddd = [weather firstObject];
-                NSDictionary *info = dddd[@"info"];
-                UIImage *image = nil;
-                for (NSString *key in [info allKeys]) {
-                    NSArray *dayAndNight = [NSArray arrayWithArray:info[key]];
-                    NSString *str = dayAndNight[1];
-                    //                    NSLog(@"%@" , str);
-                    if ([str containsString:@"晴"]) {
-                        image = [UIImage imageNamed:@"qing"];
-                    } else if ([str containsString:@"雷"]) {
-                        image = [UIImage imageNamed:@"leiZhenYu"];
-                    } else if ([str containsString:@"尘"]) {
-                        image = [UIImage imageNamed:@"yangChen"];
-                    } else if ([str containsString:@"阴"]) {
-                        image = [UIImage imageNamed:@"duoYun"];                    } else if ([str containsString:@"多云"]) {
-                            image = [UIImage imageNamed:@"duoYun"];
-                        } else if ([str containsString:@"雪"]) {
-                            image = [UIImage imageNamed:@"xue"];
-                        } else if ([str containsString:@"霾"]) {
-                            image = [UIImage imageNamed:@"xue"];
-                        } else if ([str containsString:@"云"]) {
-                            image = [UIImage imageNamed:@"duoYun"];
-                        } else if ([str containsString:@"雾"]) {
-                            image = [UIImage imageNamed:@"wu"];
-                        } else if ([str containsString:@"风"]) {
-                            image = [UIImage imageNamed:@"feng"];
-                        } else if ([str containsString:@"雨"]) {
-                            image = [UIImage imageNamed:@"yu"];
-                        }
-                    
-                }
-                
-                NSArray *arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"qing"], [UIImage imageNamed:@"leiZhenYu"], [UIImage imageNamed:@"yangChen"], [UIImage imageNamed:@"duoYun"], [UIImage imageNamed:@"xue"], [UIImage imageNamed:@"yu"], [UIImage imageNamed:@"wu"], [UIImage imageNamed:@"feng"],  nil];
-                NSInteger i = 0;
-                for (UIImage *image22 in arrImage) {
-                    if ([image22 isEqual:image]) {
-                        i = [arrImage indexOfObject:image22];
-                    }
-                }
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"weartherImage" object:self userInfo:[NSDictionary dictionaryWithObject:@(i) forKey:@"weartherImage"]]];
-                
-            }
-            
+        if ([dic[@"success"] integerValue] == 0) {
+            return ;
         }
         
-        [self.wearthArray addObject:self.wearthDic];
-        [self.wearthArray addObject:chuanyi];
-        
-        
-        if (self.wearthArray.count > 0 && _delegate && [_delegate respondsToSelector:@selector(requestWearthData:didDone:)]) {
-            [_delegate requestWearthData:self didDone:self.wearthArray];
-        } else {
-            [_delegate requestData:self didFailLoadData:self.error];
+        NSDictionary *result = dic[@"result"];
+        NSString *str = result[@"weather"];
+        UIImage *image = nil;
+        if ([str containsString:@"晴"]) {
+            image = [UIImage imageNamed:@"qing"];
+        } else if ([str containsString:@"雷"]) {
+            image = [UIImage imageNamed:@"leiZhenYu"];
+        } else if ([str containsString:@"尘"]) {
+            image = [UIImage imageNamed:@"yangChen"];
+        } else if ([str containsString:@"阴"]) {
+            image = [UIImage imageNamed:@"duoYun"];
+        } else if ([str containsString:@"多云"]) {
+                image = [UIImage imageNamed:@"duoYun"];
+        } else if ([str containsString:@"雪"]) {
+                image = [UIImage imageNamed:@"xue"];
+        } else if ([str containsString:@"霾"]) {
+                image = [UIImage imageNamed:@"xue"];
+        } else if ([str containsString:@"云"]) {
+                image = [UIImage imageNamed:@"duoYun"];
+        } else if ([str containsString:@"雾"]) {
+                image = [UIImage imageNamed:@"wu"];
+        } else if ([str containsString:@"风"]) {
+                image = [UIImage imageNamed:@"feng"];
+        } else if ([str containsString:@"雨"]) {
+                image = [UIImage imageNamed:@"yu"];
         }
+        NSArray *arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"qing"], [UIImage imageNamed:@"leiZhenYu"], [UIImage imageNamed:@"yangChen"], [UIImage imageNamed:@"duoYun"], [UIImage imageNamed:@"xue"], [UIImage imageNamed:@"yu"], [UIImage imageNamed:@"wu"], [UIImage imageNamed:@"feng"],  nil];
+        NSUInteger index = [arrImage indexOfObject:image];
         
+        [self.wearthDic setObject:result[@"humidity"] forKey:@"humidity"];
+        [self.wearthDic setObject:result[@"temp_curr"] forKey:@"temp_curr"];
+        [self.wearthDic setObject:@(index) forKey:@"weather_icon"];
         
+        NSString *pm25URL = @"http://api.k780.com:88/";
+        AFHTTPSessionManager *pm25manager = [AFHTTPSessionManager manager];
+        pm25manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        
+        if ([self.cityName isKindOfClass:[NSNull class]]) {
+            return ;
+        }
+        NSDictionary *pm25parames = @{@"app" : @"weather.pm25" , @"weaid" : self.cityName , @"appkey" : @"24331" , @"sign" : @"9565f573f3b10e63f5bed3cf04551a3c" , @"format" : @"json"};
+        [pm25manager POST:pm25URL parameters:pm25parames progress:^(NSProgress * _Nonnull uploadProgress) {
+            return ;
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSDictionary *dicc = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+            
+            if ([dicc[@"result"] isKindOfClass:[NSNull class]]) {
+                return ;
+            }
+            NSDictionary *result = dicc[@"result"];
+            [self.wearthDic setObject:result[@"aqi_levnm"] forKey:@"quality"];
+            
+            [self.wearthArray addObject:self.wearthDic];
+            NSLog(@"%@" , self.wearthDic);
+            if (self.wearthArray.count > 0 && _delegate && [_delegate respondsToSelector:@selector(requestWearthData:didDone:)]) {
+                [_delegate requestWearthData:self didDone:self.wearthArray];
+            } else {
+                [_delegate requestData:self didFailLoadData:self.error];
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            return ;
+        }];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         return ;
     }];
+    
+//    [manager GET:httpUrl parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+//        nil;
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+//        
+//        NSDictionary *dicc = dic[@"result"];
+//        NSLog(@"%@" , dic);
+//        if ([dicc isKindOfClass:[NSNull class]]) {
+//            return ;
+//        }
+//        
+//        NSDictionary *ddic = dicc[@"data"];
+//        NSArray *chuanyi = [NSArray array];
+//        
+//        for (NSString *key in [ddic allKeys]) {
+//            
+//            
+//            if ([key isEqualToString:@"life"]) {
+//                
+//                NSDictionary *cccc = ddic[key];
+//                
+//                NSDictionary *info = cccc[@"info"];
+//                chuanyi = info[@"chuanyi"];
+//                
+//            }
+//                        
+//            if ([key isEqualToString:@"realtime"]) {
+//                NSDictionary *data = ddic[key];
+//                NSDictionary *weather = data[@"weather"];
+//                
+//                [self.wearthDic setObject:weather[@"humidity"] forKey:@"humidity"];
+//                [self.wearthDic setObject:weather[@"info"] forKey:@"info"];
+//                [self.wearthDic setObject:weather[@"temperature"] forKey:@"temperature"];
+//                
+//            }
+//            if ([key isEqualToString:@"pm25"]) {
+//                
+//                if ([ddic[key] isKindOfClass:[NSDictionary class]]) {
+//                    NSDictionary *pm25 = ddic[key];
+//                    NSDictionary *pm250 = pm25[@"pm25"];
+//                    [self.wearthDic setObject:pm250[@"quality"] forKey:@"quality"];
+//                }
+//                
+//            }
+//            
+//            if ([key isEqualToString:@"weather"]) {
+//                NSArray *weather = ddic[@"weather"];
+//                NSDictionary *dddd = [weather firstObject];
+//                NSDictionary *info = dddd[@"info"];
+//                UIImage *image = nil;
+//                for (NSString *key in [info allKeys]) {
+//                    NSArray *dayAndNight = [NSArray arrayWithArray:info[key]];
+//                    NSString *str = dayAndNight[1];
+//                    //                    NSLog(@"%@" , str);
+//                    if ([str containsString:@"晴"]) {
+//                        image = [UIImage imageNamed:@"qing"];
+//                    } else if ([str containsString:@"雷"]) {
+//                        image = [UIImage imageNamed:@"leiZhenYu"];
+//                    } else if ([str containsString:@"尘"]) {
+//                        image = [UIImage imageNamed:@"yangChen"];
+//                    } else if ([str containsString:@"阴"]) {
+//                        image = [UIImage imageNamed:@"duoYun"];                    } else if ([str containsString:@"多云"]) {
+//                            image = [UIImage imageNamed:@"duoYun"];
+//                        } else if ([str containsString:@"雪"]) {
+//                            image = [UIImage imageNamed:@"xue"];
+//                        } else if ([str containsString:@"霾"]) {
+//                            image = [UIImage imageNamed:@"xue"];
+//                        } else if ([str containsString:@"云"]) {
+//                            image = [UIImage imageNamed:@"duoYun"];
+//                        } else if ([str containsString:@"雾"]) {
+//                            image = [UIImage imageNamed:@"wu"];
+//                        } else if ([str containsString:@"风"]) {
+//                            image = [UIImage imageNamed:@"feng"];
+//                        } else if ([str containsString:@"雨"]) {
+//                            image = [UIImage imageNamed:@"yu"];
+//                        }
+//                    
+//                }
+//                
+//                NSArray *arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"qing"], [UIImage imageNamed:@"leiZhenYu"], [UIImage imageNamed:@"yangChen"], [UIImage imageNamed:@"duoYun"], [UIImage imageNamed:@"xue"], [UIImage imageNamed:@"yu"], [UIImage imageNamed:@"wu"], [UIImage imageNamed:@"feng"],  nil];
+//                NSInteger i = 0;
+//                for (UIImage *image22 in arrImage) {
+//                    if ([image22 isEqual:image]) {
+//                        i = [arrImage indexOfObject:image22];
+//                    }
+//                }
+//                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"weartherImage" object:self userInfo:[NSDictionary dictionaryWithObject:@(i) forKey:@"weartherImage"]]];
+//                
+//            }
+//            
+//        }
+//        
+//        [self.wearthArray addObject:self.wearthDic];
+//        [self.wearthArray addObject:chuanyi];
+//        
+//        
+//        if (self.wearthArray.count > 0 && _delegate && [_delegate respondsToSelector:@selector(requestWearthData:didDone:)]) {
+//            [_delegate requestWearthData:self didDone:self.wearthArray];
+//        } else {
+//            [_delegate requestData:self didFailLoadData:self.error];
+//        }
+//        
+//        
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        return ;
+//    }];
     
 }
 
