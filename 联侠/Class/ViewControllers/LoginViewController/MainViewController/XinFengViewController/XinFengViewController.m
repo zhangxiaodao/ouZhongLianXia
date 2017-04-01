@@ -48,7 +48,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
-    
+
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     

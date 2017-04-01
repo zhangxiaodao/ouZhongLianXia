@@ -64,6 +64,12 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+
+}
+
 
 #pragma mark - 请求天气参数
 - (void)cityAndProvience {

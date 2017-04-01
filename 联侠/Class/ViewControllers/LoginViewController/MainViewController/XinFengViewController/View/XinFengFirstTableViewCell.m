@@ -373,11 +373,11 @@ static int speed = 0;
 - (void)setServiceDataModel:(ServicesDataModel *)serviceDataModel{
     
     _serviceDataModel = serviceDataModel;
-    
 }
 
 - (void)setStateModel:(StateModel *)stateModel{
     _stateModel = stateModel;
+    NSLog(@"第一个--%@ " , _stateModel);
     
     if (_stateModel) {
         _airQulityLable.text = [NSString stringWithFormat:@"%@" , _stateModel.pm25];
@@ -387,6 +387,7 @@ static int speed = 0;
         _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)_stateModel.changeFilterScreen];
         
         if (_stateModel.fSwitch == 1) {
+           
             
             UIImage *image = nil;
 //            NSInteger time = MAXFLOAT;
@@ -411,7 +412,7 @@ static int speed = 0;
 //            [self addAnimationWithDurtion:time];
 //            [self resumeLayer:_spinImageView.layer];
             
-            if (self.stateModel.fWind == 0) {
+            if (_stateModel.fWind == 0) {
 //                [self pauseLayer:_spinImageView.layer];
                 angle = 0;
                 speed = 0;

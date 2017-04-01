@@ -105,7 +105,7 @@
     
     
     NSDictionary *parameters = @{@"userSn": [kStanderDefault objectForKey:@"userSn"]};
-    NSLog(@"%@" , parameters);
+//    NSLog(@"%@" , parameters);
     [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:parameters andDelegate:self];
     
 }

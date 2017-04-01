@@ -47,6 +47,7 @@
     
     //自动锁屏
     [UIApplication sharedApplication].idleTimerDisabled = NO;
+  
     
     
     [HelpFunction requestDataWithUrlString:kChaXunBanBenHao andParames:@{@"type" : @(2)} andDelegate:self];
@@ -75,11 +76,7 @@
 }
 
 - (void)setYouMeng {
-//    [UMSocialData setAppKey:kUMAppKey];
-//    [UMSocialWechatHandler setWXAppId:@"wx4fca522e10aba260" appSecret:@"054b2ba4f76f67310b716e631a6dd5bd" url:@"www.ouzhongiot.com"];
-//    //打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。
-//    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"2648263927"   secret:@"53c58898fa46d492ab3758debec3716e" RedirectURL:@"http://www.ouzhongiot.com"];
-    
+
     
     /* 打开调试日志 */
     [[UMSocialManager defaultManager] openLog:YES];
@@ -156,16 +153,24 @@
             self.isHaveConnect = @"YES";
         } else if (netStatus == ReachableViaWWAN || netStatus == ReachableViaWiFi) {
             
-            if (self.alertVC || [Singleton sharedInstance].socket.isConnected != 1) {
+            if (self.alertVC) {
                 
-                if ([kStanderDefault objectForKey:@"userSn"]) {
-                    [kWindowRoot dismissViewControllerAnimated:self.alertVC completion:^{
-                        [[[TabBarViewController alloc]init] removeFromParentViewController];
-                        self.window.rootViewController = [[TabBarViewController alloc]init];
-                    }];
-                }
+                [self.alertVC dismissViewControllerAnimated:YES completion:^{
+                    if ([kStanderDefault objectForKey:@"userSn"]) {
+                        
+                        [self.alertVC dismissViewControllerAnimated:YES completion:^{
+                            [[[TabBarViewController alloc]init] removeFromParentViewController];
+                            self.window.rootViewController = [[TabBarViewController alloc]init];
+                        }];
+                        
+                    } else {
+                        self.window.rootViewController = [[BottomNavViewController alloc]init];
+                    }
+                }];
+                self.alertVC = nil;
+               
             }
-            self.alertVC = nil;
+            
         }
     }
 }
@@ -179,7 +184,7 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 20) {
+            if ([data[@"id"] integerValue] > 22) {
                 
                 if ([data[@"isForce"] integerValue] == 0) {
                     return ;
@@ -351,6 +356,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     [[Singleton sharedInstance] enableBackgroundingOnSocket];
+  
     NSLog(@"程序进入后台后执行");
 }
 
@@ -364,8 +370,13 @@
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     [GeTuiSdk resetBadge];
+    [self setUpEnterForeground];
     
     
+    
+}
+
+- (void)setUpEnterForeground {
     if (self.userModel && self.serviceModel) {
         
         [kSocketTCP cutOffSocket];
@@ -383,7 +394,6 @@
     if (self.mainVC) {
         [self.mainVC requestMainVCServiceState];
     }
-
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
