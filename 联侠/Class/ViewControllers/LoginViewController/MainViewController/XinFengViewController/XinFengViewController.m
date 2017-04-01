@@ -71,8 +71,17 @@
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
     }
     
-    NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+//    NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
+//    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+//    XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+//    [cell.myTimer invalidate];
+//    cell.myTimer = nil;
     
 }
 
@@ -435,15 +444,17 @@
 
 #pragma mark - 左上角返回点击事件
 - (void)xinFengBackAtcion:(UITapGestureRecognizer *)tap{
-
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    [cell.myTimer invalidate];
+    cell.myTimer = nil;
     
     if (self.serviceModel) {
         if (_sendServiceModelToParentVCDelegate && [_sendServiceModelToParentVCDelegate respondsToSelector:@selector(sendServiceModelToParentVC:)]) {
             [_sendServiceModelToParentVCDelegate sendServiceModelToParentVC:self.serviceModel];
         }
     }
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - tableView的代理

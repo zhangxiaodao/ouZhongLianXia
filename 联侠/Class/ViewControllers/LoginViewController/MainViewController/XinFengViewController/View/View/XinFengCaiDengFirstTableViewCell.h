@@ -12,6 +12,6 @@
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) StateModel *stateModel;
 @property (nonatomic , copy) NSString *titleString;
-@property (nonatomic , strong) NSIndexPath *indexPath;
+//@property (nonatomic , strong) NSIndexPath *indexPath;
     
 @end

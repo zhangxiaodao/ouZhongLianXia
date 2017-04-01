@@ -12,8 +12,8 @@
 #define kRadiuesW kScreenW / 1.23
 #define kDuration 4.0
 
-static int angle = 0;
-static int speed = 0;
+static CGFloat angle = 0.0;
+static CGFloat speed = 0.0;
 
 @interface XinFengFirstTableViewCell ()<HelpFunctionDelegate>
 @property (nonatomic , strong) UILabel *temperatureLabel;
@@ -29,7 +29,7 @@ static int speed = 0;
 @property (nonatomic , copy) NSString *isPlay;
 @property (nonatomic , assign) NSInteger isAnimation;
 @property (nonatomic , copy) NSString *wind;
-@property (nonatomic , strong) NSTimer *myTimer;
+
 @property (nonatomic , strong) StateModel *stateModel;
 @end
 
@@ -39,16 +39,23 @@ static int speed = 0;
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self customUI];
+//        speed = 0.0;
+//        angle = 0.0;
+        [_myTimer invalidate];
+        _myTimer = nil;
         _myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 / 60.0 target:self selector:@selector(aircleImageAtcion) userInfo:nil repeats:YES];
         
-        
+            
     }
     return self;
 }
 
+
+
 - (void)aircleImageAtcion {
     angle = angle + speed;
     self.spinImageView.transform = CGAffineTransformMakeRotation(angle * M_PI / 180.0);
+    NSLog(@"%.2f , %.2f" , angle , speed);
 }
 
 - (void)getBottomBtnSelected:(NSNotification *)post {
@@ -57,29 +64,16 @@ static int speed = 0;
     self.isAnimation = selected.integerValue;
     
     if (self.isAnimation == 0) {
-//        _spinImageView.layer.speed = 0.0;
-        
-//        [self pauseLayer:_spinImageView.layer];
         angle = 0;
         speed = 0;
         
     } else if (self.isAnimation == 1){
-        if ([_wind isEqualToString:@"01"]) {
-//            [self addAnimationWithDurtion:kDuration * 2];
-            speed = 1;
-        } else if ([_wind isEqualToString:@"02"]) {
-//            [self addAnimationWithDurtion:kDuration * 3 / 2];
-            speed = 2;
+        if ([_wind isEqualToString:@"01"]) {            speed = 0.5;
+        } else if ([_wind isEqualToString:@"02"]) {            speed = 1.0;
         } else if ([_wind isEqualToString:@"03"]) {
-//            [self addAnimationWithDurtion:kDuration];
-            speed = 3;
-        } else if ([_wind isEqualToString:@"04"]) {
-//            [self addAnimationWithDurtion:kDuration * 2 / 3];
-            speed = 4;
+            speed = 1.5;
+        } else if ([_wind isEqualToString:@"04"]) {            speed = 2.0;
         }
-//        [self startAnimate];
-        
-//        [self resumeLayer:_spinImageView.layer];
         
     }
 }
@@ -224,38 +218,6 @@ static int speed = 0;
 }
 
 
-- (void)addAnimationWithDurtion:(CGFloat)duration {
-    
-    //添加动画
-   CABasicAnimation *monkeyAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    monkeyAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    monkeyAnimation.toValue = [NSNumber numberWithFloat:2.0 *M_PI];
-    monkeyAnimation.duration = duration;
-    monkeyAnimation.repeatCount = MAXFLOAT;
-    [_spinImageView.layer addAnimation:monkeyAnimation forKey:@"AnimatedKey"];
-    
-}
-
-//暂停layer上面的动画
-- (void)pauseLayer:(CALayer*)layer
-{
-    CFTimeInterval pausedTime = [layer convertTime:CACurrentMediaTime() fromLayer:nil];
-    layer.speed = 0.0;
-    layer.timeOffset = pausedTime;
-}
-
-//继续layer上面的动画
-- (void)resumeLayer:(CALayer*)layer
-{
-    CFTimeInterval pausedTime = [layer timeOffset];
-    layer.speed = 1.0;
-    layer.timeOffset = 0.0;
-    layer.beginTime = 0.0;
-    CFTimeInterval timeSincePause = [layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
-    layer.beginTime = timeSincePause;
-}
-
-
 - (void)creatUpAndDownLabelWith:(NSString *)upTitle andUpFont:(CGFloat)upFont andTextColor:(UIColor *)upColor andDownTitle:(NSString *)downTitle andDownFont:(CGFloat)downFont andDownTextColor:(UIColor *)downColor andSuperView:(UIView *)superView{
     UILabel *upLable = [UILabel creatLableWithTitle:upTitle andSuperView:superView andFont:upFont andTextAligment:NSTextAlignmentCenter];
     [upLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -312,32 +274,30 @@ static int speed = 0;
     
     if ([kaiGuan isEqualToString:@"01"]) {
         UIImage *image = nil;
-//        NSInteger time = 0;
+
         if ([_wind isEqualToString:@"01"]) {
             image = [UIImage imageNamed:@"xinFengWindDi"];
-//            time = kDuration * 2;
-            speed = 1;
+
+            speed = 0.5;
         } else if ([_wind isEqualToString:@"02"]) {
             image = [UIImage imageNamed:@"xinFengWindZhong"];
-//            time = kDuration * 3 / 2;
-            speed = 2;
+
+            speed = 1.0;
         } else if ([_wind isEqualToString:@"03"]) {
             image = [UIImage imageNamed:@"xinFengWindGao"];
-//            time = kDuration;
-            speed = 3;
+
+            speed = 1.5;
         } else if ([_wind isEqualToString:@"04"]) {
             image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-//            time = kDuration * 2 / 3 ;
-            speed = 4;
+
+            speed = 2.0;
         } else if ([_wind isEqualToString:@"00"]) {
             image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-//            time = MAXFLOAT;
-            speed = 1;
+
+            speed = 0.5;
         }
         
         _fengSuBiaoShiImageView.image = image;
-//        [self addAnimationWithDurtion:time];
-//        [self resumeLayer:_spinImageView.layer];
     }
     
 }
@@ -390,39 +350,37 @@ static int speed = 0;
            
             
             UIImage *image = nil;
-//            NSInteger time = MAXFLOAT;
+
             if (_stateModel.fWind == 1) {
                 image = [UIImage imageNamed:@"xinFengWindDi"];
-//                time = kDuration * 2;
-                speed = 1;
+
+                speed = 0.5;
             } else if (_stateModel.fWind == 2) {
                 image = [UIImage imageNamed:@"xinFengWindZhong"];
-//                time = kDuration * 3 / 2;
-                speed = 2;
+
+                speed = 1.0;
             } else if (_stateModel.fWind == 3) {
                 image = [UIImage imageNamed:@"xinFengWindGao"];
-//                time = kDuration;
-                speed = 3;
+
+                speed = 1.5;
             } else if (_stateModel.fWind == 4) {
                 image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-//                time = kDuration * 2 / 3 ;
-                speed = 4;
+
+                speed = 2.0;
             }
             _fengSuBiaoShiImageView.image = image;
-//            [self addAnimationWithDurtion:time];
-//            [self resumeLayer:_spinImageView.layer];
-            
+
             if (_stateModel.fWind == 0) {
-//                [self pauseLayer:_spinImageView.layer];
+
                 angle = 0;
-                speed = 0;
+                speed = 0.0;
             }
         } else {
-//            [self pauseLayer:_spinImageView.layer];
             angle = 0;
-            speed = 0;
+            speed = 0.0;
         }
     }
+    
     
 }
 

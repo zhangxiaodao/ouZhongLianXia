@@ -140,11 +140,15 @@
     XinFengCaiDengFirstTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:celled];
     if (!cell) {
         cell = [[XinFengCaiDengFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
+        cell.tag = indexPath.row + 3;
     }
     cell.titleString = self.nameArray[indexPath.row];
     cell.serviceModel = self.serviceModel;
     cell.stateModel = self.stateModel;
-    cell.indexPath = indexPath;
+//    cell.indexPath = indexPath;
+    
+    
+    
     return cell;
 }
 

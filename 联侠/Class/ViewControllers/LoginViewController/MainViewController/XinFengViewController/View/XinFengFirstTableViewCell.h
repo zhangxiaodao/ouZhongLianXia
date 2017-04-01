@@ -11,6 +11,6 @@
 @interface XinFengFirstTableViewCell : UITableViewCell
 @property (nonatomic , strong) ServicesDataModel *serviceDataModel;
 @property (nonatomic , strong) ServicesModel *serviceModel;
-
+@property (nonatomic , strong) NSTimer *myTimer;
 
 @end

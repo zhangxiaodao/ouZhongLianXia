@@ -17,6 +17,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         [self customUI];
     }
     return self;
@@ -55,30 +56,34 @@
 
 - (void)rightSwitchAtcion:(UISwitch *)switchValue {
     
-    if (switchValue.on == YES) {
-        NSInteger index=  _indexPath.row + 3;
-        
-        NSString *toHex = [[NSString ToHex:index] substringFromIndex:2];
-        NSLog(@"%@" , toHex);
-        if (_serviceModel) {
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
+    switchValue.on = NO;
+    
+    
+    NSInteger indexaa=  self.tag;
+    
+    NSString *toHex = [[NSString ToHex:indexaa] substringFromIndex:2];
+    
+    toHex = toHex.lowercaseString;
+    NSLog(@"%@" , toHex);
+    if (_serviceModel) {
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
         }
-    }
+    
     
     
 }
-    
-    
+
+
 - (void)getXinFengCaiDengCellAtcion:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
     NSString *caiDeng = [mingLing substringWithRange:NSMakeRange(32, 2)];
     NSString *indexCaiDeng = [NSString turnHexToInt:caiDeng];
-    NSLog(@"彩灯回传命令%@ , %@ , %ld" , caiDeng , indexCaiDeng , _indexPath.row);
+    NSLog(@"彩灯回传命令%@ , %@ , %ld" , caiDeng , indexCaiDeng , self.tag);
     
     self.rightSwitch.on = NO;
     NSInteger index = indexCaiDeng.intValue;
     
-    if (index == _indexPath.row + 3) {
+    if (index == self.tag) {
         self.rightSwitch.on = YES;
     }
 }
@@ -98,13 +103,13 @@
 - (void)setStateModel:(StateModel *)stateModel {
     _stateModel = stateModel;
     
-    if (_stateModel.light == _indexPath.row + 3) {
+    if (_stateModel.light == self.tag) {
         self.rightSwitch.on = YES;
     }
 }
 
-- (void)setIndexPath:(NSIndexPath *)indexPath {
-    _indexPath = indexPath;
-}
-    
+//- (void)setIndexPath:(NSIndexPath *)indexPath {
+//    _indexPath = indexPath;
+//}
+
 @end
