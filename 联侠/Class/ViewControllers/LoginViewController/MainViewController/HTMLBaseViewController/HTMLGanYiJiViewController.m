@@ -47,7 +47,12 @@
     __block typeof(self)bself = self;
     _context[@"PageLoadIOS"] = ^{
         
-        [bself.searchView removeFromSuperview];
+        if (bself.searchView) {
+            [bself.searchView removeFromSuperview];
+            bself.searchView = nil;
+        }
+        
+        
         
         NSDictionary *userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , bself.serviceModel.brand, @"BrandName" , nil];
         

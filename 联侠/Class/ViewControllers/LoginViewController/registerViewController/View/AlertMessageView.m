@@ -109,14 +109,11 @@
 - (void)setPhoneNumber:(NSString *)phoneNumber {
     _phoneNumber = phoneNumber;
     
-    _phoneLabel.text = [NSString stringWithFormat:NSLocalizedString(@"VerificationCodeSendTo", nil) , _phoneNumber];
+    _phoneLabel.text = [NSString stringWithFormat:@"验证码发送至:%@" , _phoneNumber];
     
     if (!_countDownTimer) {
         [self againSendAtcion];
     }
-    
-    
-    
     
 }
 

@@ -22,10 +22,10 @@ PODS:
   - SVProgressHUD (2.0.3)
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.0)
-  - Masonry (~> 1.0.0)
+  - AFNetworking
+  - Masonry
   - MJRefresh
-  - SDWebImage (~> 3.7.6)
+  - SDWebImage
   - SVProgressHUD
 
 SPEC CHECKSUMS:
@@ -35,6 +35,6 @@ SPEC CHECKSUMS:
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
-PODFILE CHECKSUM: ab4c5adea2ebe26ffe1d535c2fab96f239d92b30
+PODFILE CHECKSUM: 447e859269f8b80577b604cfab18963131768d05
 
 COCOAPODS: 1.2.0.rc.1

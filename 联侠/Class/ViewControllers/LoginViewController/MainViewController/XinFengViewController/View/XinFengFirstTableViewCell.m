@@ -55,7 +55,7 @@ static CGFloat speed = 0.0;
 - (void)aircleImageAtcion {
     angle = angle + speed;
     self.spinImageView.transform = CGAffineTransformMakeRotation(angle * M_PI / 180.0);
-    NSLog(@"%.2f , %.2f" , angle , speed);
+//    NSLog(@"%.2f , %.2f" , angle , speed);
 }
 
 - (void)getBottomBtnSelected:(NSNotification *)post {

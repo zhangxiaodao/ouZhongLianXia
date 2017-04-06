@@ -222,7 +222,7 @@
 - (void)getXinFengKongJing:(NSNotification *)post {
     NSString *str = post.userInfo[@"Message"];
     
-    
+    NSLog(@"%@" , str);
     
     NSString *kaiGuan = [str substringWithRange:NSMakeRange(28, 2)];
     NSString *devSn = [str substringWithRange:NSMakeRange(14, 12)];

@@ -205,7 +205,7 @@ static NSString *seventhCelled = @"seventhCelled";
         cell.isKongJingLvWang = @"YES";
         long int a ;
         
-        if (self.stateModel.cleanFilterScreen) {
+        if (self.stateModel.cleanFilterScreen != 0) {
             a = self.stateModel.cleanFilterScreen / 100;
         }
         

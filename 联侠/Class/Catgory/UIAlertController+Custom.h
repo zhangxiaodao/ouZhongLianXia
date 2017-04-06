@@ -10,13 +10,13 @@
 
 @interface UIAlertController (Custom)
 
-+ (UIAlertController *)creatCancleAndRightAlertControllerWithHandle:(void (^)())rightHandler andSuperViewController:(UIViewController *)superVC Title:(NSString *)text;
++ (UIAlertController *_Nullable)creatCancleAndRightAlertControllerWithHandle:(void (^ __nullable)())rightHandler andSuperViewController:(UIViewController *_Nullable)superVC Title:(NSString *_Nullable)text;
 
-+ (UIAlertController *)creatRightAlertControllerWithHandle:(void (^)())handler andSuperViewController:(UIViewController *)superVC Title:(NSString *)text;
++ (UIAlertController *_Nullable)creatRightAlertControllerWithHandle:(void (^ __nullable)())handler andSuperViewController:(UIViewController *_Nullable)superVC Title:(NSString *_Nullable)text;
 
-+ (UIAlertController *)creatSheetControllerWithFirstHandle:(void (^)())firstHandle andFirstTitle:(NSString *)firstText andSecondHandle:(void(^)())secondHandle andSecondTitle:(NSString *)secondTitle andThirtHandle:(void(^)())thirtHandle andThirtTitle:(NSString *)thirtTitle andForthHandle:(void(^)())forthHandle andForthTitle:(NSString *)forthTitle andSuperViewController:(UIViewController *)superVC;
++ (UIAlertController *_Nullable)creatSheetControllerWithFirstHandle:(void (^ __nullable)())firstHandle andFirstTitle:(NSString *_Nullable)firstText andSecondHandle:(void(^ __nullable)())secondHandle andSecondTitle:(NSString *_Nullable)secondTitle andThirtHandle:(void(^ __nullable)())thirtHandle andThirtTitle:(NSString *_Nullable)thirtTitle andForthHandle:(void(^ __nullable)())forthHandle andForthTitle:(NSString *_Nullable)forthTitle andSuperViewController:(UIViewController *_Nullable)superVC;
 
-+ (UIAlertController *)creatAlertControllerWithFirstTextfiledPlaceholder:(NSString *)firstPlaceholder andFirstTextfiledText:(NSString *)firstTitle andFirstAtcion:(SEL)firstAtcion andWhetherEdite:(BOOL)whetherEdite WithSecondTextfiledPlaceholder:(NSString *)secondPlaceholder andSecondTextfiledText:(NSString *)secondTitle andSecondAtcion:(SEL)secondAtcion andAlertTitle:(NSString *)alertTitle andAlertMessage:(NSString *)alertMessage andTextfiledAtcionTarget:(nullable id)target andSureHandle:(void(^)())sureHandle andSuperViewController:(UIViewController *)superVC ;
++ (UIAlertController *_Nullable)creatAlertControllerWithFirstTextfiledPlaceholder:(NSString *_Nullable)firstPlaceholder andFirstTextfiledText:(NSString *_Nullable)firstTitle andFirstAtcion:(SEL)firstAtcion andWhetherEdite:(BOOL)whetherEdite WithSecondTextfiledPlaceholder:(NSString *_Nullable)secondPlaceholder andSecondTextfiledText:(NSString *_Nullable)secondTitle andSecondAtcion:(SEL)secondAtcion andAlertTitle:(NSString *_Nullable)alertTitle andAlertMessage:(NSString *_Nullable)alertMessage andTextfiledAtcionTarget:(nullable id)target andSureHandle:(void(^ __nullable)())sureHandle andSuperViewController:(UIViewController *_Nullable)superVC ;
 
 
 @end
