@@ -62,6 +62,7 @@
     [self cityAndProvience];
     [self setUI];
     
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
