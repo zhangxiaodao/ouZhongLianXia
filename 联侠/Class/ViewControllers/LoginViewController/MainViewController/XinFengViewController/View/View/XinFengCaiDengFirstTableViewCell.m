@@ -10,7 +10,8 @@
 
 @interface XinFengCaiDengFirstTableViewCell ()
 @property (nonatomic , strong) UILabel *nameLabel;
-@property (nonatomic , strong) UISwitch *rightSwitch;
+//@property (nonatomic , strong) UISwitch *rightSwitch;
+@property (nonatomic , strong) UIButton *rightBtn;
 @end
 
 @implementation XinFengCaiDengFirstTableViewCell
@@ -39,40 +40,38 @@
     }];
     titleLabel.layer.borderWidth = 0;
     self.nameLabel = titleLabel;
-    
-    UISwitch *rightSwitch = [[UISwitch alloc]init];
-    [view addSubview:rightSwitch];
-    [rightSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(titleLabel.mas_centerY);
+
+//    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *rightBtn = [UIButton initWithTitle:@"" andColor:[UIColor clearColor] andSuperView:view];
+    [rightBtn setImage:[UIImage imageNamed:@"dingshiguanbi"] forState:UIControlStateNormal];
+    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(view.mas_right).offset(-kScreenW / 20);
+        make.centerY.mas_equalTo(titleLabel.mas_centerY);
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 10, kScreenW / 10));
     }];
-    [rightSwitch addTarget:self action:@selector(rightSwitchAtcion:) forControlEvents:UIControlEventValueChanged];
-    self.rightSwitch = rightSwitch;
+    [rightBtn addTarget:self action:@selector(rightBtnAtcion:) forControlEvents:UIControlEventTouchUpInside];
+    self.rightBtn = rightBtn;
     
     [UIView creatBottomFenGeView:view andBackGroundColor:kFenGeXianYanSe isOrNotAllLenth:@"YES"];
     
     
 }
 
-- (void)rightSwitchAtcion:(UISwitch *)switchValue {
+- (void)rightBtnAtcion:(UIButton *)btn {
     
-    switchValue.on = NO;
+    btn.selected = 1;
     
-    
-    NSInteger indexaa=  self.tag;
+    NSInteger indexaa = self.tag;
     
     NSString *toHex = [[NSString ToHex:indexaa] substringFromIndex:2];
     
     toHex = toHex.lowercaseString;
-    NSLog(@"%@" , toHex);
+    NSLog(@"点击的彩灯%@" , toHex);
     if (_serviceModel) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
-        }
-    
-    
-    
+       
+    }
 }
-
 
 - (void)getXinFengCaiDengCellAtcion:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
@@ -80,11 +79,13 @@
     NSString *indexCaiDeng = [NSString turnHexToInt:caiDeng];
     NSLog(@"彩灯回传命令%@ , %@ , %ld" , caiDeng , indexCaiDeng , self.tag);
     
-    self.rightSwitch.on = NO;
+//    self.rightSwitch.on = NO;
     NSInteger index = indexCaiDeng.intValue;
-    
+    [self.rightBtn setImage:[UIImage imageNamed:@"dingshiguanbi"] forState:UIControlStateNormal];
     if (index == self.tag) {
-        self.rightSwitch.on = YES;
+        if (self.rightBtn.selected == 1) {
+            [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
+        }
     }
 }
     
@@ -104,7 +105,7 @@
     _stateModel = stateModel;
     
     if (_stateModel.light == self.tag) {
-        self.rightSwitch.on = YES;
+        [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
     }
 }
 

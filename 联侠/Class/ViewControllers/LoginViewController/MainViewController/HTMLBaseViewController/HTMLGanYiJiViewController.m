@@ -48,8 +48,8 @@
     _context[@"PageLoadIOS"] = ^{
         
         if (bself.searchView) {
-            [bself.searchView removeFromSuperview];
-            bself.searchView = nil;
+            bself.searchView.hidden = YES;
+            
         }
         
         

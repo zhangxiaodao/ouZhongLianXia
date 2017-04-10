@@ -171,7 +171,8 @@
         make.left.mas_equalTo(_loginBtn.mas_left);
         make.top.mas_equalTo(_loginBtn.mas_bottom).offset(kScreenH / 36.8);
     }];
-
+    
+    
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
     [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
     [SVProgressHUD setForegroundColor:kMainColor];
