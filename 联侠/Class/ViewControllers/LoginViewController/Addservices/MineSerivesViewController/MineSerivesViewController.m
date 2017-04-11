@@ -58,9 +58,17 @@
         kSocketTCP.userSn = [NSString stringWithFormat:@"%@" , [kStanderDefault objectForKey:@"userSn"]];
         [kSocketTCP socketConnectHost];
     }
+    
+    [self setNav];
+    
     [self setUI];
     
 
+}
+
+- (void)setNav {
+    self.navigationItem.title = @"联侠";
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(addSerViceAtcion) image:@"addService_high" highImage:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -80,11 +88,12 @@
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@Q#" , self.userSn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kQuite andIsNewOrOld:nil];
     }
 
+//    [self startWearthData];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // 耗时的操作
         dispatch_async(dispatch_get_main_queue(), ^{
             
-//            [self startWearthData];
+            
             
             NSInteger nowTimeInterval = [NSString getNowTimeInterval];
             if ([kStanderDefault objectForKey:@"requestWeatherTime"]) {
@@ -142,7 +151,6 @@
             [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
             
             
-            
             if (self.haveArray.count > 0) {
                 [self.collectionView reloadData];
             } else {
@@ -157,41 +165,35 @@
 #pragma mark - 设置UI界面
 - (void)setUI{
     
+    UIView *topView = [[UIView alloc]init];
+    [self.view addSubview:topView];
+    [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.7));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(self.view.mas_top);
+    }];
+    _topView = topView;
+    
+    UIImageView *backImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"weather_bg"]];
+    [topView addSubview:backImageView];
+    [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.7));
+        make.centerX.mas_equalTo(topView.mas_centerX);
+        make.centerY.mas_equalTo(topView.mas_centerY);
+    }];
+    backImageView.contentMode = UIViewContentModeScaleToFill;
+    _backImageView = backImageView;
+    
+    
     //1.初始化layout
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0);
     
     //2.初始化collectionView
-    self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, kScreenH / 3.7 - 20, kScreenW, kScreenH - kScreenH / 3.7 - 64 - 29) collectionViewLayout:layout];
     [self.view addSubview:self.collectionView];
-    self.collectionView.backgroundColor = [UIColor clearColor];
-    
-    UIView *topView = [[UIView alloc]init];
-    [self.view addSubview:topView];
-    [topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 4));
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(20);
-    }];
-    _topView = topView;
-    
-    UIImageView *backImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mymachine_back"]];
-    [topView addSubview:backImageView];
-    [backImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 4));
-        make.centerX.mas_equalTo(topView.mas_centerX);
-        make.centerY.mas_equalTo(topView.mas_centerY);
-    }];
-    _backImageView = backImageView;
-    
-    
-    
-    self.collectionView.backgroundColor = [UIColor clearColor];
-    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH - kScreenH / 4));
-        make.top.mas_equalTo(topView.mas_bottom);
-        make.left.mas_equalTo(0);
-    }];
+    self.collectionView.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
+
     //注意，此处的ReuseIdentifier 必须和 cellForItemAtIndexPath 方法中 一致 均为 cellId
     [self.collectionView registerClass:[MineServiceCollectionViewCell class] forCellWithReuseIdentifier:@"cellId"];
     self.collectionView.dataSource = self;
@@ -203,69 +205,52 @@
     swipeGesture1.direction = UISwipeGestureRecognizerDirectionLeft; //默认向右
     [self.view addGestureRecognizer:swipeGesture1];
     
-    UIButton *offBtn = [UIButton initWithTitle:@"＋" andColor:[UIColor clearColor] andSuperView:_topView];
-    offBtn.titleLabel.font = [UIFont systemFontOfSize:k25];
-    [offBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [offBtn addTarget:self action:@selector(addSerViceAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    [offBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kNavHidth * 4 / 5, kNavHidth * 4 / 5));
-        make.right.mas_equalTo(_topView.mas_right).offset(- kScreenW / 30);
-        make.top.mas_equalTo(_topView.mas_top).offset(kScreenW / 100);
-        
-    }];
     
-    UIView *markView = [[UIView alloc]init];
+    UIView *markView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH / 3.7 - 20, kScreenW, kScreenH - kScreenH / 3.7 - 64 - 29)];
     [self.view addSubview:markView];
-    [markView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH * 3 / 4));
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(topView.mas_bottom);
-    }];
-    markView.backgroundColor = kFenGeXianYanSe;
+    markView.backgroundColor = [UIColor colorWithHexString:@"f6f6f6"];
     self.markView = markView;
     
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"meiYouSheBei"]];
-    [markView addSubview:imageView];
-    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 11));
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 2.3);
-    }];
     
-    UILabel *lable = [UILabel creatLableWithTitle:@"暂时没有添加设备" andSuperView:markView andFont:k17 andTextAligment:NSTextAlignmentCenter];
+    UILabel *lable = [UILabel creatLableWithTitle:@"暂未添加任何设备" andSuperView:markView andFont:k17 andTextAligment:NSTextAlignmentCenter];
     [lable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 10));
-        make.top.mas_equalTo(imageView.mas_bottom).offset(kScreenW / 20);
+        make.top.mas_equalTo(topView.mas_bottom).offset(kScreenH / 8.5);
         make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
-    lable.textColor = kCOLOR(212, 204, 196);
+    lable.textColor = [UIColor colorWithHexString:@"b4b4b4"];
     lable.layer.borderWidth = 0;
     
     UIButton *button = [UIButton initWithTitle:@"添加设备" andColor:kFenGeXianYanSe andSuperView:markView];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 10));
-        make.top.mas_equalTo(lable.mas_bottom).offset(kScreenW / 10);
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 2.6, kScreenW / 11));
+        make.top.mas_equalTo(lable.mas_bottom).offset(kScreenH / 4);
         make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
-    button.layer.cornerRadius = 5;
+    button.layer.cornerRadius = kScreenW / 22;
     button.layer.masksToBounds = YES;
-    button.layer.borderWidth = 1;
-    button.backgroundColor = [UIColor whiteColor];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    button.backgroundColor = kCOLOR(28, 164, 252);
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
-    [button addTarget:self action:@selector(addSerViceAtcion:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(addSerViceAtcion) forControlEvents:UIControlEventTouchUpInside];
     
     
     self.markView.hidden = YES;
     
     if ([kStanderDefault objectForKey:@"wearthDic"]) {
         self.wearthDic = [kStanderDefault objectForKey:@"wearthDic"];
+        
     } else {
         
         [self.wearthDic setObject:@"==" forKey:@"quality"];
         [self.wearthDic setObject:@"==" forKey:@"humidity"];
         [self.wearthDic setObject:@"==" forKey:@"temp_curr"];
+        [self.wearthDic setObject:@"==" forKey:@"weather_curr"];
+        [self.wearthDic setObject:@"==" forKey:@"weather"];
+        [self.wearthDic setObject:@"==" forKey:@"winp"];
+        [self.wearthDic setObject:@(0) forKey:@"weather_icon"];
         [self.wearthDic setObject:@"==" forKey:@"cityName"];
+        
     }
     
     [self getWeatherDic:self.wearthDic];
@@ -293,13 +278,16 @@
     
     self.wearthDic = dic;
     
-    self.werthImage = self.arrImage[[self.wearthDic[@"weather_icon"] integerValue]];
+    
     
     [self getWeatherDic:dic];
     
 }
 
 - (void)getWeatherDic:(NSMutableDictionary *)dic {
+    
+    //    NSLog(@"%@" , dic);
+    self.werthImage = self.arrImage[[dic[@"weather_icon"] integerValue]];
     
     NSArray *array = _backImageView.subviews;
     for (int i = 0; i < array.count; i++) {
@@ -332,7 +320,7 @@
 }
 
 #pragma mark - 开关的点击事件
-- (void)addSerViceAtcion:(UIButton *)btn{
+- (void)addSerViceAtcion{
     self.tabBarController.tabBar.hidden = YES;
     SetServicesViewController *setServiceVC = [[SetServicesViewController alloc]init];
 //    AllTypeServiceViewController *alll = [[AllTypeServiceViewController alloc]init];
@@ -420,13 +408,13 @@
 
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake((kScreenW - kScreenW * 2 / 15) / 3, ((kScreenW - kScreenW * 2 / 15) / 3) * 1.25);
+    return CGSizeMake((kScreenW - kScreenW * 3 / 25) / 2, kScreenH / 4.6);
 }
 
 //定义每个UICollectionView 的 margin
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(kScreenW / 30, kScreenW / 30, kScreenW / 30, kScreenW / 30);
+    return UIEdgeInsetsMake(kScreenW / 25, kScreenW / 25, 0, kScreenW / 25);
 }
 
 - (NSMutableArray *)haveArray {
@@ -442,7 +430,7 @@
 
 - (NSArray *)arrImage {
     if (!_arrImage) {
-        _arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"qing"], [UIImage imageNamed:@"leiZhenYu"], [UIImage imageNamed:@"yangChen"], [UIImage imageNamed:@"duoYun"], [UIImage imageNamed:@"xue"], [UIImage imageNamed:@"yu"], [UIImage imageNamed:@"wu"], [UIImage imageNamed:@"feng"],  nil];
+        _arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"icon_qing"], [UIImage imageNamed:@"icon_leiyu"], [UIImage imageNamed:@"icon_yuxue"], [UIImage imageNamed:@"icon_duoyun"], [UIImage imageNamed:@"icon_xue"], [UIImage imageNamed:@"icon_yu"], [UIImage imageNamed:@"icon_duoyunzhuanqing"],  nil];
     }
     return _arrImage;
 }

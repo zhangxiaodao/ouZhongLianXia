@@ -9,6 +9,7 @@
 #import "TabBarViewController.h"
 #import "MineViewController.h"
 #import "MineSerivesViewController.h"
+#import "XMGNavigationController.h"
 
 #define STOREAPPID @"1113948983"
 @interface TabBarViewController ()<UITabBarControllerDelegate>
@@ -22,23 +23,23 @@
     
     
     MineSerivesViewController *mineSerVC = [[MineSerivesViewController alloc]init];
-    mineSerVC.tabBarItem.title = @"我的设备";
+    XMGNavigationController *mineSerNav = [[XMGNavigationController alloc]initWithRootViewController:mineSerVC];
+    mineSerVC.tabBarItem.title = @"设备列表";
     mineSerVC.tabBarItem.image = [[UIImage imageNamed:@"tabbar_service"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
     
    
     
     MineViewController *userVC = [[MineViewController alloc]init];
-    UINavigationController *userNav = [[UINavigationController alloc]initWithRootViewController:userVC];
-    userNav.tabBarItem.title = @"我的";
+    XMGNavigationController *userNav = [[XMGNavigationController alloc]initWithRootViewController:userVC];
+    userNav.tabBarItem.title = @"个人中心";
     userNav.tabBarItem.image = [[UIImage imageNamed:@"tabbar_mine"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-    userNav.navigationBar.hidden = YES;
     
     self.automaticallyAdjustsScrollViewInsets = YES;
 
     self.tabBar.hidden = YES;
     
 
-    [self addChildViewController:mineSerVC];
+    [self addChildViewController:mineSerNav];
     [self addChildViewController:userNav];
     
     

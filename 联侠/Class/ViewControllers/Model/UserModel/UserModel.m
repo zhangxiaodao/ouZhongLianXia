@@ -40,7 +40,7 @@
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"sn--%ld ,\n idd--%ld ,\n phone--%@ ,\n nickname--%@ ,\n headImageUrl--%@ ,\n email--%@ \n birthdate--%@" , (long)_sn , _idd , _phone , _nickname , _headImageUrl , _email , _birthdate];
+    return [NSString stringWithFormat:@"sn--%ld ,\n idd--%ld ,\n phone--%@ ,\n nickname--%@ ,\n headImageUrl--%@ ,\n email--%@ \n birthdate--%@ n, _sex--%ld" , (long)_sn , _idd , _phone , _nickname , _headImageUrl , _email , _birthdate , _sex];
 }
 
 @end

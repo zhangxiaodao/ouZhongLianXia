@@ -44,6 +44,25 @@
     
 }
 
++ (void)setAttributedString:(NSString *)sumStr WithSubString:(NSInteger)subFromIndex andSize:(CGFloat)size andTextColor:(UIColor *)color isNeedTwoXiaoShuo:(NSString *)isNeedTwoXiaoShu andSuperLabel:(UILabel *)superLabel {
+    NSString *subStr = [sumStr substringFromIndex:subFromIndex];
+    
+    if ([isNeedTwoXiaoShu isEqualToString:@"YES"]) {
+        
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:sumStr];
+        [str addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(subFromIndex,subStr.length)];
+        [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:kFontWithName size:size] range:NSMakeRange(subFromIndex, subStr.length)];
+        superLabel.attributedText = str;
+    } else if ([isNeedTwoXiaoShu isEqualToString:@"NO"]) {
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:sumStr];
+        [str addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(subFromIndex,subStr.length)];
+        [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:kFontWithName size:size] range:NSMakeRange(subFromIndex, subStr.length)];
+        superLabel.attributedText = str;
+    }
+    superLabel.textColor = color;
+    
+}
+
 + (NSString *)timeAndAfterHours:(NSNumber *)hour andAfterDays:(NSNumber *)day andMonth:(NSNumber *)month {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *comps = nil;

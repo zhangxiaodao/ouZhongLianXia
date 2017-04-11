@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MineServiceCollectionViewCell : UICollectionViewCell
-@property (strong, nonatomic)  UIImageView *backImage;
 
-@property (nonatomic , strong) UILabel *typeName;
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) NSIndexPath *indexPath;
 

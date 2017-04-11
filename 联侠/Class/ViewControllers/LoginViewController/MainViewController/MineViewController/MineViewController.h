@@ -9,10 +9,5 @@
 #import <UIKit/UIKit.h>
 #import "DiZhiModel.h"
 @interface MineViewController : UIViewController
-//@property (nonatomic , strong) NSMutableArray *serviceArray;
-//@property (nonatomic , strong) DiZhiModel *diZhiModel;
-@property (nonatomic , strong) UserModel *userModel;
-@property (nonatomic , strong) UIImage *headImage;
-@property (nonatomic , strong) UIImageView *headImageView;
-@property (nonatomic  ,strong) NSString *fromMainVC;
+
 @end

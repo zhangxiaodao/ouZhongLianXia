@@ -1,0 +1,106 @@
+//
+//  HeadPortraitView.m
+//  联侠
+//
+//  Created by 杭州阿尔法特 on 2017/4/11.
+//  Copyright © 2017年 张海昌. All rights reserved.
+//
+
+#import "HeadPortraitView.h"
+
+@interface HeadPortraitView ()
+@property (nonatomic , strong) UIImageView *headBackImageView;
+@property (nonatomic , strong) UIImageView *headImageView;
+@property (nonatomic , strong) UILabel *nameLable;
+@property (nonatomic , strong) UILabel *sexLable;
+@end
+
+@implementation HeadPortraitView
+
+- (instancetype)initWithFrame:(CGRect)frame Target:(nullable id)target action:(nullable SEL)action {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self creatWithTarget:target action:action];
+    }
+    return self;
+}
+
+- (void)creatWithTarget:(nullable id)target action:(nullable SEL)action {
+ 
+    self.backgroundColor = [UIColor colorWithHexString:@"eeeef4"];
+    
+    _headBackImageView = [[UIImageView alloc]init];
+    [self addSubview:_headBackImageView];
+    [_headBackImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(self.width, self.height));
+        make.centerY.mas_equalTo(self.mas_centerY);
+        make.centerX.mas_equalTo(self.mas_centerX);
+    }];
+//    _headBackImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _headBackImageView.alpha = .3;
+    
+    
+    _headImageView = [[UIImageView alloc]init];
+    [self addSubview:_headImageView];
+    [_headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 3.75, kScreenW / 3.75));
+        make.top.mas_equalTo(self.mas_top).offset(kScreenW / 13);
+        make.centerX.mas_equalTo(self.mas_centerX);
+    }];
+    _headImageView.contentMode = UIViewContentModeScaleAspectFit;
+    _headImageView.layer.cornerRadius = kScreenW / 3.75 / 2;
+    _headImageView.layer.masksToBounds = YES;
+    _headImageView.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:target action:action];
+    [_headImageView addGestureRecognizer:tap];
+    
+    _nameLable = [UILabel creatLableWithTitle:@"" andSuperView:self andFont:k15 andTextAligment:NSTextAlignmentLeft];
+    _nameLable.layer.borderWidth = 0;
+    [_nameLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 7.5, kScreenW / 14));
+        make.centerX.mas_equalTo(_headImageView.mas_centerX);
+        make.top.mas_equalTo(_headImageView.mas_bottom);
+    }];
+
+    
+    _sexLable = [UILabel creatLableWithTitle:@"" andSuperView:self andFont:k14 andTextAligment:NSTextAlignmentCenter];
+    _sexLable.textColor = [UIColor colorWithHexString:@"ff40b5"];
+    _sexLable.layer.borderWidth = 0;
+    [_sexLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 20, kScreenW / 14));
+        make.left.mas_equalTo(_nameLable.mas_right);
+        make.centerY.mas_equalTo(_nameLable.mas_centerY);
+    }];
+    
+}
+
+- (void)setUserModel:(UserModel *)userModel {
+    _userModel = userModel;
+    
+    if (_userModel) {
+        if ([_userModel.headImageUrl isKindOfClass:[NSNull class]]) {
+            _headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
+            _headBackImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
+            
+        } else {
+            [_headBackImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl]];
+            [_headImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl]];
+            
+        }
+        
+        if (![_userModel.nickname isKindOfClass:[NSNull class]]) {
+            _nameLable.text = _userModel.nickname;
+        } else {
+            _nameLable.text = @"用户名";
+        }
+        
+        if (_userModel.sex == 0) {
+            _sexLable.text = @"♂";
+        } else {
+            _sexLable.text = @"♀";
+        }
+    }
+}
+
+@end

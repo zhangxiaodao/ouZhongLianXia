@@ -17,6 +17,8 @@
 
 + (void)setNSMutableAttributedString:(CGFloat)number andSuperLabel:(UILabel *)superLabel andDanWei:(NSString *)danWei andSize:(CGFloat)size andTextColor:(UIColor *)color isNeedTwoXiaoShuo:(NSString *)isNeedTwoXiaoShu;
 
++ (void)setAttributedString:(NSString *)sumStr WithSubString:(NSInteger)subFromIndex andSize:(CGFloat)size andTextColor:(UIColor *)color isNeedTwoXiaoShuo:(NSString *)isNeedTwoXiaoShu andSuperLabel:(UILabel *)superLabel;
+
 
 /**
  *  以当前时间为节点，获取N小时前，或N天前，或N月前的时间

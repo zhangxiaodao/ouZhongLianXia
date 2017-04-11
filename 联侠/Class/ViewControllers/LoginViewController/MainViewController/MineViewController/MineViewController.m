@@ -9,8 +9,8 @@
 #import "MineViewController.h"
 #import <UShareUI/UShareUI.h>
 
-#import "MineFirstView.h"
-#import "MessageTableViewCell.h"
+#import "HeadPortraitView.h"
+#import "MineTableViewCell.h"
 #import "UserFeedBackViewController.h"
 #import "UserMessageViewController.h"
 
@@ -30,47 +30,39 @@
 #import "SetServicesViewController.h"
 
 @interface MineViewController ()<UITableViewDataSource , UITableViewDelegate ,  HelpFunctionDelegate>
-
 @property (nonatomic , copy) NSString *systemMessageIsShowPrompt;
-@property (nonatomic , strong) UIView *firstView;
 @property (nonatomic , strong) UITableView *tableVIew;
-@property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) UILabel *nameLable;
+@property (nonatomic , strong) UserModel *userModel;
+@property (nonatomic , strong) UIImage *headImage;
+@property (nonatomic , strong) UIImageView *headImageView;
+@property (nonatomic , strong) UIImageView *headBackImageView;
 
+@property (nonatomic , strong) HeadPortraitView *headPortraitView;
 @end
 
 @implementation MineViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-
-    
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"个人中心"];
-    
-    if (![_fromMainVC isEqualToString:@"YES"]) {
-        
-        UIView *iii = [self.navView.subviews objectAtIndex:0];
-        UIImageView *jjj = [iii.subviews objectAtIndex:1];
-        jjj.image = [UIImage new];
-        
-        NSDictionary *parames = nil;
-        if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-            parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
-        } else {
-            parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2)};
-        }
-        
-        [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
-        
+    self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
+    NSDictionary *parames = nil;
+    if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
+        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+    } else {
+        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2)};
     }
+    
+    [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHeadImage:) name:@"headImage" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getNiCheng:) name:@"niCheng" object:nil];
     
-    NSDictionary *parames = @{@"page" : @(1) , @"rows" : @10};
+    parames = @{@"page" : @(1) , @"rows" : @10};
     [HelpFunction requestDataWithUrlString:kSystemMessageJieKou andParames:parames andDelegate:self];
+    
+    [self setNav];
     
     [self setUI];
     
@@ -122,8 +114,6 @@
             } else {
                 self.systemMessageIsShowPrompt = @"YES";
             }
-            
-            
         }
     }
     
@@ -147,86 +137,52 @@
         for (NSString *key in [user allKeys]) {
             [self.userModel setValue:user[key] forKey:key];
         }
-        
-        if (![self.userModel.headImageUrl isKindOfClass:[NSNull class]]) {
-            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage new]];
-            if (self.headImageView.image.size.width == 0) {
-                self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
-            }
-            self.headImage = self.headImageView.image;
-        } else {
-            self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
-            self.headImage = self.headImageView.image;
-        }
-        
-        
-        if (![self.userModel.nickname isKindOfClass:[NSNull class]]) {
-            self.nameLable.text = self.userModel.nickname;
-        } else {
-            self.nameLable.text = @"昵称";
-        }
-        
+        _headPortraitView.userModel = self.userModel;
         
     }
 }
 
 
-
 #pragma mark - 获取头像
 - (void)getHeadImage:(NSNotification *)post {
-    self.headImageView.image = post.userInfo[@"headImage"];
+    
+    if (post.userInfo[@"headImage"]) {
+        self.headBackImageView.image = post.userInfo[@"headImage"];
+        self.headImageView.image = post.userInfo[@"headImage"];
+    }
+    
+    
 }
 
 - (void)getNiCheng:(NSNotification *)post {
-    self.nameLable.text = post.userInfo[@"niCheng"];
+
+    if ([post.userInfo[@"niCheng"] length] != 0) {
+        self.nameLable.text = post.userInfo[@"niCheng"];
+    }
 }
 
-#pragma mark - 返回上一节面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-
-    [self.navigationController popViewControllerAnimated:YES];
-
+- (void)setNav {
+    self.navigationItem.title = @"个人中心";
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(fenXiangAtcion) image:@"share" highImage:nil];
+    
 }
 
 #pragma mark - 设置UI界面
 - (void)setUI{
 
+    _headPortraitView = [[HeadPortraitView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 3.7) Target:self action:@selector(mineAtcion)];
+    [self.view addSubview:_headPortraitView];
+    self.headBackImageView = _headPortraitView.subviews[0];
+    self.headImageView = _headPortraitView.subviews[1];
+    self.nameLable = [_headPortraitView.subviews objectAtIndex:2];
     
-    if ([self.userModel.nickname isKindOfClass:[NSNull class]]) {
-        self.userModel.nickname = @"昵称";
-    }
-    
-    self.firstView =  [MineFirstView creatViewWithHead:self.headImage andUserName:self.userModel.nickname andSuperView:self.view];
-    self.headImageView = [self.firstView viewWithTag:2];
-    self.nameLable = [self.firstView.subviews objectAtIndex:2];
-    
-    if (self.userModel.nickname.length > 0) {
-        self.nameLable.text = self.userModel.nickname;
-    } else {
-        self.nameLable.text = @"昵称";
-    }
-    
-    UITapGestureRecognizer *iDTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(mineAtcion:)];
-    [self.firstView addGestureRecognizer:iDTap];
-    
-    UIButton *fenXiangBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.view addSubview:fenXiangBtn];
-    
-    [fenXiangBtn setBackgroundImage:[UIImage imageNamed:@"fengxiang"] forState:UIControlStateNormal];
-    [fenXiangBtn addTarget:self action:@selector(fenXiangAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    [fenXiangBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 15, kScreenW / 15));
-        make.centerY.mas_equalTo(self.firstView.mas_centerY);
-        make.right.mas_equalTo(- 20);
-    }];
-    
-
     self.tableVIew = [[UITableView alloc]init];
     [self.view addSubview:self.tableVIew];
+    self.tableVIew.backgroundColor = [UIColor clearColor];
     [self.tableVIew mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW, 7 * kScreenH / 14.2 + 2));
         make.left.mas_equalTo(0);
-        make.top.mas_equalTo(self.firstView.mas_bottom);
+        make.top.mas_equalTo(_headPortraitView.mas_bottom);
     }];
     self.tableVIew.scrollEnabled = NO;
     self.tableVIew.delegate = self;
@@ -236,60 +192,36 @@
 
 - (void)shareWebPageToPlatformType:(UMSocialPlatformType)platformType
 {
-    
-    //注意：分享到微信好友、微信朋友圈、微信收藏、QQ空间、QQ好友、来往好友、来往朋友圈、易信好友、易信朋友圈、Facebook、Twitter、Instagram等平台需要参考各自的集成方法
-//    [UMSocialSnsService presentSnsIconSheetView:self
-//                                         appKey:kUMAppKey
-//                                      shareText:@"http://www.ouzhongiot.com"
-//                                     shareImage:[UIImage imageNamed:@"logo"]
-//                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToWechatSession,UMShareToWechatTimeline,nil]
-//                                       delegate:nil];
-    
-    //创建分享消息对象
+
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
-    
-    //创建网页内容对象
-//    NSString* thumbURL =  @"http://www.ouzhongiot.com";
     UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@"欧众联侠-中国物联网的龙头企业" descr:@"杭州欧众物联网科技有限公司" thumImage:[UIImage imageNamed:@"logo"]];
-    //设置网页地址
     shareObject.webpageUrl = @"http://www.ouzhongiot.com";
-    
-    //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;
-    
-    //调用分享接口
     [[UMSocialManager defaultManager] shareToPlatform:platformType messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
         if (error) {
             UMSocialLogInfo(@"************Share fail with error %@*********",error);
         }else{
             if ([data isKindOfClass:[UMSocialShareResponse class]]) {
-                UMSocialShareResponse *resp = data;
-                //分享结果消息
-                UMSocialLogInfo(@"response message is %@",resp.message);
-                //第三方原始返回的数据
+                UMSocialShareResponse *resp = data;                UMSocialLogInfo(@"response message is %@",resp.message);
                 UMSocialLogInfo(@"response originalResponse data is %@",resp.originalResponse);
                 
             }else{
                 UMSocialLogInfo(@"response data is %@",data);
             }
         }
-//        [self alertWithError:error];
     }];
 }
 
-- (void)fenXiangAtcion:(UIButton *)btn {
+- (void)fenXiangAtcion {
     
     [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
-        // 根据获取的platformType确定所选平台进行下一步操作
-        
         [self shareWebPageToPlatformType:platformType];
-        
     }];
     
 }
 
 #pragma mark - 头像点击事件
-- (void)mineAtcion:(UITapGestureRecognizer *)tap {
+- (void)mineAtcion {
     UserMessageViewController *userVC = [[UserMessageViewController alloc]init];
 
     userVC.userModel = self.userModel;
@@ -304,37 +236,14 @@
 {
     
     static NSString *cellId = @"id";
-    MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    MineTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell == nil) {
-        cell = [[MessageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId
+        cell = [[MineTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId
                 ];
     }
     
-    if (indexPath.row == 0) {
-        cell.imageViw.image = [UIImage imageNamed:@"tianjiashebei"];
-        cell.lable.text = @"添加设备";
-    } else if (indexPath.row == 1) {
-        cell.imageViw.image = [UIImage imageNamed:@"xiaoxitongzhi"];
-        cell.lable.text = @"消息通知";
-        
-        cell.isShowPromptImageView = self.systemMessageIsShowPrompt;
-    } else if (indexPath.row == 2) {
-        
-        cell.imageViw.image = [UIImage imageNamed:@"youhuiquan"];
-        cell.lable.text = @"优惠券";
-    } else if (indexPath.row == 3) {
-        cell.imageViw.image = [UIImage imageNamed:@"guanyuchanpin"];
-        cell.lable.text = @"关于产品";
-    } else if (indexPath.row == 4) {
-        cell.imageViw.image = [UIImage imageNamed:@"aboutous"];
-        cell.lable.text = @"关于我们";
-    } else if (indexPath.row == 5) {
-        cell.imageViw.image = [UIImage imageNamed:@"clear"];
-        cell.lable.text = @"清除缓存";
-        cell.clearLabel.text = [NSString stringWithFormat:@"当前缓存 : %@" , [self getBufferSize]];
-    }
-    
-    
+    cell.indexpath = indexPath;
+    cell.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     return cell;
 }
 
@@ -344,10 +253,10 @@
     
     
     self.tabBarController.tabBar.hidden = YES;
-    if (indexPath.row == 0) {
-        SetServicesViewController *serServiceVC = [[SetServicesViewController alloc]init];
-        [self.navigationController pushViewController:serServiceVC animated:YES];
-    } else if (indexPath.row == 1) {
+    if (indexPath.row == 0 && indexPath.section == 0) {
+        
+        [self mineAtcion];
+    } else if (indexPath.row == 1 && indexPath.section == 0) {
         
         SumMessageViewController *sumMessageVC = [[SumMessageViewController alloc]init];
         sumMessageVC.systemMessageIsShowPrompt = self.systemMessageIsShowPrompt;
@@ -357,25 +266,21 @@
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:1 inSection:0];
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
         
-    } else if (indexPath.row == 2) {
-        MineYouHuiQuanViewController *youHuiQuanVC = [[MineYouHuiQuanViewController alloc]init];
-        youHuiQuanVC.fromMineVC = @"YES";
-        [self.navigationController pushViewController:youHuiQuanVC animated:YES];
-    } else if (indexPath.row == 3) {
+    } else if (indexPath.row == 0 && indexPath.section == 1) {
         AboutProductViewController *aboutVC = [[AboutProductViewController alloc]init];
         aboutVC.model = [[UserModel alloc]init];
         aboutVC.model = self.userModel;
         [self.navigationController pushViewController:aboutVC animated:YES];
-    } else if (indexPath.row == 4) {
+    } else if (indexPath.row == 1 && indexPath.section == 1) {
         AboutOusTableViewController *connectVC = [[AboutOusTableViewController alloc]init];
         [self.navigationController pushViewController:connectVC animated:YES];
-    } else if (indexPath.row == 5) {
+    } else  {
         self.tabBarController.tabBar.hidden = NO;
-        MessageTableViewCell *cell = [_tableVIew cellForRowAtIndexPath:indexPath];
+        MineTableViewCell *cell = [_tableVIew cellForRowAtIndexPath:indexPath];
         
         [UIAlertController creatRightAlertControllerWithHandle:^{
             [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
-                cell.clearLabel.text = [NSString stringWithFormat:@"当前缓存 : %@" , [self getBufferSize]];
+                cell.clearLabel.text = [NSString stringWithFormat:@"当前缓存 : %@" , [cell getBufferSize]];
             }];
         } andSuperViewController:kWindowRoot Title:@"清除缓存"];
     }
@@ -383,25 +288,10 @@
 }
 
 
-//清除缓存按钮的点击事件
-- (NSString *)getBufferSize{
-    CGFloat size = [SDImageCache sharedImageCache].getSize;
-    
-    NSString *message = nil;
-
-    if (size >= pow(10, 9)) {
-        message = [NSString stringWithFormat:@"%.2fGB", size / pow(10, 9)];
-    }else if (size >= pow(10, 6) && size < pow(10, 9)) {
-        message = [NSString stringWithFormat:@"%.2fMB", size / pow(10, 6)];
-    }else if (size >= pow(10, 3) && size < pow(10, 6)) {
-        message = [NSString stringWithFormat:@"%.2fKB", size / pow(10, 3)];
-    }else {
-        message = [NSString stringWithFormat:@"%.0fB", size];
-    }
-    
-    return message;
-    
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.contentView.backgroundColor = [UIColor clearColor];
 }
+
 
 //弹出列表方法presentSnsIconSheetView需要设置delegate为self
 -(BOOL)isDirectShareInIconActionSheet
@@ -410,12 +300,33 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return kScreenH / 14.2;
+    return kScreenH / 14.46;
 }
 
-#pragma mark - rows的个数
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 6;
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return kScreenW / 27;
 }
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    if (section == 0) {
+        return 2;
+    } else if (section == 1) {
+        return 2;
+    } else {
+        return 1;
+    }
+}
+
 
 @end
