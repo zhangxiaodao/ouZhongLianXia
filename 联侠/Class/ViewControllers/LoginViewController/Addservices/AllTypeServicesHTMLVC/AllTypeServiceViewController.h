@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@interface AllTypeServiceViewController : UITableViewController
 
-@interface AllTypeServiceViewController : UIViewController
-
-@property (nonatomic , copy) NSString *fromAboutVC;
 
 @end

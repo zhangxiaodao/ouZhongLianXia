@@ -11,7 +11,6 @@
 @interface ChanPinShuoMingViewController ()<UIWebViewDelegate>{
     UIWebView *webView;
 }
-@property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) UIActivityIndicatorView *searchView;
 @end
 
@@ -19,27 +18,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"产品说明"];
     [self setUI];
-}
-
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 设置UI
 - (void)setUI {
     
-    webView = [[UIWebView alloc] init];
+    webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview: webView];
-    [webView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH - self.navView.height));
-        make.top.mas_equalTo(self.navView.mas_bottom);
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-    }];
     webView.delegate = self;
     
     NSString *typeService = [_serviceModel.typeSn substringWithRange:NSMakeRange(0, 2)];

@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseTableViewCell.h"
 
-@interface AboutOusTableViewCell : UITableViewCell
+@interface AboutOusTableViewCell : BaseTableViewCell
 
-@property (nonatomic , copy) NSString *title;
 
 @end

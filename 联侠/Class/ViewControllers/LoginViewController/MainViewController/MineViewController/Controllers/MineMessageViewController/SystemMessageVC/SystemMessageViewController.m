@@ -17,8 +17,7 @@
     NSUInteger pages;
 }
 @property (nonatomic , strong) NSMutableArray *dataArray;
-@property (nonatomic , strong) UITableView *tableView;
-@property (nonatomic , strong) UIView *navView;
+
 @end
 
 @implementation SystemMessageViewController
@@ -32,29 +31,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     
     [self setUI];
-}
-
-#pragma mark - 返回主界面
-- (void)backTap123:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 设置UI
 - (void)setUI{
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH) style:UITableViewStyleGrouped];
-    [self.view addSubview:self.tableView];
-    
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 49, 0);
-    self.tableView.sectionFooterHeight = 10;
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap123:) andTitle:@"系统消息"];
     [self setRefresh];
     
 }
@@ -69,10 +56,17 @@
 
 - (void)loadNewTopics {
     pages = 1;
-    
+ 
     //调用读取数据的方法
     NSDictionary *parames = @{@"page" : @(pages) , @"rows" : @10};
-    [HelpFunction requestDataWithUrlString:kSystemMessageJieKou andParames:parames andDelegate:self];
+    
+    
+    if ([self.navigationItem.title isEqualToString:@"系统消息"]) {
+        [HelpFunction requestDataWithUrlString:kSystemMessageJieKou andParames:parames andDelegate:self];
+    } else {
+        [HelpFunction requestDataWithUrlString:kXiaoXiJieKou andParames:parames andDelegate:self];
+    }
+    
 }
 
 - (void)loadMoreTopics {
@@ -108,8 +102,6 @@
                 [self.dataArray addObject:model];
             }];
             
-            
-            
             SystemMessageModel *model = [[SystemMessageModel alloc]init];
             model = [self.dataArray firstObject];
             [kStanderDefault setValue:model.addTime forKey:@"SystemMessageTime"];
@@ -125,9 +117,6 @@
                 [alert dismissViewControllerAnimated:YES completion:nil];
             });
             
-            
-            
-            
         }
     } else if (total == 0) {
         [self.tableView.mj_header endRefreshing];
@@ -139,6 +128,15 @@
 
     }
     
+}
+
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+    UIAlertController *alert = [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"暂无消息"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    });
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

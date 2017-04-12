@@ -8,11 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AllServicesViewController : UIViewController
+@interface AllServicesViewController : UICollectionViewController
 
-@property (nonatomic , copy) NSString *fromAboutVC;
-@property (nonatomic , copy) NSString *fromFailVC;
-@property (nonatomic , copy) NSString *isFromMainVC;
-@property (nonatomic , copy) NSString *isFromBottomVC;
 @property (nonatomic , copy) NSString *devType;
 @end

@@ -125,7 +125,7 @@
 #pragma mark - 获取代理的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     NSDictionary *dic = data[0];
-    
+//    NSLog(@"%@" , dic);
     if ([dic[@"state"] integerValue] == 0) {
         
         NSDictionary *user = dic[@"data"];
@@ -226,7 +226,7 @@
 
     userVC.userModel = self.userModel;
     userVC.headImage = self.headImageView.image;
-    
+    userVC.navigationItem.title = @"用户信息";
     [self.navigationController pushViewController:userVC animated:YES];
     self.tabBarController.tabBar.hidden = YES;
 }
@@ -260,6 +260,7 @@
         
         SumMessageViewController *sumMessageVC = [[SumMessageViewController alloc]init];
         sumMessageVC.systemMessageIsShowPrompt = self.systemMessageIsShowPrompt;
+        sumMessageVC.navigationItem.title = @"消息中心";
         [self.navigationController pushViewController:sumMessageVC animated:YES];
         
         self.systemMessageIsShowPrompt = @"NO";
@@ -270,19 +271,22 @@
         AboutProductViewController *aboutVC = [[AboutProductViewController alloc]init];
         aboutVC.model = [[UserModel alloc]init];
         aboutVC.model = self.userModel;
+        aboutVC.navigationItem.title = @"关于产品";
         [self.navigationController pushViewController:aboutVC animated:YES];
     } else if (indexPath.row == 1 && indexPath.section == 1) {
-        AboutOusTableViewController *connectVC = [[AboutOusTableViewController alloc]init];
-        [self.navigationController pushViewController:connectVC animated:YES];
+        AboutOusTableViewController *aboutOusVC = [[AboutOusTableViewController alloc]init];
+        aboutOusVC.navigationItem.title = @"关于我们";
+        [self.navigationController pushViewController:aboutOusVC animated:YES];
     } else  {
         self.tabBarController.tabBar.hidden = NO;
         MineTableViewCell *cell = [_tableVIew cellForRowAtIndexPath:indexPath];
         
-        [UIAlertController creatRightAlertControllerWithHandle:^{
+        [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
             [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
                 cell.clearLabel.text = [NSString stringWithFormat:@"当前缓存 : %@" , [cell getBufferSize]];
             }];
         } andSuperViewController:kWindowRoot Title:@"清除缓存"];
+        
     }
   
 }

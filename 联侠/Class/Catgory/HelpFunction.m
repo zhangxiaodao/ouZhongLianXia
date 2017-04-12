@@ -345,6 +345,8 @@ static HelpFunction *_request = nil;
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"CCCCCCCC");
+        
+        [_delegate requestData:self didFailLoadData:self.error];
     }];
     
 }

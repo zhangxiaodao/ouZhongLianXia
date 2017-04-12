@@ -116,7 +116,7 @@
         fenGeView.hidden = NO;
     }
     
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_view.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(15, 15)];
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_view.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
     
     
     if (_indexpath.section == 0) {

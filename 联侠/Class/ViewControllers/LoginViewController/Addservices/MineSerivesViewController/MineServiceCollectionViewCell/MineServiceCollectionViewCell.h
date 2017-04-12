@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServiceBaseCollectionCell.h"
 
-@interface MineServiceCollectionViewCell : UICollectionViewCell
+@interface MineServiceCollectionViewCell : ServiceBaseCollectionCell
 
-@property (nonatomic , strong) ServicesModel *serviceModel;
-@property (nonatomic , strong) NSIndexPath *indexPath;
 
 @end

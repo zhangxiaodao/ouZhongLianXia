@@ -24,8 +24,6 @@
 #import <AVFoundation/AVFoundation.h>
 @interface UserMessageViewController ()<UITableViewDataSource , UITableViewDelegate , HelpFunctionDelegate , SendDiZhiDataToProvienceVCDelegate , SendNickNameToPreviousVCDelegate ,
     SendEmailAddressToPreviousVCDelegate>
-@property (nonatomic , strong) UIView *navView;
-@property (nonatomic , strong) UITableView *tableVIew;
 @property (nonatomic , strong) NSMutableDictionary *dic;
 
 @property (nonatomic , strong) UILabel *birthdayLabel;
@@ -48,7 +46,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
+    
+    self.tableView.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     if ([kStanderDefault objectForKey:@"GeRenModel"]) {
         self.geRenModel = [[GeRenModel alloc]init];
@@ -60,13 +61,6 @@
     [HelpFunction requestDataWithUrlString:kChaXunYongHuDiZhi andParames:@{@"userSn" : [kStanderDefault objectForKey:@"userSn"]} andDelegate:self];
     
     
-    [self setUI];
-    
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.tabBarController.tabBar.hidden = YES;
 }
 
 #pragma mark - 代理返回数据
@@ -89,7 +83,7 @@
             }
         }
         
-        [self.tableVIew reloadData];
+        [self.tableView reloadData];
     }
     
 }
@@ -126,77 +120,12 @@
     }
     
 }
-
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-   
-    [self.navigationController popViewControllerAnimated:YES];
-    
-}
 - (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
     NSLog(@"%@" , dic);
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
     NSLog(@"%@" , dddd);
-}
-
-#pragma mark - 设置UI
-- (void)setUI  {
-    
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"用户信息"];
-    
-    self.headImageView = [[UIImageView alloc]initWithImage:self.headImage];
-    
-    [self.view addSubview:self.headImageView];
-    self.headImageView.layer.masksToBounds = YES;
-    self.headImageView.layer.cornerRadius = kScreenW / 10;
-    self.headImageView.userInteractionEnabled = YES;
-    
-    [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenW / 5));
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.navView.mas_bottom).offset(kScreenH / 56.8);
-    }];
-    
-    UILabel *tiShiLable = [UILabel creatLableWithTitle:@"点此更换头像" andSuperView:self.view andFont:k12 andTextAligment:NSTextAlignmentCenter];
-    tiShiLable.textColor = [UIColor blackColor];
-    tiShiLable.userInteractionEnabled = YES;
-    tiShiLable.layer.borderWidth = 0;
-    [tiShiLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.headImageView.mas_centerX);
-        make.top.mas_equalTo(self.headImageView.mas_bottom);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 20));
-    }];
-    
-    UITapGestureRecognizer *headTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headTapAtcion:)];
-    [self.headImageView addGestureRecognizer:headTap];
-    
-    UITapGestureRecognizer *lableTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headTapAtcion:)];
-    [tiShiLable addGestureRecognizer:lableTap];
-    
-    
-    UIView *vvvView = [[UIView alloc]init];
-    vvvView.backgroundColor = kCOLOR(244, 244, 244);
-    [self.view addSubview:vvvView];
-    [vvvView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, 1));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(tiShiLable.mas_bottom).offset(-1);
-    }];
-    
-    self.tableVIew = [[UITableView alloc]init];
-    [self.view addSubview:self.tableVIew];
-    [self.tableVIew mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH - vvvView.y));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(vvvView.mas_bottom);
-    }];
-    
-    self.tableVIew.bounces = NO;
-    self.tableVIew.delegate = self;
-    self.tableVIew.dataSource = self;
-    self.tableVIew.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 #pragma mark - 点击头像换取并上传
@@ -222,7 +151,7 @@
 
 #pragma mark - TableView的代理事件
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 5;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -379,25 +308,25 @@
     _sex = !_sex;
     NSArray *sexArray = @[@"男" , @"女"];
     NSIndexPath *indexpath = [NSIndexPath indexPathForRow:1 inSection:2];
-    UserMessageTableViewCell *cell = (UserMessageTableViewCell *)[_tableVIew cellForRowAtIndexPath:indexpath];
+    UserMessageTableViewCell *cell = (UserMessageTableViewCell *)[self.tableView cellForRowAtIndexPath:indexpath];
     cell.rightLable.text = [NSString stringWithFormat:@"%@" , sexArray[_sex]];
 }
 
 - (void)sendDiZhiDataToProvienceVC:(NSString *)diZhiStr {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-    UserMessageTableViewCell *cell = [_tableVIew cellForRowAtIndexPath:indexPath];
+    UserMessageTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.rightLable.text = diZhiStr;
 }
 
 - (void)sendNickNameToPreviousVC:(NSString *)nickName {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-    UserMessageTableViewCell *cell = [_tableVIew cellForRowAtIndexPath:indexPath];
+    UserMessageTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.rightLable.text = nickName;
 }
 
 - (void)sendEmailAddressToPreviousVC:(NSString *)emailAddress {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:2];
-    UserMessageTableViewCell *cell = [_tableVIew cellForRowAtIndexPath:indexPath];
+    UserMessageTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.rightLable.text = emailAddress;
 }
 

@@ -17,13 +17,12 @@
         UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo"]];
         [self addSubview:imageView];
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenW / 5));
+            make.size.mas_equalTo(CGSizeMake(kScreenW / 4.5, kScreenW / 4.5));
             make.centerX.mas_equalTo(self.centerX);
             make.centerY.mas_equalTo(self.centerY).offset(-kScreenW / 20);
         }];
-        imageView.layer.cornerRadius = 5;
         
-        UILabel *versionLabel = [UILabel creatLableWithTitle:nil andSuperView:self andFont:k12 andTextAligment:NSTextAlignmentCenter];
+        UILabel *versionLabel = [UILabel creatLableWithTitle:nil andSuperView:self andFont:k15 andTextAligment:NSTextAlignmentCenter];
         [versionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenW / 20));
             make.top.mas_equalTo(imageView.mas_bottom);

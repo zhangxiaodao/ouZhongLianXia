@@ -9,10 +9,9 @@
 #import "AboutOusTableViewController.h"
 #import "ConnectWeViewController.h"
 #import "TableViewHeaderView.h"
-#import "EnterForthTableViewCell.h"
+#import "AboutOusTableViewCell.h"
 
 @interface AboutOusTableViewController ()<UITableViewDelegate , UITableViewDataSource>
-@property (nonatomic , strong) UIView *navView;
 
 @end
 
@@ -23,52 +22,32 @@ NSString static * const cellid = @"cellid";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor  =[UIColor colorWithHexString:@"f2f4fb"];
     [self setUpTable];
     
 }
 
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)setUpTable {
-    UITableView *tableView = [[UITableView alloc]initWithFrame:kScreenFrame style:UITableViewStyleGrouped];
+    UITableView *tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [self.view addSubview:tableView];
-    tableView.backgroundColor = kCOLOR(244, 244, 244);
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.contentInset = UIEdgeInsetsMake(kScreenH / 14, 0, 0, 0);
-    [tableView registerClass:[EnterForthTableViewCell class] forCellReuseIdentifier:cellid];
+    tableView.backgroundColor = [UIColor clearColor];
     tableView.delegate = self;
     tableView.dataSource = self;
-    tableView.sectionHeaderHeight = kScreenH / 5;
+    tableView.sectionHeaderHeight = kScreenH / 4.43;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [tableView registerClass:[AboutOusTableViewCell class] forCellReuseIdentifier:cellid];
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"关于我们"];
+    
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    EnterForthTableViewCell *cell
+    AboutOusTableViewCell *cell
     =[tableView dequeueReusableCellWithIdentifier:cellid];
     
-//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    if (indexPath.row == 0) {
-        cell.imageViw.image = [UIImage imageNamed:@"evaluate"];
-        cell.lable.text = @"去评价";
-    } else if (indexPath.row == 1) {
-        cell.imageViw.image = [UIImage imageNamed:@"lianxiwomen"];
-        cell.lable.text = @"联系我们";
-    }
+    cell.indexpath = indexPath;
     
-    cell.lable.textColor = [UIColor blackColor];
-    cell.jianTouImage.tintColor = [UIColor blackColor];
     return cell;
 }
 
@@ -80,12 +59,17 @@ NSString static * const cellid = @"cellid";
     return headerView;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+}
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return kScreenH / 5;
+    return kScreenH / 4.43;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return kScreenH / 14.2;
+    return kScreenH / 14.46;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -96,6 +80,7 @@ NSString static * const cellid = @"cellid";
         [[UIApplication sharedApplication] openURL:url];
     } else if (indexPath.row == 1) {
         ConnectWeViewController *connectOurVC = [[ConnectWeViewController alloc]init];
+        connectOurVC.navigationItem.title = @"联系我们";
         [self.navigationController pushViewController:connectOurVC animated:YES];
     }
 }

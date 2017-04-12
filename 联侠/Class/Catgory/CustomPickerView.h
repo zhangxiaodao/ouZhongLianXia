@@ -17,6 +17,6 @@
 @interface CustomPickerView : UIView
 @property (nonatomic , assign) id<SendPickerViewSelectDataToParentView> delegate;
 
-- (CustomPickerView * __nullable)createPickerViewWithBackGroundColor:(UIColor * __nullable)backColor withFrame:(CGRect)frame andDelegate:(id<UIPickerViewDelegate>)delegate andDataSource:(id<UIPickerViewDataSource>)dataSource andEnsureDelegate:(nullable id)target andEnsureAtcion:(SEL)atcion andCancleTarget:(nullable id)cancleTarget andCancleAtcion:(SEL)cancleAtcion andTapAtcion:(nullable SEL)tapAction;
+- (CustomPickerView * __nullable)createPickerViewWithBackGroundColor:(UIColor * __nullable)backColor withFrame:(CGRect)frame andDelegate:(id<UIPickerViewDelegate>)delegate andDataSource:(id<UIPickerViewDataSource>)dataSource andEnsureDelegate:(nullable id)target andEnsureAtcion:(SEL)atcion andCancleTarget:(nullable id)cancleTarget andCancleAtcion:(SEL _Nullable )cancleAtcion andTapAtcion:(nullable SEL)tapAction;
 
 @end

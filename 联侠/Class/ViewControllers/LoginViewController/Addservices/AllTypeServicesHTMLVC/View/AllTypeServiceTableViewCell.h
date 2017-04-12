@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "AllTypeServiceModel.h"
+#import "BaseTableViewCell.h"
 
-@interface AllTypeServiceTableViewCell : UITableViewCell
+@interface AllTypeServiceTableViewCell : BaseTableViewCell
 
+@property (nonatomic , strong) NSMutableArray *dataArray;
 @property (nonatomic , strong) AllTypeServiceModel *allTypeServiceModel;
 
 @end

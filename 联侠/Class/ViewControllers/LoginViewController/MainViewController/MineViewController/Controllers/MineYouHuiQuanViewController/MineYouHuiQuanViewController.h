@@ -10,6 +10,5 @@
 
 @interface MineYouHuiQuanViewController : UIViewController
 
-@property (nonatomic , copy) NSString *fromMineVC;
 
 @end

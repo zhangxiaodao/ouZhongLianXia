@@ -7,12 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServiceBaseCollectionCell.h"
+@interface AllServicesCollectionViewCell : ServiceBaseCollectionCell
 
-@interface AllServicesCollectionViewCell : UICollectionViewCell
 
-@property (strong, nonatomic)  UIImageView *backImage;
-
-@property (nonatomic , strong) UILabel *typeName;
-
-@property (nonatomic , strong) ServicesModel *serviceModel;
 @end

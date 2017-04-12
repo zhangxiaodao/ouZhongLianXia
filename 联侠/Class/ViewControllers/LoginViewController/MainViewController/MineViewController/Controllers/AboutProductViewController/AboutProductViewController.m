@@ -7,14 +7,14 @@
 //
 
 #import "AboutProductViewController.h"
-#import "EnterForthTableViewCell.h"
 #import "AllTypeServiceViewController.h"
 #import "MineYouHuiQuanViewController.h"
 #import "UserFeedBackViewController.h"
 #import "GengXinRiZhiViewController.h"
+#import "AboutProductCell.h"
 
 @interface AboutProductViewController ()<UITableViewDataSource , UITableViewDelegate>
-@property (nonatomic , strong) UIView *navView;
+
 @property (nonatomic , strong) UITableView *tableVIew;
 @end
 
@@ -22,29 +22,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor  =[UIColor whiteColor];
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"关于产品"];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
+    
     [self setUI];
     
 }
 
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)setUI {
-    self.tableVIew = [[UITableView alloc]init];
+    self.tableVIew = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [self.view addSubview:self.tableVIew];
-    [self.tableVIew mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, 4 * kScreenH / 14.2));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(self.navView.mas_bottom);
-    }];
+    self.tableVIew.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
     self.tableVIew.bounces = NO;
     self.tableVIew.delegate = self;
     self.tableVIew.dataSource = self;
     self.tableVIew.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableVIew.backgroundColor = [UIColor clearColor];
 }
 
 #pragma mark - TableView的点击事件
@@ -52,27 +44,12 @@
 {
     
     static NSString *cellId = @"id";
-    EnterForthTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    AboutProductCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell == nil) {
-        cell = [[EnterForthTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId
-                ];
+        cell = [[AboutProductCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
+    cell.indexpath = indexPath;
     
-    if (indexPath.row == 0) {
-        cell.imageViw.image = [UIImage imageNamed:@"shuoming"];
-        cell.lable.text = @"产品说明";
-    } else if (indexPath.row == 1) {
-        cell.imageViw.image = [UIImage imageNamed:@"help"];
-        cell.lable.text = @"在线帮助";
-    } else if (indexPath.row == 2) {
-        cell.imageViw.image = [UIImage imageNamed:@"fankui"];
-        cell.lable.text = @"建议反馈";
-    } else if (indexPath.row == 3) {
-        cell.imageViw.image = [UIImage imageNamed:@"rizhi" ];
-        cell.lable.text = @"更新日志";
-    }
-    cell.lable.textColor = [UIColor blackColor];
-    cell.jianTouImage.tintColor = [UIColor blackColor];
     return cell;
 }
 
@@ -81,27 +58,41 @@
 
         
         AllTypeServiceViewController *allServicesVC = [[AllTypeServiceViewController alloc]init];
-        allServicesVC.fromAboutVC = @"YES";
+        allServicesVC.navigationItem.title = @"所有设备";
         [self.navigationController pushViewController:allServicesVC animated:YES];
         
         
     } else if (indexPath.row == 1) {
         MineYouHuiQuanViewController *youHuiQuanVC = [[MineYouHuiQuanViewController alloc]init];
+        youHuiQuanVC.navigationItem.title = @"在线帮助";
         [self.navigationController pushViewController:youHuiQuanVC animated:YES];
     } else if (indexPath.row == 2) {
         UserFeedBackViewController *userVC = [[UserFeedBackViewController alloc]init];
-        userVC.model = [[UserModel alloc]init];
+        
         userVC.model = self.model;
+        userVC.navigationItem.title = @"建议反馈";
         [self.navigationController pushViewController:userVC animated:YES];
 
     } else if (indexPath.row == 3) {
         GengXinRiZhiViewController *gengXinVC = [[GengXinRiZhiViewController alloc]init];
+        gengXinVC.navigationItem.title = @"更新日志";
         [self.navigationController pushViewController:gengXinVC animated:YES];
     }
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return kScreenH / 14.2;
+    return kScreenH / 14.46;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return kScreenW / 27;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
 }
 
 #pragma mark - rows的个数

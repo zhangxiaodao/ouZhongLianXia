@@ -18,23 +18,16 @@
 #define RGBCOLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
 
 @interface UserFeedBackViewController ()<UITextViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate , HelpFunctionDelegate>
-
-
-@property (nonatomic , strong) UIView *navView;
-
 @property (nonatomic, strong) PlaceholderTextView * textView;
 
-@property (nonatomic, strong) UIButton * sendButton;
-
 @property (nonatomic, strong) UIView * aView;
-
 @property (nonatomic, strong)UICollectionView *collectionV;
 //上传图片的个数
 @property (nonatomic, strong)NSMutableArray *photoArrayM;
 //上传图片的button
 @property (nonatomic, strong)UIButton *photoBtn;
-//回收键盘
-@property (nonatomic, strong)UITextField *textField;
+
+@property (nonatomic , strong) UIView *secondBackView;
 
 //字数的限制
 @property (nonatomic, strong)UILabel *wordCountLabel;
@@ -56,13 +49,14 @@
     return _photoArrayM;
 }
 
+- (void)setModel:(UserModel *)model {
+    _model = model;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    
-    
-    self.view.backgroundColor = [UIColor colorWithRed:229.0/255 green:229.0/255 blue:229.0/255 alpha:1.0f];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     
     [self setUI];
     
@@ -75,77 +69,107 @@
     if (self.photoArrayM.count < 4) {
         
         [self.collectionV reloadData];
-        _aView.frame = CGRectMake(20, 84, self.view.frame.size.width - 40, 180);
-        self.photoBtn.frame = CGRectMake(10 * (self.photoArrayM.count + 1) + (self.aView.frame.size.width - 60) / 5 * self.photoArrayM.count, 154 - 5, (self.aView.frame.size.width - 60) / 5, (self.aView.frame.size.width - 60) / 5 + 5);
-    }else{
-        [self.collectionV reloadData];
-        self.photoBtn.frame = CGRectMake(0, 0, 0, 0);
-        
+        [self.photoBtn removeFromSuperview];
+        [self.secondBackView addSubview:self.photoBtn];
+        [self.photoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kScreenW / 6.8, kScreenW / 6.8));
+            make.left.mas_equalTo(_secondBackView.mas_left).offset((kScreenW / 25) * (self.photoArrayM.count + 1) + (kScreenW / 6.8) * self.photoArrayM.count);
+            make.centerY.mas_equalTo(self.collectionV.mas_centerY);
+        }];
     }
     
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-
-}
-
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    
-    
-    
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 设置UI
 - (void)setUI{
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"用户反馈"];
-    
     self.aView = [[UIView alloc]init];
     _aView.backgroundColor = [UIColor whiteColor];
-    _aView.frame = CGRectMake(20, 84, self.view.frame.size.width - 40, kScreenW / 2);
-    
+    _aView.frame = CGRectMake(kScreenW / 25, kScreenW / 25, kScreenW - kScreenW * 2 / 25, kScreenH / 3.7);
     [self.view addSubview:_aView];
+    _aView.layer.cornerRadius = 5;
     
     
     
-    self.wordCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.textView.frame.origin.x + 20,  self.textView.frame.size.height + 84 - 1, [UIScreen mainScreen].bounds.size.width - 40, 20)];
-    _wordCountLabel.font = [UIFont systemFontOfSize:14.f];
+    _textView = [[PlaceholderTextView alloc]initWithFrame:_aView.bounds];
+    [_aView addSubview:_textView];
+    _textView.keyboardType = UIKeyboardTypeDefault;
+    _textView.delegate = self;
+    _textView.font = [UIFont systemFontOfSize:14.f];
+    _textView.textColor = [UIColor blackColor];
+    _textView.textAlignment = NSTextAlignmentLeft;
+    _textView.editable = YES;
+    _textView.backgroundColor = [UIColor clearColor];
+    _textView.placeholderColor = RGBCOLOR(0x89, 0x89, 0x89);
+    _textView.placeholder = @"写下你遇到的问题，或告诉我们你的宝贵意见~";
+    _textView.layer.borderWidth = 0;
+    
+    _wordCountLabel = [UILabel creatLableWithTitle:@"0/300" andSuperView:_aView andFont:k14 andTextAligment:NSTextAlignmentRight];
+    [_wordCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 4 / 25, kScreenW / 25));
+        make.centerX.mas_equalTo(_aView.mas_centerX);
+        make.bottom.mas_equalTo(_aView.mas_bottom).offset(-kScreenW / 25);
+    }];
     _wordCountLabel.textColor = [UIColor lightGrayColor];
-    self.wordCountLabel.text = @"0/300";
-    self.wordCountLabel.backgroundColor = [UIColor whiteColor];
-    self.wordCountLabel.textAlignment = NSTextAlignmentRight;
-    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(self.textView.frame.origin.x + 20,  self.textView.frame.size.height + 84 - 1 + 23, [UIScreen mainScreen].bounds.size.width - 40, 1)];
-    lineView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:lineView];
+    _wordCountLabel.layer.borderWidth = 0;
+
+    _secondBackView = [[UIView alloc]init];
+    _secondBackView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_secondBackView];
+    [_secondBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(_aView.width, kScreenH / 5.32));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(_aView.mas_bottom).offset(kScreenW / 23);
+    }];
+    _secondBackView.layer.cornerRadius = 5;
     
-    [self.view addSubview:_wordCountLabel];
-    [_aView addSubview:self.textView];
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
-    //添加一个label(问题截图（选填）)
-    [self addLabelText];
+    UILabel * labelText = [UILabel creatLableWithTitle:@"问题截图(选填)" andSuperView:_secondBackView andFont:k14 andTextAligment:NSTextAlignmentLeft];
     
-    //创建collectionView进行上传图片
+    [labelText mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 4 / 25, kScreenW / 10.7));
+        make.centerX.mas_equalTo(_secondBackView.mas_centerX);
+        make.top.mas_equalTo(_secondBackView.mas_top);
+    }];
+    labelText.textColor = _textView.placeholderColor;
     
-    [self addCollectionViewPicture];
+    UICollectionViewFlowLayout *flowL = [[UICollectionViewFlowLayout alloc]init];
+    flowL.itemSize = CGSizeMake(kScreenW / 6.8 , kScreenW / 6.8 );
+    flowL.sectionInset = UIEdgeInsetsMake(0, kScreenW / 25, 0, 0);
+    flowL.minimumLineSpacing = 10;
+    self.collectionV = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:flowL];
+    [_secondBackView addSubview:_collectionV];
+    [self.collectionV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 25, kScreenW / 6.8));
+        make.centerX.mas_equalTo(_secondBackView.mas_centerX);
+        make.bottom.mas_equalTo(_secondBackView.mas_bottom).offset(-kScreenW / 16.3);
+    }];
+    _collectionV.backgroundColor = [UIColor whiteColor];
+    _collectionV.delegate = self;
+    _collectionV.dataSource = self;
     
-    //添加联系方式
-    
-    //    [self addContactInformation];
-    //提交信息的button
-    [self.view addSubview:self.sendButton];
-    
+    [_collectionV registerClass:[PhotoCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+
     //上传图片的button
     self.photoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.photoBtn.frame = CGRectMake(10 , 165, (self.aView.frame.size.width- 60) / 5, (self.aView.frame.size.width- 60) / 5);
+    [_secondBackView addSubview:_photoBtn];
+    [self.photoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 6.8, kScreenW / 6.8));
+        make.left.mas_equalTo(_secondBackView.mas_left).offset(kScreenW / 25);
+        make.centerY.mas_equalTo(self.collectionV.mas_centerY);
+    }];
+    [_photoBtn sizeToFit];
     [_photoBtn setImage:[UIImage imageNamed:@"2.4意见反馈_03(1)"] forState:UIControlStateNormal];
-    //[_photoBtn setBackgroundColor:[UIColor redColor]];
-    
     [_photoBtn addTarget:self action:@selector(picureUpload:) forControlEvents:UIControlEventTouchUpInside];
-    [self.aView addSubview:_photoBtn];
+    
+    UIButton *submitBtn = [UIButton creatBtnWithTitle:@"提交" withLabelFont:k15 withLabelTextColor:[UIColor whiteColor] andSuperView:self.view andBackGroundColor:kCOLOR(28, 164, 252) andHighlightedBackGroundColor:kKongJingHuangSe andwhtherNeendCornerRadius:@"YES" WithTarget:self andDoneAtcion:@selector(sendFeedBack)];
+    [submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 2.8, kScreenW / 10));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(_secondBackView.mas_bottom).offset(kScreenW / 10);
+    }];
+    
 }
 
 ///图片上传
@@ -176,65 +200,6 @@
     //选取完图片之后关闭视图
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-///填写意见
--(void)addLabelText{
-    UILabel * labelText = [[UILabel alloc] init];
-    labelText.text = @"问题截图(选填)";
-    labelText.frame = CGRectMake(10, 125,[UIScreen mainScreen].bounds.size.width - 20, 20);
-    labelText.font = [UIFont systemFontOfSize:14.f];
-    labelText.textColor = _textView.placeholderColor;
-    [_aView addSubview:labelText];
-    
-    
-}
-#pragma mark 上传图片UIcollectionView
-
--(void)addCollectionViewPicture{
-    //创建一种布局
-    UICollectionViewFlowLayout *flowL = [[UICollectionViewFlowLayout alloc]init];
-    //设置每一个item的大小
-    flowL.itemSize = CGSizeMake((self.aView.frame.size.width - 60) / 5 , (self.aView.frame.size.width - 60) / 5 );
-    flowL.sectionInset = UIEdgeInsetsMake(5, 10, 5, 10);
-    //列
-    flowL.minimumInteritemSpacing = 10;
-    //行
-    flowL.minimumLineSpacing = 10;
-    //创建集合视图
-    self.collectionV = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 145, self.aView.frame.size.width, ([UIScreen mainScreen].bounds.size.width - 60) / 5 + 10) collectionViewLayout:flowL];
-    _collectionV.backgroundColor = [UIColor whiteColor];
-    // NSLog(@"-----%f",([UIScreen mainScreen].bounds.size.width - 60) / 5);
-    _collectionV.delegate = self;
-    _collectionV.dataSource = self;
-    //添加集合视图
-    [self.aView addSubview:_collectionV];
-    
-    //注册对应的cell
-    [_collectionV registerClass:[PhotoCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
-    
-}
-
--(PlaceholderTextView *)textView{
-    
-    if (!_textView) {
-        _textView = [[PlaceholderTextView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width - 40, 100)];
-        _textField.keyboardType = UIKeyboardTypeDefault;
-        _textView.backgroundColor = [UIColor whiteColor];
-        _textView.delegate = self;
-        _textView.font = [UIFont systemFontOfSize:14.f];
-        _textView.textColor = [UIColor blackColor];
-        _textView.textAlignment = NSTextAlignmentLeft;
-        _textView.editable = YES;
-        _textView.layer.cornerRadius = 4.0f;
-        _textView.layer.borderColor = kTextBorderColor.CGColor;
-        _textView.layer.borderWidth = 0.5;
-        _textView.placeholderColor = RGBCOLOR(0x89, 0x89, 0x89);
-        _textView.placeholder = @"写下你遇到的问题，或告诉我们你的宝贵意见~";
-        
-        
-    }
-    
-    return _textView;
-}
 
 //把回车键当做退出键盘的响应键  textView退出键盘的操作
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -249,21 +214,6 @@
     }
     
     return YES;
-}
-
-- (UIButton *)sendButton{
-    
-    if (!_sendButton) {
-        _sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _sendButton.layer.cornerRadius = 2.0f;
-        _sendButton.frame = CGRectMake(20, 364, self.view.frame.size.width - 40, 40);
-        _sendButton.backgroundColor = [self colorWithRGBHex:0x60cdf8];
-        [_sendButton setTitle:@"提交" forState:UIControlStateNormal];
-        [_sendButton addTarget:self action:@selector(sendFeedBack) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    return _sendButton;
-    
 }
 
 #pragma mark 提交意见反馈
@@ -333,22 +283,6 @@
     NSLog(@"%@" , dddd);
 }
 
-
-
-
-- (UIColor *)colorWithRGBHex:(UInt32)hex
-{
-    int r = (hex >> 16) & 0xFF;
-    int g = (hex >> 8) & 0xFF;
-    int b = (hex) & 0xFF;
-    
-    return [UIColor colorWithRed:r / 255.0f
-                           green:g / 255.0f
-                            blue:b / 255.0f
-                           alpha:1.0f];
-}
-
-
 #pragma mark CollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -393,71 +327,6 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [_textView resignFirstResponder];
-    [_textField resignFirstResponder];
 }
-
-#pragma mark 判断邮箱，手机，QQ的格式
--(BOOL)isValidateEmail:(NSString *)email{
-    
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-    self.emailRight = [emailTest evaluateWithObject:email];
-    return self.emailRight;
-    
-}
-
-//验证手机号码的格式
-
-- (BOOL)isMobileNumber:(NSString *)mobileNum
-{
-    /**
-     * 手机号码
-     * 移动：134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
-     * 联通：130,131,132,152,155,156,185,186
-     * 电信：133,1349,153,180,189
-     */
-    NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
-    /**
-     10         * 中国移动：China Mobile
-     11         * 134[0-8],135,136,137,138,139,150,151,157,158,159,182,187,188
-     12         */
-    NSString * CM = @"^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
-    /**
-     15         * 中国联通：China Unicom
-     16         * 130,131,132,152,155,156,185,186
-     17         */
-    NSString * CU = @"^1(3[0-2]|5[256]|8[56])\\d{8}$";
-    /**
-     20         * 中国电信：China Telecom
-     21         * 133,1349,153,180,189
-     22         */
-    NSString * CT = @"^1((33|53|8[09])[0-9]|349)\\d{7}$";
-    /**
-     25         * 大陆地区固话及小灵通
-     26         * 区号：010,020,021,022,023,024,025,027,028,029
-     27         * 号码：七位或八位
-     28         */
-    // NSString * PHS = @"^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
-    
-    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
-    NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM];
-    NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
-    NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];
-    
-    if (([regextestmobile evaluateWithObject:mobileNum] == YES)
-        || ([regextestcm evaluateWithObject:mobileNum] == YES)
-        || ([regextestct evaluateWithObject:mobileNum] == YES)
-        || ([regextestcu evaluateWithObject:mobileNum] == YES))
-    {
-        self.phoneRight = 1;
-        return YES;
-    }
-    else
-    {
-        self.phoneRight = 0;
-        return NO;
-    }
-}
-
 
 @end

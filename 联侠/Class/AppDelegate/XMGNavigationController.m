@@ -38,12 +38,13 @@
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backButton setImage:[UIImage imageNamed:@"navigationButtonReturn"] forState:UIControlStateNormal];
         [backButton setImage:[UIImage imageNamed:@"navigationButtonReturnClick"] forState:UIControlStateHighlighted];
-        [backButton setTitle:@"返回" forState:UIControlStateNormal];
-        [backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [backButton setTitle:viewController.navigationItem.title forState:UIControlStateNormal];
+        [backButton setTitleColor:[UIColor colorWithHexString:@"00a2ff"] forState:UIControlStateNormal];
         [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+        backButton.titleLabel.font = [UIFont systemFontOfSize:k15];
         [backButton sizeToFit];
         // 这句代码放在sizeToFit后面
-        backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+//        backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
         [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
         

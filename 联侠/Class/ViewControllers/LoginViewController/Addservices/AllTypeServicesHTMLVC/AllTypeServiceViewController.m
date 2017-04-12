@@ -13,9 +13,8 @@
 
 
 @interface AllTypeServiceViewController ()<UITableViewDelegate , UITableViewDataSource , HelpFunctionDelegate>
-@property (nonatomic , strong) UIView *navView;
 @property (nonatomic , copy) NSString *devType;
-@property (nonatomic , strong) UITableView *tableView;
+
 @property (nonatomic , strong) NSMutableArray *dataArray;
 
 @end
@@ -25,19 +24,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     
     [self setUI];
     
     [HelpFunction requestDataWithUrlString:kAllTypeServiceURL andParames:nil andDelegate:self];
     
 }
-
-
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 
 #pragma mark - 代理返回的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
@@ -60,18 +53,9 @@
 
 
 - (void)setUI {
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"所有设备"];
     
-    _tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
-    [self.view addSubview:_tableView];
-    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH - kScreenH / 10));
-        make.top.mas_equalTo(self.navView.mas_bottom);
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-    }];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 10, 0);
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -87,14 +71,10 @@
     if (!cell) {
         cell = [[AllTypeServiceTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:celled];
     }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
+    cell.dataArray = _dataArray;
+    cell.indexpath = indexPath;
     AllTypeServiceModel *allTypeServiceModel = _dataArray[indexPath.row];
     cell.allTypeServiceModel = allTypeServiceModel;
-    
-   
-   
-    
     
     return cell;
 }
@@ -103,14 +83,14 @@
     
     AllTypeServiceModel *allTypeServiceModel = _dataArray[indexPath.row];
     AllServicesViewController *allServiceVC = [[AllServicesViewController alloc]init];
+    allServiceVC.navigationItem.title = @"产品说明";
     allServiceVC.devType = [NSString stringWithFormat:@"%ld" , (long)allTypeServiceModel.typeSn];
-    allServiceVC.fromAboutVC = self.fromAboutVC;
     [self.navigationController pushViewController:allServiceVC animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    return kScreenH / 12;
+    return kScreenH / 14.46;
 }
 
 - (NSMutableArray *)dataArray {

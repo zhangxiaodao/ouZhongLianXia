@@ -9,11 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DiZhiModel.h"
 
-typedef void(^ReturnHeadImage)(UIImage *image);
-
-@interface UserMessageViewController : UIViewController
-
-@property (nonatomic , copy)ReturnHeadImage returnBlock;
+@interface UserMessageViewController : UITableViewController
 
 @property (nonatomic , retain) UIImageView *headImageView;
 @property (nonatomic  ,strong) UserModel *userModel;
