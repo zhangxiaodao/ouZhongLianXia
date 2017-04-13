@@ -8,8 +8,7 @@
 
 #import "NiChengViewController.h"
 #import "UserMessageViewController.h"
-@interface NiChengViewController ()
-@property (nonatomic , strong) UIView *navView;
+@interface NiChengViewController ()<HelpFunctionDelegate>
 @property (nonatomic , strong) UITextField *textFiled;
 
 @end
@@ -18,88 +17,46 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     [self setUI];
-}
 
-- (void)viewDidDisappear:(BOOL)animated {
-    NSArray *array = [NSArray arrayWithArray:self.view.subviews];
-    for (int i = 0; i < array.count; i++) {
-        [array[i] removeFromSuperview];
-    }
 }
 
 #pragma mark - 设置UI
 - (void)setUI{
 
-    
-    UILabel *titleLable = [UILabel creatLableWithTitle:@"昵称" andSuperView:self.view andFont:k16 andTextAligment:NSTextAlignmentCenter];
-    titleLable.layer.borderWidth = 0;
-    titleLable.textColor = [UIColor blackColor];
-    [titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 22.23333));
-        make.top.mas_equalTo(kScreenH / 33.35);
-    }];
-    
-    UIView *view = [[UIView alloc]init];
-    view.backgroundColor = [UIColor grayColor];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(kScreenW / 29, kScreenW / 29, kScreenW - kScreenW * 2 / 29, kScreenH / 13.3)];
+    view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view];
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, 1));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(kScreenH / 13.34);
-    }];
     
     
-    self.textFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入您要修改的信息" andSuperView:self.view];
-     self.textFiled.layer.borderColor = [UIColor redColor].CGColor;
+    self.textFiled = [UITextField creatTextfiledWithPlaceHolder:@"请修改您的信息" andSuperView:view];
     self.textFiled.keyboardType = UIKeyboardTypeDefault;
-    [self.textFiled mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(kHeight + 20);
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-    }];
+    self.textFiled.frame = view.bounds;
+
     
-    UIView *xiaHuaXian2 = [[UIView alloc]init];
-    [self.view addSubview:xiaHuaXian2];
-    xiaHuaXian2.backgroundColor = kMainColor;
-    [xiaHuaXian2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.textFiled.mas_bottom);
-    }];
-    
-    UIButton *cancleBtn = [UIButton initWithTitle:@"取消" andColor:kMainColor andSuperView:self.view];
-    [cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(xiaHuaXian2.mas_left);
-        make.size.mas_equalTo(CGSizeMake((kScreenW / 2 - 40) / 2, kScreenW / 10));
-        make.top.mas_equalTo( self.textFiled.mas_bottom).offset(10);
-    }];
-    [cancleBtn addTarget:self action:@selector(cancleBtnAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *sureBtn = [UIButton initWithTitle:@"确定" andColor:kMainColor andSuperView:self.view];
+    UIButton *sureBtn = [UIButton initWithTitle:@"完成" andColor:kMainColor andSuperView:self.view];
     [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(xiaHuaXian2.mas_right);
-        make.size.mas_equalTo(CGSizeMake((kScreenW / 2 - 40) / 2, kScreenW / 10));
-        make.top.mas_equalTo( self.textFiled.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake( kScreenW / 2.68, kScreenW / 9.375));
+        make.top.mas_equalTo(view.mas_bottom).offset(kScreenW / 7.5);
     }];
     [sureBtn addTarget:self action:@selector(sureBtnAtcion:) forControlEvents:UIControlEventTouchUpInside];
     
-}
-
-
-#pragma mark - 返回按钮的点击事件
-- (void)cancleBtnAtcion:(UIButton *)btn {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self.navigationItem.title isEqualToString:@"昵称"]) {
+        if (_userModel.nickname) {
+            self.textFiled.text = _userModel.nickname;
+        }
+    } else {
+        if (_userModel.email) {
+            self.textFiled.text = _userModel.email;
+        }
+    }
+    
+    
     
 }
+
 
 #pragma mark - 确定按钮的点击事件
 - (void)sureBtnAtcion:(UIButton *)btn {
@@ -111,7 +68,19 @@
             [_delegate sendNickNameToPreviousVC:self.textFiled.text];
         }
         
-        [self.navigationController popViewControllerAnimated:YES];
+//        NSMutableDictionary *parames = [NSMutableDictionary dictionary];
+//        [parames setObject:@(self.userModel.sn) forKey:@"user.sn"];
+//        [parames setObject:self.textFiled.text forKey:@"user.nickname"];
+//        [parames setObject:self.emailLabel.text forKey:@"user.email"];
+        
+        NSDictionary *parames = nil;
+        if ([self.navigationItem.title isEqualToString:@"昵称"]) {
+            parames = @{@"user.sn" : @(self.userModel.sn) , @"user.nickname" : self.textFiled.text};
+        } else {
+            parames = @{@"user.sn" : @(self.userModel.sn) , @"user.email" : self.textFiled.text};
+        }
+        [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
+//        [self.navigationController popViewControllerAnimated:YES];
     }
 
    
@@ -119,6 +88,10 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
+}
+
+- (void)setUserModel:(UserModel *)userModel {
+    _userModel = userModel;
 }
 
 @end

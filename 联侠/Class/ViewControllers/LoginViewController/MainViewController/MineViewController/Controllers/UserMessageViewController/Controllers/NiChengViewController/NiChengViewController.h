@@ -19,4 +19,6 @@
 
 @property (nonatomic , assign) id<SendNickNameToPreviousVCDelegate> delegate;
 
+@property (nonatomic , strong) UserModel *userModel;
+
 @end

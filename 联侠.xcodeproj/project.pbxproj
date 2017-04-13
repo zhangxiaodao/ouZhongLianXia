@@ -244,6 +244,8 @@
 		EDC761C61DC9FDBE007E2774 /* UIViewController+Swizzled.m in Sources */ = {isa = PBXBuildFile; fileRef = EDC761C51DC9FDBE007E2774 /* UIViewController+Swizzled.m */; };
 		EDCBDC191DA8CBF300DD8E6C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDCBDC181DA8CBF300DD8E6C /* TabBarViewController.m */; };
 		EDEA426C1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEA426B1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m */; };
+		EDEEAD711E9F149E00115267 /* UserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD701E9F149E00115267 /* UserInfoCell.m */; };
+		EDEEAD741E9F17E100115267 /* UserInfoCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD731E9F17E100115267 /* UserInfoCommonCell.m */; };
 		EDF2DBF21D0FF9F300475E11 /* AirPuritionGengDuoFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDF2DBF11D0FF9F300475E11 /* AirPuritionGengDuoFirstTableViewCell.m */; };
 		EDF2DBF51D0FFB4300475E11 /* AirPuritionGengDuoSecondTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDF2DBF41D0FFB4300475E11 /* AirPuritionGengDuoSecondTableViewCell.m */; };
 		EDF2DBF81D0FFDCC00475E11 /* AirPuritionGengDuoThirtTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDF2DBF71D0FFDCC00475E11 /* AirPuritionGengDuoThirtTableViewCell.m */; };
@@ -711,6 +713,10 @@
 		EDCBDC181DA8CBF300DD8E6C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 		EDEA426A1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJiYiWuXuanZeTableViewCell.h; sourceTree = "<group>"; };
 		EDEA426B1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GanYiJiYiWuXuanZeTableViewCell.m; sourceTree = "<group>"; };
+		EDEEAD6F1E9F149E00115267 /* UserInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoCell.h; sourceTree = "<group>"; };
+		EDEEAD701E9F149E00115267 /* UserInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoCell.m; sourceTree = "<group>"; };
+		EDEEAD721E9F17E100115267 /* UserInfoCommonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoCommonCell.h; sourceTree = "<group>"; };
+		EDEEAD731E9F17E100115267 /* UserInfoCommonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoCommonCell.m; sourceTree = "<group>"; };
 		EDF2DBF01D0FF9F300475E11 /* AirPuritionGengDuoFirstTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirPuritionGengDuoFirstTableViewCell.h; sourceTree = "<group>"; };
 		EDF2DBF11D0FF9F300475E11 /* AirPuritionGengDuoFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirPuritionGengDuoFirstTableViewCell.m; sourceTree = "<group>"; };
 		EDF2DBF31D0FFB4300475E11 /* AirPuritionGengDuoSecondTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirPuritionGengDuoSecondTableViewCell.h; sourceTree = "<group>"; };
@@ -1984,6 +1990,10 @@
 		ED5391601E9E2B910075CCE6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EDEEAD6F1E9F149E00115267 /* UserInfoCell.h */,
+				EDEEAD701E9F149E00115267 /* UserInfoCell.m */,
+				EDEEAD721E9F17E100115267 /* UserInfoCommonCell.h */,
+				EDEEAD731E9F17E100115267 /* UserInfoCommonCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2638,6 +2648,7 @@
 				ED12E1DB1CF5C5470011CD2C /* BottomNavViewController.m in Sources */,
 				EDB559D61D3E12F500DC856C /* UIImage+Extension.m in Sources */,
 				ED5391551E9E20830075CCE6 /* ServiceBaseCollectionCell.m in Sources */,
+				EDEEAD711E9F149E00115267 /* UserInfoCell.m in Sources */,
 				ED27A2311CF81C1E006BD844 /* DingShiYuYueCell.m in Sources */,
 				ED12E2B41CF5C5470011CD2C /* EnterThirtTableViewCell.m in Sources */,
 				ED12E2811CF5C5470011CD2C /* ForgetPwdViewController.m in Sources */,
@@ -2660,6 +2671,7 @@
 				ED12E1E01CF5C5470011CD2C /* Singleton.m in Sources */,
 				ED12E2B91CF5C5470011CD2C /* MainFirstView.m in Sources */,
 				ED12E2631CF5C5470011CD2C /* ESP_ByteUtil.m in Sources */,
+				EDEEAD741E9F17E100115267 /* UserInfoCommonCell.m in Sources */,
 				ED26F69B1D22180100762399 /* AirPurificationFifthTableViewCell.m in Sources */,
 				ED12E1E61CF5C5470011CD2C /* UIView+Extension.m in Sources */,
 				ED83494F1E9CAFF700FF22A3 /* SystemMessageAndMineMessageTableViewCell.m in Sources */,

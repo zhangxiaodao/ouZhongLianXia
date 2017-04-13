@@ -15,10 +15,9 @@
 
 #import "LocationPickerVC.h"
 #import "NiChengViewController.h"
-#import "BDImagePicker.h"
 #import "LoginViewController.h"
 #import "EmailViewController.h"
-
+#import "UserInfoCommonCell.h"
 #import "GeRenModel.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -42,6 +41,7 @@
 @property (nonatomic , assign) BOOL sex;
 @end
 
+static NSString *celled = @"celled";
 @implementation UserMessageViewController
 
 - (void)viewDidLoad {
@@ -50,6 +50,8 @@
     
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+    [self.tableView registerClass:[UserInfoCommonCell class] forCellReuseIdentifier:celled];
     
     if ([kStanderDefault objectForKey:@"GeRenModel"]) {
         self.geRenModel = [[GeRenModel alloc]init];
@@ -111,10 +113,6 @@
     }
     
     
-    if (self.headImageView.image) {
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"headImage" object:self userInfo:[NSDictionary dictionaryWithObject:self.headImageView.image forKey:@"headImage"]]];
-    }
-    
     if (self.niChengLabel.text) {
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"niCheng" object:self userInfo:[NSDictionary dictionaryWithObject:self.niChengLabel.text forKey:@"niCheng"]]];
     }
@@ -124,119 +122,52 @@
     NSLog(@"%@" , dic);
 }
 
-- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    NSLog(@"%@" , dddd);
-}
-
-#pragma mark - 点击头像换取并上传
-- (void)headTapAtcion:(UITapGestureRecognizer *)tap {
-    
-    [BDImagePicker showImagePickerFromViewController:self allowsEditing:YES finishAtcion:^(UIImage *image) {
-        if (image) {
-            self.headImageView.image = image;
-            NSData *data = [NSData data];
-            if (UIImagePNGRepresentation(image) == nil) {
-                data = UIImageJPEGRepresentation(image, 1);
-            } else {
-                data = UIImagePNGRepresentation(image);
-            }
-          
-            NSDictionary *parems = @{@"userSn" : @(self.userModel.sn) , @"files" : data};
-            
-            [HelpFunction requestDataWithUrlString:kShangChuanTouXiang andParames:parems andImage:self.headImageView.image andDelegate:self];
-        }
-    }];
-    
-}
-
 #pragma mark - TableView的代理事件
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UserInfoCommonCell *cell = [tableView dequeueReusableCellWithIdentifier:celled];
+    cell.dizhiModel = self.diZhiModel;
+    cell.userModel = self.userModel;
+    cell.indexPath = indexPath;
+    
+    return cell;
+}
+
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == 2) {
-        return 4;
-    } else if (section == 3) {
-        return 2;
-    } else {
-        return 1;
-    }
+    if (section == 0) return 6;
+    else if (section == 1) return 2;
+    else return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *celled = @"celled";
-    UserMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:celled];
-    if (!cell) {
-        cell = [[UserMessageTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:celled];
-    }
-    
-    cell.indexPath = indexPath;
-    
-    if (indexPath.section == 0) {
-        cell.leftLable.text = @"Z币";
-        cell.rightLable.text = @" ";
-    } else if (indexPath.section == 1) {
-        cell.dizhiModel = self.diZhiModel;
-    
-    } else if (indexPath.section == 2) {
-        
-        if (indexPath.row == 0) {
-            cell.leftLable.text = @"昵称";
-            cell.dizhiModel = self.diZhiModel;
-            
-            self.niChengLabel = cell.rightLable;
-        } else if (indexPath.row == 1) {
-            cell.leftLable.text = @"性别";
-            cell.rightLable.text = @"男";
-        } else if (indexPath.row == 2) {
-            cell.leftLable.text = @"我的邮箱";
-            cell.userModel = self.userModel;
-            
-            self.emailLabel = cell.rightLable;
-        } else if (indexPath.row == 3) {
-            cell.leftLable.text = @"生日";
-            cell.userModel = self.userModel;
-            
-            self.birthdayLabel = cell.rightLable;
-        }
-        
-        if (self.geRenModel) {
-            cell.geRenModel = self.geRenModel;
-        }
-        
-    }else if (indexPath.section == 3) {
-        if (indexPath.row == 0) {
-            cell.leftLable.text = @"修改密码";
-        } else if (indexPath.row == 1) {
-            cell.leftLable.text = @"我的ID";
-            cell.rightLable.text = [NSString stringWithFormat:@"%ld" , (long)self.userModel.sn];
-            
-            cell.rightImage.image = [UIImage imageNamed:@""];
-        }
-    } if (indexPath.section == 4) {
-        cell.leftLable.text = @"退出当前账号";
-    }
-    cell.rightImage.tintColor = [UIColor blackColor];
-    return cell;
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return kScreenH / 14.2;
+    
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        return kScreenH / 8.3;
+    } else return kScreenH / 14.46;
+    
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0;
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return kScreenW / 27;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 10;
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
 }
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && indexPath.row == 1) {
         MineYouHuiQuanViewController *youHuiQuanVC = [[MineYouHuiQuanViewController alloc]init];
         [self.navigationController pushViewController:youHuiQuanVC animated:YES];
     } else if (indexPath.section == 3) {
