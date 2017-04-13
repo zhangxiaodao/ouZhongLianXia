@@ -80,6 +80,10 @@
     
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 #pragma mark - 返回主界面
 - (void)backTap:(UITapGestureRecognizer *)tap {
     [self.navigationController popViewControllerAnimated:YES];

@@ -7,13 +7,12 @@
 //
 
 #import "XinFengSecondTableViewCell.h"
-#import "MalertView.h"
 #import "XinFengCaiDengViewController.h"
 #define kArrayCount _array.count
 #define kArrayCountJiaYi (_array.count + 1)
 #define kBtnW ((kScreenW + 4) / 4)
 #define kContentViewHeight kBtnW * 2 + kBtnW * 2 / 3
-@interface XinFengSecondTableViewCell ()<MalertItemSelectDelegate , MalertItemSelectDelegate , HelpFunctionDelegate>
+@interface XinFengSecondTableViewCell ()<HelpFunctionDelegate>
 {
     UIButton *ziDongBtn;
     UIButton *windBtn;
@@ -21,7 +20,6 @@
     UIButton *modelBtn;
     UIButton *shouDongBtn;
     UIButton *caiDengBtn;
-    MalertView *_alert;
 }
 @property (nonatomic , strong) UIView *markView;
 @property (nonatomic , strong) NSArray *array;
@@ -157,16 +155,6 @@
     }
 }
 
-- (void)malertItemSelect:(NSInteger)index {
-    
-    index = index - 100;
-    
-    NSString *toHex = [NSString ToHex:index];
-    
-    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
-    
-}
-
 - (void)xinFengBtnDoneAtcion:(UIButton *)btn {
     
     switch (btn.tag) {
@@ -200,14 +188,6 @@
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:xinFengCaiDengVC];
             
             [kWindowRoot presentViewController:nav animated:YES completion:nil];
-            
-//            NSArray *array = @[@"自动模式" , @"七彩渐变" , @"幻彩转动" , @"七色呼吸" , @"红绿蓝" , @"黄青紫" , @"七色转动" , @"红" , @"绿" , @"蓝" , @"黄" , @"青" ,@"紫" , @"白" , @"暂停" , @"关闭"];
-//            _alert = [[MalertView alloc] initWithImageArrOfButton:array andDataArray:@[self.serviceModel]];
-//            _alert.delegate = self;
-//            [kWindowRoot.view addSubview:_alert];
-//            
-//            [_alert showAlert];
-            
             break;
         }
         case 5:{
@@ -345,6 +325,10 @@
         [self setStateModel:stateModel];
     }
     
+}
+
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
 }
 
 - (void)setStateModel:(StateModel *)stateModel {

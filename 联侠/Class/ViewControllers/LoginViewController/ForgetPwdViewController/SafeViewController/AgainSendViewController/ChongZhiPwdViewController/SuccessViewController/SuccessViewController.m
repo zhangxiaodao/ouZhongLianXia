@@ -9,7 +9,7 @@
 #import "SuccessViewController.h"
 #import "LoginViewController.h"
 #import "MineSerivesViewController.h"
-#import "AddSViewController.h"
+
 
 @interface SuccessViewController ()<HelpFunctionDelegate>
 @property (nonatomic , strong) UIView *navView;
@@ -125,6 +125,8 @@
     }
 }
 
-
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 @end

@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/LengFengShanViewController/EnterWorkTowerViewController/DingShiYuYueCell/DingShiYuYueCell.m"
-            timestampString = "510041726.14822"
+            timestampString = "513767643.918928"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "701"
-            endingLineNumber = "701"
+            startingLineNumber = "702"
+            endingLineNumber = "702"
             landmarkName = "-hideMyPicker"
             landmarkType = "7">
          </BreakpointContent>
@@ -181,6 +181,38 @@
             continueAfterRunningActions = "No"
             scope = "0"
             stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
+            timestampString = "513762711.518697"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
+            landmarkName = "-tapConfirmForResults"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
+            timestampString = "513762715.034803"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "449"
+            endingLineNumber = "449"
+            landmarkName = "-tapConfirmForResults"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

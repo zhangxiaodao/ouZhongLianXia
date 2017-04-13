@@ -283,6 +283,10 @@
     NSLog(@"%@" , dddd);
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 #pragma mark CollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{

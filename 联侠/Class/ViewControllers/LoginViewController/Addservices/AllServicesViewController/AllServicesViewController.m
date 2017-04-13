@@ -77,6 +77,9 @@
     
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 #pragma mark - collectionView有多少分区
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{

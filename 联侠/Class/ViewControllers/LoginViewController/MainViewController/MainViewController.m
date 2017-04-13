@@ -161,6 +161,10 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 - (void)setBottomBackGroundColor:(UIColor *)color andSelected:(BOOL)selected andState:(NSString *)state {
     self.bottomBtn.backgroundColor = color;
     self.bottomBtn.selected = selected;

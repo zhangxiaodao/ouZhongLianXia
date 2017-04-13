@@ -77,7 +77,6 @@
     
     if (_serviceModel) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
-        NSLog(@"%@" , [NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]);
         }
 }
     
@@ -85,7 +84,7 @@
     NSString *mingLing = post.userInfo[@"Message"];
     NSString *caiDeng = [mingLing substringWithRange:NSMakeRange(32, 2)];
     NSString *indexCaiDeng = [NSString turnHexToInt:caiDeng];
-    NSLog(@"彩灯回传命令%@ , %@" , caiDeng , indexCaiDeng);
+//    NSLog(@"彩灯回传命令%@ , %@" , caiDeng , indexCaiDeng);
     
     NSInteger index = indexCaiDeng.intValue;
     

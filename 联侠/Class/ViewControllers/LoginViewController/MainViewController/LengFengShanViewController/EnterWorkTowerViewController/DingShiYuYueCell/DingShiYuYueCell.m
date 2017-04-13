@@ -517,10 +517,11 @@
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
     NSLog(@"%@" , dddd);
-    
-    
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 #pragma mark - 星期的点击事件
 - (void)btnAtcion:(UIButton *)btn {

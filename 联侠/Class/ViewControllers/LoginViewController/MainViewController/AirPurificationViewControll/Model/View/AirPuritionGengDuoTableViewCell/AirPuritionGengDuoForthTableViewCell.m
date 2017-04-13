@@ -60,6 +60,9 @@
     [self configUI:self.forthView];
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 #pragma mark - 生成线状图
 - (void)configUI:(UIView *)superView

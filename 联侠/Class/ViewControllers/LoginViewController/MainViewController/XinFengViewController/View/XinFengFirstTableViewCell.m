@@ -330,6 +330,10 @@ static CGFloat speed = 0.0;
     
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 - (void)setServiceDataModel:(ServicesDataModel *)serviceDataModel{
     
     _serviceDataModel = serviceDataModel;

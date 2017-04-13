@@ -366,6 +366,10 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 - (NSMutableArray *)get24TimesFromNowTime{
     
     NSMutableArray *timeArray = [NSMutableArray array];

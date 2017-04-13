@@ -10,7 +10,6 @@
 #import "Launch1ViewController.h"
 #import "LoginViewController.h"
 #import "MainViewController.h"
-#import "AddSViewController.h"
 #import "AllServicesViewController.h"
 
 #import "LengFengShanViewController.h"

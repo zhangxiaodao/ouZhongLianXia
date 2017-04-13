@@ -161,6 +161,9 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 #pragma mark - 设置UI界面
 - (void)setUI{

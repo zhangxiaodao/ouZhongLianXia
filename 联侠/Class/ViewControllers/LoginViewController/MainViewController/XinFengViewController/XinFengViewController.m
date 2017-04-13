@@ -200,6 +200,9 @@
     
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 #pragma mark - 按钮开点击事件
 - (void)xinFengOpenAtcion:(UIButton *)btn {

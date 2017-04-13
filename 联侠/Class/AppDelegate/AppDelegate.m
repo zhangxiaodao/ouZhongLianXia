@@ -201,6 +201,10 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 - (void)wheatherUpdate:(NSString *)title {
     [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", STOREAPPID]];

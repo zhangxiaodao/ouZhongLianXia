@@ -10,9 +10,7 @@
 #import "ForgetPwdViewController.h"
 #import "RegisterViewController.h"
 #import "AgainSendViewController.h"
-
 #import "MainViewController.h"
-#import "AddSViewController.h"
 
 #import "GCDAsyncSocket.h"
 #import "ServicesModel.h"
@@ -305,6 +303,9 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 #pragma mark - 点击空白处收回键盘
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

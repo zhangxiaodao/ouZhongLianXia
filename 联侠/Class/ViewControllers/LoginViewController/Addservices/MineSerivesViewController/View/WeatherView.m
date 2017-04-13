@@ -46,11 +46,17 @@
     
     NSString *quality = dic[@"quality"];
     
+    if ([quality isEqualToString:@"轻度污染"]) {
+        quality = @"良";
+    } else if ([quality isEqualToString:@"中度污染"] || [quality isEqualToString:@"重度污染"]) {
+        quality = @"差";
+    }
+    
     UILabel *kongQiZhiLiang = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"空气质量: %@", quality] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
     [NSString setAttributedString:kongQiZhiLiang.text WithSubString:5 andSize:k21 andTextColor:color isNeedTwoXiaoShuo:@"NO" andSuperLabel:kongQiZhiLiang];
     kongQiZhiLiang.layer.borderWidth = 0;
     [kongQiZhiLiang mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenW / 15));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 15));
         make.left.mas_equalTo(shiDu.mas_right).offset(kScreenW / 60);
         make.centerY.mas_equalTo(shiDu.mas_centerY);
     }];

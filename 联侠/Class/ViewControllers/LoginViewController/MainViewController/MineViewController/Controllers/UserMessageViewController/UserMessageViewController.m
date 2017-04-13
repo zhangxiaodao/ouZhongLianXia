@@ -122,6 +122,14 @@ static NSString *celled = @"celled";
     NSLog(@"%@" , dic);
 }
 
+- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
+    NSLog(@"%@" , dddd);
+}
+
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 #pragma mark - TableView的代理事件
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -167,9 +175,16 @@ static NSString *celled = @"celled";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    if (indexPath.section == 0 && indexPath.row == 1) {
-        MineYouHuiQuanViewController *youHuiQuanVC = [[MineYouHuiQuanViewController alloc]init];
-        [self.navigationController pushViewController:youHuiQuanVC animated:YES];
+    if (indexPath.section == 0 && (indexPath.row == 1 || indexPath.row == 5)) {
+
+        NiChengViewController *nickNameVC = [[NiChengViewController alloc]init];
+        if (indexPath.row == 5) {
+            nickNameVC.navigationItem.title = @"邮箱";
+        } else if (indexPath.row == 1) {
+            nickNameVC.navigationItem.title = @"昵称";
+        }
+        
+        [self.navigationController pushViewController:nickNameVC animated:YES];
     } else if (indexPath.section == 3) {
         if (indexPath.row == 0) {
             AgainSendViewController *subVC = [[AgainSendViewController alloc]init];

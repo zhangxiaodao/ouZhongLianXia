@@ -373,6 +373,9 @@
     NSLog(@"定时---%@" , dddd);
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;

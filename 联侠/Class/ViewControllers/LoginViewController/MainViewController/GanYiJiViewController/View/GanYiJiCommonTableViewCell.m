@@ -10,7 +10,7 @@
 
 #define kClothesTime 5
 
-@interface GanYiJiCommonTableViewCell ()<UIPickerViewDataSource , UIPickerViewDelegate , HelpFunctionDelegate>{
+@interface GanYiJiCommonTableViewCell ()<UIPickerViewDataSource , UIPickerViewDelegate>{
     UIView *backView;
     UILabel *kaiQiLable;
 }

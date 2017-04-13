@@ -18,7 +18,7 @@
 
 
 #define kBtnW (((kScreenW - kScreenW / 8) / 4) - 5)
-@interface AirPurificationViewController ()<HelpFunctionDelegate , UITableViewDataSource , UITableViewDelegate>
+@interface AirPurificationViewController ()<UITableViewDataSource , UITableViewDelegate>
 @property (nonatomic , copy) NSString *isAnimation;
 @property (nonatomic , strong) NSMutableDictionary *dic;
 @property (nonatomic , copy)  NSString *lvWangJieDu;

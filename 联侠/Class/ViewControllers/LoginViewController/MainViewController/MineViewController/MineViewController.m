@@ -23,7 +23,6 @@
 #import "MineYouHuiQuanViewController.h"
 #import "ChanPinShuoMingViewController.h"
 #import "MineSerivesViewController.h"
-#import "AddSViewController.h"
 #import "AllServicesViewController.h"
 #import "AboutProductViewController.h"
 #import "MainViewController.h"
@@ -142,6 +141,9 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 #pragma mark - 获取头像
 - (void)getHeadImage:(NSNotification *)post {

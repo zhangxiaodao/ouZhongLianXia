@@ -28,11 +28,17 @@
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(kScreenW / 29, kScreenW / 29, kScreenW - kScreenW * 2 / 29, kScreenH / 13.3)];
     view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view];
+    view.layer.cornerRadius = 5;
+    view.layer.masksToBounds = YES;
     
     
     self.textFiled = [UITextField creatTextfiledWithPlaceHolder:@"请修改您的信息" andSuperView:view];
     self.textFiled.keyboardType = UIKeyboardTypeDefault;
-    self.textFiled.frame = view.bounds;
+    [self.textFiled mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 25, kScreenH / 13.3));
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.centerY.mas_equalTo(view.mas_centerY);
+    }];
 
     
     UIButton *sureBtn = [UIButton initWithTitle:@"完成" andColor:kMainColor andSuperView:self.view];
@@ -84,6 +90,14 @@
     }
 
    
+}
+
+- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
+    NSLog(@"%@" , dddd);
+}
+
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

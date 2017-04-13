@@ -137,6 +137,9 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 #pragma mark - 下一步点击事件
 - (void)nextBtnAction{

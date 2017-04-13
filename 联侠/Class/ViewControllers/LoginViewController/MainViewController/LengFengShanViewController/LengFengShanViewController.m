@@ -16,7 +16,7 @@
 #import "BottomNavViewController.h"
 #import "SetServicesViewController.h"
 
-@interface LengFengShanViewController ()<HelpFunctionDelegate , UITableViewDataSource , UITableViewDelegate>
+@interface LengFengShanViewController ()< UITableViewDataSource , UITableViewDelegate>
 
 @property (nonatomic , strong) NSMutableDictionary *dic;
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "RegisterViewController.h"
-#import "MessageViewController.h"
 #import "YinSiViewController.h"
 #import "XieYiNeiRongViewController.h"
 #import "AuthcodeView.h"
@@ -273,9 +272,6 @@
                 
                 [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:NSLocalizedString(@"AccEmpty", nil)];
             } else {
-//                MessageViewController *messageVC = [[MessageViewController alloc]init];
-//                messageVC.phoneNumber = [NSString stringWithFormat:@"%@" , self.accTectFiled.text];
-//                [self.navigationController pushViewController:messageVC animated:YES];
                 
                 self.alertMessageView.phoneNumber = self.accTectFiled.text;
                 
@@ -316,6 +312,10 @@
             [self.navigationController popViewControllerAnimated:YES];
         } andSuperViewController:self Title:NSLocalizedString(@"AccExiteSoLogin", nil)];
     }
+}
+
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
 }
 
 #pragma mark - 隐私政策点击事件

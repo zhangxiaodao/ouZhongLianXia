@@ -289,6 +289,10 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 - (void)setStateModel:(StateModel *)stateModel {
     _stateModel = stateModel;
     

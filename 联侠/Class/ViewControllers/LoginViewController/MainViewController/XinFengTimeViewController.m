@@ -138,6 +138,9 @@
         
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
 
 - (void)openAtcion:(UITapGestureRecognizer *)tap {
 //   self.firstPickerBgView = [self creatPickView];

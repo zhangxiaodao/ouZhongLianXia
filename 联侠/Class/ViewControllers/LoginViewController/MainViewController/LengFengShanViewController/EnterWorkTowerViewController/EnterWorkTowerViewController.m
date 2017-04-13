@@ -129,6 +129,10 @@ static NSString *fifthCelled = @"fifth";
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 - (void)drawStateView {
     self.firstBackView = [EnterWorkTowerFirsetView creatViewWithColor:[UIColor clearColor] withSuperView:self.placeholderView];
     [self.firstBackView mas_makeConstraints:^(MASConstraintMaker *make) {

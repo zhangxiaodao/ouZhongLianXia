@@ -117,6 +117,10 @@
     
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    
+}
+
 - (void)creatChartView {
     
     if (_chaView) {

@@ -9,7 +9,6 @@
 #import "GanYiJiViewController.h"
 #import "GanYiJiFirstTableViewCell.h"
 #import "GanYiJiSecondTableViewCell.h"
-//#import "GanYiJiThirtTableViewCell.h"
 #import "GanYiJiYiWuXuanZeTableViewCell.h"
 #import "AirPurificationFifthTableViewCell.h"
 #import "BingJingShouMingTableViewCell.h"

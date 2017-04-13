@@ -318,6 +318,10 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    NSLog(@"%@" , error);
+}
+
 #pragma mark - 创建UIPickView
 - (UIView *)creatPickView{
     

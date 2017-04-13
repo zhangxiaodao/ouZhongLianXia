@@ -9,36 +9,30 @@
 #import "AboutOusTableViewCell.h"
 
 @interface AboutOusTableViewCell ()
-@property (nonatomic , strong) UILabel *label;
+
 @end
 
 @implementation AboutOusTableViewCell
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self customUI];
+    return self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+}
+
+- (void)setIndexpath:(NSIndexPath *)indexpath {
+    
+    [super setIndexpath:indexpath];
+        
+    if (self.indexpath.row == 0) {
+        self.lable.text = @"去评价";
+        self.imageViw.image = [UIImage imageNamed:@"icon_evaluation"];
+        self.fenGeView.hidden = NO;
+        [self setTopCorner];
+    } else {
+        self.lable.text = @"联系我们";
+        self.imageViw.image = [UIImage imageNamed:@"icon_phone"];
+        [self setBottomCorner];
     }
-    return self;
-}
-
-- (void)customUI {
-    UIView *view = [[UIView alloc]initWithFrame:self.contentView.bounds];
-    [self.contentView addSubview:view];
     
-    UILabel *label = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k14 andTextAligment:NSTextAlignmentLeft];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, view.height));
-        make.centerY.mas_equalTo(view.mas_centerY);
-        make.left.mas_equalTo(view.mas_left).offset(kScreenW / 20);
-    }];
-    self.label = label;
-
-}
-
-- (void)setTitle:(NSString *)title {
-    _title = title;
-    
-    self.label.text = _title;
 }
 
 @end
