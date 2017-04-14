@@ -168,7 +168,6 @@
 		ED5391481E9DC7F90075CCE6 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED5391471E9DC7F90075CCE6 /* MessageCell.m */; };
 		ED53914F1E9DCDD60075CCE6 /* GengXinRiZhiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED53914C1E9DCDD60075CCE6 /* GengXinRiZhiViewController.m */; };
 		ED5391521E9DCDFC0075CCE6 /* AboutProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED5391511E9DCDFC0075CCE6 /* AboutProductCell.m */; };
-		ED5391611E9E2B910075CCE6 /* EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED5391591E9E2B910075CCE6 /* EmailViewController.m */; };
 		ED5391621E9E2B910075CCE6 /* LocationPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = ED53915C1E9E2B910075CCE6 /* LocationPickerVC.m */; };
 		ED5391631E9E2B910075CCE6 /* NiChengViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED53915F1E9E2B910075CCE6 /* NiChengViewController.m */; };
 		ED677EAA1D210150007D628E /* GanYiJiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EA91D210150007D628E /* GanYiJiViewController.m */; };
@@ -180,6 +179,7 @@
 		ED6C78191D07B576007883EF /* AirDingShiJieMianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6C78181D07B576007883EF /* AirDingShiJieMianViewController.m */; };
 		ED6C781D1D07BC53007883EF /* AirDingShiTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6C781C1D07BC53007883EF /* AirDingShiTableViewCell.m */; };
 		ED6CB24F1DD1C98200294D57 /* AddServiceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6CB24E1DD1C98200294D57 /* AddServiceModel.m */; };
+		ED7DEDA91EA0AD0C00D65C02 /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED7DEDA81EA0AD0C00D65C02 /* LocationCell.m */; };
 		ED8078291E6681880001B205 /* CustomPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8078281E6681880001B205 /* CustomPickerView.m */; };
 		ED8348FD1E9C6FFF00FF22A3 /* Wind.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED8348FC1E9C6FFF00FF22A3 /* Wind.plist */; };
 		ED8349431E9CAFF700FF22A3 /* AboutOusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8349011E9CAFF700FF22A3 /* AboutOusTableViewController.m */; };
@@ -562,8 +562,6 @@
 		ED53914C1E9DCDD60075CCE6 /* GengXinRiZhiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GengXinRiZhiViewController.m; sourceTree = "<group>"; };
 		ED5391501E9DCDFC0075CCE6 /* AboutProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutProductCell.h; sourceTree = "<group>"; };
 		ED5391511E9DCDFC0075CCE6 /* AboutProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutProductCell.m; sourceTree = "<group>"; };
-		ED5391581E9E2B910075CCE6 /* EmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailViewController.h; sourceTree = "<group>"; };
-		ED5391591E9E2B910075CCE6 /* EmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailViewController.m; sourceTree = "<group>"; };
 		ED53915B1E9E2B910075CCE6 /* LocationPickerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationPickerVC.h; sourceTree = "<group>"; };
 		ED53915C1E9E2B910075CCE6 /* LocationPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationPickerVC.m; sourceTree = "<group>"; };
 		ED53915E1E9E2B910075CCE6 /* NiChengViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NiChengViewController.h; sourceTree = "<group>"; };
@@ -587,6 +585,8 @@
 		ED6C781C1D07BC53007883EF /* AirDingShiTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirDingShiTableViewCell.m; sourceTree = "<group>"; };
 		ED6CB24D1DD1C98200294D57 /* AddServiceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddServiceModel.h; sourceTree = "<group>"; };
 		ED6CB24E1DD1C98200294D57 /* AddServiceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddServiceModel.m; sourceTree = "<group>"; };
+		ED7DEDA71EA0AD0C00D65C02 /* LocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationCell.h; sourceTree = "<group>"; };
+		ED7DEDA81EA0AD0C00D65C02 /* LocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationCell.m; sourceTree = "<group>"; };
 		ED8078271E6681880001B205 /* CustomPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPickerView.h; sourceTree = "<group>"; };
 		ED8078281E6681880001B205 /* CustomPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPickerView.m; sourceTree = "<group>"; };
 		ED8348FC1E9C6FFF00FF22A3 /* Wind.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Wind.plist; sourceTree = "<group>"; };
@@ -1801,20 +1801,10 @@
 		ED5391561E9E2B910075CCE6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				ED5391571E9E2B910075CCE6 /* EmailViewController */,
 				ED53915A1E9E2B910075CCE6 /* LocationPickerVC */,
 				ED53915D1E9E2B910075CCE6 /* NiChengViewController */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		ED5391571E9E2B910075CCE6 /* EmailViewController */ = {
-			isa = PBXGroup;
-			children = (
-				ED5391581E9E2B910075CCE6 /* EmailViewController.h */,
-				ED5391591E9E2B910075CCE6 /* EmailViewController.m */,
-			);
-			path = EmailViewController;
 			sourceTree = "<group>";
 		};
 		ED53915A1E9E2B910075CCE6 /* LocationPickerVC */ = {
@@ -1822,6 +1812,7 @@
 			children = (
 				ED53915B1E9E2B910075CCE6 /* LocationPickerVC.h */,
 				ED53915C1E9E2B910075CCE6 /* LocationPickerVC.m */,
+				ED7DEDA61EA0A9C900D65C02 /* View */,
 			);
 			path = LocationPickerVC;
 			sourceTree = "<group>";
@@ -1894,6 +1885,15 @@
 				ED6CB24E1DD1C98200294D57 /* AddServiceModel.m */,
 			);
 			path = AddServiceModel;
+			sourceTree = "<group>";
+		};
+		ED7DEDA61EA0A9C900D65C02 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED7DEDA71EA0AD0C00D65C02 /* LocationCell.h */,
+				ED7DEDA81EA0AD0C00D65C02 /* LocationCell.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		ED8348FE1E9CAFF700FF22A3 /* Controllers */ = {
@@ -2514,10 +2514,10 @@
 				ED2297A81DACCE53008DEBA4 /* XinFengSecondTableViewCell.m in Sources */,
 				ED12E2B61CF5C5470011CD2C /* FirstSectionView.m in Sources */,
 				ED32A5171E5D79BE005064E0 /* HistoryTableViewCell.m in Sources */,
+				ED7DEDA91EA0AD0C00D65C02 /* LocationCell.m in Sources */,
 				ED08B3F21DEFF7380001AB9E /* UIBarButtonItem+Extension.m in Sources */,
 				EDE2BF921E9F72210095351A /* WiFiViewController.m in Sources */,
 				ED12E2651CF5C5470011CD2C /* ESP_NetUtil.m in Sources */,
-				ED5391611E9E2B910075CCE6 /* EmailViewController.m in Sources */,
 				ED0D6A4D1DF16A3000A84DCA /* AllTypeServiceModel.m in Sources */,
 				ED5101861DAB8A2F0071F32C /* XinFengViewController.m in Sources */,
 				ED08B4001DEFFDEC0001AB9E /* HTMLAirTestViewController.m in Sources */,

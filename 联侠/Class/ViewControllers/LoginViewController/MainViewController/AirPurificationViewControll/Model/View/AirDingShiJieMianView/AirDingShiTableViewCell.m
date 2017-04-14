@@ -9,14 +9,11 @@
 #import "AirDingShiTableViewCell.h"
 #import "CustomPickerView.h"
 
-@interface AirDingShiTableViewCell ()<UIPickerViewDataSource , UIPickerViewDelegate , HelpFunctionDelegate>
+@interface AirDingShiTableViewCell ()<HelpFunctionDelegate ,  CustomPickerViewDelegate>
 @property (nonatomic , strong) NSMutableDictionary *dic;
 
-@property (nonatomic  ,strong) UIView *pickerBgView;
-@property (nonatomic , strong) UIPickerView *myPicker;
-@property (strong, nonatomic) UIView *markView;
-@property (nonatomic , strong) UIView *openPickerBgView;
-@property (nonatomic , strong) UIView *offPickerBgView;
+@property (nonatomic , strong) CustomPickerView *openPickerBgView;
+@property (nonatomic , strong) CustomPickerView *offPickerBgView;
 @property (nonatomic , strong) NSMutableArray *minuteArray;
 @property (nonatomic , strong) NSMutableArray *hourArray;
 @end
@@ -208,60 +205,25 @@
 
     if (tap.view.tag == 1 || tap.view.tag == 2) {
         
-        self.openPickerBgView = [[CustomPickerView alloc]createPickerViewWithBackGroundColor:kMainColor withFrame:kScreenFrame andDelegate:self andDataSource:self  andEnsureDelegate:self andEnsureAtcion:@selector(ensurePickerViewAtcion) andCancleTarget:self andCancleAtcion:@selector(cancelPickerViewAtcion) andTapAtcion:@selector(cancelPickerViewAtcion)];
+        self.openPickerBgView = [[CustomPickerView alloc]initWithPickerViewType:1 andBackColor:kMainColor];
+        self.openPickerBgView.delegate = self;
         [kWindowRoot.view addSubview:self.openPickerBgView];
         
-        self.markView = self.openPickerBgView.subviews[0];
-        
         
     } else {
-        self.offPickerBgView = [[CustomPickerView alloc]createPickerViewWithBackGroundColor:kMainColor withFrame:kScreenFrame andDelegate:self andDataSource:self  andEnsureDelegate:self andEnsureAtcion:@selector(ensurePickerViewAtcion) andCancleTarget:self andCancleAtcion:@selector(cancelPickerViewAtcion) andTapAtcion:@selector(cancelPickerViewAtcion)];
+        self.offPickerBgView = [[CustomPickerView alloc]initWithPickerViewType:1 andBackColor:kMainColor];
+        self.offPickerBgView.delegate = self;
         [kWindowRoot.view addSubview:self.offPickerBgView];
-        self.markView = self.offPickerBgView.subviews[0];
     }
-    self.pickerBgView = self.markView.subviews[0];
-    self.myPicker = self.pickerBgView.subviews[0];
     
 }
 
-
-- (void)cancelPickerViewAtcion {
-    [self hidePickerViewAtcion];
-}
-
-#pragma mark - 隐藏UIPickView
-- (void)hidePickerViewAtcion {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.pickerBgView.top = self.markView.bottom;
-        self.markView.alpha = 0;
-    } completion:^(BOOL finished) {
-        [self.pickerBgView removeFromSuperview];
-        [self.markView removeFromSuperview];
-        [self.offPickerBgView removeFromSuperview];
-        [self.openPickerBgView removeFromSuperview];
-        self.openPickerBgView = nil;
-        self.offPickerBgView = nil;
-    }];
-}
-
-- (void)ensurePickerViewAtcion {
-   
-    UIPickerView *openPickerView = nil;
-    UIPickerView *offPickerView = nil;
+- (void)sendPickerViewToVC:(UIPickerView *)picker {
+    
     if (self.openPickerBgView) {
-        openPickerView = [self.pickerBgView viewWithTag:1];
+        self.openTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[picker selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[picker selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
     } else {
-        offPickerView = [self.pickerBgView viewWithTag:1];
-    }
-    
-    if ([self.myPicker isEqual:openPickerView]) {
-        self.openTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[openPickerView selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[openPickerView selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
-        
-    }
-    
-    if ([self.myPicker isEqual:offPickerView]) {
-        self.offTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[offPickerView selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[offPickerView selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
-        
+        self.offTime.text = [NSString stringWithFormat:@"%@:%@" , [self.hourArray[[picker selectedRowInComponent:0]] substringWithRange:NSMakeRange(0, 2)] , [self.minuteArray[[picker selectedRowInComponent:1]] substringWithRange:NSMakeRange(0, 2)]];
     }
     
     [self.dic setObject:self.openTime.text forKey:@"openTime"];
@@ -274,31 +236,6 @@
         [self.delegate getKongJingDingShiData:self andData:self.dic];
     }
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"AirTimeText" object:nil userInfo:@{@"AirTimeText" : self.dic}]];
-    
-    [self hidePickerViewAtcion];
-}
-
-#pragma mark - UIPickView的代理
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-        return 2;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    
-    if (component == 0) {
-        return self.hourArray.count;
-    } else {
-        return self.minuteArray.count;
-    }
-    
-}
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
-    if (component == 0) {
-        return [self.hourArray objectAtIndex:row];
-    } else {
-        return [self.minuteArray objectAtIndex:row];
-    }
     
 }
 

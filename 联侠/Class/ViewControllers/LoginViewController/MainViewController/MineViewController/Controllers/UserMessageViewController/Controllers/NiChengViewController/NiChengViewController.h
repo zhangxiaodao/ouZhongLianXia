@@ -9,15 +9,15 @@
 #import <UIKit/UIKit.h>
 
 
-@protocol SendNickNameToPreviousVCDelegate <NSObject>
+@protocol SendNickOrEmailToPreviousVCDelegate <NSObject>
 
-- (void)sendNickNameToPreviousVC:(NSString *)nickName;
+- (void)sendNickOrEmailToPreviousVC:(NSArray *)nickOrEmailArr;
 
 @end
 
 @interface NiChengViewController : UIViewController
 
-@property (nonatomic , assign) id<SendNickNameToPreviousVCDelegate> delegate;
+@property (nonatomic , assign) id<SendNickOrEmailToPreviousVCDelegate> delegate;
 
 @property (nonatomic , strong) UserModel *userModel;
 

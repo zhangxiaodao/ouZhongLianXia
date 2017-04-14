@@ -19,13 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/GanYiJiViewController/View/GanYiJiCommonTableViewCell.m"
-            timestampString = "509965052.050778"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/UserMessageViewController.m"
+            timestampString = "513848112.741396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "-ensure:"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "-requestServicesData:didOK:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/LengFengShanViewController/EnterWorkTowerViewController/DingShiYuYueCell/DingShiYuYueCell.m"
-            timestampString = "513767643.918928"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/UserMessageViewController.m"
+            timestampString = "513848112.741396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "702"
-            endingLineNumber = "702"
-            landmarkName = "-hideMyPicker"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "-requestData:didSuccess:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -51,13 +51,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "511931344.960741"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/UserMessageViewController.m"
+            timestampString = "513848112.741396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "268"
-            endingLineNumber = "268"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "-requestData:didFailLoadData:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -67,13 +67,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "511931344.960741"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/View/UserInfoCommonCell.m"
+            timestampString = "513829625.088528"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "-setIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -83,13 +83,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "511931344.960741"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/Controllers/LocationPickerVC/LocationPickerVC.m"
+            timestampString = "513856680.951381"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "-keepBtnAtcion"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -99,13 +99,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "511931344.960741"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/Controllers/LocationPickerVC/LocationPickerVC.m"
+            timestampString = "513856680.951381"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "-keepBtnAtcion"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -115,13 +115,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "511931344.960741"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/Controllers/LocationPickerVC/LocationPickerVC.m"
+            timestampString = "513856609.523834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "-keepBtnAtcion"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -131,87 +131,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "511931344.960741"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/Controllers/LocationPickerVC/LocationPickerVC.m"
+            timestampString = "513856473.019838"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "511931344.960741"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
-            landmarkName = "-onUdpSocketDidClose:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/HTMLBaseViewController/HTMLGanYiJiViewController.m"
-            timestampString = "513139370.656528"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "-webViewDidFinishLoad:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            scope = "0"
-            stopOnStyle = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "513762711.518697"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
-            landmarkName = "-tapConfirmForResults"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/QR Code  &#x4e8c;&#x7ef4;&#x7801;/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "513762715.034803"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "449"
-            endingLineNumber = "449"
-            landmarkName = "-tapConfirmForResults"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "-keepBtnAtcion"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

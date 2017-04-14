@@ -15,9 +15,9 @@
         self.idd = [value integerValue];
     }
     
-    if ([key isEqualToString:@"postcode"]) {
-        self.postcode = [NSString stringWithFormat:@"%@" , value];
-    }
+//    if ([key isEqualToString:@"postcode"]) {
+//        self.postcode = [NSString stringWithFormat:@"%@" , value];
+//    }
 }
 
 - (NSString *)description {

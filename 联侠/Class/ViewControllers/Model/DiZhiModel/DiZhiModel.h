@@ -10,17 +10,17 @@
 
 @interface DiZhiModel : NSObject
 
-@property (nonatomic , strong) NSString *receiverName;
-@property (nonatomic , strong) NSString *addrProvince;
-@property (nonatomic , strong) NSString *addrCity;
-@property (nonatomic , strong) NSString *addrCounty;
-@property (nonatomic , strong) NSString *addrDetail;
+@property (nonatomic , copy) NSString *receiverName;
+@property (nonatomic , copy) NSString *addrProvince;
+@property (nonatomic , copy) NSString *addrCity;
+@property (nonatomic , copy) NSString *addrCounty;
+@property (nonatomic , copy) NSString *addrDetail;
 
-@property (nonatomic , strong) NSString *receiverPhone;
-@property (nonatomic , strong) NSString *receiverTelCode;
-@property (nonatomic , strong) NSString *receiverTelExt;
-@property (nonatomic , strong) NSString *receiverTelNum;
+@property (nonatomic , copy) NSString *receiverPhone;
+@property (nonatomic , copy) NSString *receiverTelCode;
+@property (nonatomic , copy) NSString *receiverTelExt;
+@property (nonatomic , copy) NSString *receiverTelNum;
 //@property (nonatomic , assign) NSInteger state;
 @property (nonatomic , assign) NSInteger idd;
-@property (nonatomic , strong) NSString *postcode;
+@property (nonatomic , copy) NSString *postcode;
 @end

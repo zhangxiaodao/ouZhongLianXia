@@ -15,6 +15,10 @@
 @property (nonatomic , strong) UILabel *lable;
 @property (nonatomic , strong) UILabel *rightLabel;
 @property (nonatomic , strong) UILabel *loginOutLabel;
+//@property (nonatomic , strong) UILabel *leftTitleLabel;
+@property (nonatomic , strong) UITextField *contentFiled;
+@property (nonatomic , strong) UITextField *detailFiled;
+@property (nonatomic , strong) UIButton *chanceBtn;
 
 @property (nonatomic , strong) UIImageView *headPortraitImageView;
 @property (nonatomic , strong) UIImageView *jianTouImage;
@@ -25,4 +29,6 @@
 - (void)setTopCorner;
 - (void)setBottomCorner;
 - (void)changHeadPortraitAtcion;
+- (void)chanceAddressAtcion;
+- (void)textFieldDidEndEditing:(UITextField *)textField ;
 @end

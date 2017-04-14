@@ -16,13 +16,13 @@
 #import "LocationPickerVC.h"
 #import "NiChengViewController.h"
 #import "LoginViewController.h"
-#import "EmailViewController.h"
 #import "UserInfoCommonCell.h"
 #import "GeRenModel.h"
 
+#import "CustomPickerView.h"
+
 #import <AVFoundation/AVFoundation.h>
-@interface UserMessageViewController ()<UITableViewDataSource , UITableViewDelegate , HelpFunctionDelegate , SendDiZhiDataToProvienceVCDelegate , SendNickNameToPreviousVCDelegate ,
-    SendEmailAddressToPreviousVCDelegate>
+@interface UserMessageViewController ()<UITableViewDataSource , UITableViewDelegate , HelpFunctionDelegate , SendDiZhiDataToProvienceVCDelegate , SendNickOrEmailToPreviousVCDelegate, CustomPickerViewDelegate>
 @property (nonatomic , strong) NSMutableDictionary *dic;
 
 @property (nonatomic , strong) UILabel *birthdayLabel;
@@ -32,13 +32,12 @@
 
 @property (nonatomic , strong) NSString *idd;
 
-@property (strong, nonatomic)  UIDatePicker *myPicker;
-@property (strong, nonatomic)  UIView *pickerBgView;
-@property (strong, nonatomic) UIView *maskView;
-
+@property (strong, nonatomic)  CustomPickerView *myDatePicker;
+@property (nonatomic , strong) CustomPickerView *sexPicker;
+@property (nonatomic , strong) NSArray *sexArray;
 @property (nonatomic , strong) GeRenModel *geRenModel;
 @property (nonatomic , strong) DiZhiModel *diZhiModel;
-@property (nonatomic , assign) BOOL sex;
+
 @end
 
 static NSString *celled = @"celled";
@@ -60,14 +59,14 @@ static NSString *celled = @"celled";
     }
     
     
-    [HelpFunction requestDataWithUrlString:kChaXunYongHuDiZhi andParames:@{@"userSn" : [kStanderDefault objectForKey:@"userSn"]} andDelegate:self];
+    [HelpFunction requestDataWithUrlString:kChaXunYongHuDiZhi andParames:@{@"userSn" : @(self.userModel.sn)} andDelegate:self];
     
     
 }
 
 #pragma mark - 代理返回数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
-//    NSLog(@"%@" , data[0]);
+    NSLog(@"%@" , data[0]);
     NSDictionary *dic = data[0];
     
     if (![dic[@"data"] isKindOfClass:[NSArray class]]) {
@@ -93,29 +92,29 @@ static NSString *celled = @"celled";
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if (self.userModel && self.sex && self.niChengLabel.text && self.birthdayLabel.text && self.emailLabel.text) {
-        NSMutableDictionary *parames = [NSMutableDictionary dictionary];
-        [parames setObject:@(self.userModel.sn) forKey:@"user.sn"];
-        [parames setObject:@(self.sex) forKey:@"user.sex"];
-        if (self.niChengLabel.text) {
-            [parames setObject:self.niChengLabel.text forKey:@"user.nickname"];
-        } if (self.birthdayLabel.text) {
-            [parames setObject:self.birthdayLabel.text forKey:@"user.birthdate"];
-        } if (self.emailLabel.text) {
-            [parames setObject:self.emailLabel.text forKey:@"user.email"];
-        }
-        
-        NSLog(@"%@" , parames);
-        
-        [kStanderDefault setObject:parames forKey:@"GeRenModel"];
-        
-        [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
-    }
-    
-    
-    if (self.niChengLabel.text) {
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"niCheng" object:self userInfo:[NSDictionary dictionaryWithObject:self.niChengLabel.text forKey:@"niCheng"]]];
-    }
+//    if (self.userModel && self.sex && self.niChengLabel.text && self.birthdayLabel.text && self.emailLabel.text) {
+//        NSMutableDictionary *parames = [NSMutableDictionary dictionary];
+//        [parames setObject:@(self.userModel.sn) forKey:@"user.sn"];
+//        [parames setObject:@(self.sex) forKey:@"user.sex"];
+//        if (self.niChengLabel.text) {
+//            [parames setObject:self.niChengLabel.text forKey:@"user.nickname"];
+//        } if (self.birthdayLabel.text) {
+//            [parames setObject:self.birthdayLabel.text forKey:@"user.birthdate"];
+//        } if (self.emailLabel.text) {
+//            [parames setObject:self.emailLabel.text forKey:@"user.email"];
+//        }
+//        
+//        NSLog(@"%@" , parames);
+//        
+//        [kStanderDefault setObject:parames forKey:@"GeRenModel"];
+//        
+//        [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
+//    }
+//    
+//    
+//    if (self.niChengLabel.text) {
+//        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"niCheng" object:self userInfo:[NSDictionary dictionaryWithObject:self.niChengLabel.text forKey:@"niCheng"]]];
+//    }
     
 }
 - (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
@@ -183,15 +182,22 @@ static NSString *celled = @"celled";
         } else if (indexPath.row == 1) {
             nickNameVC.navigationItem.title = @"昵称";
         }
-        
+        nickNameVC.delegate = self;
+        nickNameVC.userModel = self.userModel;
         [self.navigationController pushViewController:nickNameVC animated:YES];
-    } else if (indexPath.section == 3) {
-        if (indexPath.row == 0) {
-            AgainSendViewController *subVC = [[AgainSendViewController alloc]init];
-//            subVC.phoneNumber = [kStanderDefault objectForKey:@"phone"];
-            subVC.changePwd = @"YES";
-            [self.navigationController pushViewController:subVC animated:YES];
+    } else if (indexPath.section == 0 && (indexPath.row == 2 || indexPath.row == 3)) {
+        
+        if (indexPath.row == 2) {
+            self.sexPicker = [[CustomPickerView alloc]initWithPickerViewType:2 andBackColor:kMainColor];
+            [kWindowRoot.view addSubview:self.sexPicker];
+            self.sexPicker.delegate = self;
+        } else if (indexPath.row == 3) {
+            self.myDatePicker = [[CustomPickerView alloc]initWithPickerViewType:3 andBackColor:kMainColor];
+            [kWindowRoot.view addSubview:self.myDatePicker];
+            self.myDatePicker.delegate = self;
         }
+        
+        
     } else if (indexPath.section == 4) {
         LoginViewController *loginVC = [[LoginViewController alloc]init];
         
@@ -224,12 +230,12 @@ static NSString *celled = @"celled";
         
 
         [self.navigationController pushViewController:loginVC animated:YES];
-    } else if (indexPath.section == 1) {
+    } else if (indexPath.section == 0 && indexPath.row == 4) {
         LocationPickerVC *diZhiVC = [[LocationPickerVC alloc]init];
-        diZhiVC.delegate = self;
-        diZhiVC.diZhiModel = [[DiZhiModel alloc]init];
+        diZhiVC.userModel = self.userModel;
         diZhiVC.diZhiModel = self.diZhiModel;
-        
+        diZhiVC.delegate = self;
+        diZhiVC.navigationItem.title = @"我的地址";
         [self.navigationController pushViewController:diZhiVC animated:YES];
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
@@ -237,157 +243,67 @@ static NSString *celled = @"celled";
             niVC.delegate = self;
             [self.navigationController pushViewController:niVC animated:YES];
         } else if (indexPath.row == 1) {
-            [self setSex];
+            
             
         } else if (indexPath.row == 2) {
-            EmailViewController *emailVC = [[EmailViewController alloc]init];
-            emailVC.delegate = self;
-            emailVC.userModel = self.userModel;
-            [self.navigationController pushViewController:emailVC animated:YES];
-        } else if (indexPath.row == 3) {
-            [self creatPickView];
+            
         }
     }
 }
 
-- (void)setSex {
-    _sex = !_sex;
-    NSArray *sexArray = @[@"男" , @"女"];
-    NSIndexPath *indexpath = [NSIndexPath indexPathForRow:1 inSection:2];
-    UserMessageTableViewCell *cell = (UserMessageTableViewCell *)[self.tableView cellForRowAtIndexPath:indexpath];
-    cell.rightLable.text = [NSString stringWithFormat:@"%@" , sexArray[_sex]];
+- (void)sendPickerViewToVC:(UIPickerView *)picker {
+    if (self.sexPicker) {
+        UserInfoCommonCell *cell = [self tableViewindexPathForRow:2 inSection:0];
+        cell.rightLabel.text = [NSString stringWithFormat:@"%@" , self.sexArray[[picker selectedRowInComponent:0]]];
+        self.sexPicker = nil;
+    }
+}
+
+- (UserInfoCommonCell *)tableViewindexPathForRow:(NSInteger)row inSection:(NSInteger)section {
+    NSIndexPath *indexpath = [NSIndexPath indexPathForRow:row inSection:section];
+    UserInfoCommonCell *cell = (UserInfoCommonCell *)[self.tableView cellForRowAtIndexPath:indexpath];
+    return cell;
+}
+
+- (void)sendDatePickerViewToVC:(UIDatePicker *)datePicker {
+    
+    if (self.myDatePicker) {
+        NSDate *date = datePicker.date;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+        [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+        NSString *time = [dateFormatter stringFromDate:date];
+        UserInfoCommonCell *cell = [self tableViewindexPathForRow:3 inSection:0];
+        cell.rightLabel.text= time;
+        self.myDatePicker = nil;
+    }
+    
+    
+    
 }
 
 - (void)sendDiZhiDataToProvienceVC:(NSString *)diZhiStr {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-    UserMessageTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    cell.rightLable.text = diZhiStr;
+    UserInfoCommonCell *cell = [self tableViewindexPathForRow:4 inSection:0];
+    cell.rightLabel.text = diZhiStr;
 }
 
-- (void)sendNickNameToPreviousVC:(NSString *)nickName {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-    UserMessageTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    cell.rightLable.text = nickName;
-}
-
-- (void)sendEmailAddressToPreviousVC:(NSString *)emailAddress {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:2];
-    UserMessageTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    cell.rightLable.text = emailAddress;
-}
-
-
-#pragma mark - 创建UIPickView
-- (void)creatPickView{
+- (void)sendNickOrEmailToPreviousVC:(NSArray *)nickOrEmailArr {
     
-    self.maskView = [[UIView alloc] initWithFrame:kScreenFrame];
-    self.maskView.backgroundColor = [UIColor clearColor];
-    //    self.maskView.alpha = 0;
-    self.maskView.userInteractionEnabled = YES;
-    //    [self.view addSubview:self.maskView];
-    [self.maskView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideMyPicker11)]];
+    NSString *info = nickOrEmailArr[0];
+    NSString *navTitle = nickOrEmailArr[1];
     
-    
-    self.pickerBgView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH - kScreenH / 2.61568, kScreenW, kScreenH / 2.61568)];
-    
-    
-    self.pickerBgView.backgroundColor = [UIColor whiteColor];
-    
-    UIDatePicker *myPicker = [[UIDatePicker alloc] init];
-    myPicker.locale = [[NSLocale alloc]initWithLocaleIdentifier:@"zh_ch"];
-    // 设置时区，中国在东八区
-    myPicker.timeZone = [NSTimeZone timeZoneWithName:@"GTM+8"];
-    [_pickerBgView addSubview:myPicker];
-    [myPicker mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.08796));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(kScreenH / 17.1025);
-    }];
-    myPicker.datePickerMode = UIDatePickerModeDate;
-    NSDate *maxDate = [[NSDate alloc]initWithTimeIntervalSinceNow:24*60*60];
-    myPicker.maximumDate = maxDate;
-    NSDate *minDate = [NSDate date];
-    myPicker.maximumDate = minDate;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.pickerBgView.alpha = 1.0;
-    }];
-    
-    
-    UIView *view  =[[UIView alloc]init];
-    view.backgroundColor = [UIColor colorWithRed:224/255.0 green:224/255.0 blue:224/255.0 alpha:1.0];
-    [self.pickerBgView addSubview:view];
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 17.1025));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(0);
-    }];
-    
-    UIButton *cancleBtn = [UIButton initWithTitle:@"取消" andColor:[UIColor clearColor] andSuperView:view]
-    ;
-    [cancleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [cancleBtn addTarget:self action:@selector(cancel11:) forControlEvents:UIControlEventTouchUpInside];
-    [cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
-        make.top.mas_equalTo(0);
-    }];
-    
-    UIButton *sureBtn = [UIButton initWithTitle:@"确定" andColor:[UIColor clearColor] andSuperView:view]
-    ;
-    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [sureBtn addTarget:self action:@selector(ensure11:) forControlEvents:UIControlEventTouchUpInside];
-    [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
-        make.top.mas_equalTo(0);
-    }];
-    
-    [self.view addSubview:self.maskView];
-    [self.view addSubview:self.pickerBgView];
-    
-    self.pickerBgView.top = self.view.height;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        self.myPicker.alpha = 1.0;
-        self.pickerBgView.bottom = self.view.height;
-    }];
-    
-    self.myPicker = myPicker;
+    NSIndexPath *indexPath = nil;
+    if ([navTitle isEqualToString:@"昵称"]) {
+        indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+        self.userModel.nickname = info;
+    } else {
+        indexPath = [NSIndexPath indexPathForRow:5 inSection:0];
+        self.userModel.email = info;
+    }
+    UserInfoCommonCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.rightLabel.text = info;
     
 }
 
-- (void)seletedBirthyDate {
-    NSDate *date = self.myPicker.date;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"YYYY-MM-dd"];
-    NSString *time = [dateFormatter stringFromDate:date];
-    self.birthdayLabel.text = time;
-    
-}
-
-#pragma mark - 确定  取消  的点击事件
-- (void)cancel11:(UIButton *)btn {
-    [self hideMyPicker11];
-}
-
-- (void)ensure11:(UIButton *)btn {
-    [self seletedBirthyDate];
-    [self hideMyPicker11];
-}
-
-
-#pragma mark - 隐藏UIPickView
-- (void)hideMyPicker11 {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.maskView.alpha = 0;
-        self.pickerBgView.top = self.view.height;
-    } completion:^(BOOL finished) {
-        [self.maskView removeFromSuperview];
-        [self.pickerBgView removeFromSuperview];
-    }];
-}
 
 - (NSMutableDictionary *)dic{
     if (!_dic) {
@@ -402,6 +318,13 @@ static NSString *celled = @"celled";
     
     NSLog(@"%@" , _userModel);
     
+}
+
+- (NSArray *)sexArray {
+    if (!_sexArray) {
+        _sexArray = [NSArray arrayWithObjects:@"男",@"女", nil];
+    }
+    return _sexArray;
 }
 
 @end

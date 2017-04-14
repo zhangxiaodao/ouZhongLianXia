@@ -15,7 +15,10 @@
 
 @end
 
-@interface LocationPickerVC : UIViewController
+@interface LocationPickerVC : UITableViewController
 @property (nonatomic , assign) id<SendDiZhiDataToProvienceVCDelegate> delegate;
 @property (nonatomic  ,strong) DiZhiModel *diZhiModel;
+
+@property (nonatomic , strong) UserModel *userModel;
+
 @end

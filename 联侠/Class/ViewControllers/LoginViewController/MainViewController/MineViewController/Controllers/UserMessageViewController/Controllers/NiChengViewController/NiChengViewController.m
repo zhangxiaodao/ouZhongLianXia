@@ -8,7 +8,7 @@
 
 #import "NiChengViewController.h"
 #import "UserMessageViewController.h"
-@interface NiChengViewController ()<HelpFunctionDelegate>
+@interface NiChengViewController ()<HelpFunctionDelegate , UITextFieldDelegate>
 @property (nonatomic , strong) UITextField *textFiled;
 
 @end
@@ -34,8 +34,9 @@
     
     self.textFiled = [UITextField creatTextfiledWithPlaceHolder:@"请修改您的信息" andSuperView:view];
     self.textFiled.keyboardType = UIKeyboardTypeDefault;
+    self.textFiled.delegate = self;
     [self.textFiled mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 25, kScreenH / 13.3));
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 20, kScreenH / 13.3));
         make.centerX.mas_equalTo(view.mas_centerX);
         make.centerY.mas_equalTo(view.mas_centerY);
     }];
@@ -50,17 +51,16 @@
     [sureBtn addTarget:self action:@selector(sureBtnAtcion:) forControlEvents:UIControlEventTouchUpInside];
     
     if ([self.navigationItem.title isEqualToString:@"昵称"]) {
-        if (_userModel.nickname) {
+        if (![_userModel.nickname isKindOfClass:[NSNull class]]) {
             self.textFiled.text = _userModel.nickname;
+            [self.textFiled becomeFirstResponder];
         }
     } else {
-        if (_userModel.email) {
+        if (![_userModel.email isKindOfClass:[NSNull class]]) {
             self.textFiled.text = _userModel.email;
+            [self.textFiled becomeFirstResponder];;
         }
     }
-    
-    
-    
 }
 
 
@@ -70,14 +70,10 @@
     if (self.textFiled.text.length == 0) {
         [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"输入为空"];
     } else {
-        if (_delegate && [_delegate respondsToSelector:@selector(sendNickNameToPreviousVC:)]) {
-            [_delegate sendNickNameToPreviousVC:self.textFiled.text];
+        if (_delegate && [_delegate respondsToSelector:@selector(sendNickOrEmailToPreviousVC:)]) {
+            [_delegate sendNickOrEmailToPreviousVC:@[self.textFiled.text , self.navigationItem.title]];
         }
         
-//        NSMutableDictionary *parames = [NSMutableDictionary dictionary];
-//        [parames setObject:@(self.userModel.sn) forKey:@"user.sn"];
-//        [parames setObject:self.textFiled.text forKey:@"user.nickname"];
-//        [parames setObject:self.emailLabel.text forKey:@"user.email"];
         
         NSDictionary *parames = nil;
         if ([self.navigationItem.title isEqualToString:@"昵称"]) {
@@ -85,8 +81,11 @@
         } else {
             parames = @{@"user.sn" : @(self.userModel.sn) , @"user.email" : self.textFiled.text};
         }
+        
+        NSLog(@"%@" , parames);
+        
         [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
-//        [self.navigationController popViewControllerAnimated:YES];
+        
     }
 
    
@@ -94,6 +93,11 @@
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
     NSLog(@"%@" , dddd);
+    
+    if ([dddd[@"success"] integerValue] == 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
@@ -103,6 +107,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
 }
+
 
 - (void)setUserModel:(UserModel *)userModel {
     _userModel = userModel;

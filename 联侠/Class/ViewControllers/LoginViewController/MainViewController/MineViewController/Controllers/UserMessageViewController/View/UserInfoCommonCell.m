@@ -44,22 +44,28 @@
         if (self.userModel.sex == 2) self.rightLabel.text = @"女";
     } else if (self.indexPath.section == 0 && self.indexPath.row == 3) {
         self.lable.text = @"生日";
-        if (self.userModel.birthdate != nil) {
+        if (![self.userModel.birthdate isKindOfClass:[NSNull class]]) {
             self.rightLabel.text = self.userModel.birthdate;
-        } else self.rightLabel.text = @"请选择生日";
+        } else {
+            self.rightLabel.text = @"请选择生日";
+        }
     } else if (self.indexPath.section == 0 && self.indexPath.row == 4) {
         self.lable.text = @"我的地址";
-        if (self.dizhiModel != nil) {
+        if (![self.dizhiModel isKindOfClass:[NSNull class]]) {
             self.rightLabel.text = [NSString stringWithFormat:@"%@-%@" , self.dizhiModel.addrProvince , self.dizhiModel.addrCity];
-        } else self.rightLabel.text = @"请输入地址";
+        } else {
+            self.rightLabel.text = @"请输入地址";
+        }
     } else if (self.indexPath.section == 0 && self.indexPath.row == 5) {
         
         self.fenGeView.hidden = YES;
         [self setBottomCorner];
         self.lable.text = @"我的邮箱";
-        if (self.userModel.email != nil) {
+        if (![self.userModel.email isKindOfClass:[NSNull class]]) {
             self.rightLabel.text = self.userModel.email;
-        } else self.rightLabel.text = @"请输入邮箱";
+        } else {
+            self.rightLabel.text = @"请输入邮箱";
+        }
     } else if (self.indexPath.section == 1 && self.indexPath.row == 0) {
         [self setTopCorner];
         self.lable.text = @"修改密码";
@@ -69,8 +75,8 @@
         
         self.fenGeView.hidden = YES;
         self.jianTouImage.hidden = YES;
-//        [self.rightLabel removeFromSuperview];
-//        [self.view addSubview:self.rightLabel];
+        [self.rightLabel removeFromSuperview];
+        [self.view addSubview:self.rightLabel];
         self.rightLabel.text = [NSString stringWithFormat:@"%ld" , self.userModel.sn];
         [self.rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(kScreenW / 3, self.view.height));
@@ -78,8 +84,6 @@
             make.right.mas_equalTo(self.view.mas_right).offset(-kScreenW / 29);
         }];
     } else if (self.indexPath.section == 2 && self.indexPath.row == 0) {
-//        [self setTopCorner];
-//        [self setBottomCorner];
         self.view.layer.cornerRadius = 5;
         self.fenGeView.hidden = YES;
         self.lable.hidden = YES;

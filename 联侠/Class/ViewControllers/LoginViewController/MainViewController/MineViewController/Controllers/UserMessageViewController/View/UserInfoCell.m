@@ -8,7 +8,7 @@
 
 #import "UserInfoCell.h"
 
-@interface UserInfoCell ()
+@interface UserInfoCell ()<UITextFieldDelegate>
 
 @end
 
@@ -34,7 +34,7 @@
     label.textColor = [UIColor blackColor];
     label.layer.borderWidth = 0;
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, _view.height * 1 / 3));
+        make.size.mas_equalTo(CGSizeMake(_view.width / 5, _view.height));
         make.left.mas_equalTo(_view.mas_left).offset(kScreenW / 29);
         make.centerY.mas_equalTo(_view.mas_centerY);
     }];
@@ -95,6 +95,40 @@
     loginOutLabel.hidden = YES;
     self.loginOutLabel = loginOutLabel;
     loginOutLabel.layer.borderWidth = 0;
+    
+    UITextField *contentFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入您的信息" andSuperView:_view];
+    [contentFiled mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(_view.width * 3 / 4, _view.height));
+        make.centerY.mas_equalTo(_view.mas_centerY);
+        make.left.mas_equalTo(label.mas_right);
+    }];
+    self.contentFiled = contentFiled;
+    contentFiled.hidden = YES;
+    contentFiled.delegate = self;
+    
+    UIButton *chanceBtn = [UIButton creatBtnWithTitle:@"请选择" withLabelFont:k14 withLabelTextColor:[UIColor lightGrayColor] andSuperView:_view andBackGroundColor:[UIColor clearColor] andHighlightedBackGroundColor:[UIColor clearColor] andwhtherNeendCornerRadius:NO WithTarget:self andDoneAtcion:@selector(chanceAddressAtcion)];
+    [chanceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(_view.width / 5, _view.height));
+        make.centerY.mas_equalTo(_view.mas_centerY);
+        make.right.mas_equalTo(_jianTouImage.mas_left);
+    }];
+    self.chanceBtn = chanceBtn;
+    chanceBtn.hidden = YES;
+    
+
+    UITextField *detailFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入详细的地址信息" andSuperView:_view];
+    [detailFiled mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(_view.width - kScreenW * 2 / 29, kScreenH / 14.46));
+        make.top.mas_equalTo(_view.mas_top);
+        make.centerX.mas_equalTo(_view.mas_centerX);
+    }];
+    self.detailFiled = detailFiled;
+    detailFiled.hidden = YES;
+    
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    
 }
 
 - (void)setIndexpath:(NSIndexPath *)indexpath {
