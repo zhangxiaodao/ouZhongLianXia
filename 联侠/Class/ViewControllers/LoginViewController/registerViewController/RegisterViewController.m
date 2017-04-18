@@ -10,7 +10,6 @@
 #import "YinSiViewController.h"
 #import "XieYiNeiRongViewController.h"
 #import "AuthcodeView.h"
-#import "LoginViewController.h"
 #import "AlertMessageView.h"
 #import "PZXVerificationCodeView.h"
 
@@ -19,11 +18,6 @@
 @property (nonatomic , retain) UITextField *pwdTectFiled;
 @property (nonatomic , retain) UITextField *verificationCodeTectFiled;
 @property (nonatomic , strong) AuthcodeView *authView;
-@property (nonatomic , assign) BOOL isOrRegister;
-@property (nonatomic , assign) NSInteger success;
-@property (nonatomic , strong) UIView *navView;
-//手机
-@property (nonatomic, assign)BOOL phoneRight;
 
 @property (nonatomic , strong) UIView *markView;
 
@@ -40,15 +34,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:NSLocalizedString(@"RegistVC_Register", nil)];
-    
     [self setUI];
 }
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
     NSInteger state = [dic[@"state"] integerValue];
     
@@ -59,7 +46,7 @@
         [kStanderDefault setObject:user[@"sn"] forKey:@"userSn"];
         [kStanderDefault setObject:user[@"id"] forKey:@"userId"];
         [UIAlertController creatRightAlertControllerWithHandle:^{
-//            [self.navigationController popViewControllerAnimated:YES];
+
             [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
             
         } andSuperViewController:self Title:NSLocalizedString(@"RegistVC_RegisterSuccess", nil)];
@@ -77,7 +64,7 @@
         NSDictionary *parameters = @{@"user.phone":self.accTectFiled.text , @"user.password" : self.pwdTectFiled.text};
         [kStanderDefault setObject:self.pwdTectFiled.text forKey:@"password"];
         [kStanderDefault setObject:self.accTectFiled.text forKey:@"phone"];
-        [HelpFunction requestDataWithUrlString:kDuanXinTiJiao andParames:parameters andDelegate:self];
+        [HelpFunction requestDataWithUrlString:kRegisterURL andParames:parameters andDelegate:self];
     }
 }
 
@@ -94,14 +81,14 @@
     [xiaHuaXian mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH/4.2);
+        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH/3.8);
     }];
     
     self.accTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"EnterPhone", nil) andSuperView:self.view];
     self.accTectFiled.delegate = self;
     [self.accTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(xiaHuaXian.mas_top);
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 12));
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
         make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
     }];
     
@@ -111,14 +98,14 @@
     [xiaHuaXian2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
         make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
-        make.top.mas_equalTo(xiaHuaXian.mas_bottom).offset(kScreenH/8.8674);
+        make.top.mas_equalTo(xiaHuaXian.mas_bottom).offset(kScreenH/10);
     }];
     
     self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"LoginVC_PwdPlacrholder", nil) andSuperView:self.view];
     self.pwdTectFiled.delegate = self;
     [self.pwdTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(xiaHuaXian2.mas_top);
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 12));
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
         make.centerX.mas_equalTo(xiaHuaXian2.mas_centerX);
     }];
     self.pwdTectFiled.keyboardType = UIKeyboardTypeDefault;
@@ -130,13 +117,13 @@
     [xiaHuaXian3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
         make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
-        make.top.mas_equalTo(xiaHuaXian2.mas_bottom).offset(kScreenH/8.8674);
+        make.top.mas_equalTo(xiaHuaXian2.mas_bottom).offset(kScreenH/10);
     }];
     
     self.verificationCodeTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"EnterVertionCode", nil) andSuperView:self.view];
     [self.verificationCodeTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(xiaHuaXian3.mas_top);
-        make.size.mas_equalTo(CGSizeMake(kStandardW / 2, kScreenW / 12));
+        make.size.mas_equalTo(CGSizeMake(kStandardW / 2, kScreenW / 10));
         make.left.mas_equalTo(xiaHuaXian3.mas_left);
     }];
     self.verificationCodeTectFiled.delegate = self;
@@ -145,7 +132,7 @@
     self.authView = [[AuthcodeView alloc]init];
     [self.view addSubview:self.authView];
     [self.authView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW / 3, kScreenW / 10));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 5.35, kScreenW / 12.5));
         make.bottom.mas_equalTo(xiaHuaXian3.mas_bottom).offset(-5);
         make.right.mas_equalTo(xiaHuaXian3.mas_right);
     }];
@@ -153,26 +140,25 @@
     
     //创建注册按钮
     UIButton *registerBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_Register", nil) andColor:[UIColor redColor] andSuperView:self.view];
-    [registerBtn addTarget:self action:@selector(registerAction1) forControlEvents:UIControlEventTouchUpInside];
-    registerBtn.layer.cornerRadius = kScreenW / 18;
-    
-    registerBtn.backgroundColor = kMainColor;
     [registerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 9));
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 8.3));
         make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
-        make.top.mas_equalTo(xiaHuaXian3.mas_bottom).offset(kScreenH / 6.53);
+        make.top.mas_equalTo(xiaHuaXian3.mas_bottom).offset(kScreenW / 7);
     }];
+    [registerBtn addTarget:self action:@selector(registerAction1) forControlEvents:UIControlEventTouchUpInside];
+    registerBtn.layer.cornerRadius = kScreenW / 16.6;
+    registerBtn.backgroundColor = kMainColor;
     
-    UILabel *changLable = [UILabel creatLableWithTitle:NSLocalizedString(@"RegistVC_Agree", nil) andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentCenter];
+    UILabel *changLable = [UILabel creatLableWithTitle:NSLocalizedString(@"RegistVC_Agree", nil) andSuperView:self.view andFont:k12 andTextAligment:NSTextAlignmentCenter];
     changLable.textColor = [UIColor grayColor];
     changLable.layer.borderWidth = 0;
     [changLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 14));
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 20));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(registerBtn.mas_bottom).offset(kScreenH / 6.93);
+        make.top.mas_equalTo(registerBtn.mas_bottom).offset(kScreenW / 2.4);
     }];
     
-    UILabel *heLable = [UILabel creatLableWithTitle:NSLocalizedString(@"RegistVC_With", nil) andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentCenter];
+    UILabel *heLable = [UILabel creatLableWithTitle:NSLocalizedString(@"RegistVC_With", nil) andSuperView:self.view andFont:k12 andTextAligment:NSTextAlignmentCenter];
     heLable.layer.borderWidth = 0;
     heLable.textColor = [UIColor grayColor];
     [heLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -182,7 +168,7 @@
     }];
     
     
-    UILabel *xieYiLable = [UILabel creatLableWithTitle:NSLocalizedString(@"RegistVC_XieYi", nil) andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentRight];
+    UILabel *xieYiLable = [UILabel creatLableWithTitle:NSLocalizedString(@"RegistVC_XieYi", nil) andSuperView:self.view andFont:k12 andTextAligment:NSTextAlignmentRight];
     xieYiLable.textColor = [UIColor blackColor];
     xieYiLable.layer.borderWidth = 0;
     [xieYiLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -196,7 +182,7 @@
     
     
     
-    UILabel *yinSiLable = [UILabel creatLableWithTitle:NSLocalizedString(@"RegistVC_YinSi", nil) andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
+    UILabel *yinSiLable = [UILabel creatLableWithTitle:NSLocalizedString(@"RegistVC_YinSi", nil) andSuperView:self.view andFont:k12 andTextAligment:NSTextAlignmentLeft];
     yinSiLable.textColor = [UIColor blackColor];
     yinSiLable.layer.borderWidth = 0;
     [yinSiLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -321,12 +307,14 @@
 #pragma mark - 隐私政策点击事件
 - (void)yinSiAtcion{
     YinSiViewController *yinSiVC = [[YinSiViewController alloc]init];
+    yinSiVC.navigationItem.title = @"隐私政策";
     [self.navigationController pushViewController:yinSiVC animated:YES];
 }
 
 #pragma mark - 用户协议点击事件
 - (void)xieYiAction{
     XieYiNeiRongViewController *xieYiVC = [[XieYiNeiRongViewController alloc]init];
+    xieYiVC.navigationItem.title = @"协议内容";
     [self.navigationController pushViewController:xieYiVC animated:YES];
 }
 

@@ -387,14 +387,7 @@
         
         
         [UIAlertController creatRightAlertControllerWithHandle:^{
-            
-            if (self.serviceArray.count == 1) {
-                SetServicesViewController *setSerVC = [[SetServicesViewController alloc]init];
-                setSerVC.onlyHaveOneService = @"YES";
-                [self.navigationController pushViewController:setSerVC animated:YES];
-            } else {
-                [self.navigationController popViewControllerAnimated:YES];
-            }
+            [self.navigationController popViewControllerAnimated:YES];
         } andSuperViewController:self Title:@"设备删除成功"];
     }
 }

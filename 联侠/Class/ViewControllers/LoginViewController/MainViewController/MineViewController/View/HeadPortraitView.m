@@ -27,7 +27,7 @@
 
 - (void)creatWithTarget:(nullable id)target action:(nullable SEL)action {
  
-    self.backgroundColor = [UIColor colorWithHexString:@"eeeef4"];
+    self.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     
     _headBackImageView = [[UIImageView alloc]init];
     [self addSubview:_headBackImageView];
@@ -36,7 +36,7 @@
         make.centerY.mas_equalTo(self.mas_centerY);
         make.centerX.mas_equalTo(self.mas_centerX);
     }];
-//    _headBackImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _headBackImageView.contentMode = UIViewContentModeScaleAspectFit;
     _headBackImageView.alpha = .3;
     
     

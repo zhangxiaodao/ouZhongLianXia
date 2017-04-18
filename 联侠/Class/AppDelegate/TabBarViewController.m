@@ -38,7 +38,9 @@
 
     self.tabBar.hidden = YES;
     
-
+    
+//    mineSerNav.navigationBar.hidden = YES;
+//    userNav.navigationBar.hidden = YES;
     [self addChildViewController:mineSerNav];
     [self addChildViewController:userNav];
     

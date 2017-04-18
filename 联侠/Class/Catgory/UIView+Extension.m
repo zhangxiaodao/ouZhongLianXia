@@ -255,7 +255,7 @@
 
 + (UIView *)creatTextFiledWithLableText:(NSString *)lableText andTextFiledPlaceHold:(NSString *)placeHolder andSuperView:(UIView *)superView {
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kStandardW, kScreenW / 8)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kStandardW, kScreenW / 10)];
     [superView addSubview:view];
     view.backgroundColor = [UIColor clearColor];
     
@@ -274,15 +274,16 @@
     UILabel *nameLabel = [UILabel creatLableWithTitle:lableText andSuperView:view andFont:k14 andTextAligment:NSTextAlignmentLeft];
     nameLabel.layer.borderWidth = 0;
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenW / 10));
+        make.size.mas_equalTo(CGSizeMake(kStandardW / 7.2, kScreenW / 10));
         make.left.mas_equalTo(xiaHuaXian2.mas_left);
         make.bottom.mas_equalTo(xiaHuaXian2.mas_top);
     }];
     
+    
     UITextField *textFiled = [UITextField creatTextfiledWithPlaceHolder:placeHolder andSuperView:view];
     [textFiled mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, kScreenW / 10));
-        make.left.mas_equalTo(nameLabel.mas_right).offset(kScreenW / 30);
+        make.size.mas_equalTo(CGSizeMake(kStandardW - kStandardW / 7.2 - kStandardW / 25 , kScreenW / 10));
+        make.left.mas_equalTo(nameLabel.mas_right).offset(kStandardW / 25);
         make.centerY.mas_equalTo(nameLabel.mas_centerY);
     }];
     textFiled.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -523,6 +524,21 @@
     return view;
 }
 
-
++ (UIView *_Nonnull)creatViewWithFiledCoradiusOfPlaceholder:(NSString *_Nonnull)placholder andSuperView:(UIView *_Nonnull)superView {
+    UIView *view = [[UIView alloc]init];
+    [superView addSubview:view];
+    view.frame = CGRectMake(10, 0, kScreenW - kScreenW / 15.625, kScreenW / 8.3);
+    view.layer.cornerRadius = 5;
+    view.backgroundColor = [UIColor whiteColor];
+    
+    UITextField *filed = [UITextField creatTextfiledWithPlaceHolder:placholder andSuperView:view];
+    [filed mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 15.625, kScreenW / 8.3));
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.centerY.mas_equalTo(view.mas_centerY);
+    }];
+    return view;
+    
+}
 
 @end

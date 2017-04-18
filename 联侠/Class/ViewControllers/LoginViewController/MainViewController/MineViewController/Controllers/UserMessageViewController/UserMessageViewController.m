@@ -10,7 +10,7 @@
 #import "UserMessageTableViewCell.h"
 #import "MineYouHuiQuanViewController.h"
 #import "ForgetPwdViewController.h"
-#import "AgainSendViewController.h"
+
 #import "MineViewController.h"
 
 #import "LocationPickerVC.h"
@@ -70,6 +70,7 @@ static NSString *celled = @"celled";
     NSDictionary *dic = data[0];
     
     if (![dic[@"data"] isKindOfClass:[NSArray class]]) {
+        [self.tableView reloadData];
         return ;
     } else {
         NSArray *aray = [NSArray arrayWithArray:dic[@"data"]];
@@ -133,9 +134,15 @@ static NSString *celled = @"celled";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UserInfoCommonCell *cell = [tableView dequeueReusableCellWithIdentifier:celled];
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        cell.headImage = self.headImage;
+    }
     cell.dizhiModel = self.diZhiModel;
     cell.userModel = self.userModel;
+    
     cell.indexPath = indexPath;
+    
+    
     
     return cell;
 }
@@ -198,10 +205,25 @@ static NSString *celled = @"celled";
         }
         
         
-    } else if (indexPath.section == 4) {
+    }  else if (indexPath.section == 0 && indexPath.row == 4) {
+        LocationPickerVC *diZhiVC = [[LocationPickerVC alloc]init];
+        diZhiVC.userModel = self.userModel;
+        diZhiVC.diZhiModel = self.diZhiModel;
+        diZhiVC.delegate = self;
+        diZhiVC.navigationItem.title = @"我的地址";
+        [self.navigationController pushViewController:diZhiVC animated:YES];
+    } else if (indexPath.section == 1 && indexPath.row == 0) {
+        if (indexPath.row == 0) {
+            
+            ForgetPwdViewController *forgetPwdVC = [[ForgetPwdViewController alloc]init];
+            forgetPwdVC.navigationItem.title = @"重置密码";
+            forgetPwdVC.phoneNumber = [kStanderDefault objectForKey:@"phone"];
+            [self.navigationController pushViewController:forgetPwdVC animated:YES];
+        }
+    } else if (indexPath.section == 2) {
         LoginViewController *loginVC = [[LoginViewController alloc]init];
         
-       
+        
         [kStanderDefault removeObjectForKey:@"Login"];
         [kStanderDefault removeObjectForKey:@"cityName"];
         [kStanderDefault removeObjectForKey:@"password"];
@@ -228,26 +250,8 @@ static NSString *celled = @"celled";
         [kSocketTCP cutOffSocket];
         loginVC.fromUserVC = [NSString stringWithFormat:@"YES"];
         
-
+        
         [self.navigationController pushViewController:loginVC animated:YES];
-    } else if (indexPath.section == 0 && indexPath.row == 4) {
-        LocationPickerVC *diZhiVC = [[LocationPickerVC alloc]init];
-        diZhiVC.userModel = self.userModel;
-        diZhiVC.diZhiModel = self.diZhiModel;
-        diZhiVC.delegate = self;
-        diZhiVC.navigationItem.title = @"我的地址";
-        [self.navigationController pushViewController:diZhiVC animated:YES];
-    } else if (indexPath.section == 2) {
-        if (indexPath.row == 0) {
-            NiChengViewController *niVC = [[NiChengViewController alloc]init];
-            niVC.delegate = self;
-            [self.navigationController pushViewController:niVC animated:YES];
-        } else if (indexPath.row == 1) {
-            
-            
-        } else if (indexPath.row == 2) {
-            
-        }
     }
 }
 

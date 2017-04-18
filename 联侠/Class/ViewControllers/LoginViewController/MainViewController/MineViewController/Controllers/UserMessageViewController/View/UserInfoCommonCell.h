@@ -9,5 +9,5 @@
 #import "UserInfoCell.h"
 
 @interface UserInfoCommonCell : UserInfoCell
-
+@property (nonatomic , strong) UIImage *headImage;
 @end

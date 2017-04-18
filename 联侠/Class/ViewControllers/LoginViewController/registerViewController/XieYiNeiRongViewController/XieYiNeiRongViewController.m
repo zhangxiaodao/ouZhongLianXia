@@ -11,7 +11,7 @@
 @interface XieYiNeiRongViewController ()<UITableViewDataSource , UITableViewDelegate>
 @property (nonatomic , assign) CGSize expectSize;
 @property (nonatomic , strong) UILabel *textLabel;
-@property (nonatomic  ,strong) UIView *navView;
+
 @end
 
 @implementation XieYiNeiRongViewController
@@ -20,14 +20,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"协议内容"];
-    
     [self setUI];
-}
-
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 设置UI
@@ -49,14 +42,8 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHeight, kScreenW, kScreenH - self.navView.y - self.navView.height) style:UITableViewStyleGrouped];
+    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHeight, kScreenW, kScreenH - kHeight) style:UITableViewStyleGrouped];
     [self.view addSubview:tableView];
-    
-    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH - self.navView.y - self.navView.height));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(self.navView.mas_bottom);
-    }];
     
     tableView.delegate = self;
     tableView.dataSource = self;

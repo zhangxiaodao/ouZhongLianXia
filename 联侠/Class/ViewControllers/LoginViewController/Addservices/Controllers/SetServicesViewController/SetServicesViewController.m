@@ -11,7 +11,6 @@
 #import "ESP_NetUtil.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 @interface SetServicesViewController ()
-@property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) NSMutableArray *array;
 @property (nonatomic , strong) NSTimer *myTimer;
 @property (nonatomic , strong) UIImageView *imageView;
@@ -22,38 +21,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"设置设备"];
-    
-    if ([self.onlyHaveOneService isEqualToString:@"YES"]) {
-        UIView *backView = [self.navView.subviews objectAtIndex:0];
-        UIImageView *backImageView = [backView.subviews objectAtIndex:1];
-        backImageView.image = [UIImage new];
-    }
-    
     
      [self setUI];
-}
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-
-    if ([self.onlyHaveOneService isEqualToString:@"YES"]) {
-        return ;
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    
 }
 
 #pragma mark - 设置UI
 - (void)setUI {
     
     UIImage *image = nil;
-//    if (self.addServiceModel.slType == 3) {
-//        image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
-//    } else {
-//        image = [UIImage imageNamed:@"peiWangMoShiKai"];
-//    }
-    
+
     image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
     
     _imageView = [[UIImageView alloc]initWithImage:image];
@@ -61,20 +37,8 @@
     [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake( kScreenW * 2 / 3, kScreenW * 2 / 3));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.centerY.mas_equalTo(self.view.mas_centerY).offset(-kScreenW / 5);
+        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 11);
     }];
-    
-//    NSString *brandName = self.addServiceModel.typeName;
-//    NSString *typePosition = nil;
-//    
-//    if (self.addServiceModel.slType == 1) {
-//        typePosition = @"定时";
-//    } else if (self.addServiceModel.slType == 2) {
-//        typePosition = @"开关";
-//    } else if (self.addServiceModel.slType == 3) {
-//        typePosition = @"WIFI按钮";
-//    }
-    
     
 
     UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"请开机长按功能按键3秒，听到“滴”的声音后指示灯闪烁，进入配网模式。（wifi功能按键请查看说明书）"] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
@@ -84,17 +48,16 @@
     [firstLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 5));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(_imageView.mas_bottom).offset(kScreenW / 10);
+        make.top.mas_equalTo(_imageView.mas_bottom).offset(kScreenH / 8.5);
     }];
     
-    //创建注册按钮
     UIButton *neaxtBtn = [UIButton initWithTitle:@"下一步" andColor:[UIColor redColor] andSuperView:self.view];
     neaxtBtn.layer.cornerRadius = kScreenW / 18;
     
     neaxtBtn.backgroundColor = kMainColor;
     
     [neaxtBtn addTarget:self action:@selector(neaxtBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    //注册按钮的约束
+    
     [neaxtBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 9));
         make.centerX.mas_equalTo(self.view.mas_centerX);
@@ -116,21 +79,6 @@
 
 - (void)qieHuanTuPian{
     
-//    if (self.addServiceModel.slType == 3) {
-//        if ([_imageView.image isEqual:[UIImage imageNamed:@"wifianjianpeiwangmoshi0"]]) {
-//            [self qieHuanTuPianGuan];
-//        } else{
-//            [self qieHuanTuPianKai];
-//        }
-//    } else {
-//        
-//        if ([_imageView.image isEqual:[UIImage imageNamed:@"peiWangMoShiKai"]]) {
-//            [self qieHuanTuPianGuan];
-//        } else{
-//            [self qieHuanTuPianKai];
-//        }
-//    }
-    
     if ([_imageView.image isEqual:[UIImage imageNamed:@"wifianjianpeiwangmoshi1"]]) {
         [self qieHuanTuPianGuan];
     } else{
@@ -140,23 +88,11 @@
 
 - (void)qieHuanTuPianKai{
     
-//    if (self.addServiceModel.slType == 3) {
-//        _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
-//    } else {
-//        _imageView.image = [UIImage imageNamed:@"peiWangMoShiKai"];
-//    }
-    
     _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi1"];
     
 }
 
 - (void)qieHuanTuPianGuan{
-    
-//    if (self.addServiceModel.slType == 3) {
-//        _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi1"];
-//    } else {
-//        _imageView.image = [UIImage imageNamed:@"peiWangMoShiGuan"];
-//    }
     
     _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
     
@@ -166,13 +102,8 @@
 - (void)neaxtBtnAction {
 
     WiFiViewController *wifiVC = [[WiFiViewController alloc]init];
-//    wifiVC.addServiceModel = self.addServiceModel;
-    
+    wifiVC.navigationItem.title = @"添加设备";
     [self.navigationController pushViewController:wifiVC animated:YES];
 }
-
-//- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
-//    _addServiceModel = addServiceModel;
-//}
 
 @end

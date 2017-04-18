@@ -1,6 +1,5 @@
 
 #import "WiFiViewController.h"
-#import "AsyncUdpSocket.h"
 #import "SearchServicesViewController.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 
@@ -11,9 +10,10 @@
 @interface WiFiViewController ()<UITextFieldDelegate> {
     CFDictionaryRef dictRef;
 }
-@property (nonatomic , strong) UIView *navView;
 @property (strong, nonatomic)  UITextField *_pwdTextView;
 @property (strong, nonatomic)  UIButton *_confirmCancelBtn;
+@property (strong, nonatomic)  UILabel *ssidLabel;
+@property (strong, nonatomic) NSString *bssid;
 @property (nonatomic , strong) NSString *bSSID;
 @property (nonatomic , strong) UIView *xianHuaXian;
 @end
@@ -27,6 +27,7 @@
     searVC.apSsid = [NSString stringWithFormat:@"%@" , self.bssid];
     searVC.ssidText = [NSString stringWithFormat:@"%@" , self.ssidLabel.text];
     searVC.bssid = [NSString stringWithFormat:@"%@" , self._pwdTextView.text];
+    searVC.navigationItem.title = @"添加设备";
 //    searVC.addServiceModel = self.addServiceModel;
     [self.navigationController pushViewController:searVC animated:YES];
 }
@@ -69,32 +70,23 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"添加设备"];
-    
-    
-    
     [self setUI];
 
    
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    if (dictRef) {
-       
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"请输入正确的WIFI密码，密码错误，设备无法绑定!"];
-    } else {
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self.navigationController popViewControllerAnimated:YES];
-        } andSuperViewController:kWindowRoot Title:@"您当前没有连接WIFI，设备无法添加"];
-    }
-}
-
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    
+//    if (dictRef) {
+//       
+//        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"请输入正确的WIFI密码，密码错误，设备无法绑定!"];
+//    } else {
+//        [UIAlertController creatRightAlertControllerWithHandle:^{
+//            [self.navigationController popViewControllerAnimated:YES];
+//        } andSuperViewController:kWindowRoot Title:@"您当前没有连接WIFI，设备无法添加"];
+//    }
+//}
 
 #pragma mark - 设置UI
 - (void)setUI {
@@ -102,10 +94,11 @@
     UIImageView *backImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"WIFIback"]];
     [self.view addSubview:backImage];
     [backImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 1.762));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 1.7, kScreenW / 1.7));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.navView.mas_bottom);
+        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 11);
     }];
+    
     
     UIView *xiaHuaXian = [[UIView alloc]init];
     [self.view addSubview:xiaHuaXian];
@@ -113,7 +106,7 @@
     [xiaHuaXian mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.bottom.mas_equalTo(backImage.mas_bottom).offset(kScreenH/11.1);
+        make.bottom.mas_equalTo(backImage.mas_bottom).offset(kScreenH/5);
     }];
     
 
@@ -147,7 +140,7 @@
     }];
 
     
-    UILabel *pwdWiFi = [UILabel creatLableWithTitle:@"WiFi密码:" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentCenter];
+    UILabel *pwdWiFi = [UILabel creatLableWithTitle:@"WiFi密码:" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
     pwdWiFi.layer.borderWidth = 0;
     [pwdWiFi mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenW / 10));
@@ -217,7 +210,7 @@
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
     [UIView setAnimationDuration:animationDuration];
-    self.view.frame =CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.view.frame = CGRectMake(0, kHeight, kScreenW, self.view.frame.size.height);
     [UIView commitAnimations];
 }
 

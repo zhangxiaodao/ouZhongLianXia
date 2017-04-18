@@ -36,13 +36,13 @@
         [self setTopCorner];
         self.lable.text = @"收货人";
         
-        if (![self.dizhiModel.receiverName isKindOfClass:[NSNull class]]) {
+        if (self.dizhiModel != nil) {
             self.contentFiled.text = self.dizhiModel.receiverName;
         }
         
     } else if (indexPath.section == 0 && indexPath.row == 1) {
         self.lable.text = @"联系电话";
-        if (![self.dizhiModel.receiverPhone isKindOfClass:[NSNull class]]) {
+        if (self.dizhiModel != nil) {
             self.contentFiled.text = self.dizhiModel.receiverPhone;
         }
     } else if (indexPath.section == 0 && indexPath.row == 2) {
@@ -57,7 +57,7 @@
             make.left.mas_equalTo(self.lable.mas_right);
         }];
         
-        if (![self.dizhiModel.addrProvince isKindOfClass:[NSNull class]] && ![self.dizhiModel.addrCity isKindOfClass:[NSNull class]] && ![self.dizhiModel.addrCounty isKindOfClass:[NSNull class]]) {
+        if (self.dizhiModel != nil) {
             
             if ([self.dizhiModel.addrCity isEqualToString:self.dizhiModel.addrCounty]) {
                 self.contentFiled.text = [NSString stringWithFormat:@"%@-%@" , self.dizhiModel.addrProvince , self.dizhiModel.addrCity];
@@ -71,7 +71,7 @@
         [self setBottomCorner];
         self.fenGeView.hidden = YES;
         self.lable.text = @"邮政编码";
-        if (![self.dizhiModel.postcode isKindOfClass:[NSNull class]]) {
+        if (self.dizhiModel != nil) {
             self.contentFiled.text = [NSString stringWithFormat:@"%@" , self.dizhiModel.postcode];
         }
     } else {
@@ -81,7 +81,7 @@
         self.view.size = CGSizeMake(kScreenW - kScreenW / 15.625, kScreenH / 8.3);
         self.view.layer.cornerRadius = 5;
         self.view.layer.masksToBounds = YES;
-        if (![self.dizhiModel.addrDetail isKindOfClass:[NSNull class]]) {
+        if (self.dizhiModel != nil) {
             self.detailFiled.text = self.dizhiModel.addrDetail;
         }
         

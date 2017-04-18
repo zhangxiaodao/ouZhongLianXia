@@ -13,7 +13,7 @@
 "LoginVC_AccPlaceholder" = "Please enter your mobile number or ID account";
 "LoginVC_PwdPlacrholder" = "Please enter your password";
 "LoginVC_Register" = "Sign up now";
-"LoginVC_ForgetPwd" = "Forget password";
+"LoginVC_ForgetPwd" = "Forget password?";
 
 "ResetVC_ResetPwd" = "Reset Password";
 

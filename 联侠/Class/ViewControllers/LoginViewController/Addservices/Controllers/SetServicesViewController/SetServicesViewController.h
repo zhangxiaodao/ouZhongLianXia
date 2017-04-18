@@ -10,7 +10,7 @@
 
 @interface SetServicesViewController : UIViewController
 
-@property (nonatomic , copy) NSString *onlyHaveOneService;
+//@property (nonatomic , copy) NSString *onlyHaveOneService;
 
 //@property (nonatomic , strong) AddServiceModel *addServiceModel;
 @end

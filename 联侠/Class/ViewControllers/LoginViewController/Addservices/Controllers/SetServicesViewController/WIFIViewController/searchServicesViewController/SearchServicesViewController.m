@@ -11,7 +11,7 @@
 #import "AsyncUdpSocket.h"
 #import "MineSerivesViewController.h"
 
-#import "CircleView.h"
+#import "LXGradientProcessView.h"
 
 #import "ESPTouchTask.h"
 #import "ESPTouchResult.h"
@@ -60,14 +60,11 @@
 @property (nonatomic, strong) UIButton *_doneButton;
 @property (nonatomic, strong) EspTouchDelegateImpl *_esptouchDelegate;
 @property (nonatomic , strong) AsyncUdpSocket *updSocket;
-@property (nonatomic , strong) UIView *navView;
-
 
 @property (nonatomic , copy) NSString *devTypeSn;
-
+@property (nonatomic, strong) LXGradientProcessView *processView;
 @property (nonatomic , strong) NSTimer *myTimer;
-@property (nonatomic , strong) CircleView *circleView;
-@property (nonatomic , strong) UILabel *circleLabel;
+
 @property (nonatomic , strong) NSTimer *progressTimer;
 @property (nonatomic , assign) CGFloat index;
 @property (nonatomic , strong) NSArray *protocolArray;
@@ -86,19 +83,10 @@
     return _protocolArray;
 }
 
-//- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
-//    _addServiceModel = addServiceModel;
-//    NSLog(@"%@" , _addServiceModel);
-//
-//}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"添加设备"];
-    
     
     self._isConfirmState = NO;
     self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
@@ -108,15 +96,10 @@
     [self tapConfirmForResults];
 }
 
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 - (void)progressValue {
     _index++;
-    _circleLabel.text = [NSString stringWithFormat:@"%.0f%%" , _index];
-    _circleView.progress = _index / 100;
+    
+    _processView.percent = _index / 100;
     
     if (_index == 32) {
         [_progressTimer setFireDate:[NSDate distantFuture]];
@@ -125,7 +108,7 @@
     if (_index == 65) {
         [_progressTimer setFireDate:[NSDate distantFuture]];
     }
-    
+
     if (_index == 100.0) {
         [_progressTimer invalidate];
         _progressTimer = nil;
@@ -139,19 +122,10 @@
    
     _progressTimer = [NSTimer scheduledTimerWithTimeInterval:(double)arc4random() / 0x100000000 target:self selector:@selector(progressValue) userInfo:nil repeats:YES];
     
-    _circleView = [[CircleView alloc]initWithFrame:CGRectMake((kScreenW - kScreenH / 7.4) / 2, kScreenH / 2.52, kScreenH / 7.4, kScreenH / 7.4)];
-    [self.view addSubview:_circleView];
-    _circleView.backgroundColor = [UIColor whiteColor];
-    
-    
-    _circleLabel = [UILabel creatLableWithTitle:@"" andSuperView:_circleView andFont:k20 andTextAligment:NSTextAlignmentCenter];
-    [_circleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenW / 20));
-        make.centerX.mas_equalTo(_circleView.mas_centerX);
-        make.centerY.mas_equalTo(_circleView.mas_centerY);
-    }];
-    _circleLabel.textColor = kMainColor;
-    _circleLabel.layer.borderWidth = 0;
+    _processView = [[LXGradientProcessView alloc] initWithFrame:CGRectMake(kScreenW / 3.58, kScreenW / 2.6, kScreenW / 2.35, kScreenW / 2.35)];
+    self.processView.percent = 0;
+    [self.view addSubview:self.processView];
+    self.processView.backgroundColor = [UIColor whiteColor];
     
     UILabel *searchLable = [UILabel creatLableWithTitle:@"正在搜索设备..." andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     searchLable.layer.borderWidth = 0;
@@ -159,7 +133,7 @@
     [searchLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, kScreenW / 14));
-        make.top.mas_equalTo(_circleView.mas_bottom).offset(kScreenH / 12.4);
+        make.top.mas_equalTo(_processView.mas_bottom).offset(kScreenH / 12.4);
     }];
     
     
@@ -238,8 +212,8 @@
 {
     
     [_progressTimer setFireDate:[NSDate distantPast]];
-    _circleLabel.text = @"66%";
-    _circleView.progress = 0.66;
+   
+    _processView.percent = 0.66;
     self.registerLable.textColor = kMainColor;
     [_myTimer invalidate];
     _myTimer = nil;
@@ -312,8 +286,7 @@
 #pragma mark - 代理反馈
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     
-    _circleLabel.text = @"100%";
-    _circleView.progress = 1.00;
+    _processView.percent = 1.00;
     self.addLable.textColor = kMainColor;
     [_progressTimer invalidate];
     _progressTimer = nil;
@@ -337,10 +310,6 @@
         } andSuperViewController:self Title:@"此设备绑定失败"];
         
     }
-}
-
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    NSLog(@"%@" , error);
 }
 
 #pragma mark - 判断并绑定设备
@@ -446,8 +415,7 @@
                         
                         [_progressTimer setFireDate:[NSDate distantPast]];
                         
-                        _circleLabel.text = @"33%";
-                        _circleView.progress = 0.33;
+                        _processView.percent = 0.33;
                         self.searchLable.textColor = kMainColor;
                         
                         [self openUDPServer];
@@ -468,6 +436,7 @@
                         
                         [UIAlertController creatRightAlertControllerWithHandle:^{
                             FailContextViewController *failVC = [[FailContextViewController alloc]init];
+                            failVC.navigationItem.title = @"失败";
                             [self.navigationController pushViewController:failVC animated:YES];
                         } andSuperViewController:self Title:@"失败"];
                         

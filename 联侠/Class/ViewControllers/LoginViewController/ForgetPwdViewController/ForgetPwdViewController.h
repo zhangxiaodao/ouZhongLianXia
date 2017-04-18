@@ -10,10 +10,6 @@
 
 @interface ForgetPwdViewController : UIViewController
 
-
-@property (nonatomic , strong) NSString *phoneNumber;
-@property (nonatomic , retain) UITextField *accTectFiled;
-
-@property (nonatomic , retain) UITextField *pwdTectFiled;
+@property (nonatomic , copy) NSString *phoneNumber;
 
 @end

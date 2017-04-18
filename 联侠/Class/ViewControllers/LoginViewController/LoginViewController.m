@@ -7,13 +7,10 @@
 //
 
 #import "LoginViewController.h"
-#import "ForgetPwdViewController.h"
 #import "RegisterViewController.h"
-#import "AgainSendViewController.h"
+#import "ForgetPwdViewController.h"
 #import "MainViewController.h"
 
-#import "GCDAsyncSocket.h"
-#import "ServicesModel.h"
 #import "MineSerivesViewController.h"
 
 #import "CCLocationManager.h"
@@ -28,11 +25,8 @@
 
 @property (nonatomic , strong) UITextField *pwdTectFiled;
 @property (nonatomic , strong) UITextField *acctextFiled;
-@property (nonatomic , assign)  NSInteger success;
 
-@property (nonatomic , strong) NSString *message;
 @property (nonatomic , strong) UIButton *loginBtn;
-@property (nonatomic , strong) UIView *navView;
 
 @property (nonatomic , strong) UIView *xiaHuaXian1;
 @property (nonatomic , strong) UIView *xiaHuaXian2;
@@ -43,19 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
-    
-    self.navigationController.navigationBarHidden = YES;
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:)  andTitle:NSLocalizedString(@"LoginVC_login", nil)];
-    UIView *backView = [[UIView alloc]init];
-    backView = [_navView.subviews objectAtIndex:0];
-
-    UIImageView *iiii = [backView.subviews objectAtIndex:1];
-    iiii.image = [UIImage new];
+//    self.navigationController.navigationBar.hidden = YES;
     
     [self cityAndProvience];
     [self setUI];
@@ -79,11 +61,6 @@
     NSLog(@"%@" , address);
 }
 
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-
-}
-
 #pragma mark - 设置UI界面
 - (void)setUI{
     
@@ -93,83 +70,71 @@
     [shangBiaoImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 3.5, kScreenW / 3.5));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(kScreenH / 7);
+        make.top.mas_equalTo(kScreenH / 5.9);
     }];
     
-    UIView *xiaHuaXian = [[UIView alloc]init];
-    [self.view addSubview:xiaHuaXian];
-    xiaHuaXian.backgroundColor = [UIColor grayColor];
-    [xiaHuaXian mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
+    UIView *accFiledView = [UIView creatTextFiledWithLableText:@"账户" andTextFiledPlaceHold:NSLocalizedString(@"LoginVC_AccPlaceholder", nil) andSuperView:self.view];
+    [accFiledView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.view.mas_top).offset(kScreenH / 1.6);
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 2.08);
     }];
-    _xiaHuaXian1 = xiaHuaXian;
-    
-    self.acctextFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"LoginVC_AccPlaceholder", nil) andSuperView:self.view];
+    _xiaHuaXian1 = accFiledView.subviews[0];
+    self.acctextFiled = accFiledView.subviews[2];
     self.acctextFiled.delegate = self;
-    [self.acctextFiled mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(xiaHuaXian.mas_top);
+    
+    UIView *pwdFiledView = [UIView creatTextFiledWithLableText:@"密码" andTextFiledPlaceHold:NSLocalizedString(@"LoginVC_PwdPlacrholder", nil) andSuperView:self.view];
+    [pwdFiledView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(accFiledView.mas_bottom).offset(kScreenH / 11);
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
-        make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
+        make.centerX.mas_equalTo(accFiledView.mas_centerX);
     }];
-    
-    UIView *xiaHuaXian2 = [[UIView alloc]init];
-    [self.view addSubview:xiaHuaXian2];
-    xiaHuaXian2.backgroundColor = [UIColor grayColor];
-    [xiaHuaXian2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
-        make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
-        make.bottom.mas_equalTo(xiaHuaXian.mas_bottom).offset(kScreenH / 11);
-    }];
-    _xiaHuaXian2 = xiaHuaXian2;
-    
-    self.pwdTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"LoginVC_PwdPlacrholder", nil) andSuperView:self.view];
+    _xiaHuaXian2 = pwdFiledView.subviews[0];
+    self.pwdTectFiled = pwdFiledView.subviews[2];
     self.pwdTectFiled.keyboardType = UIKeyboardTypeDefault;
-    [self.pwdTectFiled mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(xiaHuaXian2.mas_top);
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
-        make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
-    }];
     self.pwdTectFiled.delegate = self;
     self.pwdTectFiled.secureTextEntry = YES;
     
-    //创建注册按钮
     self.loginBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_login", nil) andColor:[UIColor redColor] andSuperView:self.view];
-    self.loginBtn.layer.cornerRadius = kScreenW / 18;
-    
-    
-    self.loginBtn.backgroundColor = kMainColor;
-    
-    [self.loginBtn addTarget:self action:@selector(loginBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    //注册按钮的约束
     [self.loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 9));
-        make.centerX.mas_equalTo(xiaHuaXian.mas_centerX);
-        make.top.mas_equalTo(xiaHuaXian2.mas_bottom).offset(kScreenH / 8);
+        make.centerX.mas_equalTo(accFiledView.mas_centerX);
+        make.top.mas_equalTo(pwdFiledView.mas_bottom).offset(kScreenW / 7.5);
     }];
+    self.loginBtn.layer.cornerRadius = kScreenW / 18;
+    self.loginBtn.backgroundColor = kMainColor;
+    [self.loginBtn addTarget:self action:@selector(loginBtnAction) forControlEvents:UIControlEventTouchUpInside];
     
-    
-    UIButton *registerBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_Register", nil) andColor:[UIColor clearColor] andSuperView:self.view];
-    [registerBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [registerBtn addTarget:self action:@selector(registerBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    //注册按钮的约束
-    [registerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW / 4, kScreenW / 25));
-        make.right.mas_equalTo(_loginBtn.mas_right);
-        make.top.mas_equalTo(_loginBtn.mas_bottom).offset(kScreenH / 36.8);
-    }];
     
     UIButton *resertBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_ForgetPwd", nil) andColor:[UIColor clearColor] andSuperView:self.view];
-    [resertBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [resertBtn addTarget:self action:@selector(forgetPwdBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    //注册按钮的约束
     [resertBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW / 4, kScreenW / 25));
-        make.left.mas_equalTo(_loginBtn.mas_left);
+        make.size.mas_equalTo(CGSizeMake(kStandardW / 3, kScreenW / 25));
+        make.right.mas_equalTo(_loginBtn.mas_centerX).offset(-5);
         make.top.mas_equalTo(_loginBtn.mas_bottom).offset(kScreenH / 36.8);
     }];
+    [resertBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [resertBtn addTarget:self action:@selector(forgetPwdBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    resertBtn.titleLabel.font = [UIFont systemFontOfSize:k12];
     
+    UIButton *registerBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_Register", nil) andColor:[UIColor clearColor] andSuperView:self.view];
+    //注册按钮的约束
+    [registerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kStandardW / 3, kScreenW / 25));
+        make.left.mas_equalTo(_loginBtn.mas_centerX).offset(5);
+        make.top.mas_equalTo(_loginBtn.mas_bottom).offset(kScreenH / 36.8);
+    }];
+    [registerBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [registerBtn addTarget:self action:@selector(registerBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    registerBtn.titleLabel.font = [UIFont systemFontOfSize:k12];
+    
+    UIView *fenGeView = [[UIView alloc]init];
+    [self.view addSubview:fenGeView];
+    fenGeView.backgroundColor = [UIColor grayColor];
+    [fenGeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(1, kScreenW / 25));
+        make.centerX.mas_equalTo(pwdFiledView.mas_centerX);
+        make.centerY.mas_equalTo(resertBtn.mas_centerY);
+    }];
     
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
     [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
@@ -180,13 +145,17 @@
 - (void)registerBtnAction{
 
     RegisterViewController *registerVC = [[RegisterViewController alloc]init];
+    self.navigationController.navigationBar.hidden = NO;
+    registerVC.navigationItem.title = @"注册";
     [self.navigationController pushViewController:registerVC animated:YES];
 }
 
 #pragma mark - 忘记密码点击事件
 - (void)forgetPwdBtnAction{
     
-    AgainSendViewController *forgetPwdVC = [[AgainSendViewController alloc]init];
+    ForgetPwdViewController *forgetPwdVC = [[ForgetPwdViewController alloc]init];
+    self.navigationController.navigationBar.hidden = NO;
+    forgetPwdVC.navigationItem.title = @"重置密码";
     [self.navigationController pushViewController:forgetPwdVC animated:YES];
 }
 
@@ -289,10 +258,7 @@
             if (dataArray.count > 0) {
                 
                 [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-//                MineSerivesViewController *myMachineVC = [[MineSerivesViewController alloc]init];
-//                myMachineVC.tabBarController.tabBar.hidden = NO;
-//                [self.navigationController pushViewController:myMachineVC animated:YES];
-                
+
                 [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
                 
             } else {

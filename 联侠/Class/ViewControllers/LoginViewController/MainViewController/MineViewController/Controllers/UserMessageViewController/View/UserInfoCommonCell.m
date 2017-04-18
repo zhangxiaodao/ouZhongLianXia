@@ -25,12 +25,24 @@
     
     self.fenGeView.hidden = NO;
     if (self.indexPath.section == 0 && self.indexPath.row == 0) {
+        self.view.frame = CGRectMake(10, 0, kScreenW - kScreenW / 15.625, kScreenH / 8.3);
         [self setTopCorner];
         self.rightLabel.hidden = YES;
         self.headPortraitImageView.hidden = NO;
-        self.view.size = CGSizeMake(kScreenW - kScreenW / 15.625, kScreenH / 8.3);
         self.lable.text = @"头像";
-        [self.headPortraitImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage imageNamed:@"iconfont-touxiang"]];
+        
+        if (self.headImage) {
+            self.headPortraitImageView.image = self.headImage;
+        } else {
+            if (![self.userModel.headImageUrl isKindOfClass:[NSNull class]]) {
+                [self.headPortraitImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage imageNamed:@"iconfont-touxiang"]];
+            } else {
+                self.headPortraitImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
+            }
+        }
+        
+        
+        
     } else if (self.indexPath.section == 0 && self.indexPath.row == 1) {
         self.lable.text = @"昵称";
         if (self.userModel.nickname == nil || [self.userModel.nickname isKindOfClass:[NSNull class]]) {
@@ -51,7 +63,10 @@
         }
     } else if (self.indexPath.section == 0 && self.indexPath.row == 4) {
         self.lable.text = @"我的地址";
-        if (![self.dizhiModel isKindOfClass:[NSNull class]]) {
+        
+        NSLog(@"%d" , self.dizhiModel == nil);
+        
+        if (self.dizhiModel != nil) {
             self.rightLabel.text = [NSString stringWithFormat:@"%@-%@" , self.dizhiModel.addrProvince , self.dizhiModel.addrCity];
         } else {
             self.rightLabel.text = @"请输入地址";
@@ -102,7 +117,7 @@
 
 - (void)setDizhiModel:(DiZhiModel *)dizhiModel {
     [super setDizhiModel:dizhiModel];
-    
+    NSLog(@"%@" , dizhiModel);
 }
 
 - (void)changHeadPortraitAtcion {

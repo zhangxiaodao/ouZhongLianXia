@@ -123,7 +123,7 @@
 #pragma mark - 获取代理的数据
 - (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd{
     
-//    NSLog(@"%@" , dddd);
+    NSLog(@"%@" , dddd);
     NSInteger state = [dddd[@"state"] integerValue];
     if (state == 0) {
         
@@ -173,7 +173,7 @@
     [topView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.7));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top);
+        make.top.mas_equalTo(self.view.mas_top).offset(0);
     }];
     _topView = topView;
     
@@ -193,7 +193,7 @@
     layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0);
     
     //2.初始化collectionView
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, kScreenH / 3.7 - 20, kScreenW, kScreenH - kScreenH / 3.7 - 64 - 29) collectionViewLayout:layout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, kScreenH / 3.7 - 20, kScreenW, kScreenH - kScreenH / 3.7 - kHeight - 29) collectionViewLayout:layout];
     [self.view addSubview:self.collectionView];
     self.collectionView.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
 
@@ -209,7 +209,7 @@
     [self.view addGestureRecognizer:swipeGesture1];
     
     
-    UIView *markView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH / 3.7 - 20, kScreenW, kScreenH - kScreenH / 3.7 - 64 - 29)];
+    UIView *markView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH / 3.7 - 20, kScreenW, kScreenH - kScreenH / 3.7 - 0 - 29)];
     [self.view addSubview:markView];
     markView.backgroundColor = [UIColor colorWithHexString:@"f6f6f6"];
     self.markView = markView;
@@ -326,7 +326,7 @@
 - (void)addSerViceAtcion{
     self.tabBarController.tabBar.hidden = YES;
     SetServicesViewController *setServiceVC = [[SetServicesViewController alloc]init];
-//    AllTypeServiceViewController *alll = [[AllTypeServiceViewController alloc]init];
+    setServiceVC.navigationItem.title = @"添加设备";
     [self.navigationController pushViewController:setServiceVC animated:YES];
 }
 

@@ -28,6 +28,7 @@
 #define kBigText 18
 #define kLittleText 12
 #define kHeight 64
+#define kNavHeight 44
 #define kTabBarHeight 48
 
 #define BackGroupHeight kScreenH / 2.964444
@@ -204,7 +205,7 @@
  *  注册信息提交
  *
  */
-#define kDuanXinTiJiao [NSString stringWithFormat:@"http://%@:8080/smarthome/user/register" , localhost]
+#define kRegisterURL [NSString stringWithFormat:@"http://%@:8080/smarthome/user/register" , localhost]
 
 /**
  *  修改密码，包括登入后修改密码和忘记密码

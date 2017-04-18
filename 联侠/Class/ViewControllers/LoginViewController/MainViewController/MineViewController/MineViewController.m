@@ -178,14 +178,9 @@
     self.headImageView = _headPortraitView.subviews[1];
     self.nameLable = [_headPortraitView.subviews objectAtIndex:2];
     
-    self.tableVIew = [[UITableView alloc]init];
+    self.tableVIew = [[UITableView alloc]initWithFrame:CGRectMake(0, kScreenH / 3.7 + 0, kScreenW, 7 * kScreenH / 14.2 + 2) style:UITableViewStylePlain];
     [self.view addSubview:self.tableVIew];
-    self.tableVIew.backgroundColor = [UIColor clearColor];
-    [self.tableVIew mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, 7 * kScreenH / 14.2 + 2));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(_headPortraitView.mas_bottom);
-    }];
+    self.tableVIew.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     self.tableVIew.scrollEnabled = NO;
     self.tableVIew.delegate = self;
     self.tableVIew.dataSource = self;

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface BottomNavViewController : UINavigationController
+#import "XMGNavigationController.h"
+@interface BottomNavViewController : XMGNavigationController
 
 @end

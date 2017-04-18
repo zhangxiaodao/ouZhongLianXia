@@ -29,16 +29,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.navigationBar.hidden = YES;
-    
     NSString *isLaunchLoad = [kStanderDefault objectForKey:@"isLaunch"];
     if ([isLaunchLoad isEqualToString:@"NO"]) {
         [kStanderDefault setObject:@"NO" forKey:@"firstRun"];
         
         if ([kStanderDefault objectForKey:@"Login"]) {
-            [self addChildViewController:[[TabBarViewController alloc]init]];
+            
+//            [self addChildViewController:[[TabBarViewController alloc]init]];
+            
+            [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:nil];
+            
         } else {
+//            self.navigationBar.hidden = NO;
             [self setAddViewController:[[LoginViewController alloc]init]];
         }
     } else{

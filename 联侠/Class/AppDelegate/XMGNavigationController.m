@@ -16,13 +16,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     
     self.interactivePopGestureRecognizer.delegate = self;
     [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
-
-    [self.navigationBar setValue:@(0)forKeyPath:@"backgroundView.alpha"];
-    self.navigationBar.barStyle=UIBarStyleBlackTranslucent;
+    [self.navigationBar setShadowImage:[UIImage new]];
+//    [self.navigationBar setValue:@(0)forKeyPath:@"backgroundView.alpha"];
+//    self.navigationBar.barStyle=UIBarStyleBlackTranslucent;
     self.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"00a2ff"],NSFontAttributeName:[UIFont systemFontOfSize:18]};
 }
 
@@ -39,6 +39,7 @@
         [backButton setImage:[UIImage imageNamed:@"navigationButtonReturn"] forState:UIControlStateNormal];
         [backButton setImage:[UIImage imageNamed:@"navigationButtonReturnClick"] forState:UIControlStateHighlighted];
         [backButton setTitle:viewController.navigationItem.title forState:UIControlStateNormal];
+        
         [backButton setTitleColor:[UIColor colorWithHexString:@"00a2ff"] forState:UIControlStateNormal];
         [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
         backButton.titleLabel.font = [UIFont systemFontOfSize:k15];

@@ -11,7 +11,6 @@
 @interface YinSiViewController ()<UITableViewDataSource , UITableViewDelegate>
 @property (nonatomic , assign) CGSize expectSize;
 @property (nonatomic , strong) UILabel *textLabel;
-@property (nonatomic , strong) UIView *navView;
 @end
 
 @implementation YinSiViewController
@@ -20,13 +19,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"隐私政策"];
     [self setUI];
-}
-
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 设置UI
@@ -73,20 +66,5 @@
     return self.expectSize.height;
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

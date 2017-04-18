@@ -10,7 +10,6 @@
 
 @interface WiFiViewController : UIViewController
 
-@property (strong, nonatomic)  UILabel *ssidLabel;
-@property (strong, nonatomic) NSString *bssid;
+
 //@property (nonatomic , strong) AddServiceModel *addServiceModel;
 @end

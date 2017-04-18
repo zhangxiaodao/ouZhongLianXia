@@ -51,4 +51,6 @@
 
 + (UIView * _Nonnull)createViewWithTwoLabelAndBottomAndSwitchViewWithSuperView:(UIView * _Nonnull)superView withFirstLabelTitle:(NSString * _Nonnull)firsttitle withFirstLabelTextColor:(UIColor * _Nonnull)firstTextColor withSecondLabelTitle:(NSString * _Nonnull)secondtitle withSecondLabelTextColor:(UIColor * _Nonnull)secondTextColor andSecondLabelAtcion:(nonnull SEL)secondLabelAction andSecondLabelTarget:(nullable id)secondLabeltarget andSwitchAtcion:(nonnull SEL)switchaction andSwitchTarget:(nullable id)switchtarget;
 
++ (UIView *_Nonnull)creatViewWithFiledCoradiusOfPlaceholder:(NSString *_Nonnull)placholder andSuperView:(UIView *_Nonnull)superView;
+
 @end
