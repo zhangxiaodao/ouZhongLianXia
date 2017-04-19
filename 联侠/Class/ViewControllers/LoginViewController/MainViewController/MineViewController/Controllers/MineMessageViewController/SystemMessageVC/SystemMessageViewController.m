@@ -184,6 +184,8 @@
     
     SystemMessageWebViewController *systemWebVC = [[SystemMessageWebViewController alloc]init];
     systemWebVC.model = model;
+    
+    systemWebVC.navigationItem.title = self.navigationItem.title;
     [self.navigationController pushViewController:systemWebVC animated:YES];
     
 }

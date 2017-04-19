@@ -25,8 +25,17 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     // 设置图片
-    [btn setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
-    [btn setImage:[UIImage imageNamed:highImage] forState:UIControlStateHighlighted];
+    
+    
+    
+    if (image) {
+        [btn setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+    }
+    
+    if (highImage) {
+        [btn setImage:[UIImage imageNamed:highImage] forState:UIControlStateHighlighted];
+    }
+    
     // 设置尺寸
 //    btn.size = btn.currentImage.size;
     btn.size = CGSizeMake(30, 30);

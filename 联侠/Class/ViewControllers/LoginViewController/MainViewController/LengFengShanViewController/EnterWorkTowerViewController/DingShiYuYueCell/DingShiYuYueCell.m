@@ -510,7 +510,7 @@
     
     [HelpFunction requestDataWithUrlString:kLengFengShanDingShiYuYue andParames:parames andDelegate:self];
     
-    [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"预约成功"];
+    [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self.currentVC Title:@"预约成功"];
     
 }
 
@@ -575,7 +575,7 @@
 #pragma mark - 问好的点击事件
 - (void)wenHaoAtcion:(UITapGestureRecognizer *)btn {
     
-    [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"设定您机器的最大开启时间"];
+    [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self.currentVC Title:@"设定您机器的最大开启时间"];
 }
 
 

@@ -47,7 +47,9 @@
         [kStanderDefault setObject:user[@"id"] forKey:@"userId"];
         [UIAlertController creatRightAlertControllerWithHandle:^{
 
-            [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
+            [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:^{
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }];
             
         } andSuperViewController:self Title:NSLocalizedString(@"RegistVC_RegisterSuccess", nil)];
     }
@@ -81,7 +83,7 @@
     [xiaHuaXian mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH/3.8);
+        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH/3.8 - kHeight);
     }];
     
     self.accTectFiled = [UITextField creatTextfiledWithPlaceHolder:NSLocalizedString(@"EnterPhone", nil) andSuperView:self.view];

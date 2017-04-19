@@ -9,9 +9,10 @@
 #import "AppDelegate.h"
 #import <UMSocialCore/UMSocialCore.h>
 #import "TabBarViewController.h"
-#import "BottomNavViewController.h"
 #import "AsyncSocket.h"
 #import "Reachability.h"
+#import "LoginViewController.h"
+#import "XMGNavigationController.h"
 
 #define STOREAPPID @"1113948983"
 @interface AppDelegate ()<GCDAsyncSocketDelegate , AsyncSocketDelegate , HelpFunctionDelegate>
@@ -39,7 +40,24 @@
     NSLog(@"%f , %f" , kScreenW , kScreenH);
     _alertController = nil;
     
-    self.window.rootViewController = [[BottomNavViewController alloc]init];
+//    self.window.rootViewController = [[BottomNavViewController alloc]init];
+    
+    
+    NSString *isLaunchLoad = [kStanderDefault objectForKey:@"isLaunch"];
+    if ([isLaunchLoad isEqualToString:@"NO"]) {
+        [kStanderDefault setObject:@"NO" forKey:@"firstRun"];
+        
+        if ([kStanderDefault objectForKey:@"Login"]) {
+
+            self.window.rootViewController = [[TabBarViewController alloc]init];
+        } else {
+            
+            LoginViewController *loginVC = [[LoginViewController alloc]init];
+            XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:loginVC];
+            
+            self.window.rootViewController = nav;
+        }
+    }
     
     [self setYouMeng];
     [self setGeTui];
@@ -164,7 +182,10 @@
                         }];
                         
                     } else {
-                        self.window.rootViewController = [[BottomNavViewController alloc]init];
+                        LoginViewController *loginVC = [[LoginViewController alloc]init];
+                        XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:loginVC];
+                        
+                        self.window.rootViewController = nav;
                     }
                 }];
                 self.alertVC = nil;
@@ -401,7 +422,6 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    [kStanderDefault setObject:@"YES" forKey:@"isRun"];
     NSLog(@"程序在终止时执行");
     
     [kSocketTCP cutOffSocket];

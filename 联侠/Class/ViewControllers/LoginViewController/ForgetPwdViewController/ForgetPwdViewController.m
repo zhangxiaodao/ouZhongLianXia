@@ -41,7 +41,7 @@
     [phoneFiledView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW / 15.625, kScreenW / 8.3));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(10 + kHeight);
+        make.top.mas_equalTo(self.view.mas_top).offset(10);
     }];
     self.accTectFiled = phoneFiledView.subviews[0];
     
@@ -78,8 +78,8 @@
     [nextBtn addTarget:self action:@selector(nextBtnAtcion2) forControlEvents:UIControlEventTouchUpInside];
     
     
-    
-    if (![self.phoneNumber isKindOfClass:[NSNull class]]) {
+    NSLog(@"%@" , self.phoneNumber);
+    if (self.phoneNumber != nil) {
         self.accTectFiled.text = self.phoneNumber;
         self.accTectFiled.userInteractionEnabled = NO;
     }

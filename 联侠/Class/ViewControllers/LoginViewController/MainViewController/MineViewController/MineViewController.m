@@ -282,7 +282,7 @@
             [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
                 cell.clearLabel.text = [NSString stringWithFormat:@"当前缓存 : %@" , [cell getBufferSize]];
             }];
-        } andSuperViewController:kWindowRoot Title:@"清除缓存"];
+        } andSuperViewController:self Title:@"清除缓存"];
         
     }
   

@@ -7,11 +7,11 @@
 //
 
 #import "UserMessageViewController.h"
-#import "UserMessageTableViewCell.h"
 #import "MineYouHuiQuanViewController.h"
 #import "ForgetPwdViewController.h"
-
+#import "TabBarViewController.h"
 #import "MineViewController.h"
+#import "XMGNavigationController.h"
 
 #import "LocationPickerVC.h"
 #import "NiChengViewController.h"
@@ -93,29 +93,37 @@ static NSString *celled = @"celled";
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-//    if (self.userModel && self.sex && self.niChengLabel.text && self.birthdayLabel.text && self.emailLabel.text) {
-//        NSMutableDictionary *parames = [NSMutableDictionary dictionary];
-//        [parames setObject:@(self.userModel.sn) forKey:@"user.sn"];
-//        [parames setObject:@(self.sex) forKey:@"user.sex"];
-//        if (self.niChengLabel.text) {
-//            [parames setObject:self.niChengLabel.text forKey:@"user.nickname"];
-//        } if (self.birthdayLabel.text) {
-//            [parames setObject:self.birthdayLabel.text forKey:@"user.birthdate"];
-//        } if (self.emailLabel.text) {
-//            [parames setObject:self.emailLabel.text forKey:@"user.email"];
-//        }
-//        
-//        NSLog(@"%@" , parames);
-//        
-//        [kStanderDefault setObject:parames forKey:@"GeRenModel"];
-//        
-//        [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
-//    }
-//    
-//    
-//    if (self.niChengLabel.text) {
-//        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"niCheng" object:self userInfo:[NSDictionary dictionaryWithObject:self.niChengLabel.text forKey:@"niCheng"]]];
-//    }
+    NSString *nickName = nil;
+    NSString *sex = nil;
+    NSString *birthday = nil;
+    NSString *address = nil;
+    NSString *email = nil;
+    
+    for (int i = 1; i < 6; i++) {
+        UserInfoCommonCell *cell = [self tableViewindexPathForRow:i inSection:0];
+        switch (i) {
+            case 1:
+                nickName = cell.rightLabel.text;
+                break;
+            case 2:
+                sex = cell.rightLabel.text;
+                break;
+            case 3:
+                birthday = cell.rightLabel.text;
+                break;
+            case 4:
+                address = cell.rightLabel.text;
+                break;
+            case 5:
+                email = cell.rightLabel.text;
+                break;
+            default:
+                break;
+        }
+    }
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:nickName , @"nickName", sex , @"sex" , birthday , @"birthday" , email ,@"email", nil];
+    NSLog(@"%@" , dic);
+    [kStanderDefault setValue:dic forKey:@"GeRenInfo"];
     
 }
 - (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
@@ -196,11 +204,11 @@ static NSString *celled = @"celled";
         
         if (indexPath.row == 2) {
             self.sexPicker = [[CustomPickerView alloc]initWithPickerViewType:2 andBackColor:kMainColor];
-            [kWindowRoot.view addSubview:self.sexPicker];
+            [self.view addSubview:self.sexPicker];
             self.sexPicker.delegate = self;
         } else if (indexPath.row == 3) {
             self.myDatePicker = [[CustomPickerView alloc]initWithPickerViewType:3 andBackColor:kMainColor];
-            [kWindowRoot.view addSubview:self.myDatePicker];
+            [self.view addSubview:self.myDatePicker];
             self.myDatePicker.delegate = self;
         }
         
@@ -221,38 +229,50 @@ static NSString *celled = @"celled";
             [self.navigationController pushViewController:forgetPwdVC animated:YES];
         }
     } else if (indexPath.section == 2) {
-        LoginViewController *loginVC = [[LoginViewController alloc]init];
         
+        if ([kApplicate.window.rootViewController isKindOfClass:[TabBarViewController class]]) {
+            
+            [self kStanderDefaultRemoveAllObject];
+            
+            
+            XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+            kWindowRoot = nav;
+            
+        } else {
+            
+            [self dismissViewControllerAnimated:YES completion:^{
+                [self kStanderDefaultRemoveAllObject];
+            }];
+        }
         
-        [kStanderDefault removeObjectForKey:@"Login"];
-        [kStanderDefault removeObjectForKey:@"cityName"];
-        [kStanderDefault removeObjectForKey:@"password"];
-        [kStanderDefault removeObjectForKey:@"phone"];
-        [kStanderDefault removeObjectForKey:@"userSn"];
-        [kStanderDefault removeObjectForKey:@"userId"];
-        
-        [kStanderDefault removeObjectForKey:@"first"];
-        [kStanderDefault removeObjectForKey:@"zhuYe"];
-        
-        [kStanderDefault removeObjectForKey:@"offBtn"];
-        [kStanderDefault removeObjectForKey:@"GanYiJiData"];
-        [kStanderDefault removeObjectForKey:@"ganYiJiHongGanDic"];
-        [kStanderDefault removeObjectForKey:@"GanYiJiIsWork"];
-        [kStanderDefault removeObjectForKey:@"AirData"];
-        [kStanderDefault removeObjectForKey:@"AirDingShiData"];
-        [kStanderDefault removeObjectForKey:@"kongZhiTai"];
-        [kStanderDefault removeObjectForKey:@"modelString"];
-        
-        [kStanderDefault removeObjectForKey:@"data"];
-        [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
-        [kStanderDefault removeObjectForKey:@"wearthDic"];
-        [kStanderDefault removeObjectForKey:@"GeRenModel"];
-        [kSocketTCP cutOffSocket];
-        loginVC.fromUserVC = [NSString stringWithFormat:@"YES"];
-        
-        
-        [self.navigationController pushViewController:loginVC animated:YES];
     }
+}
+
+- (void)kStanderDefaultRemoveAllObject {
+    [kStanderDefault removeObjectForKey:@"Login"];
+    [kStanderDefault removeObjectForKey:@"cityName"];
+    [kStanderDefault removeObjectForKey:@"password"];
+    [kStanderDefault removeObjectForKey:@"phone"];
+    [kStanderDefault removeObjectForKey:@"userSn"];
+    [kStanderDefault removeObjectForKey:@"userId"];
+    
+    [kStanderDefault removeObjectForKey:@"first"];
+    [kStanderDefault removeObjectForKey:@"zhuYe"];
+    
+    [kStanderDefault removeObjectForKey:@"offBtn"];
+    [kStanderDefault removeObjectForKey:@"GanYiJiData"];
+    [kStanderDefault removeObjectForKey:@"ganYiJiHongGanDic"];
+    [kStanderDefault removeObjectForKey:@"GanYiJiIsWork"];
+    [kStanderDefault removeObjectForKey:@"AirData"];
+    [kStanderDefault removeObjectForKey:@"AirDingShiData"];
+    [kStanderDefault removeObjectForKey:@"kongZhiTai"];
+    [kStanderDefault removeObjectForKey:@"modelString"];
+    
+    [kStanderDefault removeObjectForKey:@"data"];
+    [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
+    [kStanderDefault removeObjectForKey:@"wearthDic"];
+    [kStanderDefault removeObjectForKey:@"GeRenModel"];
+    [kSocketTCP cutOffSocket];
 }
 
 - (void)sendPickerViewToVC:(UIPickerView *)picker {
@@ -260,6 +280,9 @@ static NSString *celled = @"celled";
         UserInfoCommonCell *cell = [self tableViewindexPathForRow:2 inSection:0];
         cell.rightLabel.text = [NSString stringWithFormat:@"%@" , self.sexArray[[picker selectedRowInComponent:0]]];
         self.sexPicker = nil;
+        NSDictionary *parames = @{@"user.sn" : @(self.userModel.sn) , @"user.sex" : cell.rightLabel.text};
+        NSLog(@"%@" , parames);
+        [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
     }
 }
 
@@ -279,6 +302,10 @@ static NSString *celled = @"celled";
         UserInfoCommonCell *cell = [self tableViewindexPathForRow:3 inSection:0];
         cell.rightLabel.text= time;
         self.myDatePicker = nil;
+        
+        NSDictionary *parames = @{@"user.sn" : @(self.userModel.sn) , @"user.birthdate" : time};
+        NSLog(@"%@" , parames);
+        [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
     }
     
     
@@ -299,6 +326,9 @@ static NSString *celled = @"celled";
     if ([navTitle isEqualToString:@"昵称"]) {
         indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
         self.userModel.nickname = info;
+        
+        [[NSNotificationCenter defaultCenter]postNotification:[NSNotification notificationWithName:@"niCheng" object:nil userInfo:[NSDictionary dictionaryWithObject:info forKey:@"niCheng"]]];
+        
     } else {
         indexPath = [NSIndexPath indexPathForRow:5 inSection:0];
         self.userModel.email = info;
@@ -321,7 +351,22 @@ static NSString *celled = @"celled";
     _userModel = userModel;
     
     NSLog(@"%@" , _userModel);
-    
+    if ([kStanderDefault objectForKey:@"GeRenInfo"]) {
+        
+        NSDictionary *dic = [kStanderDefault objectForKey:@"GeRenInfo"];
+        
+        GeRenModel *model = [[GeRenModel alloc]init];
+        [model setValuesForKeysWithDictionary:dic];
+        _userModel.nickname = model.nickName;
+        if ([model.sex isEqualToString:@"男"]) {
+            _userModel.sex = 1;
+        } else {
+            _userModel.sex = 2;
+        }
+        _userModel.birthdate = model.birthday;
+        _userModel.email = model.email;
+    }
+    NSLog(@"%@" , _userModel);
 }
 
 - (NSArray *)sexArray {

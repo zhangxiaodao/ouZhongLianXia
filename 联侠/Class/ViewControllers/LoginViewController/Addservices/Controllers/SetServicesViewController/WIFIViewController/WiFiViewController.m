@@ -188,6 +188,7 @@
     _xianHuaXian.backgroundColor = kMainColor;
     
     CGRect frame = textField.frame;
+    NSLog(@"%@" , NSStringFromCGRect(frame));
     int offset = frame.origin.y + frame.size.height - (kScreenH - (HEIGHT_KEYBOARD+HEIGHT_SPACE)) + kScreenW / 10;
 
     NSTimeInterval animationDuration = 0.30f;

@@ -393,7 +393,7 @@ static NSString *fifthCelled = @"fifth";
         if (indexPath.row == 0) {
             
             EnterFirstTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:firstCelled];
-            
+            cell.currentVC = self;
             cell.serviceModel =  self.serviceModel;
             cell.isAnimation = self.isAnimation;
             cell.model = self.stateModel;
@@ -433,6 +433,7 @@ static NSString *fifthCelled = @"fifth";
         
         DingShiYuYueCell *cell = [tableView dequeueReusableCellWithIdentifier:fifthCelled];
      
+        cell.currentVC = self;
         cell.serviceModel = [[ServicesModel alloc]init];
         cell.serviceModel =  self.serviceModel;
         

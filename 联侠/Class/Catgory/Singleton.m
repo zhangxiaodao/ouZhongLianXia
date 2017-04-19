@@ -7,8 +7,8 @@
 //
 
 #import "Singleton.h"
-#import "BottomNavViewController.h"
 #import "LoginViewController.h"
+#import "XMGNavigationController.h"
 #import <sys/socket.h>
 
 #import <netinet/in.h>
@@ -225,8 +225,10 @@
             [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
             [kStanderDefault removeObjectForKey:@"GeRenModel"];
             
-            kWindowRoot = [[BottomNavViewController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您的账号在其他设备登陆"];
+            XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+            kWindowRoot = nav;
+            
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:[[LoginViewController alloc]init] Title:@"您的账号在其他设备登陆"];
             
         } else if ([newMessage isEqualToString:@"CONNECTED"]){
             

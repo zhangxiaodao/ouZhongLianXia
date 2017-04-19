@@ -64,8 +64,6 @@
     } else if (self.indexPath.section == 0 && self.indexPath.row == 4) {
         self.lable.text = @"我的地址";
         
-        NSLog(@"%d" , self.dizhiModel == nil);
-        
         if (self.dizhiModel != nil) {
             self.rightLabel.text = [NSString stringWithFormat:@"%@-%@" , self.dizhiModel.addrProvince , self.dizhiModel.addrCity];
         } else {
@@ -117,7 +115,7 @@
 
 - (void)setDizhiModel:(DiZhiModel *)dizhiModel {
     [super setDizhiModel:dizhiModel];
-    NSLog(@"%@" , dizhiModel);
+
 }
 
 - (void)changHeadPortraitAtcion {

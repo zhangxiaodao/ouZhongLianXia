@@ -44,7 +44,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-
     NSDictionary *parames = nil;
     if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
         parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
@@ -63,7 +62,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
-    
+    self.navigationController.navigationBar.hidden = YES;
     if ([kStanderDefault objectForKey:@"zhuYe"]) {
         NSNumber *aa = [kStanderDefault objectForKey:@"zhuYe"];
         imageBG.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@" , [self.zhuYeArray objectAtIndex:[aa integerValue]]]];

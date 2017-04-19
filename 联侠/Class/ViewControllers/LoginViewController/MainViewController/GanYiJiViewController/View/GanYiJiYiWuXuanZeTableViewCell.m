@@ -362,7 +362,7 @@
         }
 
     } else{
-        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"请选择衣物"];
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self.currentVC Title:@"请选择衣物"];
     }
 
     

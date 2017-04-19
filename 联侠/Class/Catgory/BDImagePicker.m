@@ -35,10 +35,6 @@ static BDImagePicker *bdImagePickerInstance = nil;
     _allowsEditing = allowsEditing;
     
 
-    
-    
-//    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"提示" message:@"从相机或相册中选取图片" preferredStyle:UIAlertControllerStyleActionSheet];
-    
     UIAlertController *alertVC = nil;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 
@@ -54,43 +50,10 @@ static BDImagePicker *bdImagePickerInstance = nil;
             picker.allowsEditing = YES;
             [_viewController presentViewController:picker animated:YES completion:nil];
         } andSecondTitle:@"从相册中选择" andThirtHandle:nil andThirtTitle:nil andForthHandle:nil andForthTitle:nil andSuperViewController:_viewController];
-        
-//        UIAlertAction *paiZhaoAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            UIImagePickerController *picker = [[UIImagePickerController alloc]init];
-//            picker.delegate = self;
-//            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-//            picker.allowsEditing = _allowsEditing;
-//            [_viewController presentViewController:picker animated:YES completion:nil];
-//        }];
-//        
-//        UIAlertAction *xiangCeAtcion = [UIAlertAction actionWithTitle:@"从相册中选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            UIImagePickerController *picker = [[UIImagePickerController alloc]init];
-//            picker.delegate = self;
-//            picker.allowsEditing = YES;
-//            [_viewController presentViewController:picker animated:YES completion:nil];
-//        }];
-//        
-//        UIAlertAction *cancleAtcion = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-//        
-//        [alertVC addAction:paiZhaoAction];
-//        [alertVC addAction:xiangCeAtcion];
-//        [alertVC addAction:cancleAtcion];
+
 
     } else {
 
-        
-        
-//        UIAlertAction *xiangCeAtcion = [UIAlertAction actionWithTitle:@"从相册中选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            UIImagePickerController *picker = [[UIImagePickerController alloc]init];
-//            picker.delegate = self;
-//            picker.allowsEditing = YES;
-//            [_viewController presentViewController:picker animated:YES completion:nil];
-//        }];
-//        UIAlertAction *cancleAtcion = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-//        
-//        [alertVC addAction:xiangCeAtcion];
-//        [alertVC addAction:cancleAtcion];
-        
         alertVC = [UIAlertController creatSheetControllerWithFirstHandle:^{
             UIImagePickerController *picker = [[UIImagePickerController alloc]init];
             picker.delegate = self;

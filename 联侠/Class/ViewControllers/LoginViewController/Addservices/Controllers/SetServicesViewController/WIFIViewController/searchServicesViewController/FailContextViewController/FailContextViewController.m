@@ -9,8 +9,7 @@
 #import "FailContextViewController.h"
 #import "SetServicesViewController.h"
 #import "UserFeedBackViewController.h"
-@interface FailContextViewController ()
-@property (nonatomic , strong) UIView *navView;
+@interface FailContextViewController ()<UIGestureRecognizerDelegate>
 @end
 
 @implementation FailContextViewController
@@ -18,41 +17,43 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"添加失败"];
-    UIView *backView = [[UIView alloc]init];
-    backView = [_navView.subviews objectAtIndex:0];
-    
-    UIImageView *iiii = [backView.subviews objectAtIndex:1];
-    iiii.image = [UIImage new];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(noAtcion) image:nil highImage:nil];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     [self setUI];
+    
+    
 }
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-//    [self.navigationController popViewControllerAnimated:YES];
+
+- (void)noAtcion {
+    
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    return NO;
 }
 
 #pragma mark - 设置UI
 - (void)setUI {
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, kHeight, kScreenW, kScreenH / 8.7619047)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 6.65)];
     [self.view addSubview:view];
     view.backgroundColor = [UIColor redColor];
     
-    UILabel *lable1 = [UILabel creatLableWithTitle:@"产品名称+型号" andSuperView:view andFont:k17 andTextAligment:NSTextAlignmentLeft];
+    UILabel *lable1 = [UILabel creatLableWithTitle:@"添加失败!" andSuperView:view andFont:k17 andTextAligment:NSTextAlignmentLeft];
     lable1.layer.borderWidth = 0;
     [lable1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 15);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 12));
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 9.945945);
+        make.left.mas_equalTo(kScreenW / 8.3);
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 15));
+        make.bottom.mas_equalTo(view.mas_centerY);
     }];
     lable1.textColor = [UIColor whiteColor];
     
-    UILabel *lable2 = [UILabel creatLableWithTitle:@"添加失败!" andSuperView:view andFont:k17 andTextAligment:NSTextAlignmentLeft];
+    UILabel *lable2 = [UILabel creatLableWithTitle:@"产品名称+型号" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentLeft];
     lable2.layer.borderWidth = 0;
     [lable2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 15);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 12));
-        make.top.mas_equalTo(lable1.mas_bottom);
+
+        make.left.mas_equalTo(lable1.mas_left);
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 15));
+        make.top.mas_equalTo(view.mas_centerY);
     }];
     lable2.textColor = [UIColor whiteColor];
     
@@ -61,7 +62,7 @@
     [jingGaoIamgeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 10, kScreenW / 10));
         make.right.mas_equalTo(-kScreenW / 15);
-        make.top.mas_equalTo(lable1.mas_top);
+        make.centerY.mas_equalTo(view.mas_centerY).offset(-15);
     }];
     [UIImageView setImageViewColor:jingGaoIamgeView andColor:[UIColor whiteColor]];
     
@@ -74,80 +75,75 @@
     }];
     jingGaoLable.textColor = [UIColor whiteColor];
     
-    UILabel *tiShiLable = [UILabel creatLableWithTitle:@"请按以下步骤排查可能的问题并重试" andSuperView:view andFont:k17 andTextAligment:NSTextAlignmentLeft];
+    UILabel *tiShiLable = [UILabel creatLableWithTitle:@"请按以下步骤排查可能的问题并重试" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentLeft];
     tiShiLable.layer.borderWidth = 0;
     [tiShiLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 15);
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 15, kScreenW / 14));
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 4.46060606);
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8.3, kScreenW / 14));
+        make.top.mas_equalTo(view.mas_bottom).offset(kScreenW / 11.4);
     }];
     
-    UILabel *firstLable = [UILabel creatLableWithTitle:@"1.请确保您的设备已按照开始时的提示，设置到配网状态;" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentLeft];
+    UILabel *firstLable = [UILabel creatLableWithTitle:@"1.请确保您的设备已按照开始时的提示，设置到配网状态;" andSuperView:view andFont:k13 andTextAligment:NSTextAlignmentLeft];
     firstLable.numberOfLines = 0;
     firstLable.layer.borderWidth = 0;
     [firstLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 15);
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 15, kScreenW / 7));
-        make.top.mas_equalTo(tiShiLable.mas_bottom);
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8.3, kScreenW / 7));
+        make.top.mas_equalTo(tiShiLable.mas_bottom).offset(15);
     }];
     
     
-    UILabel *secondLable = [UILabel creatLableWithTitle:@"2.确保之前输入的WIFI账号密码无误;" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentLeft];
+    UILabel *secondLable = [UILabel creatLableWithTitle:@"2.确保之前输入的WIFI账号密码无误;" andSuperView:view andFont:k13 andTextAligment:NSTextAlignmentLeft];
     secondLable.layer.borderWidth = 0;
     [secondLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 15);
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 15, kScreenW / 14));
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8.3, kScreenW / 14));
         make.top.mas_equalTo(firstLable.mas_bottom);
     }];
     
-    UILabel *thirtLable = [UILabel creatLableWithTitle:@"3.确保设备与家庭路由器的距离不要太远;" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentLeft];
+    UILabel *thirtLable = [UILabel creatLableWithTitle:@"3.确保设备与家庭路由器的距离不要太远;" andSuperView:view andFont:k13 andTextAligment:NSTextAlignmentLeft];
     thirtLable.layer.borderWidth = 0;
     [thirtLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 15);
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 15, kScreenW / 14));
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8.3, kScreenW / 14));
         make.top.mas_equalTo(secondLable.mas_bottom);
     }];
     
-    UILabel *forthLable = [UILabel creatLableWithTitle:@"4.您的路由器是否设置到了5GHz，可以进入路由器设置管理检查，确保是2.4GHz;" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentLeft];
+    UILabel *forthLable = [UILabel creatLableWithTitle:@"4.您的路由器是否设置到了5GHz，可以进入路由器设置管理检查，确保是2.4GHz;" andSuperView:view andFont:k13 andTextAligment:NSTextAlignmentLeft];
     forthLable.numberOfLines = 0;
     forthLable.layer.borderWidth = 0;
     [forthLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 15);
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 15, kScreenW / 7));
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8.3, kScreenW / 7));
         make.top.mas_equalTo(thirtLable.mas_bottom);
     }];
     
-    //创建注册按钮
-    UIButton *againBtn = [UIButton initWithTitle:@"重试" andColor:[UIColor redColor] andSuperView:self.view];
-    againBtn.layer.cornerRadius = kScreenW / 16;
-    againBtn.backgroundColor = kMainColor;
+    firstLable.textColor = [UIColor colorWithHexString:@"636363"];
+    secondLable.textColor = [UIColor colorWithHexString:@"636363"];
+    thirtLable.textColor = [UIColor colorWithHexString:@"636363"];
+    forthLable.textColor = [UIColor colorWithHexString:@"636363"];
     
-    [againBtn addTarget:self action:@selector(againBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    //注册按钮的约束
+    UIButton *againBtn = [UIButton initWithTitle:@"重试" andColor:[UIColor redColor] andSuperView:self.view];
     [againBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8, kScreenW / 8));
-        make.left.mas_equalTo(kScreenW / 8);
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8.3, kScreenW / 9.375));
         make.top.mas_equalTo(forthLable.mas_bottom).offset(kScreenH / 14.72);
     }];
+    againBtn.layer.cornerRadius = kScreenW / 18.75;
+    againBtn.backgroundColor = kMainColor;
+    [againBtn addTarget:self action:@selector(againBtnAction) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *fanKuiBtn = [UIButton initWithTitle:@"在线反馈" andColor:[UIColor clearColor] andSuperView:self.view];
-    [fanKuiBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    fanKuiBtn.layer.cornerRadius = kScreenW / 16;
-    fanKuiBtn.layer.borderWidth = 2;
-    CGFloat R1  = (CGFloat) 0/255.0;
-    CGFloat G1 = (CGFloat) 62/255.0;
-    CGFloat B1 = (CGFloat) 233/255.0;
-    CGFloat alpha1 = (CGFloat) 1.0;
-    
-    fanKuiBtn.layer.borderColor = [ UIColor colorWithRed: R1  green: G1  blue: B1  alpha: alpha1].CGColor;
-    
-    [fanKuiBtn addTarget:self action:@selector(fanKuiBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    //注册按钮的约束
     [fanKuiBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8, kScreenW / 8));
-        make.left.mas_equalTo(kScreenW / 8);
-        make.top.mas_equalTo(againBtn.mas_bottom).offset(kScreenH / 36.8);
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 8.3, kScreenW / 9.375));
+        make.top.mas_equalTo(againBtn.mas_bottom).offset(kScreenW / 15);
     }];
+    [fanKuiBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    fanKuiBtn.layer.cornerRadius = kScreenW / 18.75;
+    fanKuiBtn.layer.borderWidth = .5;
+    fanKuiBtn.layer.borderColor = [UIColor colorWithHexString:@"525252"].CGColor;
+    [fanKuiBtn addTarget:self action:@selector(fanKuiBtnAction) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -155,6 +151,7 @@
 - (void)againBtnAction {
     
     SetServicesViewController *setSerVC = [[SetServicesViewController alloc]init];
+    setSerVC.navigationItem.title = @"添加设备";
     [self.navigationController pushViewController:setSerVC animated:YES];
     
 }
@@ -163,6 +160,7 @@
 - (void)fanKuiBtnAction {
     
     UserFeedBackViewController *fanKuiVC = [[UserFeedBackViewController alloc]init];
+    fanKuiVC.navigationItem.title = @"在线反馈";
     [self.navigationController pushViewController:fanKuiVC animated:YES];
     
 }

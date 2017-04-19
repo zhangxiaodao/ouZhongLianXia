@@ -14,9 +14,6 @@
 @property (nonatomic , strong) NSString *devSn;
 @property (nonatomic , strong) UIViewController *vc;
 
-//@property (nonatomic , assign) CGFloat timeText;
-//@property (nonatomic , assign) CGFloat nowUserTime;
-//@property (nonatomic , assign) CGFloat sumTime;
 
 - (void)setUIbuJuWithNowUesrTime:(CGFloat)nowUserTime  andViewController:(UIViewController *)viewController;
 

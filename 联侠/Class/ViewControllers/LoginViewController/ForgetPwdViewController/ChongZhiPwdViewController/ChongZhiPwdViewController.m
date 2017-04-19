@@ -40,6 +40,8 @@
     }];
     self.againPwdTectFiled = againPwdFiledView.subviews[0];
     
+    self.pwdTectFiled.secureTextEntry = YES;
+    self.againPwdTectFiled.secureTextEntry = YES;
     
     UIButton *submitBtn = [UIButton initWithTitle:@"提交" andColor:[UIColor redColor] andSuperView:self.view];
     [submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -153,23 +155,16 @@
     //    NSLog(@"%@" , dddd);
     NSInteger state = [dddd[@"state"] integerValue];
     if (state == 0) {
-        
-        if (![dddd[@"data"] isKindOfClass:[NSArray class]]) {
-            [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
-        } else {
+
+        if ([dddd[@"data"] isKindOfClass:[NSArray class]]) {
             NSMutableArray *dataArray = dddd[@"data"];
             if (dataArray.count > 0) {
                 [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-                
-                [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:nil];
-                
-//                [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
-            } else {
-//                [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
-                [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:nil];
             }
-            
         }
+        [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:^{
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }];
     }
 }
 

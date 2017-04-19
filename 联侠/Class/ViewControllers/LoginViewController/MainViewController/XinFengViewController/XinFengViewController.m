@@ -48,7 +48,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
-
+    
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
@@ -66,6 +66,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
     if (self.serviceModel && self.userModel) {
         
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
@@ -413,7 +414,9 @@
         
         [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
     } andSecondTitle:@"移除设备" andThirtHandle:^{
+        self.navigationController.navigationBar.hidden = NO;
         ConnectWeViewController *connectOueVC = [[ConnectWeViewController alloc]init];
+        connectOueVC.navigationItem.title = @"联系我们";
         [self.navigationController pushViewController:connectOueVC animated:YES];
     } andThirtTitle:@"联系我们" andForthHandle:nil andForthTitle:nil andSuperViewController:self];
 }

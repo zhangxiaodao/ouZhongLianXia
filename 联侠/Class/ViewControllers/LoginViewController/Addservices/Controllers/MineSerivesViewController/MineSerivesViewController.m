@@ -27,7 +27,8 @@
 
 #import "WeatherView.h"
 
-@interface MineSerivesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , HelpFunctionDelegate , SendViewControllerToParentVCDelegate , CCLocationManagerZHCDelegate , SendServiceModelToParentVCDelegate>
+@interface MineSerivesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , HelpFunctionDelegate , SendViewControllerToParentVCDelegate , CCLocationManagerZHCDelegate , SendServiceModelToParentVCDelegate ,
+    UIGestureRecognizerDelegate>
 @property (nonatomic , strong) UICollectionView *collectionView;
 
 @property (nonatomic , strong) UIView *topView;
@@ -48,6 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
     
@@ -69,6 +71,11 @@
 - (void)setNav {
     self.navigationItem.title = @"联侠";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(addSerViceAtcion) image:@"addService_high" highImage:nil];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    return NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -81,7 +88,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
-    
+    self.navigationController.navigationBar.hidden = NO;
 //    NSLog(@"%@ , %@" , self.userSn , self.serviceModel);
     
     if (self.userSn && self.serviceModel) {
@@ -123,7 +130,7 @@
 #pragma mark - 获取代理的数据
 - (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd{
     
-    NSLog(@"%@" , dddd);
+//    NSLog(@"%@" , dddd);
     NSInteger state = [dddd[@"state"] integerValue];
     if (state == 0) {
         
@@ -377,6 +384,7 @@
         lengFengShanVC.sendServiceModelToParentVCDelegate = self;
         lengFengShanVC.serviceModel = model;
         lengFengShanVC.wearthDic = self.wearthDic;
+
         [self.navigationController pushViewController:lengFengShanVC animated:YES];
     } else if ([model.devTypeSn isEqualToString:@"4231"]) {
         AirPurificationViewController *testAirDeviceVC = [[AirPurificationViewController alloc]init];
@@ -385,13 +393,14 @@
         testAirDeviceVC.sendVCDelegate = self;
         testAirDeviceVC.sendServiceModelToParentVCDelegate = self;
         testAirDeviceVC.wearthDic = self.wearthDic;
+
         [self.navigationController pushViewController:testAirDeviceVC animated:YES];
     } else if ([model.devTypeSn isEqualToString:@"4232"]) {
         XinFengViewController *xinFengAirVC = [[XinFengViewController alloc]init];
         xinFengAirVC.sendServiceModelToParentVCDelegate = self;
         xinFengAirVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         xinFengAirVC.serviceModel = model;
-        
+
         [self.navigationController pushViewController:xinFengAirVC animated:YES];
     }  else if ([model.devTypeSn isEqualToString:@"4331"]) {
         GanYiJiViewController *ganYiJiVC = [[GanYiJiViewController alloc]init];
@@ -400,10 +409,11 @@
         ganYiJiVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         ganYiJiVC.sendVCDelegate = self;
         ganYiJiVC.wearthDic = self.wearthDic;
+
         [self.navigationController pushViewController:ganYiJiVC animated:YES];
     } else if ([model.devTypeSn isEqualToString:@"4332"]) {
         HTMLGanYiJiViewController *htmlGanYiJiVC = [[HTMLGanYiJiViewController alloc]init];
-        
+
         htmlGanYiJiVC.serviceModel = model;
         [self.navigationController pushViewController:htmlGanYiJiVC animated:YES];
     }

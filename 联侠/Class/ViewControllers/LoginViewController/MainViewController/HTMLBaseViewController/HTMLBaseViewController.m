@@ -34,6 +34,11 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
 
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     NSDictionary *dic = data[0];

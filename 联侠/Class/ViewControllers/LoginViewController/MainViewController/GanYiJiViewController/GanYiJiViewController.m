@@ -227,6 +227,7 @@
             cell = [[GanYiJiYiWuXuanZeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
         }
 
+        cell.currentVC = self;
         cell.serviceModel = self.serviceModel;
 
         return cell;

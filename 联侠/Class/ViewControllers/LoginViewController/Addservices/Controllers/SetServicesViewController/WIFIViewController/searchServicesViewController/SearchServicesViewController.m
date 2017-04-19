@@ -96,6 +96,12 @@
     [self tapConfirmForResults];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [_progressTimer invalidate];
+    _progressTimer = nil;
+}
+
 - (void)progressValue {
     _index++;
     

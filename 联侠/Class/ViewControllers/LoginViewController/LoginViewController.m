@@ -9,18 +9,15 @@
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
 #import "ForgetPwdViewController.h"
-#import "MainViewController.h"
-
-#import "MineSerivesViewController.h"
-
 #import "CCLocationManager.h"
 #import "TabBarViewController.h"
-
 
 #define NUMBERS @"0123456789"
 
 #define kStandardW kScreenW / 1.47
-
+#define HEIGHT_KEYBOARD 216
+#define HEIGHT_TEXT_FIELD 30
+#define HEIGHT_SPACE (6+HEIGHT_TEXT_FIELD)
 @interface LoginViewController ()<UITextFieldDelegate  , HelpFunctionDelegate  ,CCLocationManagerZHCDelegate>
 
 @property (nonatomic , strong) UITextField *pwdTectFiled;
@@ -37,7 +34,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-//    self.navigationController.navigationBar.hidden = YES;
     
     [self cityAndProvience];
     [self setUI];
@@ -70,12 +66,12 @@
     [shangBiaoImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 3.5, kScreenW / 3.5));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(kScreenH / 5.9);
+        make.top.mas_equalTo(kScreenH / 5.9 - kHeight);
     }];
     
     UIView *accFiledView = [UIView creatTextFiledWithLableText:@"账户" andTextFiledPlaceHold:NSLocalizedString(@"LoginVC_AccPlaceholder", nil) andSuperView:self.view];
     [accFiledView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.view.mas_top).offset(kScreenH / 1.6);
+        make.bottom.mas_equalTo(self.view.mas_top).offset(kScreenH / 1.6 - kHeight);
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
         make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
@@ -145,7 +141,6 @@
 - (void)registerBtnAction{
 
     RegisterViewController *registerVC = [[RegisterViewController alloc]init];
-    self.navigationController.navigationBar.hidden = NO;
     registerVC.navigationItem.title = @"注册";
     [self.navigationController pushViewController:registerVC animated:YES];
 }
@@ -154,7 +149,6 @@
 - (void)forgetPwdBtnAction{
     
     ForgetPwdViewController *forgetPwdVC = [[ForgetPwdViewController alloc]init];
-    self.navigationController.navigationBar.hidden = NO;
     forgetPwdVC.navigationItem.title = @"重置密码";
     [self.navigationController pushViewController:forgetPwdVC animated:YES];
 }
@@ -250,22 +244,16 @@
 //    NSLog(@"%@" , dddd);
     NSInteger state = [dddd[@"state"] integerValue];
     if (state == 0) {
-
-        if (![dddd[@"data"] isKindOfClass:[NSArray class]]) {
-           [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
-        } else {
+        if ([dddd[@"data"] isKindOfClass:[NSArray class]]) {
             NSMutableArray *dataArray = dddd[@"data"];
             if (dataArray.count > 0) {
-                
                 [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-
-                [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
-                
-            } else {
-                [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
             }
-
         }
+        [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:^{
+            self.acctextFiled.text = nil;
+            self.pwdTectFiled.text = nil;
+        }];
     }
 }
 
@@ -279,7 +267,10 @@
     [self.view endEditing:YES];
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    
     if (textField == self.acctextFiled) {
         _xiaHuaXian1.backgroundColor = kMainColor;
         _xiaHuaXian2.backgroundColor = [UIColor grayColor];
@@ -287,11 +278,33 @@
         _xiaHuaXian1.backgroundColor = [UIColor grayColor];
         _xiaHuaXian2.backgroundColor = kMainColor;
     }
+    
+    CGRect frame = textField.frame;
+    int offset = frame.origin.y + frame.size.height - (kScreenH - (HEIGHT_KEYBOARD+HEIGHT_SPACE)) + kScreenW / 10;
+    
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    if(offset > 0)
+    {
+        self.view.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
+    }
+    
+    [UIView commitAnimations];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
     _xiaHuaXian1.backgroundColor = [UIColor grayColor];
     _xiaHuaXian2.backgroundColor = [UIColor grayColor];
+    
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    self.view.frame = CGRectMake(0, kHeight, kScreenW, self.view.frame.size.height);
+    [UIView commitAnimations];
 }
 
 - (void)setAlertText:(NSString *)text {

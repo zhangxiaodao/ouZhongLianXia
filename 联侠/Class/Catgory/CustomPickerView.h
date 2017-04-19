@@ -19,11 +19,8 @@
 @interface CustomPickerView : UIView
 @property (nonatomic , assign) id<CustomPickerViewDelegate> delegate;
 
-//- (CustomPickerView * __nullable)createPickerViewWithBackGroundColor:(UIColor * __nullable)backColor withFrame:(CGRect)frame andDelegate:(id<UIPickerViewDelegate>)delegate andDataSource:(id<UIPickerViewDataSource>)dataSource andEnsureDelegate:(nullable id)target andEnsureAtcion:(SEL)atcion andCancleTarget:(nullable id)cancleTarget andCancleAtcion:(SEL _Nullable )cancleAtcion andTapAtcion:(nullable SEL)tapAction;
 
 #pragma mark - type表示PickerView的类型，1 倒计时事件类型，2  是性别选择类型，3 是生日选择类型，4 是地址信息类型
 - (instancetype _Nullable )initWithPickerViewType:(NSInteger)type andBackColor:(UIColor * _Nullable)backColor;
-
-
 
 @end

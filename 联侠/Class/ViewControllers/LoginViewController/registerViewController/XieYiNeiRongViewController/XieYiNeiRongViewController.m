@@ -42,7 +42,7 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kHeight, kScreenW, kScreenH - kHeight) style:UITableViewStyleGrouped];
+    UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH) style:UITableViewStyleGrouped];
     [self.view addSubview:tableView];
     
     tableView.delegate = self;

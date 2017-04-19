@@ -132,7 +132,7 @@ static NSString *celled = @"celled";
     
     LocationCell *cell = [self tableViewindexPathForRow:0 inSection:1];
     addrDetail = cell.detailFiled.text;
-    NSLog(@"%@ , %ld" , cell.detailFiled.text , addrDetail.length);
+
     if (cell.detailFiled.text.length <= 0) {
         [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"信息未填写完全"];
         return ;

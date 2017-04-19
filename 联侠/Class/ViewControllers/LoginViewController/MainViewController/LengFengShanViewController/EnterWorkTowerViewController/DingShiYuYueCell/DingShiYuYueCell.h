@@ -11,5 +11,5 @@
 @interface DingShiYuYueCell : UITableViewCell
 
 @property (nonatomic , strong) ServicesModel *serviceModel;
-
+@property (nonatomic , strong) UIViewController *currentVC;
 @end

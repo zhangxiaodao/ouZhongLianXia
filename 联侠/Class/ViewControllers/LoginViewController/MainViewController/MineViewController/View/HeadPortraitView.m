@@ -12,7 +12,7 @@
 @property (nonatomic , strong) UIImageView *headBackImageView;
 @property (nonatomic , strong) UIImageView *headImageView;
 @property (nonatomic , strong) UILabel *nameLable;
-@property (nonatomic , strong) UILabel *sexLable;
+//@property (nonatomic , strong) UILabel *sexLable;
 @end
 
 @implementation HeadPortraitView
@@ -38,7 +38,8 @@
     }];
     _headBackImageView.contentMode = UIViewContentModeScaleAspectFit;
     _headBackImageView.alpha = .3;
-    
+
+    _headBackImageView.hidden = YES;
     
     _headImageView = [[UIImageView alloc]init];
     [self addSubview:_headImageView];
@@ -47,31 +48,32 @@
         make.top.mas_equalTo(self.mas_top).offset(kScreenW / 13);
         make.centerX.mas_equalTo(self.mas_centerX);
     }];
-    _headImageView.contentMode = UIViewContentModeScaleAspectFit;
+//    _headImageView.contentMode = UIViewContentModeScaleAspectFit;
     _headImageView.layer.cornerRadius = kScreenW / 3.75 / 2;
     _headImageView.layer.masksToBounds = YES;
     _headImageView.userInteractionEnabled = YES;
     
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:target action:action];
     [_headImageView addGestureRecognizer:tap];
     
-    _nameLable = [UILabel creatLableWithTitle:@"" andSuperView:self andFont:k15 andTextAligment:NSTextAlignmentLeft];
+    _nameLable = [UILabel creatLableWithTitle:@"" andSuperView:self andFont:k15 andTextAligment:NSTextAlignmentCenter];
     _nameLable.layer.borderWidth = 0;
     [_nameLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 7.5, kScreenW / 14));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 14));
         make.centerX.mas_equalTo(_headImageView.mas_centerX);
         make.top.mas_equalTo(_headImageView.mas_bottom);
     }];
 
     
-    _sexLable = [UILabel creatLableWithTitle:@"" andSuperView:self andFont:k14 andTextAligment:NSTextAlignmentCenter];
-    _sexLable.textColor = [UIColor colorWithHexString:@"ff40b5"];
-    _sexLable.layer.borderWidth = 0;
-    [_sexLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 20, kScreenW / 14));
-        make.left.mas_equalTo(_nameLable.mas_right);
-        make.centerY.mas_equalTo(_nameLable.mas_centerY);
-    }];
+//    _sexLable = [UILabel creatLableWithTitle:@"" andSuperView:self andFont:k14 andTextAligment:NSTextAlignmentCenter];
+//    _sexLable.textColor = [UIColor colorWithHexString:@"ff40b5"];
+//    _sexLable.layer.borderWidth = 0;
+//    [_sexLable mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(kScreenW / 20, kScreenW / 14));
+//        make.left.mas_equalTo(_nameLable.mas_right);
+//        make.centerY.mas_equalTo(_nameLable.mas_centerY);
+//    }];
     
 }
 
@@ -95,11 +97,11 @@
             _nameLable.text = @"用户名";
         }
         
-        if (_userModel.sex == 0) {
-            _sexLable.text = @"♂";
-        } else {
-            _sexLable.text = @"♀";
-        }
+//        if (_userModel.sex == 0) {
+//            _sexLable.text = @"♂";
+//        } else {
+//            _sexLable.text = @"♀";
+//        }
     }
 }
 

@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/UserMessageViewController.m"
-            timestampString = "514108347.928034"
+            timestampString = "514264563.684036"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "-requestServicesData:didOK:"
             landmarkType = "7">
          </BreakpointContent>
@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/Controllers/LocationPickerVC/LocationPickerVC.m"
-            timestampString = "513856609.523834"
+            timestampString = "513856473.019838"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "-keepBtnAtcion"
             landmarkType = "7">
          </BreakpointContent>
@@ -67,13 +67,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/MineViewController/Controllers/UserMessageViewController/Controllers/LocationPickerVC/LocationPickerVC.m"
-            timestampString = "513856473.019838"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/ForgetPwdViewController/ForgetPwdViewController.m"
+            timestampString = "514260326.042761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "-keepBtnAtcion"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "-setUI"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/WiFiViewController.m"
+            timestampString = "514283374.413053"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "-textFieldDidBeginEditing:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

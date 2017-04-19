@@ -223,7 +223,7 @@
         if (state == 0) {
             [UIAlertController creatRightAlertControllerWithHandle:^{
                 [self.navigationController popViewControllerAnimated:YES];
-            } andSuperViewController:kWindowRoot Title:@"定时成功"];
+            } andSuperViewController:self Title:@"定时成功"];
         }
     }
     

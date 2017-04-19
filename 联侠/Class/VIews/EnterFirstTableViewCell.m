@@ -117,7 +117,7 @@
             [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@M4#" , self.serviceModel.devTypeSn, self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
         });
         
-    } andSuperViewController:kWindowRoot Title:@"请确认您已经更换空气净化滤网"];
+    } andSuperViewController:self.currentVC Title:@"请确认您已经更换空气净化滤网"];
         
     }
     

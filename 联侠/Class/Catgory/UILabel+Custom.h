@@ -13,5 +13,5 @@
 + (UILabel *)initWithTitle:(NSString *)title andSuperView:(UIView *)view andFont:(NSInteger)value andtextAlignment:(NSTextAlignment)modle andMas_Left:(NSInteger)left;
 
 + (UILabel *)creatLableWithTitle:(NSString *)title andSuperView:(id)superView andFont:(NSInteger)value andTextAligment:(NSTextAlignment)modle;
-
+- (CGSize)contentSize;
 @end
