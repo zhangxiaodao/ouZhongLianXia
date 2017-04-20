@@ -13,5 +13,5 @@
 @property (nonatomic , copy) NSString *provience;
 @property (nonatomic , copy) NSString *city;
 @property (nonatomic , copy) NSString *town;
-
+@property (nonatomic , strong) UIViewController *currentVC;
 @end

@@ -119,7 +119,7 @@
 }
 
 - (void)changHeadPortraitAtcion {
-    [BDImagePicker showImagePickerFromViewController:kWindowRoot allowsEditing:YES finishAtcion:^(UIImage *image) {
+    [BDImagePicker showImagePickerFromViewController:self.currentVC allowsEditing:YES finishAtcion:^(UIImage *image) {
         if (image) {
             self.headPortraitImageView.image = image;
             NSData *data = [NSData data];

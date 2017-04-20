@@ -144,14 +144,14 @@
 
     self.firstPickerBgView  = [[CustomPickerView alloc]initWithPickerViewType:1 andBackColor:kMainColor];
     self.firstPickerBgView.delegate = self;
-    [kWindowRoot.view addSubview:self.firstPickerBgView];
+    [self.view addSubview:self.firstPickerBgView];
 }
 
 - (void)closeAtcion:(UITapGestureRecognizer *)tap {
 
     self.secondPickerBgView = [[CustomPickerView alloc]initWithPickerViewType:1 andBackColor:kMainColor];
     self.secondPickerBgView.delegate = self;
-    [kWindowRoot.view addSubview:self.secondPickerBgView];
+    [self.view addSubview:self.secondPickerBgView];
 }
 
 - (void)sendPickerViewToVC:(UIPickerView *)picker {

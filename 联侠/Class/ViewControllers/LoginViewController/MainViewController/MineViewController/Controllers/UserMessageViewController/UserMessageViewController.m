@@ -145,6 +145,7 @@ static NSString *celled = @"celled";
     if (indexPath.section == 0 && indexPath.row == 0) {
         cell.headImage = self.headImage;
     }
+    cell.currentVC = self;
     cell.dizhiModel = self.diZhiModel;
     cell.userModel = self.userModel;
     
@@ -271,7 +272,7 @@ static NSString *celled = @"celled";
     [kStanderDefault removeObjectForKey:@"data"];
     [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
     [kStanderDefault removeObjectForKey:@"wearthDic"];
-    [kStanderDefault removeObjectForKey:@"GeRenModel"];
+    [kStanderDefault removeObjectForKey:@"GeRenInfo"];
     [kSocketTCP cutOffSocket];
 }
 

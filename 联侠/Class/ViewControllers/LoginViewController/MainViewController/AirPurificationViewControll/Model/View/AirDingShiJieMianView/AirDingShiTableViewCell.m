@@ -207,13 +207,12 @@
         
         self.openPickerBgView = [[CustomPickerView alloc]initWithPickerViewType:1 andBackColor:kMainColor];
         self.openPickerBgView.delegate = self;
-        [kWindowRoot.view addSubview:self.openPickerBgView];
-        
+        [self.currentVC.view addSubview:self.openPickerBgView];
         
     } else {
         self.offPickerBgView = [[CustomPickerView alloc]initWithPickerViewType:1 andBackColor:kMainColor];
         self.offPickerBgView.delegate = self;
-        [kWindowRoot.view addSubview:self.offPickerBgView];
+        [self.currentVC.view addSubview:self.offPickerBgView];
     }
     
 }

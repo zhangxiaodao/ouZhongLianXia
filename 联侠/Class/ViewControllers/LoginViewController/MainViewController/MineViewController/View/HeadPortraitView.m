@@ -7,6 +7,7 @@
 //
 
 #import "HeadPortraitView.h"
+#import <Accelerate/Accelerate.h>
 
 @interface HeadPortraitView ()
 @property (nonatomic , strong) UIImageView *headBackImageView;
@@ -32,15 +33,26 @@
     _headBackImageView = [[UIImageView alloc]init];
     [self addSubview:_headBackImageView];
     [_headBackImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(self.width - 10, self.height - 10));
+        make.centerY.mas_equalTo(self.mas_centerY);
+        make.centerX.mas_equalTo(self.mas_centerX);
+    }];
+//    _headBackImageView.contentMode = UIViewContentModeScaleAspectFit;
+    _headBackImageView.alpha = .25;
+    
+
+//    _headBackImageView.hidden = YES;
+    
+    
+    UIImageView *markImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"markImage"]];
+    [self addSubview:markImageView];
+    [markImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(self.width, self.height));
         make.centerY.mas_equalTo(self.mas_centerY);
         make.centerX.mas_equalTo(self.mas_centerX);
     }];
-    _headBackImageView.contentMode = UIViewContentModeScaleAspectFit;
-    _headBackImageView.alpha = .3;
+    markImageView.contentMode = UIViewContentModeScaleAspectFit;
 
-    _headBackImageView.hidden = YES;
-    
     _headImageView = [[UIImageView alloc]init];
     [self addSubview:_headImageView];
     [_headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -77,17 +89,22 @@
     
 }
 
+
 - (void)setUserModel:(UserModel *)userModel {
     _userModel = userModel;
     
     if (_userModel) {
         if ([_userModel.headImageUrl isKindOfClass:[NSNull class]]) {
             _headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
-            _headBackImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
-            
+            _headBackImageView.image = _headBackImageView.image = [UIImage boxblurImage:[UIImage imageNamed:@"iconfont-touxiang"] withBlurNumber:.3];
         } else {
-            [_headBackImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl]];
-            [_headImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl]];
+            [_headImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl] placeholderImage:[UIImage imageNamed:@"iconfont-touxiang"]];
+            __weak typeof(self) weakSelf = self;
+            [_headBackImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                _headBackImageView.image = [UIImage boxblurImage:image withBlurNumber:.3];
+            }];
+            
+
             
         }
         
@@ -96,6 +113,7 @@
         } else {
             _nameLable.text = @"用户名";
         }
+        
         
 //        if (_userModel.sex == 0) {
 //            _sexLable.text = @"♂";

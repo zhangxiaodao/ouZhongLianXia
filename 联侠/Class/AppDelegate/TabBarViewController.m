@@ -26,7 +26,7 @@
     XMGNavigationController *mineSerNav = [[XMGNavigationController alloc]initWithRootViewController:mineSerVC];
     mineSerVC.tabBarItem.title = @"设备列表";
     mineSerVC.tabBarItem.image = [[UIImage imageNamed:@"tabbar_service"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
-    
+    mineSerVC.fromAddVC = self.fromAddVC;
    
     
     MineViewController *userVC = [[MineViewController alloc]init];

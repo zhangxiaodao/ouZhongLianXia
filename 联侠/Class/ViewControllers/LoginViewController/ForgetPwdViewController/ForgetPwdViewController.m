@@ -77,8 +77,6 @@
     nextBtn.backgroundColor = kMainColor;
     [nextBtn addTarget:self action:@selector(nextBtnAtcion2) forControlEvents:UIControlEventTouchUpInside];
     
-    
-    NSLog(@"%@" , self.phoneNumber);
     if (self.phoneNumber != nil) {
         self.accTectFiled.text = self.phoneNumber;
         self.accTectFiled.userInteractionEnabled = NO;

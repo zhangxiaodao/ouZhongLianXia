@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface AirDingShiJieMianViewController : UIViewController
-@property (nonatomic , copy) NSString *titleText;
 @property (nonatomic , copy) NSString *fromWhich;
 @property (nonatomic , strong) ServicesModel *serviceModel;
 

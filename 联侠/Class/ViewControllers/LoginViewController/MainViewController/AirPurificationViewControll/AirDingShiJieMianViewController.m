@@ -14,7 +14,6 @@
 }
 
 @property (nonatomic , strong) UITableView *tableView;
-@property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) UIButton *doneBtn;
 @property (nonatomic , strong) UIButton *cancleBtn;
 @property (nonatomic , strong) NSMutableArray *timeTextArray;
@@ -27,7 +26,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:[NSString stringWithFormat:@"%@" , _titleText]];
     
     [self setUI];
     
@@ -36,6 +34,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = NO;
     
     UIImageView *backImage = [[UIImageView alloc]initWithImage:[UIImage new]];
     UIImage *image = nil;
@@ -49,7 +48,7 @@
         image = [UIImage imageNamed:@"ziDingYiMoShi"];
     }
     backImage.image = image;
-    backImage.frame = CGRectMake(0, kHeight, kScreenW, kScreenW * (image.size.height / image.size.width));
+    backImage.frame = CGRectMake(0, 0, kScreenW, kScreenW * (image.size.height / image.size.width));
     
     backImage.contentMode = UIViewContentModeScaleToFill;
 
@@ -84,23 +83,11 @@
     NSLog(@"%@" , error);
 }
 
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
-    
-}
-
-
 - (void)setUI {
     [self timeTextArray];
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc]initWithFrame:kScreenFrame style:UITableViewStylePlain];
     [self.view addSubview:self.tableView];
     self.tableView.backgroundColor = [UIColor clearColor];
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH - kScreenH / 16.70588));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(self.navView.mas_bottom);
-    }];
     self.tableView.scrollEnabled = NO;
     
     self.tableView.delegate = self;
@@ -108,7 +95,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 1)];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(BackGroupHeight + 20, 0, 0, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(BackGroupHeight, 0, 0, 0);
     
     
     
@@ -328,7 +315,7 @@
         cell.fromWhich = self.fromWhich;
         
         cell.delegate = self;
-        cell.vc = self;
+        cell.currentVC = self;
         
         if (_timeTextArray.count == 0) {
             [_timeTextArray addObject:cell.openTime.text];

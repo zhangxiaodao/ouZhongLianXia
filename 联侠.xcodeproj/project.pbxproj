@@ -201,6 +201,7 @@
 		ED8349591E9CAFF700FF22A3 /* UserMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8349421E9CAFF700FF22A3 /* UserMessageViewController.m */; };
 		ED83495D1E9CB03E00FF22A3 /* HeadPortraitView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED83495C1E9CB03E00FF22A3 /* HeadPortraitView.m */; };
 		ED8349601E9CD09F00FF22A3 /* MineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED83495F1E9CD09F00FF22A3 /* MineTableViewCell.m */; };
+		ED838E2F1EA8AE3D00009D56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED838E2E1EA8AE3D00009D56 /* Accelerate.framework */; };
 		ED875BD41EA7079000449EF2 /* GeRenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ED875BD31EA7079000449EF2 /* GeRenModel.m */; };
 		ED875BD81EA741C700449EF2 /* OvalCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED875BD71EA741C700449EF2 /* OvalCircleView.m */; };
 		ED894BB31E84CD470019C8A0 /* libUMSocialCloudShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED894BB11E84CD470019C8A0 /* libUMSocialCloudShare.a */; };
@@ -624,6 +625,7 @@
 		ED83495C1E9CB03E00FF22A3 /* HeadPortraitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadPortraitView.m; sourceTree = "<group>"; };
 		ED83495E1E9CD09F00FF22A3 /* MineTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineTableViewCell.h; sourceTree = "<group>"; };
 		ED83495F1E9CD09F00FF22A3 /* MineTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineTableViewCell.m; sourceTree = "<group>"; };
+		ED838E2E1EA8AE3D00009D56 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		ED875BD21EA7079000449EF2 /* GeRenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeRenModel.h; sourceTree = "<group>"; };
 		ED875BD31EA7079000449EF2 /* GeRenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeRenModel.m; sourceTree = "<group>"; };
 		ED875BD51EA70C9F00449EF2 /* LocationPickerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationPickerVC.h; sourceTree = "<group>"; };
@@ -693,6 +695,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED838E2F1EA8AE3D00009D56 /* Accelerate.framework in Frameworks */,
 				ED894BB51E852DD80019C8A0 /* JavaScriptCore.framework in Frameworks */,
 				ED894BB41E84CD480019C8A0 /* libUMSocialLog.a in Frameworks */,
 				ED3716901E84B5D600493248 /* libGeTuiSdk-1.6.2.0.a in Frameworks */,
@@ -750,6 +753,7 @@
 		B29C411418BA5B03B2E9E269 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ED838E2E1EA8AE3D00009D56 /* Accelerate.framework */,
 				ED3716961E84B6C000493248 /* AdSupport.framework */,
 				ED3716941E84B6B300493248 /* UserNotifications.framework */,
 				ED3716921E84B63E00493248 /* libc++.tbd */,

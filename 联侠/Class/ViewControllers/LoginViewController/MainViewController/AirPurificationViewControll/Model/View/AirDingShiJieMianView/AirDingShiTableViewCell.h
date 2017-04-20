@@ -16,7 +16,7 @@
 @end
 
 @interface AirDingShiTableViewCell : UITableViewCell
-@property (nonatomic , strong) UIViewController *vc;
+@property (nonatomic , strong) UIViewController *currentVC;
 @property (nonatomic , copy) NSString *fromWhich;
 
 @property (nonatomic , strong) UIButton *isSelectedBtn;

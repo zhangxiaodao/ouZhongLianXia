@@ -10,4 +10,5 @@
 
 @interface MineSerivesViewController : UIViewController
 
+@property (nonatomic , copy) NSString *fromAddVC;
 @end

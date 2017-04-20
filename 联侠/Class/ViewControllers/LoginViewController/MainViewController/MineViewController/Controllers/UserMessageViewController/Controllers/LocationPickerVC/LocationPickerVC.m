@@ -52,6 +52,7 @@ static NSString *celled = @"celled";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     LocationCell *cell = [tableView dequeueReusableCellWithIdentifier:celled];
+    cell.currentVC = self;
     cell.dizhiModel = self.diZhiModel;
     cell.userModel = self.userModel;
     cell.indexPath = indexPath;

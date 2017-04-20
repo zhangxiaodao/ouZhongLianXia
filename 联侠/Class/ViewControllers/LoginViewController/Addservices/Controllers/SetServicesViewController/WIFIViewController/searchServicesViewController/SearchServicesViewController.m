@@ -324,10 +324,10 @@
     [kStanderDefault setObject:@"YES" forKey:@"isHaveServices"];
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
-//    MineSerivesViewController *mineSerVC = [[MineSerivesViewController alloc]init];
-//    [self.navigationController pushViewController:mineSerVC animated:YES];
     
-    [self.navigationController pushViewController:[[TabBarViewController alloc]init] animated:YES];
+    TabBarViewController *tabVC = [[TabBarViewController alloc]init];
+    tabVC.fromAddVC = @"YES";
+    [self.navigationController pushViewController:tabVC animated:YES];
     
     [self.updSocket close];
 }

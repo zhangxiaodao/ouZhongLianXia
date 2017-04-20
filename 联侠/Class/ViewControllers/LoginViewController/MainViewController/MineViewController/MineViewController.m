@@ -70,6 +70,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
+   
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -149,8 +150,9 @@
 - (void)getHeadImage:(NSNotification *)post {
     
     if (post.userInfo[@"headImage"]) {
-        self.headBackImageView.image = post.userInfo[@"headImage"];
+
         self.headImageView.image = post.userInfo[@"headImage"];
+        _headBackImageView.image = _headBackImageView.image = [UIImage boxblurImage:post.userInfo[@"headImage"] withBlurNumber:.3];
     }
     
     
@@ -162,6 +164,7 @@
         self.nameLable.text = post.userInfo[@"niCheng"];
     }
 }
+
 
 - (void)setNav {
     self.navigationItem.title = @"个人中心";
@@ -175,8 +178,8 @@
     _headPortraitView = [[HeadPortraitView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 3.7) Target:self action:@selector(mineAtcion)];
     [self.view addSubview:_headPortraitView];
     self.headBackImageView = _headPortraitView.subviews[0];
-    self.headImageView = _headPortraitView.subviews[1];
-    self.nameLable = [_headPortraitView.subviews objectAtIndex:2];
+    self.headImageView = _headPortraitView.subviews[2];
+    self.nameLable = [_headPortraitView.subviews objectAtIndex:3];
     
     self.tableVIew = [[UITableView alloc]initWithFrame:CGRectMake(0, kScreenH / 3.7 + 0, kScreenW, 7 * kScreenH / 14.2 + 2) style:UITableViewStylePlain];
     [self.view addSubview:self.tableVIew];

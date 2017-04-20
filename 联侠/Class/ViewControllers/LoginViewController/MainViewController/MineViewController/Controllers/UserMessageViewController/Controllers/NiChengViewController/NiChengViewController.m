@@ -51,12 +51,12 @@
     [sureBtn addTarget:self action:@selector(sureBtnAtcion:) forControlEvents:UIControlEventTouchUpInside];
     
     if ([self.navigationItem.title isEqualToString:@"昵称"]) {
-        if (![_userModel.nickname isKindOfClass:[NSNull class]]) {
+        if (![_userModel.nickname isKindOfClass:[NSNull class]] && ![_userModel.nickname isEqualToString:@"昵称"]) {
             self.textFiled.text = _userModel.nickname;
             [self.textFiled becomeFirstResponder];
         }
     } else {
-        if (![_userModel.email isKindOfClass:[NSNull class]]) {
+        if (![_userModel.email isKindOfClass:[NSNull class]] && ![_userModel.email isEqualToString:@"请输入邮箱"]) {
             self.textFiled.text = _userModel.email;
             [self.textFiled becomeFirstResponder];;
         }

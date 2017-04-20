@@ -22,7 +22,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
-        
+        NSLog(@"%@ , %@" , self.navigationItem.title , self.parentViewController.navigationItem.title);
     [self setUI];
 }
 

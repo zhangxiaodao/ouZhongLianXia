@@ -9,16 +9,13 @@
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
 #import "ForgetPwdViewController.h"
-#import "CCLocationManager.h"
 #import "TabBarViewController.h"
 
 #define NUMBERS @"0123456789"
 
 #define kStandardW kScreenW / 1.47
-#define HEIGHT_KEYBOARD 216
-#define HEIGHT_TEXT_FIELD 30
-#define HEIGHT_SPACE (6+HEIGHT_TEXT_FIELD)
-@interface LoginViewController ()<UITextFieldDelegate  , HelpFunctionDelegate  ,CCLocationManagerZHCDelegate>
+
+@interface LoginViewController ()<UITextFieldDelegate  , HelpFunctionDelegate>
 
 @property (nonatomic , strong) UITextField *pwdTectFiled;
 @property (nonatomic , strong) UITextField *acctextFiled;
@@ -34,8 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    [self cityAndProvience];
     [self setUI];
     
     
@@ -45,16 +40,6 @@
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
 
-}
-
-
-#pragma mark - 请求天气参数
-- (void)cityAndProvience {
-    [[CCLocationManager shareLocation] getNowCityNameAndProvienceName:self];
-}
-
-- (void)getCityNameAndProvience:(NSArray *)address {
-    NSLog(@"%@" , address);
 }
 
 #pragma mark - 设置UI界面
@@ -71,13 +56,15 @@
     
     UIView *accFiledView = [UIView creatTextFiledWithLableText:@"账户" andTextFiledPlaceHold:NSLocalizedString(@"LoginVC_AccPlaceholder", nil) andSuperView:self.view];
     [accFiledView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.view.mas_top).offset(kScreenH / 1.6 - kHeight);
+        make.bottom.mas_equalTo(shangBiaoImage.mas_bottom).offset(kScreenH / 4.75);
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
         make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
     _xiaHuaXian1 = accFiledView.subviews[0];
+
     self.acctextFiled = accFiledView.subviews[2];
     self.acctextFiled.delegate = self;
+
     
     UIView *pwdFiledView = [UIView creatTextFiledWithLableText:@"密码" andTextFiledPlaceHold:NSLocalizedString(@"LoginVC_PwdPlacrholder", nil) andSuperView:self.view];
     [pwdFiledView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -90,6 +77,7 @@
     self.pwdTectFiled.keyboardType = UIKeyboardTypeDefault;
     self.pwdTectFiled.delegate = self;
     self.pwdTectFiled.secureTextEntry = YES;
+    
     
     self.loginBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_login", nil) andColor:[UIColor redColor] andSuperView:self.view];
     [self.loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -279,19 +267,6 @@
         _xiaHuaXian2.backgroundColor = kMainColor;
     }
     
-    CGRect frame = textField.frame;
-    int offset = frame.origin.y + frame.size.height - (kScreenH - (HEIGHT_KEYBOARD+HEIGHT_SPACE)) + kScreenW / 10;
-    
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    
-    if(offset > 0)
-    {
-        self.view.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
-    }
-    
-    [UIView commitAnimations];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
@@ -300,11 +275,6 @@
     _xiaHuaXian1.backgroundColor = [UIColor grayColor];
     _xiaHuaXian2.backgroundColor = [UIColor grayColor];
     
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    self.view.frame = CGRectMake(0, kHeight, kScreenW, self.view.frame.size.height);
-    [UIView commitAnimations];
 }
 
 - (void)setAlertText:(NSString *)text {

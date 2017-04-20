@@ -35,10 +35,12 @@
 {
     if (self.childViewControllers.count > 0) { // 如果viewController不是最早push进来的子控制器
         // 左上角
+        UIViewController *superVC = self.childViewControllers[self.childViewControllers.count - 1];
+
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backButton setImage:[UIImage imageNamed:@"navigationButtonReturn"] forState:UIControlStateNormal];
         [backButton setImage:[UIImage imageNamed:@"navigationButtonReturnClick"] forState:UIControlStateHighlighted];
-        [backButton setTitle:viewController.navigationItem.title forState:UIControlStateNormal];
+        [backButton setTitle:superVC.navigationItem.title forState:UIControlStateNormal];
         
         [backButton setTitleColor:[UIColor colorWithHexString:@"00a2ff"] forState:UIControlStateNormal];
         [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];

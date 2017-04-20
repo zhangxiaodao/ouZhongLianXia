@@ -304,21 +304,21 @@
     NSArray *nameArray = @[@"外出模式" , @"周末模式" , @"智能模式" , @"自定义模式"];
         switch (btn.tag) {
             case 0: {
-                airDingShiVC.titleText = nameArray[0];
+                airDingShiVC.navigationItem.title = nameArray[0];
                 airDingShiVC.fromWhich = @"first";
                 [self.vc.navigationController pushViewController:airDingShiVC animated:YES];
                 break;
             }
             case 1: {
                 
-                airDingShiVC.titleText = nameArray[1];
+                airDingShiVC.navigationItem.title = nameArray[1];
                 airDingShiVC.fromWhich = @"second";
                 [self.vc.navigationController pushViewController:airDingShiVC animated:YES];
                 break;
             }
             case 2: {
                 
-                airDingShiVC.titleText = nameArray[2];
+                airDingShiVC.navigationItem.title = nameArray[2];
                 airDingShiVC.fromWhich = @"thirt";
                 airDingShiVC.buttonSelected = self.buttonSelected;
                 [self.vc.navigationController pushViewController:airDingShiVC animated:YES];
@@ -326,7 +326,7 @@
             }
             case 3: {
                 
-                airDingShiVC.titleText = nameArray[3];
+                airDingShiVC.navigationItem.title = nameArray[3];
                 airDingShiVC.fromWhich = @"forth";
                 [self.vc.navigationController pushViewController:airDingShiVC animated:YES];
                 break;

@@ -10,4 +10,5 @@
 
 @interface UserInfoCommonCell : UserInfoCell
 @property (nonatomic , strong) UIImage *headImage;
+@property (nonatomic , strong) UIViewController *currentVC;
 @end

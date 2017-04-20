@@ -75,7 +75,13 @@
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    return NO;
+    
+    if ([self.fromAddVC isEqualToString:@"YES"]) {
+        return NO;
+    } else {
+        return NO;
+    }
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

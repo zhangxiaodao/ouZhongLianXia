@@ -9,7 +9,7 @@
 #import "LocationCell.h"
 #import "CustomPickerView.h"
 
-@interface LocationCell ()<CustomPickerViewDelegate>
+@interface LocationCell ()<CustomPickerViewDelegate , UITextFieldDelegate>
 @property (strong, nonatomic) NSMutableArray *provinceArray;
 @property (strong, nonatomic) NSMutableArray *cityArray;
 @property (strong, nonatomic) NSMutableArray *townArray;
@@ -32,10 +32,11 @@
     self.jianTouImage.hidden = YES;
     self.fenGeView.hidden = NO;
     self.contentFiled.hidden = NO;
+    self.contentFiled.delegate = self;
     if (indexPath.section == 0 && indexPath.row == 0) {
         [self setTopCorner];
         self.lable.text = @"收货人";
-        
+        self.contentFiled.keyboardType = UIKeyboardTypeDefault;
         if (self.dizhiModel != nil) {
             self.contentFiled.text = self.dizhiModel.receiverName;
         }
@@ -56,7 +57,8 @@
             make.centerY.mas_equalTo(self.view.mas_centerY);
             make.left.mas_equalTo(self.lable.mas_right);
         }];
-        
+        [self.contentFiled resignFirstResponder];
+        self.contentFiled.userInteractionEnabled = NO;
         if (self.dizhiModel != nil) {
             
             if ([self.dizhiModel.addrCity isEqualToString:self.dizhiModel.addrCounty]) {
@@ -81,6 +83,7 @@
         self.view.size = CGSizeMake(kScreenW - kScreenW / 15.625, kScreenH / 8.3);
         self.view.layer.cornerRadius = 5;
         self.view.layer.masksToBounds = YES;
+        self.detailFiled.keyboardType = UIKeyboardTypeDefault;
         if (self.dizhiModel != nil) {
             self.detailFiled.text = self.dizhiModel.addrDetail;
         }
@@ -89,9 +92,26 @@
     
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (self.indexPath.section == 0 && self.indexPath.row == 1) {
+        if (textField.text.length != 11 && textField.text.length != 0) {
+            [UIAlertController creatRightAlertControllerWithHandle:^{
+                textField.text = nil;
+            } andSuperViewController:self.currentVC Title:@"手机号码格式不正确"];
+        }
+    } else if (self.indexPath.section == 0 && self.indexPath.row == 3) {
+        if (textField.text.length != 6 && textField.text.length != 0) {
+            [UIAlertController creatRightAlertControllerWithHandle:^{
+                textField.text = nil;
+            } andSuperViewController:self.currentVC Title:@"邮编格式不正确"];
+        }
+        
+    }
+}
+
 - (void)chanceAddressAtcion {
    CustomPickerView *addressPicker = [[CustomPickerView alloc]initWithPickerViewType:4 andBackColor:kMainColor];
-    [kWindowRoot.view addSubview:addressPicker];
+    [self.currentVC.view addSubview:addressPicker];
     addressPicker.delegate = self;
     
 }

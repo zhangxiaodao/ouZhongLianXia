@@ -223,12 +223,11 @@
             [kStanderDefault removeObjectForKey:@"data"];
             [kStanderDefault removeObjectForKey:@"wearthDic"];
             [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
-            [kStanderDefault removeObjectForKey:@"GeRenModel"];
-            
+            [kStanderDefault removeObjectForKey:@"GeRenInfo"];
             XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
             kWindowRoot = nav;
             
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:[[LoginViewController alloc]init] Title:@"您的账号在其他设备登陆"];
+            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您的账号在其他设备登陆"];
             
         } else if ([newMessage isEqualToString:@"CONNECTED"]){
             

@@ -287,6 +287,7 @@
         make.centerY.mas_equalTo(nameLabel.mas_centerY);
     }];
     textFiled.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    textFiled.hidden = YES;
     
     return view;
 }
