@@ -247,6 +247,7 @@
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
     NSLog(@"%@" , error);
+    [SVProgressHUD dismiss];
 }
 
 #pragma mark - 点击空白处收回键盘

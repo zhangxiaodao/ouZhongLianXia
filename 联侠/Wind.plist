@@ -2,27 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>0级</key>
+	<key>0</key>
 	<string>无风</string>
-	<key>1级</key>
+	<key>1</key>
 	<string>软风</string>
-	<key>2级</key>
+	<key>2</key>
 	<string>轻风</string>
-	<key>3级</key>
+	<key>3</key>
 	<string>微风</string>
-	<key>4级</key>
+	<key>4</key>
 	<string>和风</string>
-	<key>5级</key>
+	<key>5</key>
 	<string>轻劲风</string>
-	<key>6级</key>
+	<key>6</key>
 	<string>强风</string>
-	<key>7级</key>
+	<key>7</key>
 	<string>疾风</string>
-	<key>8级</key>
+	<key>8</key>
 	<string>大风</string>
-	<key>9级</key>
+	<key>9</key>
 	<string>烈风</string>
-	<key>10级</key>
+	<key>10</key>
 	<string>狂风</string>
 </dict>
 </plist>

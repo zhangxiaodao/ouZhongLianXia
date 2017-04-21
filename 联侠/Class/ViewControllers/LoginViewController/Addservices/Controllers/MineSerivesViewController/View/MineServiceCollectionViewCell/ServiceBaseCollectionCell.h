@@ -13,6 +13,7 @@
 @property (nonatomic , strong) UILabel *numberLabel;
 @property (strong, nonatomic)  UIImageView *backImage;
 @property (nonatomic , strong) UILabel *typeName;
+@property (nonatomic , strong) UIImageView *selectedImage;
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) NSIndexPath *indexPath;
 

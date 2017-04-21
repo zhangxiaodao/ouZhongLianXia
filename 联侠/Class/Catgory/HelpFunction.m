@@ -114,95 +114,80 @@ static HelpFunction *_request = nil;
     
     
     [self.wearthDic setObject:self.cityName forKey:@"cityName"];
-   
-    NSString *httpUrl = @"http://api.k780.com:88/";
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
+
     if ([self.cityName isKindOfClass:[NSNull class]]) {
         return ;
     }
     
-    self.cityName = [self.cityName substringToIndex:self.cityName.length - 1];
-    
-    NSDictionary *parames = @{@"app" : @"weather.today" , @"weaid" : self.cityName , @"appkey" : @"24331" , @"sign" : @"9565f573f3b10e63f5bed3cf04551a3c" , @"format" : @"json"};
-    
-    [manager POST:httpUrl parameters:parames progress:^(NSProgress * _Nonnull uploadProgress) {
+    AFHTTPSessionManager *weartherManaer = [AFHTTPSessionManager manager];
+    weartherManaer.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [weartherManaer POST:kRequestWeatherURL parameters:@{@"city" : self.cityName} progress:^(NSProgress * _Nonnull uploadProgress) {
         return ;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"%@" , dic);
+        NSArray *HeWeather5 = dic[@"HeWeather5"];
+        NSDictionary *info = HeWeather5[0];
+        NSDictionary *aqi = info[@"aqi"];
         
-        if ([dic[@"success"] integerValue] == 0) {
-            return ;
-        }
+        NSDictionary *city = aqi[@"city"];
+        NSString *qlty = city[@"qlty"];
+        [self.wearthDic setObject:qlty forKey:@"quality"];
         
-        NSDictionary *result = dic[@"result"];
-        NSString *str = result[@"weather"];
+        NSDictionary *now = info[@"now"];
+        NSString *hum = now[@"hum"];
+        [self.wearthDic setObject:hum forKey:@"humidity"];
+        
+        NSString *tmp = now[@"tmp"];
+        [self.wearthDic setObject:tmp forKey:@"temp_curr"];
+        
+        
+        
+        NSDictionary *wind = now[@"wind"];
+//        NSString *dir = wind[@"dir"];
+        NSString *sc = wind[@"sc"];
+        NSArray *subArray = [sc componentsSeparatedByString:@"-"];
+        
+        NSString *path = [[NSBundle mainBundle]pathForResource:@"Wind" ofType:@"plist"];
+        NSDictionary *windDic = [NSDictionary dictionaryWithContentsOfFile:path];
+        NSLog(@"%@ , %@" , subArray , windDic);
+        [self.wearthDic setObject:windDic[subArray[0]] forKey:@"winp"];
+        
+        NSDictionary *cond = now[@"cond"];
+        NSString *txt = cond[@"txt"];
+        [self.wearthDic setObject:txt forKey:@"weather_curr"];
         UIImage *image = nil;
-        if ([str containsString:@"晴"]) {
+        if ([txt containsString:@"晴"]) {
             image = [UIImage imageNamed:@"icon_qing"];
-        } else if ([str containsString:@"雷"]) {
+        } else if ([txt containsString:@"雷"]) {
             image = [UIImage imageNamed:@"icon_leiyu"];
-        } else if ([str containsString:@"雨夹雪"]) {
+        } else if ([txt containsString:@"雨夹雪"]) {
             image = [UIImage imageNamed:@"icon_yuxue"];
-        } else if ([str containsString:@"多云"] || [str containsString:@"阴"]) {
-                image = [UIImage imageNamed:@"icon_duoyun"];
-        } else if ([str containsString:@"雪"]) {
-                image = [UIImage imageNamed:@"icon_xue"];
-        }  else if ([str containsString:@"多云转晴"]) {
-                image = [UIImage imageNamed:@"icon_duoyunzhuanqing"];
-        } else if ([str containsString:@"雨"]) {
-                image = [UIImage imageNamed:@"icon_yu"];
+        } else if ([txt containsString:@"多云"] || [txt containsString:@"阴"]) {
+            image = [UIImage imageNamed:@"icon_duoyun"];
+        } else if ([txt containsString:@"雪"]) {
+            image = [UIImage imageNamed:@"icon_xue"];
+        }  else if ([txt containsString:@"多云转晴"]) {
+            image = [UIImage imageNamed:@"icon_duoyunzhuanqing"];
+        } else if ([txt containsString:@"雨"]) {
+            image = [UIImage imageNamed:@"icon_yu"];
         }
         NSArray *arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"icon_qing"], [UIImage imageNamed:@"icon_leiyu"], [UIImage imageNamed:@"icon_yuxue"], [UIImage imageNamed:@"icon_duoyun"], [UIImage imageNamed:@"icon_xue"], [UIImage imageNamed:@"icon_yu"], [UIImage imageNamed:@"icon_duoyunzhuanqing"],  nil];
         NSUInteger index = [arrImage indexOfObject:image];
-        
-        [self.wearthDic setObject:result[@"humidity"] forKey:@"humidity"];
-        [self.wearthDic setObject:result[@"temp_curr"] forKey:@"temp_curr"];
-        [self.wearthDic setObject:result[@"weather_curr"] forKey:@"weather_curr"];
-        [self.wearthDic setObject:result[@"weather"] forKey:@"weather"];
-    
-        NSString *path = [[NSBundle mainBundle]pathForResource:@"Wind" ofType:@"plist"];
-        NSDictionary *windDic = [NSDictionary dictionaryWithContentsOfFile:path];
-        
-        [self.wearthDic setObject:windDic[result[@"winp"]] forKey:@"winp"];
-        
         [self.wearthDic setObject:@(index) forKey:@"weather_icon"];
         
-        NSString *pm25URL = @"http://api.k780.com:88/";
-        AFHTTPSessionManager *pm25manager = [AFHTTPSessionManager manager];
-        pm25manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-        
-        if ([self.cityName isKindOfClass:[NSNull class]]) {
-            return ;
+        [self.wearthDic setObject:self.cityName forKey:@"cityName"];
+        [self.wearthArray addObject:self.wearthDic];
+        NSLog(@"%@" , self.wearthDic);
+        if (self.wearthArray.count > 0 && _delegate && [_delegate respondsToSelector:@selector(requestWearthData:didDone:)]) {
+            [_delegate requestWearthData:self didDone:self.wearthArray];
+        } else {
+            [_delegate requestData:self didFailLoadData:self.error];
         }
-        NSDictionary *pm25parames = @{@"app" : @"weather.pm25" , @"weaid" : self.cityName , @"appkey" : @"24331" , @"sign" : @"9565f573f3b10e63f5bed3cf04551a3c" , @"format" : @"json"};
-        [pm25manager POST:pm25URL parameters:pm25parames progress:^(NSProgress * _Nonnull uploadProgress) {
-            return ;
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSDictionary *dicc = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-            
-            if ([dicc[@"result"] isKindOfClass:[NSNull class]]) {
-                return ;
-            }
-            NSDictionary *result = dicc[@"result"];
-            [self.wearthDic setObject:result[@"aqi_levnm"] forKey:@"quality"];
-            
-            [self.wearthArray addObject:self.wearthDic];
-            NSLog(@"%@" , self.wearthDic);
-            if (self.wearthArray.count > 0 && _delegate && [_delegate respondsToSelector:@selector(requestWearthData:didDone:)]) {
-                [_delegate requestWearthData:self didDone:self.wearthArray];
-            } else {
-                [_delegate requestData:self didFailLoadData:self.error];
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            return ;
-        }];
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        return ;
+        NSLog(@"cccccccc");
     }];
-    
     
 }
 
@@ -345,13 +330,61 @@ static HelpFunction *_request = nil;
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"CCCCCCCC");
+        NSLog(@"%@" , self.urlString);
+        if ([kWindowRoot isKindOfClass:[TabBarViewController class]]) {
+            [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getCurrentVC]  Title:@"网络异常，请重试"];
+        } else {
+            [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getPresentedViewController]  Title:@"网络异常，请重试"];
+        }
+        
         
         [_delegate requestData:self didFailLoadData:self.error];
     }];
     
+    
+    
 }
 
+//获取当前屏幕显示的viewcontroller
+- (UIViewController *)getCurrentVC
+{
+    UIViewController *result = nil;
+    
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal)
+    {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows)
+        {
+            if (tmpWin.windowLevel == UIWindowLevelNormal)
+            {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    
+    UIView *frontView = [[window subviews] objectAtIndex:0];
+    id nextResponder = [frontView nextResponder];
+    
+    if ([nextResponder isKindOfClass:[UIViewController class]])
+        result = nextResponder;
+    else
+        result = window.rootViewController;
+    
+    return result;
+}
 
+- (UIViewController *)getPresentedViewController
+{
+    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *topVC = appRootVC;
+    if (topVC.presentedViewController) {
+        topVC = topVC.presentedViewController;
+    }
+    
+    return topVC;
+}
 
 
 - (NSMutableDictionary *)numArray{

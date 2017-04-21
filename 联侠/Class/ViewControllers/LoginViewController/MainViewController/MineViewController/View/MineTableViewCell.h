@@ -12,6 +12,7 @@
 
 @property (nonatomic , copy) NSString *isShowPromptImageView;
 @property (nonatomic , strong) UILabel *clearLabel;
+@property (nonatomic , strong) UIImageView *selectedImage;
 @property (nonatomic , strong) NSIndexPath *indexpath;
 
 

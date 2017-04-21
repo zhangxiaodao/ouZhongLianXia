@@ -43,13 +43,14 @@
 @property (nonatomic , strong) ServicesModel *serviceModel;
 
 @property (nonatomic , strong) UIView *markView;
+
 @end
 
 @implementation MineSerivesViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
     
@@ -79,7 +80,7 @@
     if ([self.fromAddVC isEqualToString:@"YES"]) {
         return NO;
     } else {
-        return NO;
+        return YES;
     }
     
 }
@@ -89,10 +90,16 @@
 
     MineSerivesViewController *mineServiceVC = [[MineSerivesViewController alloc]init];
     mineServiceVC.tabBarController.tabBar.hidden = YES;
+    
+    for (int i = 0; i < self.haveArray.count; i++) {
+        MineServiceCollectionViewCell *cell = (MineServiceCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        cell.selectedImage.hidden = YES;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+ 
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBar.hidden = NO;
 //    NSLog(@"%@ , %@" , self.userSn , self.serviceModel);
@@ -106,13 +113,11 @@
         // 耗时的操作
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            
-            
             NSInteger nowTimeInterval = [NSString getNowTimeInterval];
             if ([kStanderDefault objectForKey:@"requestWeatherTime"]) {
                 NSInteger weatherTime = [[kStanderDefault objectForKey:@"requestWeatherTime"] integerValue];
                 NSLog(@"%@ , %@" , [NSString turnTimeIntervalToString:nowTimeInterval] , [NSString turnTimeIntervalToString:weatherTime]);
-                if (nowTimeInterval > weatherTime + 2 * 3600) {
+                if (nowTimeInterval > weatherTime + 1 * 3600) {
                     [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
                     [self startWearthData];
                 }
@@ -122,9 +127,6 @@
             }
         });
     });
-    
-    
-    
     
     NSDictionary *parameters = @{@"userSn": [kStanderDefault objectForKey:@"userSn"]};
 //    NSLog(@"%@" , parameters);
@@ -280,6 +282,11 @@
 
 - (void)getCityNameAndProvience:(NSArray *)address {
     NSString *cityName = address[0];
+    
+    if ([cityName containsString:@"市"]) {
+        cityName = [cityName substringToIndex:cityName.length - 1];
+    }
+    
     [HelpFunction requestWeatherDataWithDelegate:self andCityName:cityName];
     [kStanderDefault setObject:cityName forKey:@"cityName"];
 }
@@ -371,7 +378,20 @@
     return cell;
 }
 
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    MineServiceCollectionViewCell *cell = (MineServiceCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.selectedImage.hidden = NO;
+    
+    
+    
+    return YES;
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    MineServiceCollectionViewCell *cell = (MineServiceCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.selectedImage.hidden = NO;
     
     ServicesModel *model = [[ServicesModel alloc]init];
     model = self.haveArray[indexPath.row];

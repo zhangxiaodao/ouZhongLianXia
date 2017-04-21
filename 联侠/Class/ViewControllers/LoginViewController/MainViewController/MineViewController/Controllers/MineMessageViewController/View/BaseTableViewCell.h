@@ -17,6 +17,8 @@
 @property (nonatomic , strong) UIView *view;
 @property (nonatomic , copy) NSString *isShowPromptImageView;
 @property (nonatomic , strong) NSIndexPath *indexpath;
+@property (nonatomic , strong) UIImageView *selectedImage;
+
 - (void)setIndexpath:(NSIndexPath *)indexpath;
 
 - (void)setTopCorner;

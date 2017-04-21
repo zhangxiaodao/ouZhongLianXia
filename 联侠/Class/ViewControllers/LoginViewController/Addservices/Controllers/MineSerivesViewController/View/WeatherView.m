@@ -46,9 +46,8 @@
     
     NSString *quality = dic[@"quality"];
     
-    if ([quality isEqualToString:@"轻度污染"]) {
-        quality = @"良";
-    } else if ([quality isEqualToString:@"中度污染"] || [quality isEqualToString:@"重度污染"]) {
+    
+    if ([quality isEqualToString:@"中度污染"] || [quality isEqualToString:@"严重污染"] || [quality isEqualToString:@"轻度污染"]) {
         quality = @"差";
     }
     
@@ -61,16 +60,16 @@
         make.centerY.mas_equalTo(shiDu.mas_centerY);
     }];
     
-    UILabel *weather = [UILabel creatLableWithTitle:dic[@"weather"] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentCenter];
+    UILabel *weather = [UILabel creatLableWithTitle:dic[@"weather_curr"] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentCenter];
     weather.layer.borderWidth = 0;
     [weather mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 15));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 15));
         make.centerX.mas_equalTo(weatherImageView.mas_centerX);
         make.top.mas_equalTo(weatherImageView.mas_bottom);
     }];
     weather.textColor = [UIColor whiteColor];
     
-    UILabel *weather_curr = [UILabel creatLableWithTitle:dic[@"weather_curr"] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
+    UILabel *weather_curr = [UILabel creatLableWithTitle:dic[@"winp"] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
     weather_curr.layer.borderWidth = 0;
     [weather_curr mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 15));
@@ -78,15 +77,15 @@
         make.centerY.mas_equalTo(weather.mas_centerY);
     }];
     
-    UILabel *winp = [UILabel creatLableWithTitle:dic[@"winp"] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
-    winp.layer.borderWidth = 0;
-    [winp mas_makeConstraints:^(MASConstraintMaker *make) {
+    UILabel *cityName = [UILabel creatLableWithTitle:dic[@"cityName"] andSuperView:superView andFont:k21 andTextAligment:NSTextAlignmentLeft];
+    cityName.layer.borderWidth = 0;
+    [cityName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 15));
-        make.left.mas_equalTo(weather_curr.mas_right);
+        make.left.mas_equalTo(kongQiZhiLiang.mas_left);
         make.centerY.mas_equalTo(weather.mas_centerY);
     }];
     weather_curr.textColor = [UIColor whiteColor];
-    winp.textColor = [UIColor whiteColor];
+    cityName.textColor = [UIColor whiteColor];
 }
 
 @end

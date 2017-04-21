@@ -41,9 +41,11 @@ static NSString *celled = @"celled";
     UIButton *sureBtn = [UIButton initWithTitle:@"保存" andColor:kMainColor andSuperView:self.view];
     [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.centerY.mas_equalTo(self.view.mas_centerY);
-        make.size.mas_equalTo(CGSizeMake( kScreenW / 2.68, kScreenW / 9.375));
+        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 2.22);
+        make.size.mas_equalTo(CGSizeMake( kScreenW / 2.8, kScreenW / 9.375));
     }];
+    sureBtn.layer.cornerRadius = kScreenW / 9.375 / 2;
+    sureBtn.titleLabel.font = [UIFont systemFontOfSize:k15];
     [sureBtn addTarget:self action:@selector(keepBtnAtcion) forControlEvents:UIControlEventTouchUpInside];
     
 }

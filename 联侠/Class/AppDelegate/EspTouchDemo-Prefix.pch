@@ -428,7 +428,7 @@
 /**
  *  查询当天空气质量数据
  */
-#define kDangTianKongQiZhiLiang [NSString stringWithFormat:@"http://%@:8080/smarthome/weather/queryAqi", localhost]
+#define kDangTianKongQiZhiLiang [NSString stringWithFormat:@"http://%@:9090/adapter/weather/queryAqi", localhost]
 
 /**
  *  查询干衣机的状态
@@ -474,6 +474,7 @@
 
 #define kBindGanYiJiURL [NSString stringWithFormat:@"http://%@:8080/smarthome/dryer/bindDevice", localhost]
 
+#define kRequestWeatherURL [NSString stringWithFormat:@"http://%@:9090/adapter/weather/queryWeather", localhost]
 
 
 #endif

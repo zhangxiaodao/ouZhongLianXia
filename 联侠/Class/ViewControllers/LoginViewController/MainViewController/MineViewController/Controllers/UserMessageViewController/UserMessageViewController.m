@@ -37,7 +37,7 @@
 @property (nonatomic , strong) NSArray *sexArray;
 @property (nonatomic , strong) GeRenModel *geRenModel;
 @property (nonatomic , strong) DiZhiModel *diZhiModel;
-
+@property (nonatomic , strong) NSIndexPath *selectedIndexPath;
 @end
 
 static NSString *celled = @"celled";
@@ -92,6 +92,12 @@ static NSString *celled = @"celled";
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    
+    if (self.selectedIndexPath) {
+        UserInfoCommonCell *cell = [self.tableView cellForRowAtIndexPath:self.selectedIndexPath];
+        cell.selectedImage.hidden = YES;
+    }
     
     NSString *nickName = nil;
     NSString *sex = nil;
@@ -156,6 +162,25 @@ static NSString *celled = @"celled";
     return cell;
 }
 
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        return NO;
+    }
+    
+    UserInfoCommonCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selectedImage.hidden = NO;
+    self.selectedIndexPath = indexPath;
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.selectedIndexPath) {
+        UserInfoCommonCell *cell = [self.tableView cellForRowAtIndexPath:self.selectedIndexPath];
+        cell.selectedImage.hidden = YES;
+    }
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;

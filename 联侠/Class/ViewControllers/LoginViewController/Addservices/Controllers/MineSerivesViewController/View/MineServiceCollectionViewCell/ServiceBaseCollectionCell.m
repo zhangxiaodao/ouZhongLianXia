@@ -21,7 +21,7 @@
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, (kScreenW - kScreenW * 3 / 25) / 2, kScreenH / 4.6)];
         [self.contentView addSubview:view];
         self.contentView.backgroundColor = [UIColor whiteColor];
-        self.contentView.layer.cornerRadius = 8;
+        self.contentView.layer.cornerRadius = 5;
         self.contentView.layer.borderWidth = 1;
         self.contentView.layer.borderColor = [UIColor colorWithHexString:@"ededed"].CGColor;
         
@@ -59,7 +59,10 @@
             make.right.mas_equalTo(view.mas_right).offset(-kScreenW / 37.5);
         }];
         
-        
+        _selectedImage = [[UIImageView alloc]initWithFrame:view.bounds];
+        [self.contentView addSubview:_selectedImage];
+        _selectedImage.image = [UIImage imageNamed:@"k_bg_down"];
+        _selectedImage.hidden = YES;
     }
     return self;
 }
@@ -71,5 +74,6 @@
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
 }
+
 
 @end

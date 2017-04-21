@@ -14,7 +14,7 @@
 #import "AboutProductCell.h"
 
 @interface AboutProductViewController ()<UITableViewDataSource , UITableViewDelegate>
-
+@property (nonatomic , strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic , strong) UITableView *tableVIew;
 @end
 
@@ -51,6 +51,21 @@
     cell.indexpath = indexPath;
     
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    AboutProductCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selectedImage.hidden = NO;
+    self.selectedIndexPath = indexPath;
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.selectedIndexPath) {
+        AboutProductCell *cell = [tableView cellForRowAtIndexPath:self.selectedIndexPath];
+        cell.selectedImage.hidden = YES;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

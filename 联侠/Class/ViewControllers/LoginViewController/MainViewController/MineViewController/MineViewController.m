@@ -38,6 +38,8 @@
 @property (nonatomic , strong) UIImageView *headBackImageView;
 
 @property (nonatomic , strong) HeadPortraitView *headPortraitView;
+
+@property (nonatomic , strong) NSIndexPath *selectedIndexPath;
 @end
 
 @implementation MineViewController
@@ -78,6 +80,12 @@
     
     MineViewController *mineServiceVC = [[MineViewController alloc]init];
     mineServiceVC.tabBarController.tabBar.hidden = YES;
+}
+
+- (MineTableViewCell *)tableViewindexPathForRow:(NSInteger)row inSection:(NSInteger)section {
+    NSIndexPath *indexpath = [NSIndexPath indexPathForRow:row inSection:section];
+    MineTableViewCell *cell = (MineTableViewCell *)[self.tableVIew cellForRowAtIndexPath:indexpath];
+    return cell;
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
@@ -245,6 +253,21 @@
     cell.indexpath = indexPath;
     cell.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    MineTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selectedImage.hidden = NO;
+    self.selectedIndexPath = indexPath;
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.selectedIndexPath) {
+        MineTableViewCell *cell = [self.tableVIew cellForRowAtIndexPath:self.selectedIndexPath];
+        cell.selectedImage.hidden = YES;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

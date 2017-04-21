@@ -12,7 +12,7 @@
 #import "AboutOusTableViewCell.h"
 
 @interface AboutOusTableViewController ()<UITableViewDelegate , UITableViewDataSource>
-
+@property (nonatomic , strong) NSIndexPath *selectedIndexPath;
 @end
 
 #define STOREAPPID @"1113948983"
@@ -70,6 +70,21 @@ NSString static * const cellid = @"cellid";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return kScreenH / 14.46;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    AboutOusTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selectedImage.hidden = NO;
+    self.selectedIndexPath = indexPath;
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.selectedIndexPath) {
+        AboutOusTableViewCell *cell = [tableView cellForRowAtIndexPath:self.selectedIndexPath];
+        cell.selectedImage.hidden = YES;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

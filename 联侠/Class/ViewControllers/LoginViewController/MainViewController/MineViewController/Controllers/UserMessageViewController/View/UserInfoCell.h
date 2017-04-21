@@ -26,6 +26,8 @@
 @property (nonatomic , strong) UIView *view;
 @property (nonatomic , strong) UIView *fenGeView;
 
+@property (nonatomic , strong) UIImageView *selectedImage;
+
 - (void)setTopCorner;
 - (void)setBottomCorner;
 - (void)changHeadPortraitAtcion;

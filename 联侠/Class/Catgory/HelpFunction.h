@@ -47,6 +47,7 @@
 @property (nonatomic,assign) NSInteger page;
 @property (nonatomic , strong) NSDictionary *parames;
 @property (nonatomic , strong) UIImage *image;
+@property (nonatomic , strong) UIViewController *currentVC;
 
 //单例
 + (HelpFunction *)shareHelpFunction;
@@ -59,5 +60,6 @@
 + (HelpFunction *)requestDataWithUrlString:(NSString *)urlString andParames:(NSDictionary *)parames andImage:(UIImage *)image andDelegate:(id<HelpFunctionDelegate>)delegate;
 
 + (HelpFunction *)requestWeatherDataWithDelegate:(id<HelpFunctionDelegate>)delegate andCityName:(NSString *)cityName;
-
+- (UIViewController *)getCurrentVC;
+- (UIViewController *)getPresentedViewController;
 @end

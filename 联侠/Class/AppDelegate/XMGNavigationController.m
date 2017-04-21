@@ -39,16 +39,18 @@
 
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backButton setImage:[UIImage imageNamed:@"navigationButtonReturn"] forState:UIControlStateNormal];
-        [backButton setImage:[UIImage imageNamed:@"navigationButtonReturnClick"] forState:UIControlStateHighlighted];
+//        [backButton setImage:[UIImage imageNamed:@"navigationButtonReturnClick"] forState:UIControlStateHighlighted];
         [backButton setTitle:superVC.navigationItem.title forState:UIControlStateNormal];
         
         [backButton setTitleColor:[UIColor colorWithHexString:@"00a2ff"] forState:UIControlStateNormal];
-        [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
+//        [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
         backButton.titleLabel.font = [UIFont systemFontOfSize:k15];
         [backButton sizeToFit];
         // 这句代码放在sizeToFit后面
-//        backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+        backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+        backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
         [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        
         viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
         
         // 隐藏底部的工具条

@@ -73,7 +73,12 @@
     
     pages++;
     NSDictionary *parames = @{@"page" : @(pages) , @"rows" : @10};
-    [HelpFunction requestDataWithUrlString:kSystemMessageJieKou andParames:parames andDelegate:self];
+    
+    if ([self.navigationItem.title isEqualToString:@"系统消息"]) {
+        [HelpFunction requestDataWithUrlString:kSystemMessageJieKou andParames:parames andDelegate:self];
+    } else {
+        [HelpFunction requestDataWithUrlString:kXiaoXiJieKou andParames:parames andDelegate:self];
+    }
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {

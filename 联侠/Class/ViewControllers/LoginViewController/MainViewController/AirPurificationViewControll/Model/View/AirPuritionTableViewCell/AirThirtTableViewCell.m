@@ -260,7 +260,7 @@
     if ([kStanderDefault objectForKey:@"cityName"]) {
         NSString *city = [kStanderDefault objectForKey:@"cityName"];
         NSDictionary *parames2 = @{@"city" : city , @"times" : @12};
-        
+        NSLog(@"%@" , parames2);
         [HelpFunction requestDataWithUrlString:kDangTianKongQiZhiLiang andParames:parames2 andDelegate:self];
     }
     

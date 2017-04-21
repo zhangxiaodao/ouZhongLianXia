@@ -96,6 +96,12 @@
     self.clearLabel = clearLabel;
     clearLabel.layer.borderWidth = 0;
     
+    _selectedImage = [[UIImageView alloc]initWithFrame:_view.bounds];
+    [_view addSubview:_selectedImage];
+    _selectedImage.image = [UIImage imageWithColor:kMainColor];
+    _selectedImage.alpha = .3;
+    _selectedImage.hidden = YES;
+    
 }
 
 - (void)setIsShowPromptImageView:(NSString *)isShowPromptImageView {

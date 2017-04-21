@@ -13,7 +13,7 @@
 
 @interface SumMessageViewController ()<UITableViewDataSource , UITableViewDelegate>
 @property (nonatomic , strong) UITableView *tableView;
-
+@property (nonatomic , strong) NSIndexPath *selectedIndexPath;
 @end
 
 @implementation SumMessageViewController
@@ -22,7 +22,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
-        NSLog(@"%@ , %@" , self.navigationItem.title , self.parentViewController.navigationItem.title);
+        
     [self setUI];
 }
 
@@ -58,6 +58,21 @@
     
     
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    MessageCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selectedImage.hidden = NO;
+    self.selectedIndexPath = indexPath;
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.selectedIndexPath) {
+        MessageCell *cell = [tableView cellForRowAtIndexPath:self.selectedIndexPath];
+        cell.selectedImage.hidden = YES;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
