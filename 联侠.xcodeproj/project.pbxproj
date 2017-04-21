@@ -230,6 +230,7 @@
 		EDC934F01EA462F700C60A6B /* ChongZhiPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDC934ED1EA462F700C60A6B /* ChongZhiPwdViewController.m */; };
 		EDC934F11EA462F700C60A6B /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDC934EF1EA462F700C60A6B /* ForgetPwdViewController.m */; };
 		EDCBDC191DA8CBF300DD8E6C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDCBDC181DA8CBF300DD8E6C /* TabBarViewController.m */; };
+		EDE667B51EAA107F002EAAA7 /* Launch1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE667B41EAA107F002EAAA7 /* Launch1ViewController.m */; };
 		EDEA426C1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEA426B1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m */; };
 		EDEEAD711E9F149E00115267 /* UserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD701E9F149E00115267 /* UserInfoCell.m */; };
 		EDEEAD741E9F17E100115267 /* UserInfoCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD731E9F17E100115267 /* UserInfoCommonCell.m */; };
@@ -670,6 +671,8 @@
 		EDC934EF1EA462F700C60A6B /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
 		EDCBDC171DA8CBF300DD8E6C /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
 		EDCBDC181DA8CBF300DD8E6C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
+		EDE667B31EAA107F002EAAA7 /* Launch1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Launch1ViewController.h; sourceTree = "<group>"; };
+		EDE667B41EAA107F002EAAA7 /* Launch1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Launch1ViewController.m; sourceTree = "<group>"; };
 		EDEA426A1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJiYiWuXuanZeTableViewCell.h; sourceTree = "<group>"; };
 		EDEA426B1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GanYiJiYiWuXuanZeTableViewCell.m; sourceTree = "<group>"; };
 		EDEEAD6F1E9F149E00115267 /* UserInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoCell.h; sourceTree = "<group>"; };
@@ -1189,6 +1192,8 @@
 		ED12E1031CF5C5470011CD2C /* LaunchViewController */ = {
 			isa = PBXGroup;
 			children = (
+				EDE667B31EAA107F002EAAA7 /* Launch1ViewController.h */,
+				EDE667B41EAA107F002EAAA7 /* Launch1ViewController.m */,
 				EDAD36891E262DD9001DE474 /* LaunchScreenViewController.h */,
 				EDAD368A1E262DD9001DE474 /* LaunchScreenViewController.m */,
 			);
@@ -2539,6 +2544,7 @@
 				ED12DF831CF5C0FF0011CD2C /* main.m in Sources */,
 				EDC761711DC98C60007E2774 /* QRCodeReaderView.m in Sources */,
 				ED12E1E51CF5C5470011CD2C /* UITextField+Custom.m in Sources */,
+				EDE667B51EAA107F002EAAA7 /* Launch1ViewController.m in Sources */,
 				EDEA426C1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m in Sources */,
 				ED6C780B1D067143007883EF /* AirPurificationForthTableViewCell.m in Sources */,
 				EDF2DBF81D0FFDCC00475E11 /* AirPuritionGengDuoThirtTableViewCell.m in Sources */,
