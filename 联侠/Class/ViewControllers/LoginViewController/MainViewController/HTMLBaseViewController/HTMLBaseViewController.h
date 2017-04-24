@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <JavaScriptCore/JavaScriptCore.h>
 @interface HTMLBaseViewController : UIViewController
 
 @property (nonatomic , strong) ServicesModel *serviceModel;
@@ -16,4 +16,11 @@
 
 @property (nonatomic , strong) NSIndexPath *indexPath;
 
+@property (nonatomic , strong) UIWebView *webView;
+@property (nonatomic , strong) UIActivityIndicatorView *searchView;
+
+@property (nonatomic , strong) JSContext *context;
+
+- (void)passValueWithBlock;
+- (void)getMachineDeviceAtcion:(NSNotification *)post;
 @end

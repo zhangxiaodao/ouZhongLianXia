@@ -8,20 +8,16 @@
 
 #import "MineSerivesViewController.h"
 #import "MineServiceCollectionViewCell.h"
-
 #import "MineViewController.h"
-
-//#import "AllServicesViewController.h"
-#import "AllTypeServiceViewController.h"
 #import "SetServicesViewController.h"
-#import "WiFiViewController.h"
-
 #import "MainViewController.h"
 #import "LengFengShanViewController.h"
 #import "AirPurificationViewController.h"
 #import "GanYiJiViewController.h"
 #import "XinFengViewController.h"
 #import "HTMLGanYiJiViewController.h"
+#import "HTMLHotColdFan.h"
+#import "HTMLColdFan.h"
 
 #import "CCLocationManager.h"
 
@@ -399,19 +395,22 @@
     [kApplicate initServiceModel:model];
     kSocketTCP.serviceModel = model;
     [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn] andType:kAddService andIsNewOrOld:nil];
-    NSLog(@"%@" , [NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn]);
-    
     
     self.tabBarController.tabBar.hidden = YES;
-    if ([model.devTypeSn isEqualToString:@"4131"] || [model.devTypeSn isEqualToString:@"4132"]) {
-        LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
-        lengFengShanVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
-        lengFengShanVC.sendVCDelegate = self;
-        lengFengShanVC.sendServiceModelToParentVCDelegate = self;
-        lengFengShanVC.serviceModel = model;
-        lengFengShanVC.wearthDic = self.wearthDic;
-
-        [self.navigationController pushViewController:lengFengShanVC animated:YES];
+    if ([model.devTypeSn isEqualToString:@"4131"]) {
+//        LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
+//        lengFengShanVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
+//        lengFengShanVC.sendVCDelegate = self;
+//        lengFengShanVC.sendServiceModelToParentVCDelegate = self;
+//        lengFengShanVC.serviceModel = model;
+//        lengFengShanVC.wearthDic = self.wearthDic;
+//
+//        [self.navigationController pushViewController:lengFengShanVC animated:YES];
+        
+        HTMLColdFan *htmlColdFanVC = [[HTMLColdFan alloc]init];
+        
+        htmlColdFanVC.serviceModel = model;
+        [self.navigationController pushViewController:htmlColdFanVC animated:YES];
     } else if ([model.devTypeSn isEqualToString:@"4231"]) {
         AirPurificationViewController *testAirDeviceVC = [[AirPurificationViewController alloc]init];
         testAirDeviceVC.serviceModel = model;
@@ -442,6 +441,11 @@
 
         htmlGanYiJiVC.serviceModel = model;
         [self.navigationController pushViewController:htmlGanYiJiVC animated:YES];
+    } else if ([model.devTypeSn isEqualToString:@"4133"]) {
+        HTMLHotColdFan *htmlHotColdFanVC = [[HTMLHotColdFan alloc]init];
+        
+        htmlHotColdFanVC.serviceModel = model;
+        [self.navigationController pushViewController:htmlHotColdFanVC animated:YES];
     }
 }
 
@@ -453,7 +457,15 @@
 //定义每个UICollectionView 的 margin
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(kScreenW / 25, kScreenW / 25, 0, kScreenW / 25);
+    return UIEdgeInsetsMake(kScreenW / 25, kScreenW / 25, kScreenW / 25, kScreenW / 25);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return kScreenW / 25;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return kScreenW / 25;
 }
 
 - (NSMutableArray *)haveArray {

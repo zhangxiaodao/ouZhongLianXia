@@ -181,20 +181,7 @@
             }
             
             //        NSLog(@"%@ , %@ , %@ , %@" , sock.connectedHost , newMessage , str , typeSn);
-            
-            if ([typeSn isEqualToString:@"4131"]) {
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4131" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-            } else if ([typeSn isEqualToString:@"4132"]) {
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4132" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-            } else if ([typeSn isEqualToString:@"4231"]) {
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4231" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-            } else if ([typeSn isEqualToString:@"4331"]) {
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4331" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-            } else if ([typeSn isEqualToString:@"4232"]) {
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4232" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-            } else if ([typeSn isEqualToString:@"4332"]) {
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"4332" object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
-            }
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:typeSn object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
             
         } else if ([newMessage isEqualToString:@"QUIT"]){
             

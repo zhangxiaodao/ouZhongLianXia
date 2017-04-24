@@ -125,7 +125,7 @@ static HelpFunction *_request = nil;
         return ;
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"%@" , dic);
+        
         NSArray *HeWeather5 = dic[@"HeWeather5"];
         NSDictionary *info = HeWeather5[0];
         NSDictionary *aqi = info[@"aqi"];
@@ -150,7 +150,7 @@ static HelpFunction *_request = nil;
         
         NSString *path = [[NSBundle mainBundle]pathForResource:@"Wind" ofType:@"plist"];
         NSDictionary *windDic = [NSDictionary dictionaryWithContentsOfFile:path];
-        NSLog(@"%@ , %@" , subArray , windDic);
+        
         [self.wearthDic setObject:windDic[subArray[0]] forKey:@"winp"];
         
         NSDictionary *cond = now[@"cond"];

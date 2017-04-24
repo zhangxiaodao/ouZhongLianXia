@@ -209,6 +209,8 @@
 		ED894BB51E852DD80019C8A0 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3931BE1DD19D8B00A2626F /* JavaScriptCore.framework */; };
 		ED8EDF4A1EA5E5B5002F1B44 /* LXGradientProcessView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8EDF491EA5E5B5002F1B44 /* LXGradientProcessView.m */; };
 		ED9CE65C1E286FF40029CFCA /* LockClock.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED9CE65B1E286F7B0029CFCA /* LockClock.ttf */; };
+		EDAB57461EAD9735009E1DA1 /* HTMLHotColdFan.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAB57451EAD9735009E1DA1 /* HTMLHotColdFan.m */; };
+		EDAB574A1EADE13C009E1DA1 /* HTMLColdFan.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAB57491EADE13C009E1DA1 /* HTMLColdFan.m */; };
 		EDAD36771E261EFB001DE474 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED12E2C01CF5C6BC0011CD2C /* Images.xcassets */; };
 		EDAD36881E262806001DE474 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAD36871E262806001DE474 /* Launch Screen.storyboard */; };
 		EDAD368B1E262DD9001DE474 /* LaunchScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD368A1E262DD9001DE474 /* LaunchScreenViewController.m */; };
@@ -230,7 +232,6 @@
 		EDC934F01EA462F700C60A6B /* ChongZhiPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDC934ED1EA462F700C60A6B /* ChongZhiPwdViewController.m */; };
 		EDC934F11EA462F700C60A6B /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDC934EF1EA462F700C60A6B /* ForgetPwdViewController.m */; };
 		EDCBDC191DA8CBF300DD8E6C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDCBDC181DA8CBF300DD8E6C /* TabBarViewController.m */; };
-		EDE667B51EAA107F002EAAA7 /* Launch1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE667B41EAA107F002EAAA7 /* Launch1ViewController.m */; };
 		EDEA426C1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEA426B1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m */; };
 		EDEEAD711E9F149E00115267 /* UserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD701E9F149E00115267 /* UserInfoCell.m */; };
 		EDEEAD741E9F17E100115267 /* UserInfoCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD731E9F17E100115267 /* UserInfoCommonCell.m */; };
@@ -638,6 +639,10 @@
 		ED8EDF481EA5E5B5002F1B44 /* LXGradientProcessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXGradientProcessView.h; sourceTree = "<group>"; };
 		ED8EDF491EA5E5B5002F1B44 /* LXGradientProcessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXGradientProcessView.m; sourceTree = "<group>"; };
 		ED9CE65B1E286F7B0029CFCA /* LockClock.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LockClock.ttf; sourceTree = "<group>"; };
+		EDAB57441EAD9735009E1DA1 /* HTMLHotColdFan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLHotColdFan.h; sourceTree = "<group>"; };
+		EDAB57451EAD9735009E1DA1 /* HTMLHotColdFan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLHotColdFan.m; sourceTree = "<group>"; };
+		EDAB57481EADE13C009E1DA1 /* HTMLColdFan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLColdFan.h; sourceTree = "<group>"; };
+		EDAB57491EADE13C009E1DA1 /* HTMLColdFan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLColdFan.m; sourceTree = "<group>"; };
 		EDAD36871E262806001DE474 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		EDAD36891E262DD9001DE474 /* LaunchScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchScreenViewController.h; sourceTree = "<group>"; };
 		EDAD368A1E262DD9001DE474 /* LaunchScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchScreenViewController.m; sourceTree = "<group>"; };
@@ -671,8 +676,6 @@
 		EDC934EF1EA462F700C60A6B /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
 		EDCBDC171DA8CBF300DD8E6C /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
 		EDCBDC181DA8CBF300DD8E6C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
-		EDE667B31EAA107F002EAAA7 /* Launch1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Launch1ViewController.h; sourceTree = "<group>"; };
-		EDE667B41EAA107F002EAAA7 /* Launch1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Launch1ViewController.m; sourceTree = "<group>"; };
 		EDEA426A1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJiYiWuXuanZeTableViewCell.h; sourceTree = "<group>"; };
 		EDEA426B1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GanYiJiYiWuXuanZeTableViewCell.m; sourceTree = "<group>"; };
 		EDEEAD6F1E9F149E00115267 /* UserInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoCell.h; sourceTree = "<group>"; };
@@ -795,6 +798,8 @@
 			children = (
 				ED08B3F71DEFFD600001AB9E /* HTMLBaseViewController.h */,
 				ED08B3F81DEFFD600001AB9E /* HTMLBaseViewController.m */,
+				EDAB57471EADE126009E1DA1 /* HTMLColdFan */,
+				EDAB57431EAD9720009E1DA1 /* HTMLHotColdFan */,
 				ED0970BD1E5A914900F81D12 /* HTMLGanYiJiViewController */,
 				ED08B3FA1DEFFD990001AB9E /* HTMLAirTestViewController */,
 			);
@@ -1192,8 +1197,6 @@
 		ED12E1031CF5C5470011CD2C /* LaunchViewController */ = {
 			isa = PBXGroup;
 			children = (
-				EDE667B31EAA107F002EAAA7 /* Launch1ViewController.h */,
-				EDE667B41EAA107F002EAAA7 /* Launch1ViewController.m */,
 				EDAD36891E262DD9001DE474 /* LaunchScreenViewController.h */,
 				EDAD368A1E262DD9001DE474 /* LaunchScreenViewController.m */,
 			);
@@ -2139,6 +2142,24 @@
 			path = UMSocialSDKPlugin;
 			sourceTree = "<group>";
 		};
+		EDAB57431EAD9720009E1DA1 /* HTMLHotColdFan */ = {
+			isa = PBXGroup;
+			children = (
+				EDAB57441EAD9735009E1DA1 /* HTMLHotColdFan.h */,
+				EDAB57451EAD9735009E1DA1 /* HTMLHotColdFan.m */,
+			);
+			path = HTMLHotColdFan;
+			sourceTree = "<group>";
+		};
+		EDAB57471EADE126009E1DA1 /* HTMLColdFan */ = {
+			isa = PBXGroup;
+			children = (
+				EDAB57481EADE13C009E1DA1 /* HTMLColdFan.h */,
+				EDAB57491EADE13C009E1DA1 /* HTMLColdFan.m */,
+			);
+			path = HTMLColdFan;
+			sourceTree = "<group>";
+		};
 		EDB240361D362F4E00C58734 /* tool */ = {
 			isa = PBXGroup;
 			children = (
@@ -2475,6 +2496,7 @@
 				ED12E2701CF5C5470011CD2C /* Reachability.m in Sources */,
 				ED12E2B21CF5C5470011CD2C /* EnterForthTableViewCell.m in Sources */,
 				ED6C780E1D068378007883EF /* AirPurificationThirtTableViewCell.m in Sources */,
+				EDAB57461EAD9735009E1DA1 /* HTMLHotColdFan.m in Sources */,
 				ED8349501E9CAFF700FF22A3 /* SystemMessageWebViewController.m in Sources */,
 				ED12E25C1CF5C5470011CD2C /* ESPGuideCode.m in Sources */,
 				ED27A22C1CF81C1E006BD844 /* AirPurificationViewController.m in Sources */,
@@ -2530,6 +2552,7 @@
 				ED12E2A31CF5C5470011CD2C /* TableViewCell.m in Sources */,
 				ED12E2621CF5C5470011CD2C /* ESPUDPSocketServer.m in Sources */,
 				ED8349521E9CAFF700FF22A3 /* MineYouHuiQuanViewController.m in Sources */,
+				EDAB574A1EADE13C009E1DA1 /* HTMLColdFan.m in Sources */,
 				ED12E2691CF5C5470011CD2C /* UUChart.m in Sources */,
 				EDB559D61D3E12F500DC856C /* UIImage+Extension.m in Sources */,
 				EDEEAD711E9F149E00115267 /* UserInfoCell.m in Sources */,
@@ -2544,7 +2567,6 @@
 				ED12DF831CF5C0FF0011CD2C /* main.m in Sources */,
 				EDC761711DC98C60007E2774 /* QRCodeReaderView.m in Sources */,
 				ED12E1E51CF5C5470011CD2C /* UITextField+Custom.m in Sources */,
-				EDE667B51EAA107F002EAAA7 /* Launch1ViewController.m in Sources */,
 				EDEA426C1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m in Sources */,
 				ED6C780B1D067143007883EF /* AirPurificationForthTableViewCell.m in Sources */,
 				EDF2DBF81D0FFDCC00475E11 /* AirPuritionGengDuoThirtTableViewCell.m in Sources */,

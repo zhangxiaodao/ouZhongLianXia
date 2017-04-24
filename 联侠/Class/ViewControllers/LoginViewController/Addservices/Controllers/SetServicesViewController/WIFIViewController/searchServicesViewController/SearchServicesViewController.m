@@ -268,7 +268,7 @@
         }
         
         NSLog(@"%@" , parames);
-        if ([self.devTypeSn isEqualToString:@"4131"] || [self.devTypeSn isEqualToString:@"4132"]) {
+        if ([self.devTypeSn isEqualToString:@"4131"] || [self.devTypeSn isEqualToString:@"4132"] || [self.devTypeSn isEqualToString:@"4133"]) {
             [HelpFunction requestDataWithUrlString:kBindLengFengShanURL andParames:parames andDelegate:self];
         } else if ([self.devTypeSn isEqualToString:@"4231"] || [self.devTypeSn isEqualToString:@"4232"]) {
             [HelpFunction requestDataWithUrlString:kBindKongQiJingHuaQiURL andParames:parames andDelegate:self];

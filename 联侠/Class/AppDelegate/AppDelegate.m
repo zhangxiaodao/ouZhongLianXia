@@ -13,7 +13,7 @@
 #import "Reachability.h"
 #import "LoginViewController.h"
 #import "XMGNavigationController.h"
-#import "Launch1ViewController.h"
+#import "LaunchScreenViewController.h"
 
 #define STOREAPPID @"1113948983"
 @interface AppDelegate ()<GCDAsyncSocketDelegate , AsyncSocketDelegate , HelpFunctionDelegate>
@@ -59,7 +59,7 @@
             self.window.rootViewController = nav;
         }
     } else {
-        self.window.rootViewController = [[Launch1ViewController alloc]init];
+        self.window.rootViewController = [[LaunchScreenViewController alloc]init];
     }
     
     [self setYouMeng];
