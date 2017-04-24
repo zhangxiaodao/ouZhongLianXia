@@ -47,6 +47,16 @@
         
         [kSocketTCP sendDataToHost:HotColdFan4133SendToHostXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn , array[0], array[1], array[2], array[3], array[4], array[5], array[7], array[7], array[9], array[10], array[11]) andType:kZhiLing andIsNewOrOld:kNew];
     };
+    
+    context[@"SaveWebDataAndroid"] = ^() {
+        NSArray *parames = [JSContext currentArguments];
+        NSString *arrStr = [[NSString alloc]init];
+        for (id obj in parames) {
+            arrStr = [arrStr stringByAppendingFormat:@"%@" , obj];
+        }
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[arrStr dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@" , dic);
+    };
 }
 
 @end

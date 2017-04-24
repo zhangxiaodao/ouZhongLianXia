@@ -11,7 +11,6 @@
 #import "MineViewController.h"
 #import "SetServicesViewController.h"
 #import "MainViewController.h"
-#import "LengFengShanViewController.h"
 #import "AirPurificationViewController.h"
 #import "GanYiJiViewController.h"
 #import "XinFengViewController.h"
@@ -379,8 +378,6 @@
     MineServiceCollectionViewCell *cell = (MineServiceCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.selectedImage.hidden = NO;
     
-    
-    
     return YES;
 }
 
@@ -398,14 +395,6 @@
     
     self.tabBarController.tabBar.hidden = YES;
     if ([model.devTypeSn isEqualToString:@"4131"]) {
-//        LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
-//        lengFengShanVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
-//        lengFengShanVC.sendVCDelegate = self;
-//        lengFengShanVC.sendServiceModelToParentVCDelegate = self;
-//        lengFengShanVC.serviceModel = model;
-//        lengFengShanVC.wearthDic = self.wearthDic;
-//
-//        [self.navigationController pushViewController:lengFengShanVC animated:YES];
         
         HTMLColdFan *htmlColdFanVC = [[HTMLColdFan alloc]init];
         

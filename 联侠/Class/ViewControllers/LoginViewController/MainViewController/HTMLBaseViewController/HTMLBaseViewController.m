@@ -8,8 +8,9 @@
 
 #import "HTMLBaseViewController.h"
 #import "AllServicesViewController.h"
+#import <JavaScriptCore/JavaScriptCore.h>
+@interface HTMLBaseViewController ()<HelpFunctionDelegate , UIWebViewDelegate>
 
-@interface HTMLBaseViewController ()<HelpFunctionDelegate>
 
 @end
 
@@ -19,7 +20,6 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor clearColor];
-    
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
@@ -32,11 +32,114 @@
     
     [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
     
+    _webView = [[UIWebView alloc]initWithFrame:kScreenFrame];
+    [self.view addSubview:_webView];
+    _webView.backgroundColor = kMainColor;
+    
+    self.webView.delegate = self;
+    
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.serviceModel.indexUrl]]];
+    
+    _searchView = [[UIActivityIndicatorView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    [self.view addSubview:_searchView];
+    _searchView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    [_searchView startAnimating];
+    
+    [self passValueWithBlock];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    _context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    
+    __block typeof(self)bself = self;
+    
+    _context[@"PageLoadIOS"] = ^{
+        
+        if (bself.searchView) {
+            bself.searchView.hidden = YES;
+        }
+        
+        NSDictionary *userData = nil;
+        if ([bself.serviceModel.brand isKindOfClass:[NSNull class]]) {
+            userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , nil];
+        } else {
+            userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , bself.serviceModel.brand, @"BrandName" , nil];
+        }
+        
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userData options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *jsonStr = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+        
+        NSString *orderStr = [NSString stringWithFormat:@"GetUserData(%@)" , jsonStr];
+        [bself.context evaluateScript:orderStr];
+        
+        NSString *key = [NSString stringWithFormat:@"%@" , NSStringFromClass([bself.navigationController.childViewControllers[1] class])];
+        
+        if ([kStanderDefault objectForKey:key]) {
+
+            NSString *time = [kStanderDefault objectForKey:key];
+            NSString *sendTimeToHtml = [NSString stringWithFormat:@"GetWebData(%@)" , time];
+            NSLog(@"%@" , sendTimeToHtml);
+            [bself.context evaluateScript:sendTimeToHtml];
+        }
+        
+    };
+    
+    return YES;
+}
+
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
+        
+//    __block typeof(self)bself = self;
+    __block typeof (self)bself = self;
+    _context[@"ShowRemind"] = ^() {
+        NSArray *parames = [JSContext currentArguments];
+        NSString *arrarString = [[NSString alloc]init];
+        for (id obj in parames) {
+            arrarString = [arrarString stringByAppendingFormat:@"%@" , obj];
+        }
+        NSLog(@"%@" , arrarString);
+        
+        [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:bself Title:arrarString];
+        
+    };
+}
+
+
+- (void)passValueWithBlock {
+    
+    JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+    __block typeof(self)bself = self;
+    context[@"BackIOS"] = ^() {
+        [bself.navigationController popViewControllerAnimated:YES];
+        
+    };
+}
+
+- (void)getMachineDeviceAtcion:(NSNotification *)post {
+    NSMutableString *sumStr = nil;
+    sumStr = [NSMutableString stringWithString:post.userInfo[@"Message"]];
+    
+    for (NSInteger i = sumStr.length - 2; i > 0; i = i - 2) {
+        [sumStr insertString:@"," atIndex:i];
+    }
+    
+    
+    NSString *callJSstring = nil;
+    callJSstring = [NSString stringWithFormat:@"ReceiveOrder('%@')" , sumStr];
+    
+    NSLog(@"%@" , callJSstring);
+    [_context evaluateScript:callJSstring];
+    sumStr = nil;
+    
 }
 
 
@@ -54,6 +157,8 @@
         for (NSString *key in [user allKeys]) {
             [_userModel setValue:user[key] forKey:key];
         }
+        
+        [self webView:_webView shouldStartLoadWithRequest:NULL navigationType:UIWebViewNavigationTypeLinkClicked];
     }
 }
 
