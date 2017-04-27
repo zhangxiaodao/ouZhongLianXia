@@ -23,7 +23,7 @@
 }
 @property (nonatomic , strong) UIImage *werthImage;
 @property (nonatomic , strong) NSMutableArray *zhuYeArray;
-@property (nonatomic , strong) NSArray *arrImage;
+//@property (nonatomic , strong) NSArray *arrImage;
 
 
 @property (nonatomic , strong) UIImageView *firstView;
@@ -34,12 +34,12 @@
 
 @implementation MainViewController
 
-- (NSArray *)arrImage {
-    if (!_arrImage) {
-        _arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"qing"], [UIImage imageNamed:@"leiZhenYu"], [UIImage imageNamed:@"yangChen"], [UIImage imageNamed:@"duoYun"], [UIImage imageNamed:@"xue"], [UIImage imageNamed:@"yu"], [UIImage imageNamed:@"wu"], [UIImage imageNamed:@"feng"],  nil];
-    }
-    return _arrImage;
-}
+//- (NSArray *)arrImage {
+//    if (!_arrImage) {
+//        _arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"icon_qing"], [UIImage imageNamed:@"icon_leiZhenYu"], [UIImage imageNamed:@"icon_yangChen"], [UIImage imageNamed:@"icon_duoYun"], [UIImage imageNamed:@"icon_xue"], [UIImage imageNamed:@"icon_yu"], [UIImage imageNamed:@"icon_wu"], [UIImage imageNamed:@"icon_feng"],  nil];
+//    }
+//    return _arrImage;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -262,7 +262,7 @@
     _touMingImageVIew = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"主页透明.jpg"]];
     _touMingImageVIew.frame=CGRectMake(0, -BackGroupHeight, self.view.frame.size.width, BackGroupHeight);
     
-    self.werthImage = self.arrImage[[self.wearthDic[@"weather_icon"] integerValue]];
+    self.werthImage = [UIImage imageNamed:self.wearthDic[@"weather_icon"]];
     [MainFirstView creatViewWeatherDic:dic andSuperView:_touMingImageVIew andWearthImage:self.werthImage];
     
     _touMingImageVIew.contentMode = UIViewContentModeScaleAspectFill;

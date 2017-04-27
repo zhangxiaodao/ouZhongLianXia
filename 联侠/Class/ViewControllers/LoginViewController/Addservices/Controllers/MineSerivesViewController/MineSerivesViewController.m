@@ -14,6 +14,7 @@
 #import "AirPurificationViewController.h"
 #import "GanYiJiViewController.h"
 #import "XinFengViewController.h"
+#import "LengFengShanViewController.h"
 #import "HTMLGanYiJiViewController.h"
 #import "HTMLHotColdFan.h"
 #import "HTMLColdFan.h"
@@ -29,7 +30,7 @@
 @property (nonatomic , strong) UIView *topView;
 @property (nonatomic , strong) UIImageView *backImageView;
 @property (nonatomic , strong) UIImage *werthImage;
-@property (nonatomic , strong) NSArray *arrImage;
+
 @property (nonatomic , strong) NSMutableDictionary *wearthDic;
 
 @property (nonatomic , strong) UIViewController *childViewController;
@@ -67,7 +68,12 @@
 - (void)setNav {
     self.navigationItem.title = @"联侠";
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(addSerViceAtcion) image:@"addService_high" highImage:nil];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(backAtcion) image:nil highImage:nil];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
+}
+
+- (void)backAtcion {
+    
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
@@ -83,8 +89,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    MineSerivesViewController *mineServiceVC = [[MineSerivesViewController alloc]init];
-    mineServiceVC.tabBarController.tabBar.hidden = YES;
+//    MineSerivesViewController *mineServiceVC = [[MineSerivesViewController alloc]init];
+//    mineServiceVC.tabBarController.tabBar.hidden = YES;
     
     for (int i = 0; i < self.haveArray.count; i++) {
         MineServiceCollectionViewCell *cell = (MineServiceCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -261,7 +267,7 @@
         [self.wearthDic setObject:@"==" forKey:@"weather_curr"];
         [self.wearthDic setObject:@"==" forKey:@"weather"];
         [self.wearthDic setObject:@"==" forKey:@"winp"];
-        [self.wearthDic setObject:@(0) forKey:@"weather_icon"];
+        [self.wearthDic setObject:@"qing" forKey:@"weather_icon"];
         [self.wearthDic setObject:@"==" forKey:@"cityName"];
         
     }
@@ -304,8 +310,8 @@
 
 - (void)getWeatherDic:(NSMutableDictionary *)dic {
     
-    //    NSLog(@"%@" , dic);
-    self.werthImage = self.arrImage[[dic[@"weather_icon"] integerValue]];
+    
+    self.werthImage = [UIImage imageNamed:dic[@"weather_icon"]];
     
     NSArray *array = _backImageView.subviews;
     for (int i = 0; i < array.count; i++) {
@@ -381,6 +387,15 @@
     return YES;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    MineServiceCollectionViewCell *cell = (MineServiceCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.selectedImage.hidden = YES;
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MineServiceCollectionViewCell *cell = (MineServiceCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
@@ -395,11 +410,14 @@
     
     self.tabBarController.tabBar.hidden = YES;
     if ([model.devTypeSn isEqualToString:@"4131"]) {
-        
-        HTMLColdFan *htmlColdFanVC = [[HTMLColdFan alloc]init];
-        
-        htmlColdFanVC.serviceModel = model;
-        [self.navigationController pushViewController:htmlColdFanVC animated:YES];
+
+        LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
+        lengFengShanVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
+        lengFengShanVC.sendVCDelegate = self;
+        lengFengShanVC.sendServiceModelToParentVCDelegate = self;
+        lengFengShanVC.serviceModel = model;
+        lengFengShanVC.wearthDic = self.wearthDic;
+        [self.navigationController pushViewController:lengFengShanVC animated:YES];
     } else if ([model.devTypeSn isEqualToString:@"4231"]) {
         AirPurificationViewController *testAirDeviceVC = [[AirPurificationViewController alloc]init];
         testAirDeviceVC.serviceModel = model;
@@ -466,13 +484,6 @@
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
-}
-
-- (NSArray *)arrImage {
-    if (!_arrImage) {
-        _arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"icon_qing"], [UIImage imageNamed:@"icon_leiyu"], [UIImage imageNamed:@"icon_yuxue"], [UIImage imageNamed:@"icon_duoyun"], [UIImage imageNamed:@"icon_xue"], [UIImage imageNamed:@"icon_yu"], [UIImage imageNamed:@"icon_duoyunzhuanqing"],  nil];
-    }
-    return _arrImage;
 }
 
 - (NSMutableDictionary *)wearthDic {

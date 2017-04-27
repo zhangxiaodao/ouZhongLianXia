@@ -58,6 +58,7 @@
     }];
     jianTouImage.transform = CGAffineTransformRotate(jianTouImage.transform, M_PI);
     jianTouImage.contentMode = UIViewContentModeScaleAspectFit;
+    [UIImageView setImageViewColor:jianTouImage andColor:[UIColor colorWithHexString:@"81d0ff"]];
     
     UIView *promptView = [[UIView alloc]init];
     promptView.backgroundColor = [UIColor redColor];

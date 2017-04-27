@@ -16,8 +16,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.webView.backgroundColor = kACOLOR(39, 143, 255, 1.0);
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:@"4131" object:nil];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.webView.backgroundColor = kCOLOR(38, 139, 218);
     
 }
 

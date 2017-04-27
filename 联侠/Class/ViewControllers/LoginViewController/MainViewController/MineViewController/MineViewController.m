@@ -78,8 +78,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    MineViewController *mineServiceVC = [[MineViewController alloc]init];
-    mineServiceVC.tabBarController.tabBar.hidden = YES;
+//    MineViewController *mineServiceVC = [[MineViewController alloc]init];
+//    mineServiceVC.tabBarController.tabBar.hidden = YES;
 }
 
 - (MineTableViewCell *)tableViewindexPathForRow:(NSInteger)row inSection:(NSInteger)section {

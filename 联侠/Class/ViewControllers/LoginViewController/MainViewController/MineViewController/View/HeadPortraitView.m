@@ -33,7 +33,7 @@
     _headBackImageView = [[UIImageView alloc]init];
     [self addSubview:_headBackImageView];
     [_headBackImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(self.width - 10, self.height - 10));
+        make.size.mas_equalTo(CGSizeMake(self.width - 5, self.height - 5));
         make.centerY.mas_equalTo(self.mas_centerY);
         make.centerX.mas_equalTo(self.mas_centerX);
     }];
@@ -93,7 +93,6 @@
 - (void)setUserModel:(UserModel *)userModel {
     _userModel = userModel;
     
-    if (_userModel) {
         if ([_userModel.headImageUrl isKindOfClass:[NSNull class]]) {
             _headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
             _headBackImageView.image = _headBackImageView.image = [UIImage boxblurImage:[UIImage imageNamed:@"iconfont-touxiang"] withBlurNumber:.3];
@@ -120,7 +119,7 @@
 //        } else {
 //            _sexLable.text = @"♀";
 //        }
-    }
+    
 }
 
 @end

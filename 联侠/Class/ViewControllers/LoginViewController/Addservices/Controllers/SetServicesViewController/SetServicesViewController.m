@@ -10,6 +10,7 @@
 #import "WiFiViewController.h"
 #import "ESP_NetUtil.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
+#import "MineSerivesViewController.h"
 @interface SetServicesViewController ()
 @property (nonatomic , strong) NSMutableArray *array;
 @property (nonatomic , strong) NSTimer *myTimer;
@@ -104,6 +105,7 @@
     WiFiViewController *wifiVC = [[WiFiViewController alloc]init];
     wifiVC.navigationItem.title = @"添加设备";
     [self.navigationController pushViewController:wifiVC animated:YES];
+    
 }
 
 @end

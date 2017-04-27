@@ -13,11 +13,10 @@
     
     UIImageView *weatherImageView = [[UIImageView alloc]init];
     [superView addSubview:weatherImageView];
-    
     [weatherImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 3.2, kScreenH / 6.4));
-        make.left.mas_equalTo(superView.mas_left).offset(kScreenW / 15);
-        make.top.mas_equalTo(superView.mas_top).offset(kScreenW / 17);
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 2.34275, kScreenH / 4.75));
+        make.left.mas_equalTo(superView.mas_left);
+        make.top.mas_equalTo(superView.mas_top).offset(kScreenW / 50);
     }];
     weatherImageView.image = image;
 //    weatherImageView.backgroundColor = [UIColor redColor];
@@ -31,11 +30,11 @@
     [NSString setNSMutableAttributedString:temperature.floatValue andSuperLabel:wenDu andDanWei:@"°C" andSize:k60 andTextColor:color isNeedTwoXiaoShuo:@"NO"];
     [wenDu mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 6.8));
-        make.left.mas_equalTo(weatherImageView.mas_right).offset(kScreenW / 16);
+        make.left.mas_equalTo(weatherImageView.mas_right);
         make.centerY.mas_equalTo(weatherImageView.mas_centerY).offset(-kScreenH / 25.6);
     }];
     
-    UILabel *shiDu = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"湿度: %@" , dic[@"humidity"]] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
+    UILabel *shiDu = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"湿度: %@%%" , dic[@"humidity"]] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
     shiDu.layer.borderWidth = 0;
     [NSString setAttributedString:shiDu.text WithSubString:3 andSize:k21 andTextColor:color isNeedTwoXiaoShuo:@"NO" andSuperLabel:shiDu];
     [shiDu mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -47,8 +46,10 @@
     NSString *quality = dic[@"quality"];
     
     
-    if ([quality isEqualToString:@"中度污染"] || [quality isEqualToString:@"严重污染"] || [quality isEqualToString:@"轻度污染"]) {
+    if ([quality isEqualToString:@"中度污染"] || [quality isEqualToString:@"严重污染"]) {
         quality = @"差";
+    } else if ([quality isEqualToString:@"轻度污染"]) {
+        quality = @"中";
     }
     
     UILabel *kongQiZhiLiang = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"空气质量: %@", quality] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
@@ -65,26 +66,37 @@
     [weather mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 15));
         make.centerX.mas_equalTo(weatherImageView.mas_centerX);
-        make.top.mas_equalTo(weatherImageView.mas_bottom);
+        make.bottom.mas_equalTo(weatherImageView.mas_bottom);
     }];
     weather.textColor = [UIColor whiteColor];
     
-    UILabel *weather_curr = [UILabel creatLableWithTitle:dic[@"winp"] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
-    weather_curr.layer.borderWidth = 0;
-    [weather_curr mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 15));
+    UILabel *winp = [UILabel creatLableWithTitle:dic[@"winp"] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
+    winp.layer.borderWidth = 0;
+    [winp mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 8, kScreenW / 15));
         make.left.mas_equalTo(wenDu.mas_left);
         make.centerY.mas_equalTo(weather.mas_centerY);
     }];
     
-    UILabel *cityName = [UILabel creatLableWithTitle:dic[@"cityName"] andSuperView:superView andFont:k21 andTextAligment:NSTextAlignmentLeft];
+    UIImageView *localImageView = [[UIImageView alloc]init];
+    [superView addSubview:localImageView];
+    [localImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 37.5, kScreenW / 25));
+        make.left.mas_equalTo(winp.mas_right).offset(kScreenW / 50);
+        make.centerY.mas_equalTo(weather.mas_centerY);
+    }];
+    
+    localImageView.image = [UIImage imageNamed:@"localImage"];
+//    localImageView.backgroundColor = [UIColor redColor];
+    
+    UILabel *cityName = [UILabel creatLableWithTitle:dic[@"cityName"] andSuperView:superView andFont:k13 andTextAligment:NSTextAlignmentLeft];
     cityName.layer.borderWidth = 0;
     [cityName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 15));
-        make.left.mas_equalTo(kongQiZhiLiang.mas_left);
+        make.left.mas_equalTo(localImageView.mas_right).offset(5);
         make.centerY.mas_equalTo(weather.mas_centerY);
     }];
-    weather_curr.textColor = [UIColor whiteColor];
+    winp.textColor = [UIColor whiteColor];
     cityName.textColor = [UIColor whiteColor];
 }
 

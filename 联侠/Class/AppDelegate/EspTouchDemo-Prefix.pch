@@ -180,6 +180,8 @@
 
 #define HotColdFan4133SendToHostXieYi(devTypeSn , devSn , kaiGuan , windType , wind , shaking , ions , coldWind , hot , childLock , time , waterlevel , malfunction) [NSString stringWithFormat:@"HMFFA%@%@w0%@0%@0%@0%@0%@0%@0%@0%@ 00%@0%@0%@00000000#" , devTypeSn , devSn , kaiGuan , windType , wind , shaking , ions , coldWind , hot , childLock , time , waterlevel , malfunction]
 
+#define TCLFan4134SendToHostXieYi(devTypeSn , devSn , kaiGuan , windType , wind , shaking , time , temperature , malfunction) [NSString stringWithFormat:@"HMFFM%@%@w0%@0%@0%@0%@0000000000%@%@0%@00000000#" , devTypeSn , devSn , kaiGuan , windType , wind , shaking , time , temperature , malfunction]
+
 #define ColdFan4131SendToHostXieYi(devTypeSn , devSn , orderType , order) [NSString stringWithFormat:@"HMFF%@%@%@%@#" , devTypeSn , devSn , orderType , order]
 
 #define XinFengKongJing(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@00000000000000%@%@0000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]

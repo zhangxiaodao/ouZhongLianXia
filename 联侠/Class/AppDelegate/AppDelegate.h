@@ -23,6 +23,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+
+- (NSInteger)wheatherHaveNet;
 - (void)initLastMainViewController:(MainViewController *)viewController;
 - (void)initLastXinFengViewController:(XinFengViewController *)viewController;
 - (void)initUserModel:(UserModel *)userModel;

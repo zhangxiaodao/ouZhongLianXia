@@ -14,18 +14,23 @@
 #import "LoginViewController.h"
 #import "XMGNavigationController.h"
 #import "LaunchScreenViewController.h"
+#import "HTMLBaseViewController.h"
 
 #define STOREAPPID @"1113948983"
 @interface AppDelegate ()<GCDAsyncSocketDelegate , AsyncSocketDelegate , HelpFunctionDelegate>
 @property (nonatomic) Reachability *hostReachability;
 @property (nonatomic) Reachability *internetReachAbility;
-@property (nonatomic , copy) NSString *isHaveConnect;
+
 @property (nonatomic , strong) UIAlertController *alertVC;
 @property (nonatomic , strong) UIAlertController *alertController;
 @property (nonatomic , strong) UserModel *userModel;
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) XinFengViewController *xinFengVC;
 @property (nonatomic , strong) MainViewController *mainVC;
+@property (nonatomic , strong) UILabel *noNetwork;
+@property (nonatomic , strong) UIView *markview;
+#pragma mark - 0 没网 1 有网
+@property (nonatomic , assign) BOOL noNetWorkStr;
 @end
 
 @implementation AppDelegate
@@ -36,44 +41,71 @@
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = [[UIViewController alloc]init];
     [self.window makeKeyAndVisible];
-    
+    self.noNetWorkStr = 1;
         
     NSLog(@"%f , %f" , kScreenW , kScreenH);
     _alertController = nil;
     
 //    self.window.rootViewController = [[BottomNavViewController alloc]init];
     
+    [self setRootViewController];
     
+    [self setYouMeng];
+    [self setGeTui];
+    [self checkNetwork];
+    
+    
+    //自动锁屏
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
+    
+    [HelpFunction requestDataWithUrlString:kChaXunBanBenHao andParames:@{@"type" : @(2)} andDelegate:self];
+    
+    return YES;
+}
+
+- (UILabel *)addNoNetLabel {
+    UILabel *noNetWork = [UILabel creatLableWithTitle:@"❗️当前网络不可用，请检查手机网络" andSuperView:kWindowRoot.view andFont:k13 andTextAligment:NSTextAlignmentCenter];
+    [noNetWork mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenW / 15));
+        make.centerX.mas_equalTo(kWindowRoot.view  .mas_centerX);
+        make.top.mas_equalTo(kHeight);
+    }];
+    
+    noNetWork.textColor = [UIColor colorWithHexString:@"ef6060"];
+    noNetWork.backgroundColor = [UIColor colorWithHexString:@"ffdcdc"];
+    noNetWork.layer.borderWidth = 0;
+    noNetWork.layer.cornerRadius = 0;
+    noNetWork.hidden = YES;
+    
+    UIView *markview = [[UIView alloc]initWithFrame:self.window.bounds];
+    [kWindowRoot.view addSubview:markview];
+    markview.backgroundColor = [UIColor clearColor];
+    markview.hidden = YES;
+    self.markview = markview;
+    
+    return noNetWork;
+}
+
+- (void)setRootViewController {
     NSString *isLaunchLoad = [kStanderDefault objectForKey:@"isLaunch"];
     if ([isLaunchLoad isEqualToString:@"NO"]) {
         [kStanderDefault setObject:@"NO" forKey:@"firstRun"];
         
         if ([kStanderDefault objectForKey:@"Login"]) {
-
+            
             self.window.rootViewController = [[TabBarViewController alloc]init];
         } else {
             
             LoginViewController *loginVC = [[LoginViewController alloc]init];
             XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:loginVC];
             
+            
             self.window.rootViewController = nav;
         }
     } else {
         self.window.rootViewController = [[LaunchScreenViewController alloc]init];
     }
-    
-    [self setYouMeng];
-    [self setGeTui];
-    [self checkNetwork];
-    
-    //自动锁屏
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
-  
-    
-    
-    [HelpFunction requestDataWithUrlString:kChaXunBanBenHao andParames:@{@"type" : @(2)} andDelegate:self];
-    
-    return YES;
+    self.noNetwork = [self addNoNetLabel];
 }
 
 - (void)checkNetwork {
@@ -151,52 +183,58 @@
 }
 
 - (void)updateInterfaceWithReachAbility:(Reachability *)reachability {
-    if (reachability == self.hostReachability) {
-        BOOL connectionRequired = [reachability connectionRequired];
-        if (connectionRequired) {
-            [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您当前连接的是手机网络"];
-        }
-    }
     
     if (reachability == self.internetReachAbility) {
         NetworkStatus netStatus = [reachability currentReachabilityStatus];
         
         if (netStatus == NotReachable) {
-            self.alertVC = [UIAlertController creatRightAlertControllerWithHandle:^{
-                [UIView animateWithDuration:1.0f animations:^{
-                    self.window.alpha = 0;
-                    self.window.frame = CGRectMake(0, self.window.bounds.size.width, 0, 0);
-                } completion:^(BOOL finished) {
-                    exit(0);
-                }];
-            } andSuperViewController:kWindowRoot Title:@"您当前的设备未联网，APP无法使用"];
-            
-            self.isHaveConnect = @"YES";
-        } else if (netStatus == ReachableViaWWAN || netStatus == ReachableViaWiFi) {
-            
-            if (self.alertVC) {
+            self.noNetWorkStr = 0;
+           
+            if ([[[HelpFunction shareHelpFunction] getPresentedViewController] isKindOfClass:[UITabBarController class]]) {
+                UITabBarController *tab = (UITabBarController *)[[HelpFunction shareHelpFunction] getPresentedViewController];
+                XMGNavigationController *nav = tab.selectedViewController;
                 
-                [self.alertVC dismissViewControllerAnimated:YES completion:^{
-                    if ([kStanderDefault objectForKey:@"userSn"]) {
-                        
-                        [self.alertVC dismissViewControllerAnimated:YES completion:^{
-                            [[[TabBarViewController alloc]init] removeFromParentViewController];
-                            self.window.rootViewController = [[TabBarViewController alloc]init];
+                NSLog(@"%@ , %@ , %@" , tab.selectedViewController , nav.visibleViewController , self.noNetwork);
+                
+                if ([nav.visibleViewController isKindOfClass:[MainViewController class]] || [nav.visibleViewController isKindOfClass:[XinFengViewController class]] || [nav.visibleViewController isKindOfClass:[HTMLBaseViewController class]]) {
+                    self.noNetwork.hidden = YES;
+                    
+                    self.alertVC = [UIAlertController creatRightAlertControllerWithHandle:^{
+                        [UIView animateWithDuration:1.0f animations:^{
+                            self.window.alpha = 0;
+                            self.window.frame = CGRectMake(0, self.window.bounds.size.width, 0, 0);
+                        } completion:^(BOOL finished) {
+                            exit(0);
                         }];
-                        
-                    } else {
-                        LoginViewController *loginVC = [[LoginViewController alloc]init];
-                        XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:loginVC];
-                        
-                        self.window.rootViewController = nav;
-                    }
+                    } andSuperViewController:kWindowRoot Title:@"您当前的设备未联网，APP无法使用"];
+                } else {
+                    self.noNetwork.hidden = NO;
+                    self.markview.hidden = NO;
+                }
+            } else {
+                self.noNetwork.hidden = NO;
+                self.markview.hidden = NO;
+            }
+            
+            
+        } else if (netStatus == ReachableViaWWAN || netStatus == ReachableViaWiFi) {
+            self.noNetWorkStr = 1;
+            
+            if (self.noNetwork || self.alertVC) {
+                self.noNetwork.hidden = YES;
+                self.markview.hidden = YES;
+                [self.alertVC dismissViewControllerAnimated:YES completion:^{
+                    self.alertVC = nil;
                 }];
-                self.alertVC = nil;
-               
+                [self setRootViewController];
             }
             
         }
     }
+}
+
+- (NSInteger)wheatherHaveNet {
+    return self.noNetWorkStr;
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {

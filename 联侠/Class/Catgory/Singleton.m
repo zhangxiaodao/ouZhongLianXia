@@ -196,7 +196,6 @@
             [kStanderDefault removeObjectForKey:@"userSn"];
             [kStanderDefault removeObjectForKey:@"userId"];
             [kStanderDefault removeObjectForKey:@"weartherImage"];
-            [kStanderDefault removeObjectForKey:@"first"];
             [kStanderDefault removeObjectForKey:@"zhuYe"];
             
             [kStanderDefault removeObjectForKey:@"offBtn"];

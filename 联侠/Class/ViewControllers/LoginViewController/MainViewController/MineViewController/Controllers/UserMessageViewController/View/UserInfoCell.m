@@ -50,6 +50,7 @@
     jianTouImage.transform = CGAffineTransformRotate(jianTouImage.transform, M_PI);
     jianTouImage.contentMode = UIViewContentModeScaleAspectFit;
     self.jianTouImage = jianTouImage;
+    [UIImageView setImageViewColor:jianTouImage andColor:[UIColor colorWithHexString:@"81d0ff"]];
     
     UIView *bottomView = [[UIView alloc]init];
     [_view addSubview:bottomView];
@@ -70,6 +71,7 @@
     }];
     self.rightLabel = clearLabel;
     clearLabel.layer.borderWidth = 0;
+    clearLabel.textColor = [UIColor colorWithHexString:@"858585"];
     
     UIImageView *headPortraitImageView = [[UIImageView alloc]init];
     [_view addSubview:headPortraitImageView];
@@ -105,6 +107,7 @@
     self.contentFiled = contentFiled;
     contentFiled.hidden = YES;
     contentFiled.delegate = self;
+    contentFiled.textColor = [UIColor colorWithHexString:@"858585"];
     
     UIButton *chanceBtn = [UIButton creatBtnWithTitle:@"请选择" withLabelFont:k14 withLabelTextColor:[UIColor lightGrayColor] andSuperView:_view andBackGroundColor:[UIColor clearColor] andHighlightedBackGroundColor:[UIColor clearColor] andwhtherNeendCornerRadius:NO WithTarget:self andDoneAtcion:@selector(chanceAddressAtcion)];
     [chanceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -124,6 +127,7 @@
     }];
     self.detailFiled = detailFiled;
     detailFiled.hidden = YES;
+    detailFiled.textColor = [UIColor colorWithHexString:@"858585"];
     
     _selectedImage = [[UIImageView alloc]initWithFrame:_view.bounds];
     [_view addSubview:_selectedImage];

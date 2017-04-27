@@ -202,6 +202,7 @@
 		ED83495D1E9CB03E00FF22A3 /* HeadPortraitView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED83495C1E9CB03E00FF22A3 /* HeadPortraitView.m */; };
 		ED8349601E9CD09F00FF22A3 /* MineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED83495F1E9CD09F00FF22A3 /* MineTableViewCell.m */; };
 		ED838E2F1EA8AE3D00009D56 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED838E2E1EA8AE3D00009D56 /* Accelerate.framework */; };
+		ED83AE141EAEE3EB0032717E /* HTMLTclFan.m in Sources */ = {isa = PBXBuildFile; fileRef = ED83AE131EAEE3EB0032717E /* HTMLTclFan.m */; };
 		ED875BD41EA7079000449EF2 /* GeRenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ED875BD31EA7079000449EF2 /* GeRenModel.m */; };
 		ED875BD81EA741C700449EF2 /* OvalCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED875BD71EA741C700449EF2 /* OvalCircleView.m */; };
 		ED894BB31E84CD470019C8A0 /* libUMSocialCloudShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED894BB11E84CD470019C8A0 /* libUMSocialCloudShare.a */; };
@@ -628,6 +629,8 @@
 		ED83495E1E9CD09F00FF22A3 /* MineTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineTableViewCell.h; sourceTree = "<group>"; };
 		ED83495F1E9CD09F00FF22A3 /* MineTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineTableViewCell.m; sourceTree = "<group>"; };
 		ED838E2E1EA8AE3D00009D56 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		ED83AE121EAEE3EB0032717E /* HTMLTclFan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTclFan.h; sourceTree = "<group>"; };
+		ED83AE131EAEE3EB0032717E /* HTMLTclFan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTclFan.m; sourceTree = "<group>"; };
 		ED875BD21EA7079000449EF2 /* GeRenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeRenModel.h; sourceTree = "<group>"; };
 		ED875BD31EA7079000449EF2 /* GeRenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeRenModel.m; sourceTree = "<group>"; };
 		ED875BD51EA70C9F00449EF2 /* LocationPickerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationPickerVC.h; sourceTree = "<group>"; };
@@ -798,6 +801,7 @@
 			children = (
 				ED08B3F71DEFFD600001AB9E /* HTMLBaseViewController.h */,
 				ED08B3F81DEFFD600001AB9E /* HTMLBaseViewController.m */,
+				ED83AE111EAEE3DC0032717E /* HTMLTclFan */,
 				EDAB57471EADE126009E1DA1 /* HTMLColdFan */,
 				EDAB57431EAD9720009E1DA1 /* HTMLHotColdFan */,
 				ED0970BD1E5A914900F81D12 /* HTMLGanYiJiViewController */,
@@ -2124,6 +2128,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		ED83AE111EAEE3DC0032717E /* HTMLTclFan */ = {
+			isa = PBXGroup;
+			children = (
+				ED83AE121EAEE3EB0032717E /* HTMLTclFan.h */,
+				ED83AE131EAEE3EB0032717E /* HTMLTclFan.m */,
+			);
+			path = HTMLTclFan;
+			sourceTree = "<group>";
+		};
 		ED875BD11EA7079000449EF2 /* GeRenModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -2513,6 +2526,7 @@
 				ED8349441E9CAFF700FF22A3 /* AboutOusTableViewCell.m in Sources */,
 				ED12E2601CF5C5470011CD2C /* ESPTouchTaskParameter.m in Sources */,
 				ED8349461E9CAFF700FF22A3 /* AboutProductViewController.m in Sources */,
+				ED83AE141EAEE3EB0032717E /* HTMLTclFan.m in Sources */,
 				ED12E24C1CF5C5470011CD2C /* CLLocation+YCLocation.m in Sources */,
 				ED2297991DAC9949008DEBA4 /* CircleAnimation.m in Sources */,
 				ED12E25E1CF5C5470011CD2C /* ESPTouchResult.m in Sources */,

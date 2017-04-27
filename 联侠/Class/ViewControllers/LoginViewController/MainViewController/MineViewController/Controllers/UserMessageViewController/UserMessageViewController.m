@@ -282,7 +282,6 @@ static NSString *celled = @"celled";
     [kStanderDefault removeObjectForKey:@"userSn"];
     [kStanderDefault removeObjectForKey:@"userId"];
     
-    [kStanderDefault removeObjectForKey:@"first"];
     [kStanderDefault removeObjectForKey:@"zhuYe"];
     
     [kStanderDefault removeObjectForKey:@"offBtn"];

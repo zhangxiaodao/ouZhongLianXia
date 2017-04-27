@@ -17,11 +17,11 @@
     weatherImageView.image = image;
     [superView addSubview:weatherImageView];
     [weatherImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 8, kScreenW / 8));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 8, (kScreenW / 8) / 1.143));
         make.centerX.mas_equalTo(superView.mas_centerX).offset(-(kScreenW /2 - kScreenW / 16 - kScreenW / 30));
         make.bottom.mas_equalTo(superView.mas_bottom).offset(- kScreenW / 30);
     }];
-    [UIImageView setImageViewColor:weatherImageView andColor:[UIColor whiteColor]];
+//    [UIImageView setImageViewColor:weatherImageView andColor:[UIColor whiteColor]];
     
     NSString *quality = dic[@"quality"];
     

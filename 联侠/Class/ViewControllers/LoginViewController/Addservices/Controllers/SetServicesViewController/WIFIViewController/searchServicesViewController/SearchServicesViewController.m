@@ -17,48 +17,12 @@
 #import "ESPTouchResult.h"
 #import "ESP_NetUtil.h"
 #import "ESPTouchDelegate.h"
-
 #import <SystemConfiguration/CaptiveNetwork.h>
-
-// the three constants are used to hide soft-keyboard when user tap Enter or Return
-#define HEIGHT_KEYBOARD 216
-#define HEIGHT_TEXT_FIELD 30
-#define HEIGHT_SPACE (6+HEIGHT_TEXT_FIELD)
-
-
-@interface EspTouchDelegateImpl : NSObject<ESPTouchDelegate>
-
-@end
-
-@implementation EspTouchDelegateImpl
-
--(void) dismissAlert:(UIAlertView *)alertView
-{
-//    [alertView dismissWithClickedButtonIndex:[alertView cancelButtonIndex] animated:YES];
-}
-
--(void) onEsptouchResultAddedWithResult: (ESPTouchResult *) result
-{
-    //    NSLog(@"EspTouchDelegateImpl onEsptouchResultAddedWithResult bssid: %@", result.bssid);
-    dispatch_async(dispatch_get_main_queue(), ^{
-//        [self showAlertWithResult:result];
-    });
-}
-
-@end
-
-
-@interface SearchServicesViewController ()<AsyncUdpSocketDelegate , HelpFunctionDelegate> {
-    
-}
-
+@interface SearchServicesViewController ()<AsyncUdpSocketDelegate , HelpFunctionDelegate>
 @property (atomic, strong) ESPTouchTask *_esptouchTask;
 
 @property (nonatomic, assign) BOOL _isConfirmState;
 
-
-@property (nonatomic, strong) UIButton *_doneButton;
-@property (nonatomic, strong) EspTouchDelegateImpl *_esptouchDelegate;
 @property (nonatomic , strong) AsyncUdpSocket *updSocket;
 
 @property (nonatomic , copy) NSString *devTypeSn;
@@ -78,7 +42,7 @@
 
 - (NSArray *)protocolArray {
     if (!_protocolArray) {
-        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" ,@"HMSMARTALL" , @"HMCOLDFANA", nil];
+        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" , @"HMCOLDFANA",@"HMSMARTALL", nil];
     }
     return _protocolArray;
 }
@@ -89,7 +53,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self._isConfirmState = NO;
-    self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
+
     [self enableConfirmBtn];
     
     [self setUI];
@@ -167,7 +131,6 @@
     
     self._isConfirmState = NO;
     
-    self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
     [self enableConfirmBtn];
 }
 
@@ -268,7 +231,7 @@
         }
         
         NSLog(@"%@" , parames);
-        if ([self.devTypeSn isEqualToString:@"4131"] || [self.devTypeSn isEqualToString:@"4132"] || [self.devTypeSn isEqualToString:@"4133"]) {
+        if ([self.devTypeSn isEqualToString:@"4131"] || [self.devTypeSn isEqualToString:@"4132"] || [self.devTypeSn isEqualToString:@"4133"] || [self.devTypeSn isEqualToString:@"4134"]) {
             [HelpFunction requestDataWithUrlString:kBindLengFengShanURL andParames:parames andDelegate:self];
         } else if ([self.devTypeSn isEqualToString:@"4231"] || [self.devTypeSn isEqualToString:@"4232"]) {
             [HelpFunction requestDataWithUrlString:kBindKongQiJingHuaQiURL andParames:parames andDelegate:self];
@@ -325,9 +288,12 @@
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
     
-    TabBarViewController *tabVC = [[TabBarViewController alloc]init];
-    tabVC.fromAddVC = @"YES";
-    [self.navigationController pushViewController:tabVC animated:YES];
+//    TabBarViewController *tabVC = [[TabBarViewController alloc]init];
+//    tabVC.fromAddVC = @"YES";
+//    [self.navigationController pushViewController:tabVC animated:YES];
+    MineSerivesViewController *mineVC = [[MineSerivesViewController alloc]init];
+    mineVC.fromAddVC = @"YES";
+    [self.navigationController pushViewController:mineVC animated:YES];
     
     [self.updSocket close];
 }
@@ -363,7 +329,7 @@
         [self sendMessage:self.protocolArray[i]];
         
         [NSThread sleepForTimeInterval:0.3];
-        
+        NSLog(@"%@" , self.protocolArray[i]);
     }
     
 }
@@ -436,7 +402,6 @@
                         
                         
                     }
-                    
                     else
                     {
                         
@@ -451,45 +416,13 @@
                 
             });
         });
-    }
-    
-    else
-    {
+    } else {
         
         [self enableConfirmBtn];
         [self cancel];
     }
 }
 
-- (void) tapConfirmForResult
-{
-    
-    if (self._isConfirmState)
-    {
-        [self enableCancelBtn];
-        
-        dispatch_queue_t  queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        dispatch_async(queue, ^{
-            
-            ESPTouchResult *esptouchResult = [self executeForResult];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self enableConfirmBtn];
-                if (!esptouchResult.isCancelled)
-                {
-                    
-                }
-            });
-        });
-    }
-    
-    else
-    {
-        
-        [self enableConfirmBtn];
-        
-        [self cancel];
-    }
-}
 
 #pragma mark - the example of how to cancel the executing task
 
@@ -514,45 +447,19 @@
     int taskCount = 1;
     self._esptouchTask =
     [[ESPTouchTask alloc]initWithApSsid:apSsid andApBssid:apBssid andApPwd:apPwd andIsSsidHiden:isSsidHidden];
-    // set delegate
-    [self._esptouchTask setEsptouchDelegate:self._esptouchDelegate];
-    //    [self._condition unlock];
+
     NSArray * esptouchResults = [self._esptouchTask executeForResults:taskCount];
     return esptouchResults;
 }
-
-#pragma mark - the example of how to use executeForResult
-
-- (ESPTouchResult *) executeForResult
-{
-    
-    NSString *apSsid = self.ssidText;
-    NSString *apPwd = self.bssid;
-    NSString *apBssid = self.apSsid;
-    BOOL isSsidHidden = NO;
-    self._esptouchTask =
-    [[ESPTouchTask alloc]initWithApSsid:apSsid andApBssid:apBssid andApPwd:apPwd andIsSsidHiden:isSsidHidden];
-    
-    [self._esptouchTask setEsptouchDelegate:self._esptouchDelegate];
-    
-    ESPTouchResult * esptouchResult = [self._esptouchTask executeForResult];
-    
-    return esptouchResult;
-}
-
-
 
 - (void)enableConfirmBtn
 {
     self._isConfirmState = YES;
 }
 
-
 - (void)enableCancelBtn
 {
     self._isConfirmState = NO;
 }
-
-
 
 @end
