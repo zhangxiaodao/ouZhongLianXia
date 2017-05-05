@@ -21,7 +21,7 @@
 @property (nonatomic,strong) NSError *error;
 @property (nonatomic , strong) NSMutableArray *wearthArray;
 
-//@property (nonatomic , strong) NSArray *arrImage;
+@property (nonatomic , strong) NSArray *arrImage;
 @property (strong, nonatomic)  UILabel *longitude;
 @property (strong, nonatomic)  UILabel *latitude;
 @property (strong, nonatomic)  UILabel *location;
@@ -147,12 +147,23 @@ static HelpFunction *_request = nil;
         NSDictionary *wind = now[@"wind"];
 //        NSString *dir = wind[@"dir"];
         NSString *sc = wind[@"sc"];
-        NSArray *subArray = [sc componentsSeparatedByString:@"-"];
+        NSArray *subArray = nil;
+        if ([sc containsString:@"-"]) {
+            subArray = [sc componentsSeparatedByString:@"-"];
+        }
+        
         
         NSString *path = [[NSBundle mainBundle]pathForResource:@"Wind" ofType:@"plist"];
         NSDictionary *windDic = [NSDictionary dictionaryWithContentsOfFile:path];
         
-        [self.wearthDic setObject:windDic[subArray[0]] forKey:@"winp"];
+        
+        if (subArray == nil) {
+            [self.wearthDic setObject:windDic[sc] forKey:@"winp"];
+        } else {
+            [self.wearthDic setObject:windDic[subArray[0]] forKey:@"winp"];
+        }
+        
+        
         
         NSDictionary *cond = now[@"cond"];
         NSString *txt = cond[@"txt"];
@@ -192,8 +203,11 @@ static HelpFunction *_request = nil;
             imageStr = @"mai";
         }
 
-        NSLog(@"%@" , imageStr);
-        [self.wearthDic setObject:imageStr forKey:@"weather_icon"];
+        
+        
+        NSInteger index = [self.arrImage containsObject:imageStr];
+        NSLog(@"%@ , %ld" , imageStr , index);
+        [self.wearthDic setObject:@(index) forKey:@"weather_icon"];
         
         [self.wearthDic setObject:self.cityName forKey:@"cityName"];
         [self.wearthArray addObject:self.wearthDic];
@@ -210,13 +224,13 @@ static HelpFunction *_request = nil;
     
 }
 
-//- (NSArray *)arrImage {
-//    if (!_arrImage) {
-//        _arrImage = [NSArray arrayWithObjects:@"daxue", @"dayu", @"duoyun", @"feng", @"leiyu", @"mai", @"qing", @"qingjianduoyun",@"wu",@"xiaoxue",@"xiaoyu",@"yin",@"yujiaxue",@"zhenyu",@"zhongxue",@"zhongyu", nil];
-//        
-//    }
-//    return _arrImage;
-//}
+- (NSArray *)arrImage {
+    if (!_arrImage) {
+        _arrImage = [NSArray arrayWithObjects:@"qing", @"dayu", @"duoyun", @"feng", @"leiyu", @"mai", @"daxue",@"qingjianduoyun",@"wu",@"xiaoxue",@"xiaoyu",@"yin",@"yujiaxue",@"zhenyu",@"zhongxue",@"zhongyu", nil];
+        
+    }
+    return _arrImage;
+}
 
 - (void)startRequestData:(NSDictionary *)parames andImage:(UIImage *)image {
     if (self.urlString.length == 0) {

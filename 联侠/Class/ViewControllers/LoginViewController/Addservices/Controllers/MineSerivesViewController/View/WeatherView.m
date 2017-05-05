@@ -83,7 +83,7 @@
     [localImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 37.5, kScreenW / 25));
         make.left.mas_equalTo(winp.mas_right).offset(kScreenW / 50);
-        make.centerY.mas_equalTo(weather.mas_centerY);
+        make.centerY.mas_equalTo(weather.mas_centerY).offset(3);
     }];
     
     localImageView.image = [UIImage imageNamed:@"localImage"];

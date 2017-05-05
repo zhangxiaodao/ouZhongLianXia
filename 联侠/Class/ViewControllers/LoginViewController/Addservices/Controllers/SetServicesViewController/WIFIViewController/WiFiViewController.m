@@ -2,6 +2,7 @@
 #import "WiFiViewController.h"
 #import "SearchServicesViewController.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
+#import "MineSerivesViewController.h"
 
 #define HEIGHT_KEYBOARD 216
 #define HEIGHT_TEXT_FIELD 30
@@ -30,6 +31,8 @@
     searVC.navigationItem.title = @"添加设备";
 //    searVC.addServiceModel = self.addServiceModel;
     [self.navigationController pushViewController:searVC animated:YES];
+    
+    
 }
 
 

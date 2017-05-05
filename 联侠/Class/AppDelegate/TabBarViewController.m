@@ -36,7 +36,7 @@
     
     self.automaticallyAdjustsScrollViewInsets = YES;
 
-    self.tabBar.hidden = YES;
+//    self.tabBar.hidden = YES;
     
     
 //    mineSerNav.navigationBar.hidden = YES;

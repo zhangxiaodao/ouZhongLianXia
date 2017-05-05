@@ -42,7 +42,14 @@
 
 - (NSArray *)protocolArray {
     if (!_protocolArray) {
-        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" , @"HMCOLDFANA",@"HMSMARTALL", nil];
+        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTALL" , @"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" , @"HMCOLDFANA", nil];
+//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTALL" , nil];
+//        _protocolArray = [NSArray arrayWithObjects: @"HMCOLDFANA" , nil];
+//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTB2" , nil];
+//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTB1" , nil];
+//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTC1" , nil];
+//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTC2" , nil];
+        
     }
     return _protocolArray;
 }
@@ -183,7 +190,7 @@
     [_progressTimer setFireDate:[NSDate distantPast]];
    
     _processView.percent = 0.66;
-    self.registerLable.textColor = kMainColor;
+    self.addLable.textColor = kMainColor;
     [_myTimer invalidate];
     _myTimer = nil;
     
@@ -221,8 +228,6 @@
         
         NSDictionary *parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
         
-        NSLog(@"userSn--%@ , deviceSn--%@ , devTypeSn--%@ , provience--%@ , cityName--%@ " ,[kStanderDefault objectForKey:@"userSn"] , self.deviceSn , self.devTypeSn , [kStanderDefault objectForKey:@"provience"] , [kStanderDefault objectForKey:@"cityName"]);
-        
         
         if ([kStanderDefault objectForKey:@"cityName"] && [kStanderDefault objectForKey:@"provience"]) {
             parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : [kStanderDefault objectForKey:@"cityName"]};
@@ -241,22 +246,21 @@
         
         [_progressTimer setFireDate:[NSDate distantPast]];
     } else {
-
-        
-        [self.updSocket close];
-        self.updSocket = nil;
-        [self openUDPServer];
-        _myTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            [self addServiceFail];
+        } andSuperViewController:self Title:@"此设备绑定失败"];
     }
     
     return YES;
 }
 
+
+
 #pragma mark - 代理反馈
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     
     _processView.percent = 1.00;
-    self.addLable.textColor = kMainColor;
+    
     [_progressTimer invalidate];
     _progressTimer = nil;
     
@@ -273,14 +277,21 @@
     } else if ([dic[@"state"] integerValue] == 1){
         
         [UIAlertController creatRightAlertControllerWithHandle:^{
-            FailContextViewController *failVC = [[FailContextViewController alloc]init];
-            [self.navigationController pushViewController:failVC animated:YES];
-            [self.updSocket close];
+            [self addServiceFail];
         } andSuperViewController:self Title:@"此设备绑定失败"];
         
     }
 }
 
+#pragma mark - 绑定设备失败
+- (void)addServiceFail {
+    [_myTimer invalidate];
+    _myTimer = nil;
+    FailContextViewController *failVC = [[FailContextViewController alloc]init];
+    failVC.navigationItem.title = @"失败";
+    [self.navigationController pushViewController:failVC animated:YES];
+    [self.updSocket close];
+}
 #pragma mark - 判断并绑定设备
 - (void)determineAndBindTheDevice {
     
@@ -288,12 +299,16 @@
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
     
-//    TabBarViewController *tabVC = [[TabBarViewController alloc]init];
-//    tabVC.fromAddVC = @"YES";
-//    [self.navigationController pushViewController:tabVC animated:YES];
-    MineSerivesViewController *mineVC = [[MineSerivesViewController alloc]init];
-    mineVC.fromAddVC = @"YES";
-    [self.navigationController pushViewController:mineVC animated:YES];
+    
+    MineSerivesViewController *tabVC = [[MineSerivesViewController alloc]init];
+    tabVC.fromAddVC = @"YES";
+    
+    for (UIViewController *vc in self.navigationController.childViewControllers) {
+        if ([vc isKindOfClass:[tabVC class]]) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
+
     
     [self.updSocket close];
 }
@@ -337,7 +352,7 @@
 - (void) tapConfirmForResults
 {
     
-    
+    self.searchLable.textColor = kMainColor;
     if (self._isConfirmState)
     {
         
@@ -376,7 +391,7 @@
                             }
                             self.deviceSn = [mutableStr substringWithRange:NSMakeRange(35, 12)];
                             
-//                            NSLog(@"%@" , mutableStr);
+                            NSLog(@"mutableStr--%@" , mutableStr);
                             
                         }
                         
@@ -388,10 +403,10 @@
                         [_progressTimer setFireDate:[NSDate distantPast]];
                         
                         _processView.percent = 0.33;
-                        self.searchLable.textColor = kMainColor;
+                        
                         
                         [self openUDPServer];
-                       
+                       self.registerLable.textColor = kMainColor;
 //                      [self sendMessage:self.protocolArray[6]];
                         for (int i = 0; i < self.protocolArray.count; i++) {
                             [self sendMessage:self.protocolArray[i]];
@@ -406,10 +421,8 @@
                     {
                         
                         [UIAlertController creatRightAlertControllerWithHandle:^{
-                            FailContextViewController *failVC = [[FailContextViewController alloc]init];
-                            failVC.navigationItem.title = @"失败";
-                            [self.navigationController pushViewController:failVC animated:YES];
-                        } andSuperViewController:self Title:@"失败"];
+                            [self addServiceFail];
+                        } andSuperViewController:self Title:@"此设备绑定失败"];;
                         
                     }
                 }

@@ -18,6 +18,7 @@
 #import "HTMLGanYiJiViewController.h"
 #import "HTMLHotColdFan.h"
 #import "HTMLColdFan.h"
+#import "HTMLTclFan.h"
 
 #import "CCLocationManager.h"
 
@@ -40,6 +41,7 @@
 
 @property (nonatomic , strong) UIView *markView;
 
+@property (nonatomic , strong) NSArray *arrImage;
 @end
 
 @implementation MineSerivesViewController
@@ -101,7 +103,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
  
-    self.tabBarController.tabBar.hidden = NO;
+//    self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBar.hidden = NO;
 //    NSLog(@"%@ , %@" , self.userSn , self.serviceModel);
     
@@ -110,6 +112,16 @@
     }
 
 //    [self startWearthData];
+
+    [self requestWeather];
+    
+    NSDictionary *parameters = @{@"userSn": [kStanderDefault objectForKey:@"userSn"]};
+//    NSLog(@"%@" , parameters);
+    [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:parameters andDelegate:self];
+    
+}
+
+- (void)requestWeather {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // 耗时的操作
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -128,13 +140,7 @@
             }
         });
     });
-    
-    NSDictionary *parameters = @{@"userSn": [kStanderDefault objectForKey:@"userSn"]};
-//    NSLog(@"%@" , parameters);
-    [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:parameters andDelegate:self];
-    
 }
-
 
 #pragma mark - 获取代理的数据
 - (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd{
@@ -267,7 +273,7 @@
         [self.wearthDic setObject:@"==" forKey:@"weather_curr"];
         [self.wearthDic setObject:@"==" forKey:@"weather"];
         [self.wearthDic setObject:@"==" forKey:@"winp"];
-        [self.wearthDic setObject:@"qing" forKey:@"weather_icon"];
+        [self.wearthDic setObject:@(0) forKey:@"weather_icon"];
         [self.wearthDic setObject:@"==" forKey:@"cityName"];
         
     }
@@ -310,8 +316,8 @@
 
 - (void)getWeatherDic:(NSMutableDictionary *)dic {
     
-    
-    self.werthImage = [UIImage imageNamed:dic[@"weather_icon"]];
+    NSString *imagetr = self.arrImage[[dic[@"weather_icon"] integerValue]];
+    self.werthImage = [UIImage imageNamed:imagetr];
     
     NSArray *array = _backImageView.subviews;
     for (int i = 0; i < array.count; i++) {
@@ -326,7 +332,7 @@
 #pragma mark - 向右滑动返回主界面
 - (void)swipeGesture22:(UISwipeGestureRecognizer *)swipe {
     
-    self.tabBarController.tabBar.hidden = YES;
+//    self.tabBarController.tabBar.hidden = YES;
     
     if (_childViewController) {
         [self.navigationController pushViewController:_childViewController animated:YES];
@@ -345,7 +351,7 @@
 
 #pragma mark - 开关的点击事件
 - (void)addSerViceAtcion{
-    self.tabBarController.tabBar.hidden = YES;
+//    self.tabBarController.tabBar.hidden = YES;
     SetServicesViewController *setServiceVC = [[SetServicesViewController alloc]init];
     setServiceVC.navigationItem.title = @"添加设备";
     [self.navigationController pushViewController:setServiceVC animated:YES];
@@ -408,7 +414,7 @@
     kSocketTCP.serviceModel = model;
     [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn] andType:kAddService andIsNewOrOld:nil];
     
-    self.tabBarController.tabBar.hidden = YES;
+//    self.tabBarController.tabBar.hidden = YES;
     if ([model.devTypeSn isEqualToString:@"4131"]) {
 
         LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
@@ -453,6 +459,11 @@
         
         htmlHotColdFanVC.serviceModel = model;
         [self.navigationController pushViewController:htmlHotColdFanVC animated:YES];
+    } else if ([model.devTypeSn isEqualToString:@"4134"]) {
+        HTMLTclFan *htmlTclFanVC = [[HTMLTclFan alloc]init];
+        
+        htmlTclFanVC.serviceModel = model;
+        [self.navigationController pushViewController:htmlTclFanVC animated:YES];
     }
 }
 
@@ -491,6 +502,15 @@
         _wearthDic = [NSMutableDictionary dictionary];
     }
     return _wearthDic;
+}
+
+
+- (NSArray *)arrImage {
+    if (!_arrImage) {
+        _arrImage = [NSArray arrayWithObjects:@"qing", @"dayu", @"duoyun", @"feng", @"leiyu", @"mai", @"daxue",@"qingjianduoyun",@"wu",@"xiaoxue",@"xiaoyu",@"yin",@"yujiaxue",@"zhenyu",@"zhongxue",@"zhongyu", nil];
+        
+    }
+    return _arrImage;
 }
 
 @end

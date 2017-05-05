@@ -23,8 +23,7 @@
 }
 @property (nonatomic , strong) UIImage *werthImage;
 @property (nonatomic , strong) NSMutableArray *zhuYeArray;
-//@property (nonatomic , strong) NSArray *arrImage;
-
+@property (nonatomic , strong) NSArray *arrImage;
 
 @property (nonatomic , strong) UIImageView *firstView;
 @property (nonatomic , strong) UIImageView *headImageView;
@@ -262,7 +261,9 @@
     _touMingImageVIew = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"主页透明.jpg"]];
     _touMingImageVIew.frame=CGRectMake(0, -BackGroupHeight, self.view.frame.size.width, BackGroupHeight);
     
-    self.werthImage = [UIImage imageNamed:self.wearthDic[@"weather_icon"]];
+    NSString *imagetr = self.arrImage[[dic[@"weather_icon"] integerValue]];
+    self.werthImage = [UIImage imageNamed:imagetr];
+
     [MainFirstView creatViewWeatherDic:dic andSuperView:_touMingImageVIew andWearthImage:self.werthImage];
     
     _touMingImageVIew.contentMode = UIViewContentModeScaleAspectFill;
@@ -519,6 +520,14 @@
         // 取消上拉回弹
         [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, scrollView.contentSize.height - self.tableView.height)];
     }
+}
+
+- (NSArray *)arrImage {
+    if (!_arrImage) {
+        _arrImage = [NSArray arrayWithObjects:@"qing", @"dayu", @"duoyun", @"feng", @"leiyu", @"mai", @"daxue",@"qingjianduoyun",@"wu",@"xiaoxue",@"xiaoyu",@"yin",@"yujiaxue",@"zhenyu",@"zhongxue",@"zhongyu", nil];
+        
+    }
+    return _arrImage;
 }
 
 @end

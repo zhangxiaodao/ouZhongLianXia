@@ -71,7 +71,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.tabBarController.tabBar.hidden = NO;
+//    self.tabBarController.tabBar.hidden = NO;
    
 }
 
@@ -236,7 +236,7 @@
     userVC.headImage = self.headImageView.image;
     userVC.navigationItem.title = @"用户信息";
     [self.navigationController pushViewController:userVC animated:YES];
-    self.tabBarController.tabBar.hidden = YES;
+//    self.tabBarController.tabBar.hidden = YES;
 }
 
 #pragma mark - TableView的点击事件
@@ -275,7 +275,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
     
-    self.tabBarController.tabBar.hidden = YES;
+//    self.tabBarController.tabBar.hidden = YES;
     if (indexPath.row == 0 && indexPath.section == 0) {
         
         [self mineAtcion];
@@ -301,7 +301,7 @@
         aboutOusVC.navigationItem.title = @"关于我们";
         [self.navigationController pushViewController:aboutOusVC animated:YES];
     } else  {
-        self.tabBarController.tabBar.hidden = NO;
+//        self.tabBarController.tabBar.hidden = NO;
         MineTableViewCell *cell = [_tableVIew cellForRowAtIndexPath:indexPath];
         
         [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{

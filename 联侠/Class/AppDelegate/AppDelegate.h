@@ -19,7 +19,7 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate , GCDAsyncSocketDelegate , GeTuiSdkDelegate , UNUserNotificationCenterDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate , GCDAsyncSocketDelegate , GeTuiSdkDelegate,UNUserNotificationCenterDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

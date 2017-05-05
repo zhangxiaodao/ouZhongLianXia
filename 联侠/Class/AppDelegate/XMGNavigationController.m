@@ -17,7 +17,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     self.interactivePopGestureRecognizer.delegate = self;
     [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
     [self.navigationBar setShadowImage:[UIImage new]];
@@ -61,16 +60,17 @@
     [super pushViewController:viewController animated:animated];
 }
 
-//- (UIViewController *)popViewControllerAnimated:(BOOL)animated
-//{
-//    return [super popViewControllerAnimated:NO];
-//}
-//
-//- (NSArray<UIViewController *> *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated
-//{
-//    return [super popToViewController:viewController animated:NO];
-//}
-//
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated
+{
+    return [super popViewControllerAnimated:YES];
+}
+
+- (NSArray<UIViewController *> *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    return [super popToViewController:viewController animated:animated];
+}
+
+
 //- (NSArray<UIViewController *> *)popToRootViewControllerAnimated:(BOOL)animated
 //{
 //    return [super popToRootViewControllerAnimated:NO];
