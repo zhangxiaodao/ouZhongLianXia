@@ -158,7 +158,7 @@ static HelpFunction *_request = nil;
         
         
         if (subArray == nil) {
-            [self.wearthDic setObject:windDic[sc] forKey:@"winp"];
+            [self.wearthDic setObject:sc forKey:@"winp"];
         } else {
             [self.wearthDic setObject:windDic[subArray[0]] forKey:@"winp"];
         }

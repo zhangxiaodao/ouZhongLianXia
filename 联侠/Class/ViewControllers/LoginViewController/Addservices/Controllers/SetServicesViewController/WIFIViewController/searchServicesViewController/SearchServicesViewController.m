@@ -416,15 +416,19 @@
                         _myTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
                         
                         
-                    }
-                    else
-                    {
+                    } else {
                         
                         [UIAlertController creatRightAlertControllerWithHandle:^{
                             [self addServiceFail];
                         } andSuperViewController:self Title:@"此设备绑定失败"];;
                         
                     }
+                } else {
+                    
+                    [UIAlertController creatRightAlertControllerWithHandle:^{
+                        [self addServiceFail];
+                    } andSuperViewController:self Title:@"此设备绑定失败"];;
+                    
                 }
                 
             });
