@@ -113,11 +113,13 @@ static HelpFunction *_request = nil;
 #pragma mark - 获取所在城市天气状况
 - (void)getCityWeather{
     
-    
-    [self.wearthDic setObject:self.cityName forKey:@"cityName"];
 
     if ([self.cityName isKindOfClass:[NSNull class]]) {
         return ;
+    }
+    
+    if ([self.cityName containsString:@"市"]) {
+        self.cityName = [self.cityName substringToIndex:self.cityName.length - 1];
     }
     
     AFHTTPSessionManager *weartherManaer = [AFHTTPSessionManager manager];
@@ -205,7 +207,7 @@ static HelpFunction *_request = nil;
 
         
         
-        NSInteger index = [self.arrImage containsObject:imageStr];
+        NSInteger index = [self.arrImage indexOfObject:imageStr];
         NSLog(@"%@ , %ld" , imageStr , index);
         [self.wearthDic setObject:@(index) forKey:@"weather_icon"];
         

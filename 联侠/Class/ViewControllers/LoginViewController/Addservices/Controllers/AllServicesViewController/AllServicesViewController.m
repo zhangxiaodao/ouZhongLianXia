@@ -9,12 +9,14 @@
 #import "AllServicesViewController.h"
 #import "SetServicesViewController.h"
 #import "ServicesModel.h"
+#import "AddServiceModel.h"
 #import "MainViewController.h"
 #import "ChanPinShuoMingViewController.h"
 #import "AllServicesCollectionViewCell.h"
 
 @interface AllServicesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout,  HelpFunctionDelegate>
 @property (nonatomic , strong) NSMutableArray *array;
+@property (nonatomic , strong) NSMutableArray *addModelArray;
 @end
 
 @implementation AllServicesViewController
@@ -52,23 +54,27 @@
 //    NSLog(@"%@" , dic);
     
     self.array = [NSMutableArray array];
+    self.addModelArray = [NSMutableArray array];
     if ([dic[@"data"] isKindOfClass:[NSArray class]]) {
         NSArray *arr = [NSArray arrayWithArray:dic[@"data"]];
         
         for (NSDictionary *dd in arr) {
-            ServicesModel *model = [[ServicesModel alloc]init];
-            [model setValuesForKeysWithDictionary:dd];
             
-            
-            if (![dd[@"slType"] isKindOfClass:[NSNull class]]) {
-                model.slTypeInt = [dd[@"slType"] integerValue];
-            }
-            
-            NSString *type = [model.typeSn substringToIndex:2];
+            NSString *type = [dd[@"typeSn"] substringToIndex:2];
             NSString *subType = [self.devType substringToIndex:2];
             
+            
             if ([subType isEqualToString:type]) {
+                
+                ServicesModel *model = [[ServicesModel alloc]init];
+                [model setValuesForKeysWithDictionary:dd];
+                if (![dd[@"slType"] isKindOfClass:[NSNull class]]) {
+                    model.slTypeInt = [dd[@"slType"] integerValue];
+                }
+                AddServiceModel *addModel = [[AddServiceModel alloc]init];
+                [addModel setValuesForKeysWithDictionary:dd];
                 [self.array addObject:model];
+                [self.addModelArray addObject:addModel];
             }
         }
         
@@ -108,10 +114,21 @@
     
     ServicesModel *model = [[ServicesModel alloc]init];
     model = self.array[indexPath.row];
-    ChanPinShuoMingViewController *chanPinShuoMingVC = [[ChanPinShuoMingViewController alloc]init];
-    chanPinShuoMingVC.serviceModel = model;
-    chanPinShuoMingVC.navigationItem.title = @"产品说明";
-    [self.navigationController pushViewController:chanPinShuoMingVC animated:YES];
+    
+    AddServiceModel *addModel = [[AddServiceModel alloc]init];
+    addModel = self.addModelArray[indexPath.row];
+    if ([self.navigationItem.title isEqualToString:@"添加设备"]) {
+        SetServicesViewController *setSerVC = [[SetServicesViewController alloc]init];
+        setSerVC.addServiceModel = addModel;
+        setSerVC.navigationItem.title = self.navigationItem.title;
+        [self.navigationController pushViewController:setSerVC animated:YES];
+    } else {
+        ChanPinShuoMingViewController *chanPinShuoMingVC = [[ChanPinShuoMingViewController alloc]init];
+        chanPinShuoMingVC.serviceModel = model;
+        chanPinShuoMingVC.navigationItem.title = self.navigationItem.title;
+        [self.navigationController pushViewController:chanPinShuoMingVC animated:YES];
+    }
+    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{

@@ -10,6 +10,5 @@
 
 @interface WiFiViewController : UIViewController
 
-
-//@property (nonatomic , strong) AddServiceModel *addServiceModel;
+@property (nonatomic , strong) AddServiceModel *addServiceModel;
 @end

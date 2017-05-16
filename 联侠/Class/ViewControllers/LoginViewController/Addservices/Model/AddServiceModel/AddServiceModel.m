@@ -10,6 +10,29 @@
 
 @implementation AddServiceModel
 
+- (void)setValue:(id)value forKey:(NSString *)key {
+    
+    if ([key isEqualToString:@"bindUrl"]) {
+        if (value == nil || [value isKindOfClass:[NSNull class]]) {
+            _bindUrl = nil;
+        } else {
+            _bindUrl = value;
+        }
+    }
+    
+    if ([key isEqualToString:@"typeSn"]) {
+        _typeSn = value;
+    }
+    
+    if ([key isEqualToString:@"typeName"]) {
+        _typeName = value;
+    }
+    
+    if ([key isEqualToString:@"protocol"]) {
+        _protocol = value;
+    }
+}
+
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     
 }

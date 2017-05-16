@@ -86,7 +86,7 @@
     
     AllTypeServiceModel *allTypeServiceModel = _dataArray[indexPath.row];
     AllServicesViewController *allServiceVC = [[AllServicesViewController alloc]init];
-    allServiceVC.navigationItem.title = @"产品说明";
+    allServiceVC.navigationItem.title = self.navigationItem.title;
     allServiceVC.devType = [NSString stringWithFormat:@"%ld" , (long)allTypeServiceModel.typeSn];
     [self.navigationController pushViewController:allServiceVC animated:YES];
 }

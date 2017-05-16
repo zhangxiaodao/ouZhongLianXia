@@ -101,11 +101,23 @@
 
 #pragma mark - 下一步按钮点击事件
 - (void)neaxtBtnAction {
-
-    WiFiViewController *wifiVC = [[WiFiViewController alloc]init];
-    wifiVC.navigationItem.title = @"添加设备";
-    [self.navigationController pushViewController:wifiVC animated:YES];
     
+    if (self.addServiceModel.bindUrl == nil || [self.addServiceModel.bindUrl isKindOfClass:[NSNull class]]) {
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        } andSuperViewController:self Title:@"暂无此设备"];
+    } else {
+        WiFiViewController *wifiVC = [[WiFiViewController alloc]init];
+        wifiVC.addServiceModel = self.addServiceModel;
+        wifiVC.navigationItem.title = @"添加设备";
+        [self.navigationController pushViewController:wifiVC animated:YES];
+    }
+    
+}
+
+- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
+    _addServiceModel = addServiceModel;
+    NSLog(@"%@" , _addServiceModel);
 }
 
 @end

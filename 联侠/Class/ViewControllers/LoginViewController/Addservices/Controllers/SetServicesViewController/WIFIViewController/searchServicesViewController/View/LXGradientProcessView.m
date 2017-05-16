@@ -80,7 +80,7 @@ static const CGFloat kNumberMarkHeight = 80.f;
 
 - (void)setPercent:(CGFloat)percent {
     _percent = percent;
-    NSLog(@"%f" , percent);
+//    NSLog(@"%f" , percent);
     _label.text = [NSString stringWithFormat:@"%.0f%%" , _percent * 100];
     [self drawRect:self.bounds];
     [self setNeedsDisplay];

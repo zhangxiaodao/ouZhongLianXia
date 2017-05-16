@@ -16,6 +16,7 @@
 #import "LaunchScreenViewController.h"
 #import "HTMLBaseViewController.h"
 
+
 #define STOREAPPID @"1113948983"
 @interface AppDelegate ()<GCDAsyncSocketDelegate , AsyncSocketDelegate , HelpFunctionDelegate>
 @property (nonatomic) Reachability *hostReachability;
@@ -246,7 +247,7 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 22) {
+            if ([data[@"id"] integerValue] > 26) {
                 
                 if ([data[@"isForce"] integerValue] == 0) {
                     return ;

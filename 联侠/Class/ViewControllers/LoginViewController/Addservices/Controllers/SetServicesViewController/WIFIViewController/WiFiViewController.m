@@ -29,12 +29,14 @@
     searVC.ssidText = [NSString stringWithFormat:@"%@" , self.ssidLabel.text];
     searVC.bssid = [NSString stringWithFormat:@"%@" , self._pwdTextView.text];
     searVC.navigationItem.title = @"添加设备";
-//    searVC.addServiceModel = self.addServiceModel;
+    searVC.addServiceModel = self.addServiceModel;
     [self.navigationController pushViewController:searVC animated:YES];
-    
     
 }
 
+- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
+    _addServiceModel = addServiceModel;
+}
 
 #pragma mark - 获取本地wifi名字
 - (NSString *)getWifiName

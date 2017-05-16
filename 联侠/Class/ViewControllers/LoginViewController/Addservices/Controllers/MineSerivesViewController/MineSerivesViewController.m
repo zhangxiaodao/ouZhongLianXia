@@ -9,7 +9,7 @@
 #import "MineSerivesViewController.h"
 #import "MineServiceCollectionViewCell.h"
 #import "MineViewController.h"
-#import "SetServicesViewController.h"
+#import "AllTypeServiceViewController.h"
 #import "MainViewController.h"
 #import "AirPurificationViewController.h"
 #import "GanYiJiViewController.h"
@@ -168,10 +168,8 @@
                 [serviceModel setValuesForKeysWithDictionary:dic];
                 serviceModel.userDeviceID = [obj[@"id"] integerValue];
                 [_haveArray addObject:serviceModel];
-                
             }];
             [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-            
             
             if (self.haveArray.count > 0) {
                 [self.collectionView reloadData];
@@ -186,6 +184,7 @@
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
     NSLog(@"%@" , error);
 }
+
 
 #pragma mark - 设置UI界面
 - (void)setUI{
@@ -290,9 +289,9 @@
 - (void)getCityNameAndProvience:(NSArray *)address {
     NSString *cityName = address[0];
     
-    if ([cityName containsString:@"市"]) {
-        cityName = [cityName substringToIndex:cityName.length - 1];
-    }
+//    if ([cityName containsString:@"市"]) {
+//        cityName = [cityName substringToIndex:cityName.length - 1];
+//    }
     
     [HelpFunction requestWeatherDataWithDelegate:self andCityName:cityName];
     [kStanderDefault setObject:cityName forKey:@"cityName"];
@@ -352,9 +351,9 @@
 #pragma mark - 开关的点击事件
 - (void)addSerViceAtcion{
 //    self.tabBarController.tabBar.hidden = YES;
-    SetServicesViewController *setServiceVC = [[SetServicesViewController alloc]init];
-    setServiceVC.navigationItem.title = @"添加设备";
-    [self.navigationController pushViewController:setServiceVC animated:YES];
+    AllTypeServiceViewController *allTypeVC = [[AllTypeServiceViewController alloc]init];
+    allTypeVC.navigationItem.title = @"添加设备";
+    [self.navigationController pushViewController:allTypeVC animated:YES];
 }
 
 #pragma mark - collectionView有多少分区

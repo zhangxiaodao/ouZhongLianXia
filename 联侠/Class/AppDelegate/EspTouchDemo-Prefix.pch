@@ -33,7 +33,7 @@
 
 #define BackGroupHeight kScreenH / 2.964444
 
-#define kVersion @"5.0.1"
+#define kVersion @"5.0.3"
 
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip

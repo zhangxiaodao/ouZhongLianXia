@@ -18,40 +18,49 @@
 #import "ESP_NetUtil.h"
 #import "ESPTouchDelegate.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
+
+
+@interface EspTouchDelegateImpl : NSObject<ESPTouchDelegate>
+
+@end
+
+@implementation EspTouchDelegateImpl
+
+-(void) onEsptouchResultAddedWithResult: (ESPTouchResult *) result
+{
+}
+
+@end
+
 @interface SearchServicesViewController ()<AsyncUdpSocketDelegate , HelpFunctionDelegate>
 @property (atomic, strong) ESPTouchTask *_esptouchTask;
-
+@property (nonatomic, strong) NSCondition *_condition;
 @property (nonatomic, assign) BOOL _isConfirmState;
+@property (nonatomic, strong) EspTouchDelegateImpl *_esptouchDelegate;
 
 @property (nonatomic , strong) AsyncUdpSocket *updSocket;
 
 @property (nonatomic , copy) NSString *devTypeSn;
 @property (nonatomic, strong) LXGradientProcessView *processView;
 @property (nonatomic , strong) NSTimer *myTimer;
-
 @property (nonatomic , strong) NSTimer *progressTimer;
+@property (nonatomic , strong) NSTimer *repeatSendTimer;
+
 @property (nonatomic , assign) CGFloat index;
-@property (nonatomic , strong) NSArray *protocolArray;
+
+@property (nonatomic , assign) NSInteger count;
+@property (nonatomic , assign) NSInteger num;
 
 @property (nonatomic , strong) UILabel *searchLable;
 @property (nonatomic , strong) UILabel *registerLable;
 @property (nonatomic , strong) UILabel *addLable;
 @end
 
+
 @implementation SearchServicesViewController
 
-- (NSArray *)protocolArray {
-    if (!_protocolArray) {
-        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTALL" , @"HMSMARTB1" , @"HMSMARTB2" , @"HMSMARTC1" , @"HMSMARTC2" , @"HMCOLDFANA", nil];
-//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTALL" , nil];
-//        _protocolArray = [NSArray arrayWithObjects: @"HMCOLDFANA" , nil];
-//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTB2" , nil];
-//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTB1" , nil];
-//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTC1" , nil];
-//        _protocolArray = [NSArray arrayWithObjects: @"HMSMARTC2" , nil];
-        
-    }
-    return _protocolArray;
+- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
+    _addServiceModel = addServiceModel;
 }
 
 - (void)viewDidLoad {
@@ -59,19 +68,34 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self._isConfirmState = NO;
-
-    [self enableConfirmBtn];
+    self.count = 0;
+    self._isConfirmState = YES;
+    self._condition = [[NSCondition alloc]init];
+    self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
     
     [self setUI];
-    [self tapConfirmForResults];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self tapConfirmForResults];
+    });
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [_myTimer invalidate];
+    _myTimer = nil;
     [_progressTimer invalidate];
     _progressTimer = nil;
+    [self.repeatSendTimer invalidate];
+    self.repeatSendTimer = nil;
+    [self.updSocket close];
+    self.updSocket = nil;
 }
+
 
 - (void)progressValue {
     _index++;
@@ -136,9 +160,6 @@
     self.registerLable = registerLable;
     self.addLable = addLable;
     
-    self._isConfirmState = NO;
-    
-    [self enableConfirmBtn];
 }
 
 
@@ -162,10 +183,23 @@
     
 }
 
+- (void)udpReciveData {
+    self.num++;
+    
+    if (self.num >= 30) {
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            [self addServiceFail];
+        } andSuperViewController:self Title:@"此设备绑定失败"];
+    }
+}
 
 //连接建好后处理相应send Events
 -(void)sendMessage:(NSString*)message
 {
+    NSLog(@"UDP发送数据--\n%@" , message);
+    
+    self.myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(udpReciveData) userInfo:nil repeats:YES];
+    
     NSMutableString *sendString = [NSMutableString stringWithCapacity:100];
     [sendString appendString:message];
     //开始发送
@@ -184,33 +218,32 @@
     NSLog(@"onUdp--DidClose");
 }
 
--(BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
+- (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
 {
-    
+    [self.updSocket close];
     [_progressTimer setFireDate:[NSDate distantPast]];
    
     _processView.percent = 0.66;
     self.addLable.textColor = kMainColor;
     [_myTimer invalidate];
     _myTimer = nil;
+    [self.repeatSendTimer invalidate];
+    self.repeatSendTimer = nil;
     
     NSLog(@"%@" , data);
-    
     NSString *str = [self convertDataToHexStr:data];
     NSString *devtypeSn = nil;
     NSString *devsn = nil;
-    if (str.length == 24) {
-        devtypeSn = [str substringWithRange:NSMakeRange(4, 4)];
-        devsn = [str substringWithRange:NSMakeRange(10, 12)];
-        //    self.devTypeSn = subStr2;
-    } else {
-        devtypeSn = [str substringWithRange:NSMakeRange(4, 4)];
-        devsn = [str substringWithRange:NSMakeRange(8, 12)];
-        //    self.devTypeSn = subStr2;
-    }
     
-//    self.deviceSn = [NSString stringWithString:subStr];
-    NSLog(@" devsn --%@ ,  devtypeSn--%@ , self.deviceSn--%@ , str--%@" ,  devsn, devtypeSn , self.deviceSn , str);
+    devtypeSn = [str substringWithRange:NSMakeRange(4, 4)];
+    
+    if ([devtypeSn isEqualToString:@"412a"]) {
+        devsn = [str substringWithRange:NSMakeRange(8, 12)];
+    } else {
+        devsn = [str substringWithRange:NSMakeRange(10, 12)];
+    }
+
+    NSLog(@" devsn --%@ ,  devtypeSn--%@ , self.deviceSn--%@ , self.addServiceModel.typeSn--%@ , str--%@" ,  devsn, devtypeSn , self.deviceSn ,self.addServiceModel.typeSn ,  str);
     
     if ([devsn isEqualToString:self.deviceSn]) {
         self.devTypeSn = devtypeSn;
@@ -220,40 +253,51 @@
     
     if (self.devTypeSn) {
         
-        
         if ([self.devTypeSn isEqualToString:@"412a"]) {
             self.devTypeSn = @"4131";
-            //        self.deviceSn = [NSString stringWithString:[str substringWithRange:NSMakeRange(8, 12)]];
         }
         
-        NSDictionary *parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
-        
-        
-        if ([kStanderDefault objectForKey:@"cityName"] && [kStanderDefault objectForKey:@"provience"]) {
-            parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : [kStanderDefault objectForKey:@"cityName"]};
+        if ([self.devTypeSn isEqualToString:self.addServiceModel.typeSn]) {
+            
+            NSDictionary *parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
+            
+            
+            if ([kStanderDefault objectForKey:@"cityName"] && [kStanderDefault objectForKey:@"provience"]) {
+                parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : [kStanderDefault objectForKey:@"cityName"]};
+            } else {
+                parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
+            }
+            
+            NSLog(@"%@" , parames);
+            [HelpFunction requestDataWithUrlString:self.addServiceModel.bindUrl andParames:parames andDelegate:self];
+            [_progressTimer setFireDate:[NSDate distantPast]];
+            
         } else {
-            parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
+            [UIAlertController creatRightAlertControllerWithHandle:^{
+                [self addServiceFail];
+            } andSuperViewController:self Title:@"此设备绑定失败"];
         }
         
-        NSLog(@"%@" , parames);
-        if ([self.devTypeSn isEqualToString:@"4131"] || [self.devTypeSn isEqualToString:@"4132"] || [self.devTypeSn isEqualToString:@"4133"] || [self.devTypeSn isEqualToString:@"4134"]) {
-            [HelpFunction requestDataWithUrlString:kBindLengFengShanURL andParames:parames andDelegate:self];
-        } else if ([self.devTypeSn isEqualToString:@"4231"] || [self.devTypeSn isEqualToString:@"4232"]) {
-            [HelpFunction requestDataWithUrlString:kBindKongQiJingHuaQiURL andParames:parames andDelegate:self];
-        } else if ([self.devTypeSn isEqualToString:@"4331"] || [self.devTypeSn isEqualToString:@"4332"]) {
-            [HelpFunction requestDataWithUrlString:kBindGanYiJiURL andParames:parames andDelegate:self];
-        }
-        
-        [_progressTimer setFireDate:[NSDate distantPast]];
     } else {
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self addServiceFail];
-        } andSuperViewController:self Title:@"此设备绑定失败"];
+        
+        if (self.count >= 10) {
+            [UIAlertController creatRightAlertControllerWithHandle:^{
+                [self addServiceFail];
+            } andSuperViewController:self Title:@"此设备绑定失败"];
+        } else {
+            self.count++;
+            [self.updSocket close];
+//            self.updSocket = nil;
+            [self openUDPServer];
+            
+            [self sendMessage:self.addServiceModel.protocol];
+            
+        }
+        
     }
     
     return YES;
 }
-
 
 
 #pragma mark - 代理反馈
@@ -287,10 +331,15 @@
 - (void)addServiceFail {
     [_myTimer invalidate];
     _myTimer = nil;
+    [_progressTimer invalidate];
+    _progressTimer = nil;
+    [self.repeatSendTimer invalidate];
+    self.repeatSendTimer = nil;
+    [self.updSocket close];
+    self.updSocket = nil;
     FailContextViewController *failVC = [[FailContextViewController alloc]init];
     failVC.navigationItem.title = @"失败";
     [self.navigationController pushViewController:failVC animated:YES];
-    [self.updSocket close];
 }
 #pragma mark - 判断并绑定设备
 - (void)determineAndBindTheDevice {
@@ -335,18 +384,9 @@
     return string;
 }
 
-
-- (void)chongFuSendUDP {
-
-//    [self sendMessage:self.protocolArray[6]];
-    
-    for (int i = 0; i < self.protocolArray.count; i++) {
-        [self sendMessage:self.protocolArray[i]];
-        
-        [NSThread sleepForTimeInterval:0.3];
-        NSLog(@"%@" , self.protocolArray[i]);
-    }
-    
+#pragma mark - 重复发送
+- (void)repeatSendMessage {
+    [self sendMessage:self.addServiceModel.protocol];
 }
 
 - (void) tapConfirmForResults
@@ -355,128 +395,68 @@
     self.searchLable.textColor = kMainColor;
     if (self._isConfirmState)
     {
-        
-        [self enableCancelBtn];
-        
-        dispatch_queue_t  queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        dispatch_async(queue, ^{
-            
-            
+        self._isConfirmState = NO;
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
             NSArray *esptouchResultArray = [self executeForResults];
-            
+            NSLog(@"%@" , esptouchResultArray);
             dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [self enableConfirmBtn];
+                self._isConfirmState = YES;
                 
                 ESPTouchResult *firstResult = [esptouchResultArray objectAtIndex:0];
                 
-                if (!firstResult.isCancelled)
-                {
-                    NSMutableString *mutableStr = [[NSMutableString alloc]init];
-                    NSUInteger count = 0;
-                   
-                    const int maxDisplayCount = 5;
-                    if ([firstResult isSuc])
-                    {
-                        
-                        for (int i = 0; i < [esptouchResultArray count]; ++i)
-                        {
-                            ESPTouchResult *resultInArray = [esptouchResultArray objectAtIndex:i];
-                            [mutableStr appendString:[resultInArray description]];
-                            [mutableStr appendString:@"\n"];
-                            count++;
-                            if (count >= maxDisplayCount)
-                            {
-                                break;
-                            }
-                            self.deviceSn = [mutableStr substringWithRange:NSMakeRange(35, 12)];
-                            
-                            NSLog(@"mutableStr--%@" , mutableStr);
-                            
-                        }
-                        
-                        if (count < [esptouchResultArray count])
-                        {
-                           
-                        }
-                        
-                        [_progressTimer setFireDate:[NSDate distantPast]];
-                        
-                        _processView.percent = 0.33;
-                        
-                        
-                        [self openUDPServer];
-                       self.registerLable.textColor = kMainColor;
-//                      [self sendMessage:self.protocolArray[6]];
-                        for (int i = 0; i < self.protocolArray.count; i++) {
-                            [self sendMessage:self.protocolArray[i]];
-                            [NSThread sleepForTimeInterval:0.3];
-                        }
-                        
-                        _myTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(chongFuSendUDP) userInfo:nil repeats:YES];
-                        
-                        
-                    } else {
-                        
-                        [UIAlertController creatRightAlertControllerWithHandle:^{
-                            [self addServiceFail];
-                        } andSuperViewController:self Title:@"此设备绑定失败"];;
-                        
-                    }
-                } else {
-                    
+                if (firstResult.bssid == nil || [firstResult isKindOfClass:[NSNull class]]) {
                     [UIAlertController creatRightAlertControllerWithHandle:^{
                         [self addServiceFail];
-                    } andSuperViewController:self Title:@"此设备绑定失败"];;
+                    } andSuperViewController:self Title:@"此设备绑定失败"];
+                } else {
+                    self.deviceSn = firstResult.bssid;
                     
+                    [_progressTimer setFireDate:[NSDate distantPast]];
+                    _processView.percent = 0.33;
+                    [self openUDPServer];
+                    self.registerLable.textColor = kMainColor;
+                    [self sendMessage:self.addServiceModel.protocol];
+                    
+                    self.repeatSendTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(repeatSendMessage) userInfo:nil repeats:YES];
                 }
                 
             });
         });
     } else {
         
-        [self enableConfirmBtn];
+        self._isConfirmState = YES;
         [self cancel];
     }
 }
 
-
 #pragma mark - the example of how to cancel the executing task
-
 - (void) cancel
 {
-    
+    [self._condition lock];
     if (self._esptouchTask != nil)
     {
         [self._esptouchTask interrupt];
     }
-    
+    [self._condition unlock];
 }
 
 #pragma mark - the example of how to use executeForResults
+
 - (NSArray *) executeForResults
 {
-    
+    [self._condition lock];
     NSString *apSsid = self.ssidText;
     NSString *apPwd = self.bssid;
     NSString *apBssid = self.apSsid;
-    BOOL isSsidHidden = NO;
-    int taskCount = 1;
     self._esptouchTask =
-    [[ESPTouchTask alloc]initWithApSsid:apSsid andApBssid:apBssid andApPwd:apPwd andIsSsidHiden:isSsidHidden];
-
-    NSArray * esptouchResults = [self._esptouchTask executeForResults:taskCount];
+    [[ESPTouchTask alloc]initWithApSsid:apSsid andApBssid:apBssid andApPwd:apPwd andIsSsidHiden:NO];
+    
+    [self._esptouchTask setEsptouchDelegate:self._esptouchDelegate];
+    [self._condition unlock];
+    
+    NSArray * esptouchResults = [self._esptouchTask executeForResults:1];
     return esptouchResults;
 }
 
-- (void)enableConfirmBtn
-{
-    self._isConfirmState = YES;
-}
-
-- (void)enableCancelBtn
-{
-    self._isConfirmState = NO;
-}
 
 @end

@@ -86,6 +86,7 @@
         if (self.rightBtn.selected == 1) {
             [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
         }
+//        [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
     }
 }
     
