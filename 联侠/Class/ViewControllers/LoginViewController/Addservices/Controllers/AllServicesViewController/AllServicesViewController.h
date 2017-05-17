@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface AllServicesViewController : UICollectionViewController
+@property (nonatomic , copy) NSString *typeSn;
 
-@property (nonatomic , copy) NSString *devType;
 @end

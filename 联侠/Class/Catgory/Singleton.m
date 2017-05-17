@@ -23,12 +23,11 @@
 @interface Singleton ()<GCDAsyncSocketDelegate>
 
 @property (nonatomic , strong) NSTimer *duanXianChongLian;
-@property (nonatomic , copy) NSString *isActiveDisconnect;
-@property (nonatomic , copy) NSString *isDuanXianChongLian;
 
+//心跳
+@property (nonatomic, retain) NSTimer *connectTimer;
 @property (nonatomic , strong) UIAlertController *alertController;
-    
-@property (nonatomic , copy) NSString *ssssssss;
+
 @end
 
 @implementation Singleton
@@ -63,9 +62,8 @@
 -(void)socketConnectHost{
     
     self.socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-    self.isActiveDisconnect = @"NO";
     NSError *error = nil;
-   
+    self.isDuanXianChongLian = @"YES";
     [self.socket connectToHost:localhost onPort:kPort withTimeout:-1 error:&error];
 
 }
@@ -105,39 +103,40 @@
     NSLog(@"SSSSSSSSDDDDDDD");
     [self.connectTimer invalidate];
     
-//    NSString *message = @"网络连接异常，请稍等。";
-//    
-//    if (!_alertController) {
-//        
-//        _alertController = [UIAlertController creatRightAlertControllerWithHandle:^{
-//            
-//            [_alertController dismissViewControllerAnimated:YES completion:^{
-//                _alertController = nil;
-//            }];
-//            
-//        } andSuperViewController:kWindowRoot Title:message];
-//    } else if (_alertController) {
-//        
-//        if (![_alertController.message isEqualToString:message]) {
-//            _alertController.message = message;
-//        }
-//    }
     
-    if ([self.isActiveDisconnect isEqualToString:@"NO"] && self.userSn) {
+    
+    if ([self.isDuanXianChongLian isEqualToString:@"YES"] && (self.userSn != nil || ![self.userSn isKindOfClass:[NSNull class]])) {
         [_duanXianChongLian invalidate];
         _duanXianChongLian = nil;
         _duanXianChongLian = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(duanXianChongLianAtcion) userInfo:nil repeats:YES];
+        NSString *message = @"网络连接异常，请稍等。";
+        
+        if (!_alertController) {
+            
+            _alertController = [UIAlertController creatRightAlertControllerWithHandle:^{
+                
+                [_alertController dismissViewControllerAnimated:YES completion:^{
+                    _alertController = nil;
+                }];
+                
+            } andSuperViewController:kWindowRoot Title:message];
+        } else if (_alertController) {
+            
+            if (![_alertController.message isEqualToString:message]) {
+                _alertController.message = message;
+            }
+        }
     }
     
 }
 
 - (void)duanXianChongLianAtcion {
     _isDuanXianChongLian = @"YES";
-    //[self cutOffSocket];
+    [self cutOffSocket];
     [self socketConnectHost];
     
     if (self.userSn && self.serviceModel) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , self.userSn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
         });
     }
@@ -146,8 +145,6 @@
 
 -(void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-    
-    
     
     
     if (data.length < 50 && data) {
@@ -187,7 +184,6 @@
             
             //        [self sendDataToHost:@"QUIT" andType:nil andIsNewOrOld:kOld];
             [self cutOffSocket];
-            self.isActiveDisconnect = @"YES";
             
             [kStanderDefault removeObjectForKey:@"Login"];
             [kStanderDefault removeObjectForKey:@"cityName"];
@@ -195,7 +191,6 @@
             [kStanderDefault removeObjectForKey:@"phone"];
             [kStanderDefault removeObjectForKey:@"userSn"];
             [kStanderDefault removeObjectForKey:@"userId"];
-            [kStanderDefault removeObjectForKey:@"weartherImage"];
             [kStanderDefault removeObjectForKey:@"zhuYe"];
             
             [kStanderDefault removeObjectForKey:@"offBtn"];
@@ -205,7 +200,6 @@
             [kStanderDefault removeObjectForKey:@"AirData"];
             [kStanderDefault removeObjectForKey:@"AirDingShiData"];
             [kStanderDefault removeObjectForKey:@"kongZhiTai"];
-            [kStanderDefault removeObjectForKey:@"modelString"];
             [kStanderDefault removeObjectForKey:@"data"];
             [kStanderDefault removeObjectForKey:@"wearthDic"];
             [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
@@ -221,10 +215,6 @@
                 
             } else {
                 [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@N#" , self.userSn] andType:kLianJie andIsNewOrOld:kOld];
-                
-                
-                if ([self.isDuanXianChongLian isEqualToString:@"YES"])
-                if (self.userSn) self.isDuanXianChongLian = @"NO";
             }
         }
         

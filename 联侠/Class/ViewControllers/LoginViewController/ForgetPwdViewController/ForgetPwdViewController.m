@@ -64,9 +64,8 @@
     self.sendDuanXinBtn.layer.cornerRadius = kScreenW / 30;
     self.sendDuanXinBtn.backgroundColor = kMainColor;
     
-    //创建注册按钮
+
     UIButton *nextBtn = [UIButton initWithTitle:NSLocalizedString(@"Next", nil) andColor:kMainColor andSuperView:self.view];
-    //注册按钮的约束
     [nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 2.8, kScreenW / 9.4));
         make.centerX.mas_equalTo(self.view.mas_centerX);

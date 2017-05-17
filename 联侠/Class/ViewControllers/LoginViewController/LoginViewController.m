@@ -101,7 +101,6 @@
     resertBtn.titleLabel.font = [UIFont systemFontOfSize:k12];
     
     UIButton *registerBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_Register", nil) andColor:[UIColor clearColor] andSuperView:self.view];
-    //注册按钮的约束
     [registerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 3, kScreenW / 25));
         make.left.mas_equalTo(_loginBtn.mas_centerX).offset(5);
@@ -146,7 +145,7 @@
 - (void)loginBtnAction{
 
     
-    if ( (self.acctextFiled.text.length == 11 || self.acctextFiled.text.length == 9) && [UITextField validateNumber:self.acctextFiled.text]  && self.pwdTectFiled.text != nil) {
+    if ( (self.acctextFiled.text.length == 11 || self.acctextFiled.text.length == 9) && (self.pwdTectFiled.text.length >= 6 && self.pwdTectFiled.text.length <= 16)) {
         
         [SVProgressHUD show];
         NSDictionary *parameters = nil;
@@ -180,17 +179,6 @@
     
 }
 
-- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    [SVProgressHUD dismiss];
-    NSInteger state = [dddd[@"state"] integerValue];
-    
-    if (state == 0) {
-        [self setAlertText:NSLocalizedString(@"UserNoRegistered", nil)];
-    } else if (state == 1) {
-        [self setAlertText:NSLocalizedString(@"EnterdErrorSoReenter", nil)];
-    }
-}
-
 #pragma mark - 登陆的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     [SVProgressHUD dismiss];
@@ -212,7 +200,11 @@
         kSocketTCP.userSn = [NSString stringWithFormat:@"%ld" , (long)userModel.sn];
         [kSocketTCP socketConnectHost];
         
-        [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:@{@"userSn" : @(userModel.sn)} andDelegate:self];
+        [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:^{
+            self.acctextFiled.text = nil;
+            self.pwdTectFiled.text = nil;
+        }];
+        
         
     } else {
         NSInteger state = [dic[@"state"] integerValue];
@@ -223,25 +215,6 @@
         } else {
             [self setAlertText:NSLocalizedString(@"PwdError", nil)];
         }
-    }
-}
-
-- (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd {
-    [SVProgressHUD dismiss];
-    
-//    NSLog(@"%@" , dddd);
-    NSInteger state = [dddd[@"state"] integerValue];
-    if (state == 0) {
-        if ([dddd[@"data"] isKindOfClass:[NSArray class]]) {
-            NSMutableArray *dataArray = dddd[@"data"];
-            if (dataArray.count > 0) {
-                [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-            }
-        }
-        [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:^{
-            self.acctextFiled.text = nil;
-            self.pwdTectFiled.text = nil;
-        }];
     }
 }
 

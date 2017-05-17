@@ -51,11 +51,9 @@
 
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
-    
-    if ([kStanderDefault objectForKey:@"userSn"]) {
+    if ([kStanderDefault objectForKey:@"userSn"] && kSocketTCP.socket.isConnected == NO) {
         self.userSn = [kStanderDefault objectForKey:@"userSn"];
         
-//        NSLog(@"%@" , self.userSn);
         kSocketTCP.userSn = [NSString stringWithFormat:@"%@" , [kStanderDefault objectForKey:@"userSn"]];
         [kSocketTCP socketConnectHost];
     }
@@ -122,7 +120,7 @@
 }
 
 - (void)requestWeather {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
         // 耗时的操作
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -392,10 +390,6 @@
     return YES;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
-
 - (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
     MineServiceCollectionViewCell *cell = (MineServiceCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.selectedImage.hidden = YES;
@@ -414,7 +408,7 @@
     [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn] andType:kAddService andIsNewOrOld:nil];
     
 //    self.tabBarController.tabBar.hidden = YES;
-    if ([model.devTypeSn isEqualToString:@"4131"]) {
+    if ([model.devTypeSn isEqualToString:@"4131"] || [model.devTypeSn isEqualToString:@"4132"]) {
 
         LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
         lengFengShanVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];

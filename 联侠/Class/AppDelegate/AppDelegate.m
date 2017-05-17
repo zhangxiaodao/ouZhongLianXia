@@ -47,17 +47,11 @@
     NSLog(@"%f , %f" , kScreenW , kScreenH);
     _alertController = nil;
     
-//    self.window.rootViewController = [[BottomNavViewController alloc]init];
-    
     [self setRootViewController];
     
     [self setYouMeng];
     [self setGeTui];
     [self checkNetwork];
-    
-    
-    //自动锁屏
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
     
     [HelpFunction requestDataWithUrlString:kChaXunBanBenHao andParames:@{@"type" : @(2)} andDelegate:self];
     
@@ -146,20 +140,6 @@
 
 - (void)confitUShareSettings
 {
-    /*
-     * 打开图片水印
-     */
-    //[UMSocialGlobal shareInstance].isUsingWaterMark = YES;
-    
-    /*
-     * 关闭强制验证https，可允许http图片分享，但需要在info.plist设置安全域名
-     <key>NSAppTransportSecurity</key>
-     <dict>
-     <key>NSAllowsArbitraryLoads</key>
-     <true/>
-     </dict>
-     */
-    //[UMSocialGlobal shareInstance].isUsingHttpsWhenShareContent = NO;
     
 }
 
@@ -195,11 +175,9 @@
                 UITabBarController *tab = (UITabBarController *)[[HelpFunction shareHelpFunction] getPresentedViewController];
                 XMGNavigationController *nav = tab.selectedViewController;
                 
-                NSLog(@"%@ , %@ , %@" , tab.selectedViewController , nav.visibleViewController , self.noNetwork);
-                
                 if ([nav.visibleViewController isKindOfClass:[MainViewController class]] || [nav.visibleViewController isKindOfClass:[XinFengViewController class]] || [nav.visibleViewController isKindOfClass:[HTMLBaseViewController class]]) {
                     self.noNetwork.hidden = YES;
-                    
+                    self.markview.hidden = YES;
                     self.alertVC = [UIAlertController creatRightAlertControllerWithHandle:^{
                         [UIView animateWithDuration:1.0f animations:^{
                             self.window.alpha = 0;
@@ -247,7 +225,7 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 26) {
+            if ([data[@"id"] integerValue] > 28) {
                 
                 if ([data[@"isForce"] integerValue] == 0) {
                     return ;
@@ -355,7 +333,6 @@
     }
     
     NSString *message = [NSString stringWithFormat:@"%@" , payloadMsg];
-//    NSLog(@"AAAAAQQQQQQQ%@" , message);
     if (!_alertController) {
         
         _alertController = [UIAlertController creatRightAlertControllerWithHandle:^{

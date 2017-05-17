@@ -327,6 +327,12 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    [UIAlertController creatRightAlertControllerWithHandle:^{
+        [self addServiceFail];
+    } andSuperViewController:self Title:@"此设备绑定失败"];
+}
+
 #pragma mark - 绑定设备失败
 - (void)addServiceFail {
     [_myTimer invalidate];

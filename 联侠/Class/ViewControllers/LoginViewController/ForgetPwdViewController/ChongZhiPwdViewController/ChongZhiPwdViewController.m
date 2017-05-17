@@ -31,6 +31,7 @@
         make.top.mas_equalTo(self.view.mas_top).offset(10);
     }];
     self.pwdTectFiled = pwdFiledView.subviews[0];
+    self.pwdTectFiled.keyboardType = UIKeyboardTypeDefault;
     
     UIView *againPwdFiledView = [UIView creatViewWithFiledCoradiusOfPlaceholder:@"请重新输入密码" andSuperView:self.view];
     [againPwdFiledView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -39,6 +40,7 @@
         make.top.mas_equalTo(pwdFiledView.mas_bottom).offset(10);
     }];
     self.againPwdTectFiled = againPwdFiledView.subviews[0];
+    self.againPwdTectFiled.keyboardType = UIKeyboardTypeDefault;
     
     self.pwdTectFiled.secureTextEntry = YES;
     self.againPwdTectFiled.secureTextEntry = YES;
@@ -145,28 +147,12 @@
         //        [kSocketTCP cutOffSocket];
         [kSocketTCP socketConnectHost];
         
-        [HelpFunction requestDataWithUrlString:kQueryTheUserdevice andParames:@{@"userSn" : @(userModel.sn)} andDelegate:self];
-    }
-}
-
-
-- (void)requestData:(HelpFunction *)requset queryUserdevice:(NSDictionary *)dddd {
-    
-    //    NSLog(@"%@" , dddd);
-    NSInteger state = [dddd[@"state"] integerValue];
-    if (state == 0) {
-
-        if ([dddd[@"data"] isKindOfClass:[NSArray class]]) {
-            NSMutableArray *dataArray = dddd[@"data"];
-            if (dataArray.count > 0) {
-                [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
-            }
-        }
         [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:^{
             [self.navigationController popToRootViewControllerAnimated:YES];
         }];
     }
 }
+
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
     NSLog(@"%@" , error);
@@ -177,6 +163,5 @@
 {
     [self.view endEditing:YES];
 }
-
 
 @end

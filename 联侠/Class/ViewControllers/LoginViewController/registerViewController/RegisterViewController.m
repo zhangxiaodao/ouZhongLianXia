@@ -73,8 +73,6 @@
 #pragma mark - 设置UI
 - (void)setUI{
     
-    [kStanderDefault removeObjectForKey:@"shiJian"];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(whetherGegisterSuccess:) name:@"RegisterSuccess" object:nil];
     
     UIView *xiaHuaXian = [[UIView alloc]init];
@@ -140,7 +138,6 @@
     }];
     
     
-    //创建注册按钮
     UIButton *registerBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_Register", nil) andColor:[UIColor redColor] andSuperView:self.view];
     [registerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 8.3));

@@ -291,12 +291,12 @@ static NSString *celled = @"celled";
     [kStanderDefault removeObjectForKey:@"AirData"];
     [kStanderDefault removeObjectForKey:@"AirDingShiData"];
     [kStanderDefault removeObjectForKey:@"kongZhiTai"];
-    [kStanderDefault removeObjectForKey:@"modelString"];
     
     [kStanderDefault removeObjectForKey:@"data"];
     [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
     [kStanderDefault removeObjectForKey:@"wearthDic"];
     [kStanderDefault removeObjectForKey:@"GeRenInfo"];
+    kSocketTCP.isDuanXianChongLian = @"NO";
     [kSocketTCP cutOffSocket];
 }
 

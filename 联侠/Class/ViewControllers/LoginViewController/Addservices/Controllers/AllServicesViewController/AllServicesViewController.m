@@ -46,7 +46,9 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    [HelpFunction requestDataWithUrlString:kGengDuoChanPin andParames:nil andDelegate:self];
+    NSDictionary *parames = @{@"typeSn":self.typeSn};
+    [HelpFunction requestDataWithUrlString:kGengDuoChanPin andParames:parames andDelegate:self];
+    
 }
 #pragma mark - 代理返回的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
@@ -60,22 +62,15 @@
         
         for (NSDictionary *dd in arr) {
             
-            NSString *type = [dd[@"typeSn"] substringToIndex:2];
-            NSString *subType = [self.devType substringToIndex:2];
-            
-            
-            if ([subType isEqualToString:type]) {
-                
-                ServicesModel *model = [[ServicesModel alloc]init];
-                [model setValuesForKeysWithDictionary:dd];
-                if (![dd[@"slType"] isKindOfClass:[NSNull class]]) {
-                    model.slTypeInt = [dd[@"slType"] integerValue];
-                }
-                AddServiceModel *addModel = [[AddServiceModel alloc]init];
-                [addModel setValuesForKeysWithDictionary:dd];
-                [self.array addObject:model];
-                [self.addModelArray addObject:addModel];
+            ServicesModel *model = [[ServicesModel alloc]init];
+            [model setValuesForKeysWithDictionary:dd];
+            if (![dd[@"slType"] isKindOfClass:[NSNull class]]) {
+                model.slTypeInt = [dd[@"slType"] integerValue];
             }
+            AddServiceModel *addModel = [[AddServiceModel alloc]init];
+            [addModel setValuesForKeysWithDictionary:dd];
+            [self.array addObject:model];
+            [self.addModelArray addObject:addModel];
         }
         
         [self.collectionView reloadData];

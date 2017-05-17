@@ -24,12 +24,12 @@ return sharedInstance; \
 @property (nonatomic, copy  ) NSString       *socketHost;   // socket的Host
 @property (nonatomic, assign) UInt16         socketPort;    // socket的prot
 
-@property (nonatomic, retain) NSTimer        *connectTimer; // 计时器
+
 
 @property (nonatomic , strong) ServicesModel *serviceModel;
 
 @property (nonatomic , copy) NSString *userSn;
-
+@property (nonatomic , copy) NSString *isDuanXianChongLian;
 
 + (Singleton *)sharedInstance;
 
