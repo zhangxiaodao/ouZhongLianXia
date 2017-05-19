@@ -259,6 +259,14 @@
  */
 /** 注册APNS */
 - (void)registerRemoteNotification {
+    /*
+     警告：Xcode8 需要手动开启"TARGETS -> Capabilities -> Push Notifications"
+     */
+    
+    /*
+     警告：该方法需要开发者自定义，以下代码根据 APP 支持的 iOS 系统不同，代码可以对应修改。
+     以下为演示代码，注意根据实际需要修改，注意测试支持的 iOS 系统都能获取到 DeviceToken
+     */
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0 // Xcode 8编译会调用
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
@@ -298,15 +306,15 @@
     
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-        NSLog(@"\n>>>[DeviceToken Success]:%@\n\n", token);
+    NSLog(@"\n>>>[DeviceToken Success]:%@\n\n", token);
     
-    //向个推服务器注册deviceToken
+    // 向个推服务器注册deviceToken
     [GeTuiSdk registerDeviceToken:token];
     
 }
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    //Background Fetch 回复SDK运行
+    /// Background Fetch 恢复SDK 运行
     [GeTuiSdk resume];
     completionHandler(UIBackgroundFetchResultNewData);
 }

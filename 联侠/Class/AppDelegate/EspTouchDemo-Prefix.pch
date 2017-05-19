@@ -33,7 +33,7 @@
 
 #define BackGroupHeight kScreenH / 2.964444
 
-#define kVersion @"5.0.3"
+#define kVersion @"5.0.4"
 
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip
@@ -164,6 +164,10 @@
 #define kGtAppId @"TWxme3OkYjA89rlIuBgyE2"
 #define kGtAppKey @"tzVHOHA6N36htmftfUwq3A"
 #define kGtAppSecret @"JAVioqKoyp96woS4wXSDC6"
+
+//#define kGtAppId @"IhitQTqgjZ5DoGh7bpXGg5"
+//#define kGtAppKey @"uH4oBMNYTZAXWd1u8BWPd2"
+//#define kGtAppSecret @"qcJaJxvkNH6RaycybdxUE2"
 
 /**
  *  干衣机协议宏定义

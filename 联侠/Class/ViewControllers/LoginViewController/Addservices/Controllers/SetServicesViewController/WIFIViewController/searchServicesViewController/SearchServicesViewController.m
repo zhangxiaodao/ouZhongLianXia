@@ -254,7 +254,8 @@
     if (self.devTypeSn) {
         
         if ([self.devTypeSn isEqualToString:@"412a"]) {
-            self.devTypeSn = @"4131";
+//            self.devTypeSn = @"4131";
+            self.devTypeSn = self.addServiceModel.typeSn;
         }
         
         if ([self.devTypeSn isEqualToString:self.addServiceModel.typeSn]) {

@@ -20,59 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "516684154.013608"
+            timestampString = "516766691.725915"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[SearchServicesViewController onUdpSocket:didReceiveData:withTag:fromHost:port:]"
-                  moduleName = "&#x8054;&#x4fa0;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "516684759.619525"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "276"
-                  endingLineNumber = "276"
-                  offsetFromSymbolStart = "3696">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__81-[SearchServicesViewController onUdpSocket:didReceiveData:withTag:fromHost:port:]_block_invoke"
-                  moduleName = "&#x8054;&#x4fa0;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "516684759.620949"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "276"
-                  endingLineNumber = "276"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "516684154.013608"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
+            startingLineNumber = "324"
+            endingLineNumber = "324"
             landmarkName = "-requestData:didFinishLoadingDtaArray:"
             landmarkType = "7">
             <Locations>
@@ -84,26 +36,26 @@
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "516684759.624335"
+                  timestampString = "516792625.141389"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "323"
-                  endingLineNumber = "323"
+                  startingLineNumber = "324"
+                  endingLineNumber = "324"
                   offsetFromSymbolStart = "784">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__69-[SearchServicesViewController requestData:didFinishLoadingDtaArray:]_block_invoke.296"
+                  symbolName = "__69-[SearchServicesViewController requestData:didFinishLoadingDtaArray:]_block_invoke.294"
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "516684759.625863"
+                  timestampString = "516792625.142998"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "323"
-                  endingLineNumber = "323"
+                  startingLineNumber = "324"
+                  endingLineNumber = "324"
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
@@ -116,11 +68,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "516684154.013608"
+            timestampString = "516766691.725915"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "414"
-            endingLineNumber = "414"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
             landmarkName = "-tapConfirmForResults"
             landmarkType = "7">
             <Locations>
@@ -132,11 +84,11 @@
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "516684759.62937"
+                  timestampString = "516792625.147107"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "414"
-                  endingLineNumber = "414"
+                  startingLineNumber = "415"
+                  endingLineNumber = "415"
                   offsetFromSymbolStart = "300">
                </Location>
                <Location
@@ -147,11 +99,11 @@
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "516684759.630812"
+                  timestampString = "516792625.148682"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "414"
-                  endingLineNumber = "414"
+                  startingLineNumber = "415"
+                  endingLineNumber = "415"
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
@@ -180,7 +132,7 @@
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "516684759.634239"
+                  timestampString = "516792625.152272"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "190"
@@ -195,7 +147,7 @@
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "516684759.635683"
+                  timestampString = "516792625.153714"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "190"
@@ -212,12 +164,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "516684154.013608"
+            timestampString = "516766691.725915"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "271"
-            endingLineNumber = "271"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
+            landmarkName = "-repeatSendMessage"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -228,12 +180,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "516684154.013608"
+            timestampString = "516766559.320346"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
-            landmarkName = "-repeatSendMessage"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
