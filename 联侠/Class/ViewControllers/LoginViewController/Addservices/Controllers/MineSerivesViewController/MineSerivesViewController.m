@@ -15,10 +15,7 @@
 #import "GanYiJiViewController.h"
 #import "XinFengViewController.h"
 #import "LengFengShanViewController.h"
-#import "HTMLGanYiJiViewController.h"
-#import "HTMLHotColdFan.h"
-#import "HTMLColdFan.h"
-#import "HTMLTclFan.h"
+#import "HTMLBaseViewController.h"
 
 #import "CCLocationManager.h"
 
@@ -442,21 +439,10 @@
         ganYiJiVC.wearthDic = self.wearthDic;
 
         [self.navigationController pushViewController:ganYiJiVC animated:YES];
-    } else if ([model.devTypeSn isEqualToString:@"4332"]) {
-        HTMLGanYiJiViewController *htmlGanYiJiVC = [[HTMLGanYiJiViewController alloc]init];
-
-        htmlGanYiJiVC.serviceModel = model;
-        [self.navigationController pushViewController:htmlGanYiJiVC animated:YES];
-    } else if ([model.devTypeSn isEqualToString:@"4133"]) {
-        HTMLHotColdFan *htmlHotColdFanVC = [[HTMLHotColdFan alloc]init];
-        
-        htmlHotColdFanVC.serviceModel = model;
-        [self.navigationController pushViewController:htmlHotColdFanVC animated:YES];
-    } else if ([model.devTypeSn isEqualToString:@"4134"]) {
-        HTMLTclFan *htmlTclFanVC = [[HTMLTclFan alloc]init];
-        
-        htmlTclFanVC.serviceModel = model;
-        [self.navigationController pushViewController:htmlTclFanVC animated:YES];
+    } else if ([model.devTypeSn isEqualToString:@"4332"] || [model.devTypeSn isEqualToString:@"4133"] || [model.devTypeSn isEqualToString:@"4134"]) {
+        HTMLBaseViewController *htmlVC = [[HTMLBaseViewController alloc]init];
+        htmlVC.serviceModel = model;
+        [self.navigationController pushViewController:htmlVC animated:YES];
     }
 }
 

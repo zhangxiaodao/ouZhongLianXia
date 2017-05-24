@@ -34,7 +34,7 @@
     
     _webView = [[UIWebView alloc]initWithFrame:kScreenFrame];
     [self.view addSubview:_webView];
-    _webView.backgroundColor = kMainColor;
+//    _webView.backgroundColor = kMainColor;
     
     self.webView.delegate = self;
     
@@ -46,6 +46,10 @@
     [_searchView startAnimating];
     
     [self passValueWithBlock];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:@"4332" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:@"4133" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:@"4134" object:nil];
     
 }
 
@@ -121,6 +125,29 @@
     context[@"BackIOS"] = ^() {
         [bself.navigationController popViewControllerAnimated:YES];
         
+    };
+    
+    context[@"OrderWebToIOS"] = ^() {
+        NSArray *parames = [JSContext currentArguments];
+        NSString *arrarString = [[NSString alloc]init];
+        
+        for (id obj in parames) {
+            arrarString = [arrarString stringByAppendingFormat:@"%@" , obj];
+        }
+        
+        
+        NSArray *array = [arrarString componentsSeparatedByString:@","];
+        
+        NSMutableString *sumStr = [NSMutableString string];
+        [sumStr appendFormat:@"%@", [NSString stringWithFormat:@"HMFFM%@%@w" , self.serviceModel.devTypeSn, self.serviceModel.devSn]];
+        for (NSString *sub in array) {
+            [sumStr appendFormat:@"%@", [NSString stringWithFormat:@"%.2d" , sub.intValue]];
+            
+        }
+        
+        [sumStr appendString:@"#"];
+        
+        [kSocketTCP sendDataToHost:sumStr andType:kZhiLing andIsNewOrOld:kNew];
     };
 }
 

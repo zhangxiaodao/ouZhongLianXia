@@ -42,7 +42,6 @@
 
 @property (nonatomic , copy) NSString *devTypeSn;
 @property (nonatomic, strong) LXGradientProcessView *processView;
-@property (nonatomic , strong) NSTimer *myTimer;
 @property (nonatomic , strong) NSTimer *progressTimer;
 @property (nonatomic , strong) NSTimer *repeatSendTimer;
 
@@ -86,8 +85,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [_myTimer invalidate];
-    _myTimer = nil;
     [_progressTimer invalidate];
     _progressTimer = nil;
     [self.repeatSendTimer invalidate];
@@ -183,22 +180,11 @@
     
 }
 
-- (void)udpReciveData {
-    self.num++;
-    
-    if (self.num >= 30) {
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self addServiceFail];
-        } andSuperViewController:self Title:@"此设备绑定失败"];
-    }
-}
-
 //连接建好后处理相应send Events
 -(void)sendMessage:(NSString*)message
 {
     NSLog(@"UDP发送数据--\n%@" , message);
     
-    self.myTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(udpReciveData) userInfo:nil repeats:YES];
     
     NSMutableString *sendString = [NSMutableString stringWithCapacity:100];
     [sendString appendString:message];
@@ -208,6 +194,12 @@
                  withTimeout:-1
                          tag:0];
     
+    self.num++;
+    if (self.num >= 30) {
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            [self addServiceFail];
+        } andSuperViewController:self Title:@"此设备绑定失败"];
+    }
 }
 
 - (void)onUdpSocket:(AsyncUdpSocket *)sock didSendDataWithTag:(long)tag {
@@ -225,8 +217,6 @@
    
     _processView.percent = 0.66;
     self.addLable.textColor = kMainColor;
-    [_myTimer invalidate];
-    _myTimer = nil;
     [self.repeatSendTimer invalidate];
     self.repeatSendTimer = nil;
     
@@ -336,8 +326,6 @@
 
 #pragma mark - 绑定设备失败
 - (void)addServiceFail {
-    [_myTimer invalidate];
-    _myTimer = nil;
     [_progressTimer invalidate];
     _progressTimer = nil;
     [self.repeatSendTimer invalidate];
@@ -353,7 +341,6 @@
     
     [kStanderDefault setObject:@"YES" forKey:@"isHaveServices"];
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
-    
     
     
     MineSerivesViewController *tabVC = [[MineSerivesViewController alloc]init];

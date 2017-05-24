@@ -15,7 +15,7 @@
 @property (nonatomic , strong) UILabel *lable;
 @property (nonatomic , strong) UILabel *rightLabel;
 @property (nonatomic , strong) UILabel *loginOutLabel;
-//@property (nonatomic , strong) UILabel *leftTitleLabel;
+@property (nonatomic , strong) UILabel *idLabel;
 @property (nonatomic , strong) UITextField *contentFiled;
 @property (nonatomic , strong) UITextField *detailFiled;
 @property (nonatomic , strong) UIButton *chanceBtn;

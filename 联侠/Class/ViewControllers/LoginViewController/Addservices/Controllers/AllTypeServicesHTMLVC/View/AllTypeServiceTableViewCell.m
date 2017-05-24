@@ -18,7 +18,7 @@
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-    self.lable.font = [UIFont systemFontOfSize:13];
+    self.lable.font = [UIFont systemFontOfSize:k13];
     
     return self;
 }

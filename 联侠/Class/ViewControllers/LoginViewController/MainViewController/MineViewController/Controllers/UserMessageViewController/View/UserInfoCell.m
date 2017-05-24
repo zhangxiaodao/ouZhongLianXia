@@ -73,6 +73,18 @@
     clearLabel.layer.borderWidth = 0;
     clearLabel.textColor = [UIColor colorWithHexString:@"858585"];
     
+    UILabel *idLabel = [UILabel creatLableWithTitle:@"" andSuperView:_view andFont:k12 andTextAligment:NSTextAlignmentRight];
+    [idLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, self.view.height));
+        make.centerY.mas_equalTo(self.view.mas_centerY);
+        make.right.mas_equalTo(self.view.mas_right).offset(-kScreenW / 29);
+    }];
+    self.idLabel = idLabel;
+    self.idLabel.hidden = YES;
+    idLabel.layer.borderWidth = 0;
+    idLabel.textColor = [UIColor colorWithHexString:@"858585"];
+    
+    
     UIImageView *headPortraitImageView = [[UIImageView alloc]init];
     [_view addSubview:headPortraitImageView];
     [headPortraitImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,7 +130,7 @@
     self.chanceBtn = chanceBtn;
     chanceBtn.hidden = YES;
     
-
+    
     UITextField *detailFiled = [UITextField creatTextfiledWithPlaceHolder:@"请输入详细的地址信息" andSuperView:_view];
     [detailFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(_view.width - kScreenW * 2 / 29, kScreenH / 14.46));

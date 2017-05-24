@@ -155,9 +155,7 @@ static NSString *celled = @"celled";
     cell.dizhiModel = self.diZhiModel;
     cell.userModel = self.userModel;
     
-    cell.indexPath = indexPath;
-    
-    
+    cell.indexPath = indexPath;    
     
     return cell;
 }

@@ -184,7 +184,7 @@
             
             //        [self sendDataToHost:@"QUIT" andType:nil andIsNewOrOld:kOld];
             [self cutOffSocket];
-            
+            self.isDuanXianChongLian = @"NO";
             [kStanderDefault removeObjectForKey:@"Login"];
             [kStanderDefault removeObjectForKey:@"cityName"];
             [kStanderDefault removeObjectForKey:@"password"];
