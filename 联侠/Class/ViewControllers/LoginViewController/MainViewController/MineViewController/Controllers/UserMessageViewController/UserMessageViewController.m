@@ -23,14 +23,6 @@
 
 #import <AVFoundation/AVFoundation.h>
 @interface UserMessageViewController ()<UITableViewDataSource , UITableViewDelegate , HelpFunctionDelegate , SendDiZhiDataToProvienceVCDelegate , SendNickOrEmailToPreviousVCDelegate, CustomPickerViewDelegate>
-@property (nonatomic , strong) NSMutableDictionary *dic;
-
-@property (nonatomic , strong) UILabel *birthdayLabel;
-@property (nonatomic , strong) UILabel *emailLabel;
-@property (nonatomic , strong) UILabel *diZhiLabel;
-@property (nonatomic , strong) UILabel *niChengLabel;
-
-@property (nonatomic , strong) NSString *idd;
 
 @property (strong, nonatomic)  CustomPickerView *myDatePicker;
 @property (nonatomic , strong) CustomPickerView *sexPicker;
@@ -38,6 +30,8 @@
 @property (nonatomic , strong) GeRenModel *geRenModel;
 @property (nonatomic , strong) DiZhiModel *diZhiModel;
 @property (nonatomic , strong) NSIndexPath *selectedIndexPath;
+
+@property (nonatomic , strong) NSMutableArray *infoArray;
 @end
 
 static NSString *celled = @"celled";
@@ -66,11 +60,10 @@ static NSString *celled = @"celled";
 
 #pragma mark - 代理返回数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
-    NSLog(@"%@" , data[0]);
+//    NSLog(@"%@" , data[0]);
     NSDictionary *dic = data[0];
     
     if (![dic[@"data"] isKindOfClass:[NSArray class]]) {
-        [self.tableView reloadData];
         return ;
     } else {
         NSArray *aray = [NSArray arrayWithArray:dic[@"data"]];
@@ -148,14 +141,21 @@ static NSString *celled = @"celled";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UserInfoCommonCell *cell = [tableView dequeueReusableCellWithIdentifier:celled];
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        cell.headImage = self.headImage;
-    }
-    cell.currentVC = self;
-    cell.dizhiModel = self.diZhiModel;
     cell.userModel = self.userModel;
+    cell.indexPath = indexPath;
     
-    cell.indexPath = indexPath;    
+    if (indexPath.section != 2) {
+        NSArray *array = self.infoArray[indexPath.section];
+        if (indexPath.section == 0 && indexPath.row == 0) {
+            cell.headPortraitImageView.image = array[0];
+            cell.currentVC = self;
+        } else if (indexPath.section == 1 && indexPath.row == 1) {
+            cell.idLabel.text = array[indexPath.row];
+        } else {
+            cell.rightLabel.text = array[indexPath.row];
+        }
+    }
+    
     
     return cell;
 }
@@ -362,18 +362,9 @@ static NSString *celled = @"celled";
 }
 
 
-- (NSMutableDictionary *)dic{
-    if (!_dic) {
-        self.dic = [NSMutableDictionary dictionary];
-    }
-    return _dic;
-}
-
-
 - (void)setUserModel:(UserModel *)userModel {
     _userModel = userModel;
-    
-    NSLog(@"%@" , _userModel);
+
     if ([kStanderDefault objectForKey:@"GeRenInfo"]) {
         
         NSDictionary *dic = [kStanderDefault objectForKey:@"GeRenInfo"];
@@ -389,7 +380,6 @@ static NSString *celled = @"celled";
         _userModel.birthdate = model.birthday;
         _userModel.email = model.email;
     }
-    NSLog(@"%@" , _userModel);
 }
 
 - (NSArray *)sexArray {
@@ -397,6 +387,58 @@ static NSString *celled = @"celled";
         _sexArray = [NSArray arrayWithObjects:@"男",@"女", nil];
     }
     return _sexArray;
+}
+
+- (NSMutableArray *)infoArray {
+    if (!_infoArray) {
+        _infoArray = [NSMutableArray array];
+        
+        NSMutableArray *firstSectionArray = [NSMutableArray array];
+        NSMutableArray *secondSectionArray = [NSMutableArray array];
+        if (self.headImage) {
+            [firstSectionArray addObject:self.headImage];
+        } else {
+            [firstSectionArray addObject:[UIImage imageNamed:@"iconfont-touxiang"]];
+        }
+        
+        if (self.userModel.nickname == nil || [self.userModel.nickname isKindOfClass:[NSNull class]]) {
+            [firstSectionArray addObject:@"昵称"];
+        } else {
+            [firstSectionArray addObject:self.userModel.nickname];
+        }
+        
+        if (self.userModel.sex == 1){
+            [firstSectionArray addObject:@"男"];
+        } else {
+            [firstSectionArray addObject:@"女"];
+        }
+        
+        if ([self.userModel.birthdate isKindOfClass:[NSNull class]] || self.userModel.birthdate == nil) {
+            [firstSectionArray addObject:@"请选择生日"];
+        } else {
+            [firstSectionArray addObject:self.userModel.birthdate];
+        }
+        
+        if (self.diZhiModel != nil) {
+            [firstSectionArray addObject:[NSString stringWithFormat:@"%@-%@" , self.diZhiModel.addrProvince , self.diZhiModel.addrCity]];
+        } else {
+            [firstSectionArray addObject:@"请输入地址"];
+        }
+        
+        
+        if ([self.userModel.email isKindOfClass:[NSNull class]] || self.userModel.email == nil) {
+            [firstSectionArray addObject:@"请输入邮箱"];
+        } else {
+            [firstSectionArray addObject:self.userModel.email];
+        }
+        [secondSectionArray addObject:@""];
+        [secondSectionArray addObject:[NSString stringWithFormat:@"%ld" , self.userModel.sn]];
+        
+        [_infoArray addObject:firstSectionArray];
+        [_infoArray addObject:secondSectionArray];
+        
+    }
+    return _infoArray;
 }
 
 @end

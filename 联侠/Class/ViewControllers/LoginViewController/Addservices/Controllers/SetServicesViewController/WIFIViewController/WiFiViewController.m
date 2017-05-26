@@ -124,7 +124,7 @@
         make.bottom.mas_equalTo(xiaHuaXian.mas_top);
     }];
 
-    self.ssidLabel = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" , [self getWifiName]] andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
+    self.ssidLabel = [UILabel creatLableWithTitle:@"" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
     self.ssidLabel.layer.borderWidth = 0;
     [self.ssidLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, kScreenW / 10));
@@ -132,8 +132,13 @@
         make.left.mas_equalTo(nameWiFi.mas_right).offset(kScreenW / 30);
     }];
     self.ssidLabel.textColor = [UIColor grayColor];
-
     
+    if ([self getWifiName] == nil || [[self getWifiName] isKindOfClass:[NSNull class]]) {
+        self.ssidLabel.text = @"未链接WIFI";
+    } else {
+        self.ssidLabel.text = [NSString stringWithFormat:@"%@" , [self getWifiName]];
+    }
+
     
     UIView *xiaHuaXian2 = [[UIView alloc]init];
     [self.view addSubview:xiaHuaXian2];

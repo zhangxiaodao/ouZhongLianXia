@@ -64,7 +64,13 @@
     if ([self.navigationItem.title isEqualToString:@"系统消息"]) {
         [HelpFunction requestDataWithUrlString:kSystemMessageJieKou andParames:parames andDelegate:self];
     } else {
-        [HelpFunction requestDataWithUrlString:kXiaoXiJieKou andParames:parames andDelegate:self];
+        UIAlertController *alert = [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"暂无消息"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [self.tableView.mj_header endRefreshing];
+            [self.tableView.mj_footer endRefreshing];
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        });
     }
     
 }
@@ -77,7 +83,13 @@
     if ([self.navigationItem.title isEqualToString:@"系统消息"]) {
         [HelpFunction requestDataWithUrlString:kSystemMessageJieKou andParames:parames andDelegate:self];
     } else {
-        [HelpFunction requestDataWithUrlString:kXiaoXiJieKou andParames:parames andDelegate:self];
+        UIAlertController *alert = [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"暂无消息"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [self.tableView.mj_header endRefreshing];
+            [self.tableView.mj_footer endRefreshing];
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        });
     }
 }
 

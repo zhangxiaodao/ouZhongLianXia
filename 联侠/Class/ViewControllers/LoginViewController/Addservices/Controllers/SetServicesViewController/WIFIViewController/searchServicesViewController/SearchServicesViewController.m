@@ -91,6 +91,8 @@
     self.repeatSendTimer = nil;
     [self.updSocket close];
     self.updSocket = nil;
+    self._isConfirmState = YES;
+    [self cancel];
 }
 
 

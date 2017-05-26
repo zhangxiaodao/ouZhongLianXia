@@ -109,23 +109,6 @@
         [_duanXianChongLian invalidate];
         _duanXianChongLian = nil;
         _duanXianChongLian = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(duanXianChongLianAtcion) userInfo:nil repeats:YES];
-        NSString *message = @"网络连接异常，请稍等。";
-        
-        if (!_alertController) {
-            
-            _alertController = [UIAlertController creatRightAlertControllerWithHandle:^{
-                
-                [_alertController dismissViewControllerAnimated:YES completion:^{
-                    _alertController = nil;
-                }];
-                
-            } andSuperViewController:kWindowRoot Title:message];
-        } else if (_alertController) {
-            
-            if (![_alertController.message isEqualToString:message]) {
-                _alertController.message = message;
-            }
-        }
     }
     
 }
@@ -139,6 +122,25 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , self.userSn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
         });
+    }
+    
+    
+    NSString *message = @"网络连接异常，请稍等。";
+    
+    if (!_alertController) {
+        
+        _alertController = [UIAlertController creatRightAlertControllerWithHandle:^{
+            
+            [_alertController dismissViewControllerAnimated:YES completion:^{
+                _alertController = nil;
+            }];
+            
+        } andSuperViewController:kWindowRoot Title:message];
+    } else if (_alertController) {
+        
+        if (![_alertController.message isEqualToString:message]) {
+            _alertController.message = message;
+        }
     }
     
 }

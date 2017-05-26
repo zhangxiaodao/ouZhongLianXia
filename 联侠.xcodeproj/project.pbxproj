@@ -1331,9 +1331,9 @@
 		ED225C011EA4B4D700E4FD85 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				ED225C111EA4B4D700E4FD85 /* MineSerivesViewController */,
 				ED225C021EA4B4D700E4FD85 /* AllServicesViewController */,
 				ED225C081EA4B4D700E4FD85 /* AllTypeServicesHTMLVC */,
-				ED225C111EA4B4D700E4FD85 /* MineSerivesViewController */,
 				ED225C1C1EA4B4D700E4FD85 /* SetServicesViewController */,
 			);
 			path = Controllers;

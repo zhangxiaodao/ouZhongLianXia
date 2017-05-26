@@ -25,19 +25,14 @@
 
 - (void)setIndexpath:(NSIndexPath *)indexpath {
     [super setIndexpath:indexpath];
-    
+    self.fenGeView.hidden = NO;
     if (indexpath.row == 0) {
         [self setTopCorner];
     }
     
-    if (indexpath.row != self.dataArray.count - 1) {
-        self.fenGeView.hidden = NO;
-    } else {
-        self.fenGeView.hidden = YES;
-    }
-    
-    if (indexpath.row == self.dataArray.count - 1) {
+    if (indexpath.row == self.count - 1) {
         [self setBottomCorner];
+        self.fenGeView.hidden = YES;
     }
 }
 

@@ -11,8 +11,7 @@
 #import "BaseTableViewCell.h"
 
 @interface AllTypeServiceTableViewCell : BaseTableViewCell
-
-@property (nonatomic , strong) NSMutableArray *dataArray;
+@property (nonatomic , assign) NSInteger count;
 @property (nonatomic , strong) AllTypeServiceModel *allTypeServiceModel;
 
 @end

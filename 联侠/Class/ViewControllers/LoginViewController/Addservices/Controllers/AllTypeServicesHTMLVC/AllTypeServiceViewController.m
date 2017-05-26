@@ -74,7 +74,7 @@
     if (!cell) {
         cell = [[AllTypeServiceTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:celled];
     }
-    cell.dataArray = _dataArray;
+    cell.count = self.dataArray.count;
     cell.indexpath = indexPath;
     AllTypeServiceModel *allTypeServiceModel = _dataArray[indexPath.row];
     cell.allTypeServiceModel = allTypeServiceModel;

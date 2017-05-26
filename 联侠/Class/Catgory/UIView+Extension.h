@@ -53,4 +53,6 @@
 
 + (UIView *_Nonnull)creatViewWithFiledCoradiusOfPlaceholder:(NSString *_Nonnull)placholder andSuperView:(UIView *_Nonnull)superView;
 
++ (void)setTopCornerWithView:(UIView *_Nonnull)view;
++ (void)setBottomCornerWithView:(UIView *_Nonnull)view;
 @end

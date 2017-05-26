@@ -33,7 +33,7 @@
 
 #define BackGroupHeight kScreenH / 2.964444
 
-#define kVersion @"5.0.4"
+#define kVersion @"5.0.5"
 
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip
@@ -273,12 +273,6 @@
  *
  */
 #define kChaXunBanBenHao [NSString stringWithFormat:@"http://%@:8080/smarthome/app/queryLatestVersion", localhost]
-
-/**
- *  查询消息接口
- *
- */
-#define kXiaoXiJieKou [NSString stringWithFormat:@"http://%@:8080/smarthome/app/queryMessage", localhost]
 
 /**
  *  查询消息接口

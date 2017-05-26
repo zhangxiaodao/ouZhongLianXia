@@ -163,10 +163,17 @@
                 [serviceModel setValuesForKeysWithDictionary:dic];
                 serviceModel.userDeviceID = [obj[@"id"] integerValue];
                 [_haveArray addObject:serviceModel];
+                
+//                NSDictionary *parames = @{@"id" : @(serviceModel.userDeviceID)};
+//                //        NSLog(@"%@" , parames);
+//                [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
             }];
             [kStanderDefault setObject:@"YES" forKey:@"isHaveService"];
             
+            
+            
             if (self.haveArray.count > 0) {
+                self.markView.hidden = YES;
                 [self.collectionView reloadData];
             } else {
                 self.markView.hidden = NO;
@@ -175,6 +182,20 @@
         }
     }
 }
+
+
+- (void)requestRemoveService:(HelpFunction *)request didDone:(NSDictionary *)dic{
+    //    NSLog(@"%@" , dic);
+    
+    if ([dic[@"state"] integerValue] == 0) {
+        
+        
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        } andSuperViewController:self Title:@"设备删除成功"];
+    }
+}
+
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
     NSLog(@"%@" , error);

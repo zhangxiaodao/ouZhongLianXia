@@ -482,7 +482,7 @@
 
 - (void)setWearthDic:(NSMutableDictionary *)wearthDic {
     _wearthDic = wearthDic;
-    NSLog(@"%@" , _wearthDic);
+//    NSLog(@"%@" , _wearthDic);
     
 }
 

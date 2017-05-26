@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "517223383.584877"
+            timestampString = "517312169.406455"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
             landmarkName = "-requestData:didFinishLoadingDtaArray:"
             landmarkType = "7">
             <Locations>
@@ -36,26 +36,26 @@
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "517234117.300784"
+                  timestampString = "517485383.784629"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "314"
-                  endingLineNumber = "314"
+                  startingLineNumber = "316"
+                  endingLineNumber = "316"
                   offsetFromSymbolStart = "784">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__69-[SearchServicesViewController requestData:didFinishLoadingDtaArray:]_block_invoke.290"
+                  symbolName = "__69-[SearchServicesViewController requestData:didFinishLoadingDtaArray:]_block_invoke.292"
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "517234117.302367"
+                  timestampString = "517485383.787719"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "314"
-                  endingLineNumber = "314"
+                  startingLineNumber = "316"
+                  endingLineNumber = "316"
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
@@ -67,61 +67,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "517223383.584877"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/WiFiViewController.m"
+            timestampString = "517374292.360359"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/HTMLBaseViewController/HTMLBaseViewController.m"
-            timestampString = "517226062.302836"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "-webView:shouldStartLoadWithRequest:navigationType:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/HTMLBaseViewController/HTMLBaseViewController.m"
-            timestampString = "517226063.999442"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "-webView:shouldStartLoadWithRequest:navigationType:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/MainViewController/HTMLBaseViewController/HTMLBaseViewController.m"
-            timestampString = "517226074.143722"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "-webView:shouldStartLoadWithRequest:navigationType:"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-getWifiName"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

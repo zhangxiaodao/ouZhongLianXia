@@ -76,16 +76,6 @@
         make.centerX.mas_equalTo(_headImageView.mas_centerX);
         make.top.mas_equalTo(_headImageView.mas_bottom);
     }];
-
-    
-//    _sexLable = [UILabel creatLableWithTitle:@"" andSuperView:self andFont:k14 andTextAligment:NSTextAlignmentCenter];
-//    _sexLable.textColor = [UIColor colorWithHexString:@"ff40b5"];
-//    _sexLable.layer.borderWidth = 0;
-//    [_sexLable mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake(kScreenW / 20, kScreenW / 14));
-//        make.left.mas_equalTo(_nameLable.mas_right);
-//        make.centerY.mas_equalTo(_nameLable.mas_centerY);
-//    }];
     
 }
 
@@ -93,32 +83,35 @@
 - (void)setUserModel:(UserModel *)userModel {
     _userModel = userModel;
     
-        if ([_userModel.headImageUrl isKindOfClass:[NSNull class]]) {
-            _headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
-            _headBackImageView.image = _headBackImageView.image = [UIImage boxblurImage:[UIImage imageNamed:@"iconfont-touxiang"] withBlurNumber:.3];
-        } else {
-            [_headImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl] placeholderImage:[UIImage imageNamed:@"iconfont-touxiang"]];
-            __weak typeof(self) weakSelf = self;
-            [_headBackImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    if ([_userModel.headImageUrl isKindOfClass:[NSNull class]] || _userModel.headImageUrl == nil || [_userModel.headImageUrl isEqualToString:@""]) {
+        _headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
+        _headBackImageView.image = [UIImage boxblurImage:[UIImage imageNamed:@"iconfont-touxiang"] withBlurNumber:.3];
+    } else {
+        [_headImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl] placeholderImage:[UIImage imageNamed:@"iconfont-touxiang"]];
+        
+        [_headBackImageView sd_setImageWithURL:[NSURL URLWithString:_userModel.headImageUrl] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            
+            if (image == nil) {
+                _headBackImageView.image = [UIImage boxblurImage:[UIImage imageNamed:@"iconfont-touxiang"] withBlurNumber:.3];
+            } else {
                 _headBackImageView.image = [UIImage boxblurImage:image withBlurNumber:.3];
-            }];
+            }
             
-
-            
-        }
-        
-        if (![_userModel.nickname isKindOfClass:[NSNull class]]) {
-            _nameLable.text = _userModel.nickname;
-        } else {
-            _nameLable.text = @"用户名";
-        }
-        
-        
-//        if (_userModel.sex == 0) {
-//            _sexLable.text = @"♂";
-//        } else {
-//            _sexLable.text = @"♀";
-//        }
+        }];
+    }
+    
+    if (![_userModel.nickname isKindOfClass:[NSNull class]]) {
+        _nameLable.text = _userModel.nickname;
+    } else {
+        _nameLable.text = @"用户名";
+    }
+    
+    
+    //        if (_userModel.sex == 0) {
+    //            _sexLable.text = @"♂";
+    //        } else {
+    //            _sexLable.text = @"♀";
+    //        }
     
 }
 
