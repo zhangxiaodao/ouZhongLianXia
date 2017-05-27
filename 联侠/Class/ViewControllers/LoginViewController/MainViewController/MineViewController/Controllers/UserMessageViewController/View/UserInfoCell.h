@@ -28,8 +28,8 @@
 
 @property (nonatomic , strong) UIImageView *selectedImage;
 
-- (void)setTopCorner;
-- (void)setBottomCorner;
+@property (nonatomic , strong) UIImageView *backImage;
+
 - (void)changHeadPortraitAtcion;
 - (void)chanceAddressAtcion;
 - (void)textFieldDidEndEditing:(UITextField *)textField ;

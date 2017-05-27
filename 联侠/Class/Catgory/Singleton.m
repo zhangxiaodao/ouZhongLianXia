@@ -125,23 +125,20 @@
     }
     
     
-    NSString *message = @"网络连接异常，请稍等。";
-    
-    if (!_alertController) {
-        
-        _alertController = [UIAlertController creatRightAlertControllerWithHandle:^{
-            
-            [_alertController dismissViewControllerAnimated:YES completion:^{
-                _alertController = nil;
-            }];
-            
-        } andSuperViewController:kWindowRoot Title:message];
-    } else if (_alertController) {
-        
-        if (![_alertController.message isEqualToString:message]) {
-            _alertController.message = message;
-        }
-    }
+//    NSString *message = @"网络连接异常，请稍等。";
+//    
+//    if (!_alertController) {
+//        
+//        _alertController = [UIAlertController creatRightAlertControllerWithHandle:^{
+//            [_alertController dismissViewControllerAnimated:YES completion:^{
+//                _alertController = nil;
+//            }];
+//        } andSuperViewController:kWindowRoot Title:message];
+//    } else if (_alertController) {
+//        if (![_alertController.message isEqualToString:message]) {
+//            _alertController.message = message;
+//        }
+//    }
     
 }
 

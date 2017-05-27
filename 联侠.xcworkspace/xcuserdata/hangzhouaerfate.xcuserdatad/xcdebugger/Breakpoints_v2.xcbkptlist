@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "517312169.406455"
+            timestampString = "517561865.601741"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
             landmarkName = "-requestData:didFinishLoadingDtaArray:"
             landmarkType = "7">
             <Locations>
@@ -36,45 +36,29 @@
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "517485383.784629"
+                  timestampString = "517564757.02562"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "316"
-                  endingLineNumber = "316"
+                  startingLineNumber = "318"
+                  endingLineNumber = "318"
                   offsetFromSymbolStart = "784">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__69-[SearchServicesViewController requestData:didFinishLoadingDtaArray:]_block_invoke.292"
+                  symbolName = "__69-[SearchServicesViewController requestData:didFinishLoadingDtaArray:]_block_invoke.296"
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "517485383.787719"
+                  timestampString = "517564757.029002"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "316"
-                  endingLineNumber = "316"
+                  startingLineNumber = "318"
+                  endingLineNumber = "318"
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/WiFiViewController.m"
-            timestampString = "517374292.360359"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-getWifiName"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

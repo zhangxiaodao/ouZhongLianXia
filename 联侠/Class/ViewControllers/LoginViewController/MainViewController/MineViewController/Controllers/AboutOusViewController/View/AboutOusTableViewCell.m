@@ -26,11 +26,13 @@
         self.lable.text = @"去评价";
         self.imageViw.image = [UIImage imageNamed:@"icon_evaluation"];
         self.fenGeView.hidden = NO;
-        [self setTopCorner];
+//        [self setTopCorner];
+        self.backImage.image = [UIImage imageNamed:@"topleftandright"];
     } else {
         self.lable.text = @"联系我们";
         self.imageViw.image = [UIImage imageNamed:@"icon_phone"];
-        [self setBottomCorner];
+//        [self setBottomCorner];
+        self.backImage.image = [UIImage imageNamed:@"bottomleftandright"];
     }
     
 }

@@ -23,7 +23,7 @@
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     
     [super setServiceModel:serviceModel];
-    
+    self.pointImageView.hidden = YES;
     
     if (self.serviceModel) {
         [self.backImage sd_setImageWithURL:[NSURL URLWithString:self.serviceModel.imageUrl] placeholderImage:[UIImage new]];
@@ -39,6 +39,14 @@
             
         }
         self.numberLabel.text = [NSString stringWithFormat:@"No.%ld" ,((long)self.indexPath.row + 1)];
+        
+        if (self.serviceModel.ifConn == 1) {
+            self.onlieLabel.text = @"在线";
+            self.onlieLabel.textColor = kMainColor;
+        } else {
+            self.onlieLabel.text = @"离线";
+            self.onlieLabel.textColor = [UIColor colorWithHexString:@"767676"];
+        }
         self.layer.masksToBounds = YES;
     }
     

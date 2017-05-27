@@ -10,8 +10,9 @@
 #import "AllTypeServiceModel.h"
 #import "BaseTableViewCell.h"
 
-@interface AllTypeServiceTableViewCell : BaseTableViewCell
+@interface AllTypeServiceTableViewCell : UITableViewCell
 @property (nonatomic , assign) NSInteger count;
 @property (nonatomic , strong) AllTypeServiceModel *allTypeServiceModel;
-
+@property (nonatomic , strong) NSIndexPath *indePath;
+@property (nonatomic , strong) UIImageView *selectedImage;
 @end

@@ -225,7 +225,7 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 30) {
+            if ([data[@"id"] integerValue] > 32) {
                 
                 if ([data[@"isForce"] integerValue] == 0) {
                     return ;

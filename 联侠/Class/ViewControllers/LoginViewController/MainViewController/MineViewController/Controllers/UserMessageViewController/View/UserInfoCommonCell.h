@@ -8,12 +8,7 @@
 
 #import "UserInfoCell.h"
 
-@interface UserInfoCommonCell : UITableViewCell
-@property (nonatomic , strong) UIImageView *headPortraitImageView;
+@interface UserInfoCommonCell : UserInfoCell
 @property (nonatomic , strong) UIViewController *currentVC;
-@property (nonatomic , strong) UILabel *rightLabel;
-@property (nonatomic , strong) UIImageView *selectedImage;
-@property (nonatomic , strong) NSIndexPath *indexPath;
-@property (nonatomic , strong) UserModel *userModel;
-@property (nonatomic , strong) UILabel *idLabel;
+
 @end

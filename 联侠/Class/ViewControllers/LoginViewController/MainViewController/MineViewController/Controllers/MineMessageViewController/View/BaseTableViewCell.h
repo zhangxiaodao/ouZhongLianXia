@@ -10,17 +10,16 @@
 
 @interface BaseTableViewCell : UITableViewCell
 
-@property (nonatomic , strong) UIView *fenGeView;
-@property (nonatomic , strong) UIView *tiShiView;
-@property (nonatomic , strong) UIImageView *imageViw;
+@property (nonatomic , strong) UIImageView *backImage;
 @property (nonatomic ,strong) UILabel *lable;
 @property (nonatomic , strong) UIView *view;
+@property (nonatomic , strong) UIImageView *imageViw;
+@property (nonatomic , strong) UIView *fenGeView;
+@property (nonatomic , strong) UIView *tiShiView;
 @property (nonatomic , copy) NSString *isShowPromptImageView;
 @property (nonatomic , strong) NSIndexPath *indexpath;
 @property (nonatomic , strong) UIImageView *selectedImage;
 
 - (void)setIndexpath:(NSIndexPath *)indexpath;
 
-- (void)setTopCorner;
-- (void)setBottomCorner;
 @end

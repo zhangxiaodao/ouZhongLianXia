@@ -20,7 +20,9 @@
         self.imageViw.image = [UIImage imageNamed:@"icon_product_explain"];
         self.lable.text = @"产品说明";
         self.fenGeView.hidden = NO;
-        [self setTopCorner];
+//        [self setTopCorner];
+        self.backImage.image = [UIImage imageNamed:@"topleftandright"];
+        
     } else if (self.indexpath.row == 1) {
         self.imageViw.image = [UIImage imageNamed:@"icon_online_help"];
         self.lable.text = @"在线帮助";
@@ -32,7 +34,8 @@
     } else {
         self.imageViw.image = [UIImage imageNamed:@"icon_log"];
         self.lable.text = @"更新日志";
-        [self setBottomCorner];
+//        [self setBottomCorner];
+        self.backImage.image = [UIImage imageNamed:@"bottomleftandright"];
     }
     
 }

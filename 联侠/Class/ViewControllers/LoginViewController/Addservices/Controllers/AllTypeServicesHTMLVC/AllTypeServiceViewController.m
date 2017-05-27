@@ -14,6 +14,7 @@
 
 @interface AllTypeServiceViewController ()<UITableViewDelegate , UITableViewDataSource , HelpFunctionDelegate>
 @property (nonatomic , copy) NSString *devType;
+@property (nonatomic , strong) NSIndexPath *selectedIndexPath;
 
 @property (nonatomic , strong) NSMutableArray *dataArray;
 
@@ -75,11 +76,26 @@
         cell = [[AllTypeServiceTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:celled];
     }
     cell.count = self.dataArray.count;
-    cell.indexpath = indexPath;
+    cell.indePath = indexPath;
     AllTypeServiceModel *allTypeServiceModel = _dataArray[indexPath.row];
     cell.allTypeServiceModel = allTypeServiceModel;
     
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    AllTypeServiceTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.selectedImage.hidden = NO;
+    self.selectedIndexPath = indexPath;
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.selectedIndexPath) {
+        AllTypeServiceTableViewCell *cell = [tableView cellForRowAtIndexPath:self.selectedIndexPath];
+        cell.selectedImage.hidden = YES;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -91,9 +107,10 @@
     [self.navigationController pushViewController:allServiceVC animated:YES];
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    return kScreenH / 14.46;
+    return kScreenH / 13;
 }
 
 - (NSMutableArray *)dataArray {

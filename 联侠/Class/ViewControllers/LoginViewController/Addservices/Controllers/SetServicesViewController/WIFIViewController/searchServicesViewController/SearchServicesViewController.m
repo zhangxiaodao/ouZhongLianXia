@@ -256,7 +256,9 @@
             
             
             if ([kStanderDefault objectForKey:@"cityName"] && [kStanderDefault objectForKey:@"provience"]) {
-                parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : [kStanderDefault objectForKey:@"cityName"]};
+                NSString *city = [kStanderDefault objectForKey:@"cityName"];
+                [city stringByAppendingString:@"市"];
+                parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : city};
             } else {
                 parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
             }

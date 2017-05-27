@@ -27,8 +27,17 @@
     self.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     _view = [[UIView alloc] initWithFrame:CGRectMake(10, 0, kScreenW - kScreenW / 15.625, kScreenH / 14.46)];
     [self.contentView addSubview:_view];
-    _view.backgroundColor = [UIColor whiteColor];
+    _view.backgroundColor = [UIColor clearColor];
     
+    UIImageView *backImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"normalback"]];
+    [_view addSubview:backImage];
+    [backImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(_view.width, _view.height));
+        make.centerX.mas_equalTo(_view.mas_centerX);
+        make.centerY.mas_equalTo(_view.mas_centerY);
+    }];
+    //    backImage.contentMode = UIViewContentModeScaleToFill;
+    self.backImage = backImage;
     
     UILabel *label = [UILabel creatLableWithTitle:nil andSuperView:_view andFont:k15 andTextAligment:NSTextAlignmentLeft];
     label.textColor = [UIColor blackColor];
@@ -152,8 +161,8 @@
     
 }
 
-- (void)setIndexpath:(NSIndexPath *)indexpath {
-    _indexPath = indexpath;
+- (void)setIndexPath:(NSIndexPath *)indexPath {
+    _indexPath = indexPath;
 }
 
 - (void)setUserModel:(UserModel *)userModel {
@@ -165,22 +174,22 @@
 }
 
 
-- (void)setTopCorner {
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.view.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(5, 5)];
-    
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = self.view.bounds;
-    maskLayer.path = maskPath.CGPath;
-    self.view.layer.mask = maskLayer;
-}
-
-- (void)setBottomCorner {
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.view.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
-    
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = self.view.bounds;
-    maskLayer.path = maskPath.CGPath;
-    self.view.layer.mask = maskLayer;
-}
+//- (void)setTopCorner {
+//    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.view.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(5, 5)];
+//    
+//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+//    maskLayer.frame = self.view.bounds;
+//    maskLayer.path = maskPath.CGPath;
+//    self.view.layer.mask = maskLayer;
+//}
+//
+//- (void)setBottomCorner {
+//    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.view.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
+//    
+//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+//    maskLayer.frame = self.view.bounds;
+//    maskLayer.path = maskPath.CGPath;
+//    self.view.layer.mask = maskLayer;
+//}
 
 @end

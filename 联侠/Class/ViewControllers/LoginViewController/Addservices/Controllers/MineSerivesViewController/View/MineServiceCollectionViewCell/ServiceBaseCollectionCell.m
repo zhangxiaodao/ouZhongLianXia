@@ -58,11 +58,22 @@
             make.centerY.mas_equalTo(_numberLabel.mas_top);
             make.right.mas_equalTo(view.mas_right).offset(-kScreenW / 37.5);
         }];
+        self.pointImageView = pointImageView;
         
         _selectedImage = [[UIImageView alloc]initWithFrame:view.bounds];
         [self.contentView addSubview:_selectedImage];
         _selectedImage.image = [UIImage imageNamed:@"k_bg_down"];
         _selectedImage.hidden = YES;
+        
+        UILabel *onlieLabel = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentRight];
+        [onlieLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(view.width / 3, view.height / 8));
+            make.centerY.mas_equalTo(_numberLabel.mas_centerY);
+            make.right.mas_equalTo(view.mas_right).offset(-kScreenW / 37.5);
+        }];
+        onlieLabel.layer.borderWidth = 0;
+        onlieLabel.textColor = kMainColor;
+        self.onlieLabel = onlieLabel;
     }
     return self;
 }

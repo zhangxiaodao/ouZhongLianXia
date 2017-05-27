@@ -33,12 +33,12 @@
 
 #define BackGroupHeight kScreenH / 2.964444
 
-#define kVersion @"5.0.5"
+#define kVersion @"5.0.6"
 
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip
 #define kPort 6003
-#define localhost @"192.168.1.104"
+#define localhost @"114.55.5.92"
 
 #define kXinTiao @"xinTiao"
 #define kZhiLing @"zhiLing"

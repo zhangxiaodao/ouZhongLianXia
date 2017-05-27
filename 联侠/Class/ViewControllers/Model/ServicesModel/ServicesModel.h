@@ -25,6 +25,11 @@
 @property (nonatomic , copy) NSString *definedName;
 
 /**
+ 查询设备是否在线
+ */
+@property (nonatomic , assign) NSInteger ifConn;
+
+/**
  *  测试使用将来需要删除
  */
 @property (nonatomic , strong) NSString *devTypeSn;

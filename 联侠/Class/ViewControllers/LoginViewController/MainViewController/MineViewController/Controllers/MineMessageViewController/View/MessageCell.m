@@ -25,11 +25,13 @@
         self.lable.text = @"系统消息";
         self.imageViw.image = [UIImage imageNamed:@"icon_message2"];
         self.fenGeView.hidden = NO;
-        [self setTopCorner];
+//        [self setTopCorner];
+        self.backImage.image = [UIImage imageNamed:@"topleftandright"];
     } else {
         self.lable.text = @"我的消息";
         self.imageViw.image = [UIImage imageNamed:@"icon_message1"];
-        [self setBottomCorner];
+//        [self setBottomCorner];
+        self.backImage.image = [UIImage imageNamed:@"bottomleftandright"];
     }
     
 }

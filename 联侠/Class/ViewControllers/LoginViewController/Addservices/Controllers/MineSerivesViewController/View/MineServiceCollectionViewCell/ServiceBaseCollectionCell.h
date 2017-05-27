@@ -16,6 +16,9 @@
 @property (nonatomic , strong) UIImageView *selectedImage;
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) NSIndexPath *indexPath;
+@property (nonatomic , strong) UIImageView *pointImageView;
+@property (nonatomic , strong) UILabel *onlieLabel;
+
 
 - (void)setServiceModel:(ServicesModel *)serviceModel;
 @end

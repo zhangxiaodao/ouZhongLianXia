@@ -34,7 +34,8 @@
     self.contentFiled.hidden = NO;
     self.contentFiled.delegate = self;
     if (indexPath.section == 0 && indexPath.row == 0) {
-        [self setTopCorner];
+
+        self.backImage.image = [UIImage imageNamed:@"topleftandright"];
         self.lable.text = @"收货人";
         self.contentFiled.keyboardType = UIKeyboardTypeDefault;
         if (self.dizhiModel != nil) {
@@ -70,7 +71,8 @@
         }
         
     } else if (indexPath.section == 0 && indexPath.row == 3) {
-        [self setBottomCorner];
+
+        self.backImage.image = [UIImage imageNamed:@"bottomleftandright"];
         self.fenGeView.hidden = YES;
         self.lable.text = @"邮政编码";
         if (self.dizhiModel != nil) {
@@ -83,6 +85,7 @@
         self.view.size = CGSizeMake(kScreenW - kScreenW / 15.625, kScreenH / 8.3);
         self.view.layer.cornerRadius = 5;
         self.view.layer.masksToBounds = YES;
+        self.view.backgroundColor = [UIColor whiteColor];
         self.detailFiled.keyboardType = UIKeyboardTypeDefault;
         if (self.dizhiModel != nil) {
             self.detailFiled.text = self.dizhiModel.addrDetail;
