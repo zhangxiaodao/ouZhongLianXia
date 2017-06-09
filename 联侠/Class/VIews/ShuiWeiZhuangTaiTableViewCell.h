@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ShuiWeiZhuangTaiTableViewCell : UITableViewCell
-@property (nonatomic , strong) NSString *devSn;
+@property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) UIImageView *imageVV;
 @property (nonatomic , strong) UIViewController *vc;
 @property (nonatomic , strong) UILabel *shengYuLable;

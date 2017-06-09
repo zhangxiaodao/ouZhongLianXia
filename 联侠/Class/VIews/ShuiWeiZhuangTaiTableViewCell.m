@@ -132,7 +132,7 @@
     [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
         
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ShuiWei" object:self userInfo:[NSDictionary dictionaryWithObject:@"YES" forKey:@"ShuiWei"]]];
-        NSDictionary *parames = @{@"devSn" : self.devSn, @"devTypeSn" : @"A" , @"reset" : @(1)};
+        NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn, @"devTypeSn" : self.serviceModel.devTypeSn , @"reset" : @(1)};
         
         [HelpFunction requestDataWithUrlString:kLengFengShanFuWi andParames:parames andDelegate:self];
     } andSuperViewController:self.vc Title:@"点击复位后，数据将会被清空，重新计数"];
@@ -145,5 +145,9 @@
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
     NSLog(@"%@" , error);
+}
+
+- (void)setServiceModel:(ServicesModel *)serviceModel {
+    _serviceModel = serviceModel;
 }
 @end

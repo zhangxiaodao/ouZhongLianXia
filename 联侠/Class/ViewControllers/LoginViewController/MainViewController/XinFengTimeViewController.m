@@ -9,7 +9,7 @@
 #import "XinFengTimeViewController.h"
 #import "TimeModel.h"
 #import "CustomPickerView.h"
-@interface XinFengTimeViewController ()<HelpFunctionDelegate , CustomPickerViewDelegate>
+@interface XinFengTimeViewController ()<HelpFunctionDelegate , CustomPickerViewDelegate , UIGestureRecognizerDelegate>
 @property (nonatomic , strong) UILabel *openTimeLabel;
 @property (nonatomic , strong) UILabel *closeLabel;
 @property (nonatomic , strong) UISwitch *openSwitch;
@@ -33,6 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     
     self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"定时设置"];
     [self setUI];
@@ -41,6 +42,10 @@
 
 - (void)backTap:(UITapGestureRecognizer *)tap {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    return NO;
 }
 
 - (void)setUI {

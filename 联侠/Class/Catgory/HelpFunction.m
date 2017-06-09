@@ -379,15 +379,15 @@ static HelpFunction *_request = nil;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"CCCCCCCC");
         NSLog(@"%@" , self.urlString);
-        
-        if ([kApplicate wheatherHaveNet]) {
-            if ([kWindowRoot isKindOfClass:[TabBarViewController class]]) {
-                [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getCurrentVC]  Title:@"网络异常，请重试"];
-            } else {
-                [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getPresentedViewController]  Title:@"网络异常，请重试"];
-            }
-        }
         [_delegate requestData:self didFailLoadData:self.error];
+//        if ([kApplicate wheatherHaveNet]) {
+//            if ([kWindowRoot isKindOfClass:[TabBarViewController class]]) {
+//                [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getCurrentVC]  Title:@"网络异常，请重试"];
+//            } else {
+//                [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getPresentedViewController]  Title:@"网络异常，请重试"];
+//            }
+//        }
+        
     }];
     
     

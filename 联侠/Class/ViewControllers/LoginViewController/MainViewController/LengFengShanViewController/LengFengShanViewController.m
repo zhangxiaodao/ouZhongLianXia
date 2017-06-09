@@ -231,7 +231,7 @@
                     ];
         }
         
-        cell.devSn = self.serviceModel.devSn;
+        cell.serviceModel = self.serviceModel;
         [cell setUIbuJuWithNowUesrTime:self.serviceDataModel.iceCrystalTime andViewController:self];
         return cell;
     }  if (indexPath.section == 2 && indexPath.row == 0) {
@@ -242,7 +242,7 @@
                     ];
         }
         
-        cell.devSn = self.serviceModel.devSn;
+        cell.serviceModel = self.serviceModel;
         [cell setUIBuJuWith:self.serviceDataModel.waterStateTime andSumShuiWei:kLengFengShanShuiWei andImage:[UIImage imageNamed:@"shuiWei1.png"] andViewController:self];
         return cell;
     } if (indexPath.section == 3 && indexPath.row == 0) {
@@ -253,7 +253,7 @@
                     ];
         }
         
-        cell.devSn = self.serviceModel.devSn;
+        cell.serviceModel = self.serviceModel;
         NSInteger i = self.serviceDataModel.totalTime / ((NSInteger)kLengFengShanSumLvWang * 3600000);
         
         [cell setZhiZhenView:i andViewController:self];

@@ -20,7 +20,7 @@
 
 
 #define kBtnW ((kScreenW + 4) / 4)
-@interface XinFengViewController ()<UITableViewDelegate , UITableViewDataSource , HelpFunctionDelegate , XinFengTimeVCSendTimeToParentVCDelegate>
+@interface XinFengViewController ()<UITableViewDelegate , UITableViewDataSource , HelpFunctionDelegate , XinFengTimeVCSendTimeToParentVCDelegate , UIGestureRecognizerDelegate>
 @property (nonatomic , strong) UITableView *tableView;
 @property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) UIButton *bottomBtn;
@@ -49,7 +49,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
     NSDictionary *parameters = nil;
@@ -67,25 +66,20 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     if (self.serviceModel && self.userModel) {
         
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
     }
     
-//    NSIndexPath *indexPath=[NSIndexPath indexPathForRow:0 inSection:0];
-//    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
-    
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-
-//    XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-//    [cell.myTimer invalidate];
-//    cell.myTimer = nil;
-    
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    [cell.myTimer invalidate];
+    cell.myTimer = nil;
+    return YES;
 }
-
 
 #pragma mark - 获取代理的数据
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {

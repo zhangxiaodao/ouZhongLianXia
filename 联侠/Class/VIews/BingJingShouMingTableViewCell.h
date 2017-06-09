@@ -11,7 +11,7 @@
 @interface BingJingShouMingTableViewCell : UITableViewCell
 
 @property (nonatomic , copy) NSString *isKongJing;
-@property (nonatomic , strong) NSString *devSn;
+@property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) UIViewController *vc;
 
 

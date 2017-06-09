@@ -525,7 +525,7 @@ static NSString *fifthCelled = @"fifth";
         [_stateArray addObject:[NSString stringWithFormat:@"%@" , self.modelArray[self.stateModel.fMode]]];
         [_stateArray addObject:[NSString stringWithFormat:@"%@" , self.windArray[self.stateModel.fWind]]];
         [_stateArray addObject:[NSString stringWithFormat:@"%@" , self.switchArray[self.stateModel.fSwing]]];
-        [_stateArray addObject:[NSString stringWithFormat:@"%@" , self.zhiLengArray[self.stateModel.fState]]];
+        [_stateArray addObject:[NSString stringWithFormat:@"%@" , self.zhiLengArray[self.stateModel.fCold]]];
         [_stateArray addObject:self.baiFnegArray[self.stateModel.fSwitch]];
         [_stateArray addObject:[NSString stringWithFormat:@"%@" , self.uvShaJunArray[self.stateModel.fUV]]];
         [_stateArray addObject:[NSString stringWithFormat:@"%@" , self.tongSuoArray[self.stateModel.fLock]]];

@@ -49,7 +49,7 @@
 /**
  *  状态：制冷加湿
  */
-@property (nonatomic , assign) NSInteger fState;
+@property (nonatomic , assign) NSInteger fCold;
 /**
  *  冷风扇: 模式：1：正常，2：自然，3：睡眠
  *

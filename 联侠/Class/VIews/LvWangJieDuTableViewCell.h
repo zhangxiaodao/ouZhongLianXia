@@ -17,7 +17,7 @@
 @property (nonatomic , strong) UIView *qingJieView;
 @property (nonatomic , strong) UIImageView *zhiBiaoView;
 @property (nonatomic , strong) UIViewController *vc;
-@property (nonatomic , strong) NSString *devSn;
+@property (nonatomic , strong) ServicesModel *serviceModel;
 
 - (void)setZhiZhenView:(NSInteger)index andViewController:(UIViewController *)viewController;
 

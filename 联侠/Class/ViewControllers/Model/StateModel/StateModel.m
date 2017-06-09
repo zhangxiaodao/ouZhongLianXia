@@ -29,11 +29,11 @@
         } else {
             _fMode = [value integerValue];
         }
-    }  if ([key isEqualToString:@"fState"]) {
+    }  if ([key isEqualToString:@"fCold"]) {
         if ([value isKindOfClass:[NSNull class]]) {
-            _fState = 0;
+            _fCold = 0;
         } else {
-            _fState = [value integerValue];
+            _fCold = [value integerValue];
         }
     }  if ([key isEqualToString:@"fSwing"]) {
         

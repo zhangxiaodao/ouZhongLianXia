@@ -335,7 +335,7 @@
 //        [self settongSuoBtnWithSelected:NO];
 //    }
     
-    if (model.fState == 1) {
+    if (model.fCold == 1) {
         [self.zhiLengBtn removeFromSuperview];
         [self setzhiLengBtnWithSelected:YES];
     } else {

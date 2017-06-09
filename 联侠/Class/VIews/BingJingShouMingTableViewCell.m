@@ -157,7 +157,7 @@
         
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"bingJing" object:self userInfo:[NSDictionary dictionaryWithObject:@"YES" forKey:@"bingJing"]]];
         
-        NSDictionary *parames = @{@"devSn" : self.devSn, @"devTypeSn" : @"A" , @"reset" : @(2)};
+        NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn, @"devTypeSn" : self.serviceModel.devTypeSn , @"reset" : @(2)};
         
         [HelpFunction requestDataWithUrlString:kLengFengShanFuWi andParames:parames andDelegate:self];
     } andSuperViewController:self.vc Title:@"点击复位后，数据将会被清空，重新计数"];
@@ -170,6 +170,10 @@
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
     NSLog(@"%@" , error);
+}
+
+- (void)setServiceModel:(ServicesModel *)serviceModel {
+    _serviceModel = serviceModel;
 }
 
 @end

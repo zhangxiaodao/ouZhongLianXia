@@ -8,8 +8,6 @@
 
 #import "LvWangJieDuTableViewCell.h"
 
-
-
 @interface LvWangJieDuTableViewCell ()<HelpFunctionDelegate>
 
 @property (nonatomic , assign) NSInteger index;
@@ -133,7 +131,7 @@
     [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"lvWang" object:self userInfo:[NSDictionary dictionaryWithObject:@"YES" forKey:@"lvWang"]]];
         
-        NSDictionary *parames = @{@"devSn" : self.devSn, @"devTypeSn" : @"A" , @"reset" : @(3)};
+        NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn, @"devTypeSn" : self.serviceModel.devTypeSn , @"reset" : @(3)};
         
         [HelpFunction requestDataWithUrlString:kLengFengShanFuWi andParames:parames andDelegate:self];
     } andSuperViewController:self.vc Title:@"点击复位后，数据将会被清空，重新计数"];
@@ -147,6 +145,10 @@
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
     NSLog(@"%@" , error);
+}
+
+- (void)setServiceModel:(ServicesModel *)serviceModel {
+    _serviceModel = serviceModel;
 }
 
 @end
