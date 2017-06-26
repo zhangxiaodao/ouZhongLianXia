@@ -38,11 +38,9 @@
 
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backButton setImage:[UIImage imageNamed:@"navigationButtonReturn"] forState:UIControlStateNormal];
-//        [backButton setImage:[UIImage imageNamed:@"navigationButtonReturnClick"] forState:UIControlStateHighlighted];
         [backButton setTitle:superVC.navigationItem.title forState:UIControlStateNormal];
         
         [backButton setTitleColor:[UIColor colorWithHexString:@"00a2ff"] forState:UIControlStateNormal];
-//        [backButton setTitleColor:[UIColor redColor] forState:UIControlStateHighlighted];
         backButton.titleLabel.font = [UIFont systemFontOfSize:k15];
         [backButton sizeToFit];
         // 这句代码放在sizeToFit后面

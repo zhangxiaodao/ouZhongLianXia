@@ -15,6 +15,7 @@
 #import "CCLocationManager.h"
 #import "LoginViewController.h"
 #import "AllServicesViewController.h"
+#import "FirstUserAlertView.h"
 
 @interface MainViewController ()<UIScrollViewDelegate , HelpFunctionDelegate , CCLocationManagerZHCDelegate>{
     UIImageView *imageBG;
@@ -53,6 +54,8 @@
     [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
     
     [self setMainUI];
+    
+    [self setAlertView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHeadImage:) name:@"headImage" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getNiCheng:) name:@"niCheng" object:nil];
@@ -418,29 +421,11 @@
         make.right.mas_equalTo(self.bottomBtn.mas_centerX).offset(-3);
         make.centerY.mas_equalTo(self.bottomBtn.mas_centerY);
     }];
-        
-    
-    if (![kStanderDefault objectForKey:@"first"] ) {
-        
-        self.tiShiView = [[UIView alloc]init];
-        self.tiShiView.frame = kScreenFrame;
-        [self.view addSubview:self.tiShiView];
-        
-        UIImageView *iiiii = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"主页提示"]];
-        [self.tiShiView addSubview:iiiii];
-        iiiii.frame = self.tiShiView.bounds;
-        
-        UIButton *btn = [UIButton initWithTitle:@"" andColor:[UIColor clearColor] andSuperView:self.tiShiView];
-        btn.userInteractionEnabled = YES;
-        [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kScreenW / 1.78571, kScreenH  /11.11666666));
-            make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 1.2472);
-            make.centerX.mas_equalTo(self.view.mas_centerX);
-        }];
-        
-        [btn addTarget:self action:@selector(zhiDaoLeAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
+            
+}
+
+- (void)setAlertView {
+    [[FirstUserAlertView alloc]creatAlertViewwithImage:@"主页提示" deleteFirstObj:@"move"];
 }
 
 #pragma mark - 长按手势  更换图片

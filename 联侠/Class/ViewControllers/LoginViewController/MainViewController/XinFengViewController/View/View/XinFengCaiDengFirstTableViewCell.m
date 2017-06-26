@@ -69,7 +69,8 @@
     NSLog(@"点击的彩灯%@" , toHex);
     if (_serviceModel) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
-       
+        NSLog(@"%@" , [NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]);
+        
     }
 }
 
@@ -78,14 +79,19 @@
     NSString *caiDeng = [mingLing substringWithRange:NSMakeRange(32, 2)];
     NSString *indexCaiDeng = [NSString turnHexToInt:caiDeng];
     NSLog(@"彩灯回传命令%@ , %@ , %ld" , caiDeng , indexCaiDeng , self.tag);
-    
-//    self.rightSwitch.on = NO;
+
     NSInteger index = indexCaiDeng.intValue;
+    
+    if (index == 0) {
+        return ;
+    }
+    
     [self.rightBtn setImage:[UIImage imageNamed:@"dingshiguanbi"] forState:UIControlStateNormal];
     if (index == self.tag) {
         if (self.rightBtn.selected == 1) {
             [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
         }
+        
 //        [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
     }
 }

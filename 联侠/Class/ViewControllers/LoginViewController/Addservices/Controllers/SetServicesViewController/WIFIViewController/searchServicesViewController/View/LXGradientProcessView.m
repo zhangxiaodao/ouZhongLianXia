@@ -32,7 +32,7 @@ static const CGFloat kNumberMarkHeight = 80.f;
     
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
         self.colorArray = @[(id)[[UIColor colorWithHex:0x00feff] CGColor],
                             (id)[[UIColor colorWithHex:0x007aff] CGColor],
                             (id)[[UIColor colorWithHex:0xc4c4c4] CGColor]];

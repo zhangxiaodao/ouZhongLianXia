@@ -17,12 +17,11 @@
 #import "ConnectWeViewController.h"
 #import "MineSerivesViewController.h"
 #import "XinFengTimeViewController.h"
-
+#import "ChanPinShuoMingViewController.h"
 
 #define kBtnW ((kScreenW + 4) / 4)
-@interface XinFengViewController ()<UITableViewDelegate , UITableViewDataSource , HelpFunctionDelegate , XinFengTimeVCSendTimeToParentVCDelegate , UIGestureRecognizerDelegate>
+@interface XinFengViewController ()<UITableViewDelegate , UITableViewDataSource , HelpFunctionDelegate , XinFengTimeVCSendTimeToParentVCDelegate , UIGestureRecognizerDelegate , UINavigationControllerDelegate>
 @property (nonatomic , strong) UITableView *tableView;
-@property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) UIButton *bottomBtn;
 @property (nonatomic , strong) UIView *markView;
 
@@ -32,7 +31,6 @@
 @property (nonatomic , strong) NSMutableDictionary *dic;
 
 @property (nonatomic , copy) NSString *deviceName;
-@property (nonatomic , strong) UILabel *titleLabel;
 @end
 
 @implementation XinFengViewController
@@ -48,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
     NSDictionary *parameters = nil;
@@ -59,14 +57,13 @@
     }
     
     [HelpFunction requestDataWithUrlString:kLogin andParames:parameters andDelegate:self];
-    
+    [self setupNav];
     [self setUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    
     if (self.serviceModel && self.userModel) {
         
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , self.serviceModel.devTypeSn , self.serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
@@ -74,11 +71,59 @@
     
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    [cell.myTimer invalidate];
-    cell.myTimer = nil;
-    return YES;
+- (void)setupNav {
+    self.navigationController.delegate = self;
+    
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(gengDuoTapAtcion) image:@"gengDuo" highImage:nil];
+}
+
+#pragma mark - 右上角点击事件
+- (void)gengDuoTapAtcion {
+    
+    [UIAlertController creatSheetControllerWithFirstHandle:^{
+        
+        [UIAlertController creatAlertControllerWithFirstTextfiledPlaceholder:nil andFirstTextfiledText:[NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName] andFirstAtcion:nil andWhetherEdite:NO WithSecondTextfiledPlaceholder:@"请输入修改名称" andSecondTextfiledText:nil andSecondAtcion:@selector(secondTextFieldsValueDidChange:) andAlertTitle:@"修改设备名称" andAlertMessage:@"你可以再次修改设备名称，便于区分。" andTextfiledAtcionTarget:self andSureHandle:^{
+            if (self.deviceName) {
+                NSDictionary *parames = @{@"ud.devTypeSn" :  self.serviceModel.devTypeSn, @"ud.devSn" :  self.serviceModel.devSn, @"ud.definedName" : self.deviceName};
+                NSLog(@"修改设备名称---%@" , parames);
+                [HelpFunction requestDataWithUrlString:kChangeServiceName andParames:parames andDelegate:self];
+            }
+        } andSuperViewController:self];
+        
+    } andFirstTitle:@"修改名称" andSecondHandle:^{
+        
+        NSDictionary *parames = @{@"id" : @(self.serviceModel.userDeviceID)};
+        
+        [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
+    } andSecondTitle:@"移除设备" andThirtHandle:^{
+     
+        ChanPinShuoMingViewController *chanPinDesVC = [[ChanPinShuoMingViewController alloc]init];
+        chanPinDesVC.serviceModel = self.serviceModel;
+        chanPinDesVC.typeSn = @"4200";
+        chanPinDesVC.isFromMainVC = YES;
+        [self.navigationController pushViewController:chanPinDesVC animated:YES];
+        
+    } andThirtTitle:@"产品说明" andForthHandle:^{
+        NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",@"4009909918"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    } andForthTitle:@"联系我们(4009909918)" andSuperViewController:self];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
+    
+    if ([viewController isKindOfClass:[MineSerivesViewController class]]) {
+        XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [cell.myTimer invalidate];
+        cell.myTimer = nil;
+        
+        if (self.serviceModel) {
+            if (_sendServiceModelToParentVCDelegate && [_sendServiceModelToParentVCDelegate respondsToSelector:@selector(sendServiceModelToParentVC:)]) {
+                [_sendServiceModelToParentVCDelegate sendServiceModelToParentVC:self.serviceModel];
+            }
+        }
+    }
+    
 }
 
 #pragma mark - 获取代理的数据
@@ -280,13 +325,16 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengModelIsOpen:) name:@"XinFengModelOpen" object:nil];
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kHeight ) style:UITableViewStylePlain];
-    [self.view addSubview:self.tableView];
+    self.automaticallyAdjustsScrollViewInsets = false;
+    
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kHeight - kScreenH / 12.3518518) style:UITableViewStylePlain];
+    [self.view insertSubview:self.tableView belowSubview:self.navigationController.navigationBar];
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = kACOLOR(28, 157, 247, 1.0);
-//    self.tableView.backgroundColor = [UIColor grayColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     
     
     for (int i = 1; i < 5; i++) {
@@ -331,48 +379,7 @@
         make.centerY.mas_equalTo(self.bottomBtn.mas_centerY);
     }];
     
-//    _markView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kScreenH / 12.3518518 )];
-//    [self.view addSubview:_markView];
-//    [UIView animateWithDuration:0.3 animations:^{
-//        _markView.alpha = 0.3;
-//    }];
-//    _markView.backgroundColor = [UIColor blackColor];
-    
-    
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(xinFengBackAtcion:)  andTitle:@""];
-    
-    UIView *backView = [self.navView.subviews objectAtIndex:0];
-    UIImageView *backImageView = [backView.subviews objectAtIndex:1];
-    backImageView.image = [UIImage imageNamed:@"iconfont-fanhui"];
-    
-    UIImageView *gengDuoImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"gengDuo"]];
-    [self.navView addSubview:gengDuoImageView];
-    gengDuoImageView.userInteractionEnabled = YES;
-    [UIImageView setImageViewColor:gengDuoImageView andColor:[UIColor whiteColor]];
-    [gengDuoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 20, kScreenW / 20));
-        make.centerY.mas_equalTo(self.navView.mas_centerY);
-        make.right.mas_equalTo(self.navView.mas_right).offset(- kScreenW / 20);
-    }];
-    
-    UITapGestureRecognizer *gengDuoTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gengDuoTapAtcion:)];
-    [gengDuoImageView addGestureRecognizer:gengDuoTap];
-    [UIImageView setImageViewColor:backImageView andColor:[UIColor whiteColor]];
-    
-    self.titleLabel = [self.navView.subviews objectAtIndex:2];
-    self.titleLabel.textColor = [UIColor whiteColor];
-    self.titleLabel.font = [UIFont systemFontOfSize:k17];
-    
-    if (self.serviceModel) {
-        if (self.serviceModel.definedName) {
-            self.titleLabel.text = self.serviceModel.definedName;
-        } else {
-            self.titleLabel.text = [NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName];
-        }
-    }
-    
 }
-
 
 #pragma mark - 移除设备
 - (void)requestRemoveService:(HelpFunction *)request didDone:(NSDictionary *)dic{
@@ -388,33 +395,6 @@
 }
 
 
-#pragma mark - 右上角点击事件
-- (void)gengDuoTapAtcion:(UITapGestureRecognizer *)tap {
-    
-    [UIAlertController creatSheetControllerWithFirstHandle:^{
-
-        [UIAlertController creatAlertControllerWithFirstTextfiledPlaceholder:nil andFirstTextfiledText:[NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName] andFirstAtcion:nil andWhetherEdite:NO WithSecondTextfiledPlaceholder:@"请输入修改名称" andSecondTextfiledText:nil andSecondAtcion:@selector(secondTextFieldsValueDidChange:) andAlertTitle:@"修改设备名称" andAlertMessage:@"你可以再次修改设备名称，便于区分。" andTextfiledAtcionTarget:self andSureHandle:^{
-            if (self.deviceName) {
-                NSDictionary *parames = @{@"ud.devTypeSn" :  self.serviceModel.devTypeSn, @"ud.devSn" :  self.serviceModel.devSn, @"ud.definedName" : self.deviceName};
-                NSLog(@"修改设备名称---%@" , parames);
-                [HelpFunction requestDataWithUrlString:kChangeServiceName andParames:parames andDelegate:self];
-            }
-        } andSuperViewController:self];
-        
-    } andFirstTitle:@"修改名称" andSecondHandle:^{
-        
-        NSDictionary *parames = @{@"id" : @(self.serviceModel.userDeviceID)};
-        //        NSLog(@"%@" , parames);
-        
-        [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
-    } andSecondTitle:@"移除设备" andThirtHandle:^{
-        self.navigationController.navigationBar.hidden = NO;
-        ConnectWeViewController *connectOueVC = [[ConnectWeViewController alloc]init];
-        connectOueVC.navigationItem.title = @"联系我们";
-        [self.navigationController pushViewController:connectOueVC animated:YES];
-    } andThirtTitle:@"联系我们" andForthHandle:nil andForthTitle:nil andSuperViewController:self];
-}
-
 
 - (void)secondTextFieldsValueDidChange:(UITextField *)textfiled {
     self.deviceName = textfiled.text;
@@ -429,8 +409,14 @@
     
     NSInteger index = [dic[@"state"] integerValue];
     if (index == 0) {
-        self.titleLabel.text = self.deviceName;
+        if (self.deviceName) {
+            self.navigationItem.title = [NSString stringWithFormat:@"%@%@" , self.deviceName , self.serviceModel.typeName];
+        } else {
+            self.navigationItem.title = [NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName];
+        }
     }
+    
+    
     
 }
 
@@ -496,7 +482,7 @@
                 cell = [[XinFengSecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
             }
             cell.serviceModel = self.serviceModel;
-            
+            cell.vc = self;
             return cell;
         }
     } else if (indexPath.section == 1) {

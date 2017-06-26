@@ -99,6 +99,7 @@
 #pragma mark - enterButton 点击事件
 - (void)enterButtonAction:(UIButton *) sender{
     
+    [kStanderDefault setObject:@"YES" forKey:@"first"];
     [kStanderDefault setObject:@"YES" forKey:@"isRun"];
     
     [kStanderDefault setObject:@"NO" forKey:@"isLaunch"];

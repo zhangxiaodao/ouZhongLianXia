@@ -10,4 +10,6 @@
 
 @interface ChanPinShuoMingViewController : UIViewController
 @property (nonatomic , strong) ServicesModel *serviceModel;
+@property (nonatomic , copy) NSString *typeSn;
+@property (nonatomic , assign) NSInteger isFromMainVC;
 @end

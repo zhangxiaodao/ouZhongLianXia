@@ -120,7 +120,7 @@
     } else {
         ChanPinShuoMingViewController *chanPinShuoMingVC = [[ChanPinShuoMingViewController alloc]init];
         chanPinShuoMingVC.serviceModel = model;
-        chanPinShuoMingVC.navigationItem.title = self.navigationItem.title;
+        chanPinShuoMingVC.typeSn = self.typeSn;
         [self.navigationController pushViewController:chanPinShuoMingVC animated:YES];
     }
     

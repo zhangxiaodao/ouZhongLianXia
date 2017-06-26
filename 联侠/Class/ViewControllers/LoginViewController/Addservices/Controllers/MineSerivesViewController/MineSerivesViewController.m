@@ -20,6 +20,7 @@
 #import "CCLocationManager.h"
 
 #import "WeatherView.h"
+#import "FirstUserAlertView.h"
 
 @interface MineSerivesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , HelpFunctionDelegate , SendViewControllerToParentVCDelegate , CCLocationManagerZHCDelegate , SendServiceModelToParentVCDelegate ,
     UIGestureRecognizerDelegate>
@@ -56,11 +57,12 @@
     }
     
     [self setNav];
-    
     [self setUI];
     
-
+    [self setAlertView];
+    
 }
+
 
 - (void)setNav {
     self.navigationItem.title = @"联侠";
@@ -81,6 +83,12 @@
         return YES;
     }
     
+}
+
+
+- (void)setAlertView {
+
+    [[FirstUserAlertView alloc]creatAlertViewwithImage:@"alert1" deleteFirstObj:@"NO"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -449,7 +457,12 @@
         xinFengAirVC.sendServiceModelToParentVCDelegate = self;
         xinFengAirVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         xinFengAirVC.serviceModel = model;
-
+        if (self.serviceModel.definedName) {
+            xinFengAirVC.navigationItem.title = [NSString stringWithFormat:@"%@%@" , model.definedName , model.typeName];
+        } else {
+            xinFengAirVC.navigationItem.title = [NSString stringWithFormat:@"%@%@" , model.brand , model.typeName];
+        }
+        
         [self.navigationController pushViewController:xinFengAirVC animated:YES];
     }  else if ([model.devTypeSn isEqualToString:@"4331"]) {
         GanYiJiViewController *ganYiJiVC = [[GanYiJiViewController alloc]init];

@@ -209,6 +209,7 @@
 		ED8E3DC51EC2ED6F0040FD3B /* ESPUDPSocketServer.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8E3DB61EC2ED6F0040FD3B /* ESPUDPSocketServer.m */; };
 		ED8EDF4A1EA5E5B5002F1B44 /* LXGradientProcessView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8EDF491EA5E5B5002F1B44 /* LXGradientProcessView.m */; };
 		ED9CE65C1E286FF40029CFCA /* LockClock.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED9CE65B1E286F7B0029CFCA /* LockClock.ttf */; };
+		EDA2208A1EFCBABF0052A56F /* FirstUserAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA220891EFCBABF0052A56F /* FirstUserAlertView.m */; };
 		EDAB574A1EADE13C009E1DA1 /* HTMLColdFan.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAB57491EADE13C009E1DA1 /* HTMLColdFan.m */; };
 		EDAD36771E261EFB001DE474 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED12E2C01CF5C6BC0011CD2C /* Images.xcassets */; };
 		EDAD36881E262806001DE474 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAD36871E262806001DE474 /* Launch Screen.storyboard */; };
@@ -638,6 +639,8 @@
 		ED8EDF481EA5E5B5002F1B44 /* LXGradientProcessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXGradientProcessView.h; sourceTree = "<group>"; };
 		ED8EDF491EA5E5B5002F1B44 /* LXGradientProcessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXGradientProcessView.m; sourceTree = "<group>"; };
 		ED9CE65B1E286F7B0029CFCA /* LockClock.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LockClock.ttf; sourceTree = "<group>"; };
+		EDA220881EFCBABF0052A56F /* FirstUserAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstUserAlertView.h; sourceTree = "<group>"; };
+		EDA220891EFCBABF0052A56F /* FirstUserAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstUserAlertView.m; sourceTree = "<group>"; };
 		EDAB57481EADE13C009E1DA1 /* HTMLColdFan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLColdFan.h; sourceTree = "<group>"; };
 		EDAB57491EADE13C009E1DA1 /* HTMLColdFan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLColdFan.m; sourceTree = "<group>"; };
 		EDAD36871E262806001DE474 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -1403,6 +1406,8 @@
 				ED225C151EA4B4D700E4FD85 /* MineServiceCollectionViewCell */,
 				ED225C1A1EA4B4D700E4FD85 /* WeatherView.h */,
 				ED225C1B1EA4B4D700E4FD85 /* WeatherView.m */,
+				EDA220881EFCBABF0052A56F /* FirstUserAlertView.h */,
+				EDA220891EFCBABF0052A56F /* FirstUserAlertView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2228,6 +2233,7 @@
 					ED12DF7D1CF5C0FF0011CD2C = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = WA9VRUVC47;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -2544,6 +2550,7 @@
 				ED12E26E1CF5C5470011CD2C /* UIView+WHC_AutoLayout.m in Sources */,
 				EDFB24441E9B641F00487D76 /* XMGNavigationController.m in Sources */,
 				ED27A2321CF81C1E006BD844 /* EnterWorkTowerViewController.m in Sources */,
+				EDA2208A1EFCBABF0052A56F /* FirstUserAlertView.m in Sources */,
 				EDB559D91D3E21F500DC856C /* GanYiJiCommonTableViewCell.m in Sources */,
 				ED119DDB1CFEBC200073094D /* AirThirtTableViewCell.m in Sources */,
 			);
@@ -2701,6 +2708,7 @@
 			baseConfigurationReference = 8E204E2FDDDAB9FD406D0259 /* Pods-联侠.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "联侠/联侠.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2755,6 +2763,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2764,6 +2774,7 @@
 			baseConfigurationReference = E8CECCA1D7BD00B92544F72D /* Pods-联侠.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "联侠/联侠.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2818,6 +2829,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

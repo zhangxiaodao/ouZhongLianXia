@@ -58,8 +58,9 @@ static NSString *fifthCelled = @"fifth";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+//    [kApplicate initLa stEnterWorkViewController:self];
 
     self.imageVIew = [[UIImageView alloc]initWithFrame:kScreenFrame];
     [self.view insertSubview:self.imageVIew atIndex:0];
@@ -68,12 +69,14 @@ static NSString *fifthCelled = @"fifth";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:@"4131" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:@"4132" object:nil];
+    [self requestServiceState];
+    
+}
 
+- (void)requestServiceState {
     NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
     
     [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianZhuangTai andParames:parames andDelegate:self];
-
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated{

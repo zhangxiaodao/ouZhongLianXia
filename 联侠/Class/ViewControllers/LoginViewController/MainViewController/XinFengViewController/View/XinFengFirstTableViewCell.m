@@ -270,7 +270,7 @@ static CGFloat speed = 0.0;
     _airQulityLable.text = pm25;
     _methanalLabel.text = methanal;
     
-    _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)sumTime];
+    _lvXinLastTime.text = [NSString stringWithFormat:@"%ld小时" , (long)sumTime];
     
     if ([kaiGuan isEqualToString:@"01"]) {
         UIImage *image = nil;

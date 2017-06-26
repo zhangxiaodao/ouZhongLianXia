@@ -49,18 +49,7 @@
     }
     
     
-
-    [self.view addSubview:self.tiShiView];
     
-}
-
-#pragma mark - 知道了
-- (void)zhiDaoLeAtcion:(UIButton *)btn {
-    
-    [kStanderDefault setObject:@"YES" forKey:@"first"];
-
-    self.tiShiView.hidden = YES;
-    [self.tiShiView removeFromSuperview];
 }
 
 - (void)lengFengShanOpenAtcion:(UIButton *)btn {

@@ -67,8 +67,6 @@
         [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
     }
     
-    [self.view addSubview:self.tiShiView];
-    
 }
 
 - (void)ganYiJiOpenAtcion:(UIButton *)btn {
@@ -105,16 +103,6 @@
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GanYiJiAnNiuZhuangTai" object:self userInfo:@{@"GanYiJiAnNiuZhuangTai" : @(self.bottomBtn.selected)}]];
 }
-
-#pragma mark - 知道了
-- (void)zhiDaoLeAtcion:(UIButton *)btn {
-    
-    [kStanderDefault setObject:@"YES" forKey:@"first"];
-    //    self.view.userInteractionEnabled = YES;
-    self.tiShiView.hidden = YES;
-    [self.tiShiView removeFromSuperview];
-}
-
 
 - (void)swipeGesture:(UISwipeGestureRecognizer *)swipe {
     return ;

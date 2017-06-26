@@ -70,7 +70,6 @@ static NSString *seventhCelled = @"seventhCelled";
         [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
     }
     
-    [self.view addSubview:self.tiShiView];
 }
 
 
@@ -82,15 +81,6 @@ static NSString *seventhCelled = @"seventhCelled";
     [self.tableView registerClass:[AirThirtTableViewCell class] forCellReuseIdentifier:fifthCelled];
     [self.tableView registerClass:[BingJingShouMingTableViewCell class] forCellReuseIdentifier:sexthCelled];
     [self.tableView registerClass:[LvWangJieDuTableViewCell class] forCellReuseIdentifier:seventhCelled];
-}
-
-#pragma mark - 知道了
-- (void)zhiDaoLeAtcion:(UIButton *)btn {
-    
-    [kStanderDefault setObject:@"YES" forKey:@"first"];
-
-    self.tiShiView.hidden = YES;
-    [self.tiShiView removeFromSuperview];
 }
 
 - (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn {

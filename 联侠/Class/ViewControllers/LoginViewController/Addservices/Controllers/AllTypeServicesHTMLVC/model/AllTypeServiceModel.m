@@ -15,7 +15,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"\n imageUrl--%@\n , typeName--%@\n , typeSn--%@" , _imageUrl , _typeName , _typeSn];
+    return [NSString stringWithFormat:@"\n imageUrl--%@\n , typeName--%@\n , typeSn--%ld" , _imageUrl , _typeName , _typeSn];
 }
 
 @end

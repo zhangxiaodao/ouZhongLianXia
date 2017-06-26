@@ -10,7 +10,7 @@
 #import "AllServicesViewController.h"
 #import "AllTypeServiceTableViewCell.h"
 #import "AllTypeServiceModel.h"
-
+#import "FirstUserAlertView.h"
 
 @interface AllTypeServiceViewController ()<UITableViewDelegate , UITableViewDataSource , HelpFunctionDelegate>
 @property (nonatomic , copy) NSString *devType;
@@ -27,10 +27,15 @@
     
     self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     
+    [self setAlertView];
     [self setUI];
     
     [HelpFunction requestDataWithUrlString:kAllTypeServiceURL andParames:nil andDelegate:self];
     
+}
+
+- (void)setAlertView {
+    [[FirstUserAlertView alloc]creatAlertViewwithImage:@"alert2"deleteFirstObj:@"YES"];
 }
 
 #pragma mark - 代理返回的数据
@@ -103,7 +108,7 @@
     AllTypeServiceModel *allTypeServiceModel = _dataArray[indexPath.row];
     AllServicesViewController *allServiceVC = [[AllServicesViewController alloc]init];
     allServiceVC.navigationItem.title = self.navigationItem.title;
-    allServiceVC.typeSn = [NSString stringWithFormat:@"%@" , allTypeServiceModel.typeSn];
+    allServiceVC.typeSn = [NSString stringWithFormat:@"%ld" , (long)allTypeServiceModel.typeSn];
     [self.navigationController pushViewController:allServiceVC animated:YES];
 }
 

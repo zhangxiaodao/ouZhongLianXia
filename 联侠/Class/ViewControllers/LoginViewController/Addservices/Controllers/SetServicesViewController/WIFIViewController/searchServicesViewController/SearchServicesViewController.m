@@ -125,7 +125,7 @@
     _processView = [[LXGradientProcessView alloc] initWithFrame:CGRectMake(kScreenW / 3.58, kScreenW / 2.6, kScreenW / 2.35, kScreenW / 2.35)];
     self.processView.percent = 0;
     [self.view addSubview:self.processView];
-    self.processView.backgroundColor = [UIColor whiteColor];
+//    self.processView.backgroundColor = [UIColor whiteColor];
     
     UILabel *searchLable = [UILabel creatLableWithTitle:@"正在搜索设备..." andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     searchLable.layer.borderWidth = 0;

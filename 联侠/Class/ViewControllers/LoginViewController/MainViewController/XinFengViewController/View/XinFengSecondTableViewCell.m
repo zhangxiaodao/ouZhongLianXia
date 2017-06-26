@@ -187,7 +187,7 @@
             xinFengCaiDengVC.serviceModel = self.serviceModel;
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:xinFengCaiDengVC];
             
-            [kWindowRoot presentViewController:nav animated:YES completion:nil];
+            [self.vc presentViewController:nav animated:YES completion:nil];
             break;
         }
         case 5:{

@@ -11,5 +11,5 @@
 @interface XinFengSecondTableViewCell : UITableViewCell
 
 @property (nonatomic , strong) ServicesModel *serviceModel;
-
+@property (nonatomic , strong) UIViewController *vc;
 @end

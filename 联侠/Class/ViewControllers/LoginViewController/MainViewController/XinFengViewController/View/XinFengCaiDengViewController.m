@@ -24,7 +24,7 @@
 
 - (NSMutableArray *)nameArray {
     if (!_nameArray) {
-        _nameArray = [NSMutableArray arrayWithArray:@[@"七彩渐变" , @"幻彩转动" , @"七色呼吸" , @"红绿蓝" , @"黄青紫" , @"七色转动" , @"红" , @"绿" , @"蓝" , @"黄" , @"青" ,@"紫" , @"白"]];
+        _nameArray = [NSMutableArray arrayWithArray:@[@"七彩渐变" , @"幻彩转动" , @"红绿蓝" , @"黄青紫" , @"七色转动" , @"红" , @"绿" , @"蓝" , @"黄" , @"青" ,@"紫" , @"白"]];
     }
     return _nameArray;
 }
@@ -126,7 +126,7 @@
     
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 13;
+    return self.nameArray.count;
 }
     
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -144,7 +144,13 @@
     XinFengCaiDengFirstTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:celled];
     if (!cell) {
         cell = [[XinFengCaiDengFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-        cell.tag = indexPath.row + 3;
+        
+        if (indexPath.row >= 2) {
+            cell.tag = indexPath.row + 4;
+        } else {
+            cell.tag = indexPath.row + 3;
+        }
+        
     }
     cell.titleString = self.nameArray[indexPath.row];
     cell.serviceModel = self.serviceModel;

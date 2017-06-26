@@ -23,21 +23,41 @@
     [self setUI];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.hidden = false;
+    self.navigationItem.title = self.serviceModel.typeName;
+    self.navigationItem.leftBarButtonItem = nil;
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"navigationButtonReturn"] forState:UIControlStateNormal];
+    [backButton setTitle:@"返回" forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor colorWithHexString:@"00a2ff"] forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:k15];
+    [backButton sizeToFit];
+    // 这句代码放在sizeToFit后面
+    backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+    backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
+}
+
 #pragma mark - 设置UI
 - (void)setUI {
     
-    webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kHeight)];
     [self.view addSubview: webView];
     webView.delegate = self;
     
-    NSString *typeService = [_serviceModel.typeSn substringWithRange:NSMakeRange(0, 2)];
-    if ([typeService isEqualToString:@"41"]) {
-        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kChanPinShuoLengFengShan]]];
-    } else if ([typeService isEqualToString:@"42"]) {
-        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kChanPinShuoKongJing]]];
-    } else if ([typeService isEqualToString:@"43"]) {
-        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:kChanPinShuoGanYiJi]]];
+    NSURL *url = [NSURL URLWithString:kServiceDescriptionURL(self.typeSn, self.serviceModel.typeSn)];
+    
+    if (_isFromMainVC) {
+        url = [NSURL URLWithString:kServiceDescriptionURL(self.typeSn, self.serviceModel.devTypeSn)];
     }
+    
+    [webView loadRequest:[NSURLRequest requestWithURL:url]];
     
     _searchView = [[UIActivityIndicatorView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     [self.view addSubview:_searchView];

@@ -9,14 +9,13 @@
 #import "XinFengTimeViewController.h"
 #import "TimeModel.h"
 #import "CustomPickerView.h"
-@interface XinFengTimeViewController ()<HelpFunctionDelegate , CustomPickerViewDelegate , UIGestureRecognizerDelegate>
+@interface XinFengTimeViewController ()<HelpFunctionDelegate , CustomPickerViewDelegate , UINavigationControllerDelegate>
 @property (nonatomic , strong) UILabel *openTimeLabel;
 @property (nonatomic , strong) UILabel *closeLabel;
 @property (nonatomic , strong) UISwitch *openSwitch;
 @property (nonatomic , strong) UISwitch *closeSwitch;
 @property (nonatomic , strong) UISwitch *repeatSwitch;
 @property (nonatomic , strong) UILabel *weakLabel;
-@property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) NSMutableArray *hourArray;
 @property (nonatomic , strong) NSMutableArray *minuteArray;
 
@@ -33,19 +32,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
-    
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"定时设置"];
+    self.navigationItem.title = @"定时设置";
+//    self.navigationController.delegate = self;
     [self setUI];
     
-}
-
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    return NO;
 }
 
 - (void)setUI {
@@ -54,7 +44,7 @@
     [firstView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kCommonW, kScreenW / 8));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(kScreenW / 5);
+        make.top.mas_equalTo(kScreenW / 5 - kHeight);
     }];
     
     UIView *openView = [UIView createViewWithTwoLabelAndBottomAndSwitchViewWithSuperView:self.view withFirstLabelTitle:@"开启时间" withFirstLabelTextColor:[UIColor blackColor] withSecondLabelTitle:@"10:00" withSecondLabelTextColor:kMainColor andSecondLabelAtcion:@selector(openAtcion:) andSecondLabelTarget:self andSwitchAtcion:@selector(openSwitchAtcion:) andSwitchTarget:self];

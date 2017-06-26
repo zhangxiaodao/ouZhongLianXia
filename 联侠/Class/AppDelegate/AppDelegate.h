@@ -13,7 +13,7 @@
 #import "ServicesModel.h"
 #import "UserModel.h"
 #import "XinFengViewController.h"
-
+#import "EnterWorkTowerViewController.h"
 // iOS10 及以上需导入 UserNotifications.framework
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 #import <UserNotifications/UserNotifications.h>
@@ -27,6 +27,7 @@
 - (NSInteger)wheatherHaveNet;
 - (void)initLastMainViewController:(MainViewController *)viewController;
 - (void)initLastXinFengViewController:(XinFengViewController *)viewController;
+- (void)initLastEnterWorkViewController:(EnterWorkTowerViewController *)viewController;
 - (void)initUserModel:(UserModel *)userModel;
 - (void)initServiceModel:(ServicesModel *)serviceModel;
 @end

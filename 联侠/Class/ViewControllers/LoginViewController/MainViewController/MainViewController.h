@@ -29,12 +29,10 @@
 @property (nonatomic , strong) UIImage *headImage;
 @property (nonatomic , strong) UIImageView *touMingImageVIew;
 @property (nonatomic , strong) NSMutableArray *wearthArray;
-@property (nonatomic , strong) UIView *tiShiView;
 @property (nonatomic , strong) ServicesDataModel *serviceDataModel;
 @property (nonatomic , strong) StateModel *stateModel;
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) UserModel *userModel;
-
 
 @property (nonatomic , strong) NSMutableArray *serviceArray;
 
@@ -49,7 +47,6 @@
 
 - (void)requestMainVCServiceState;
 - (void)swipeGesture:(UISwipeGestureRecognizer *)swipe;
-- (void)zhiDaoLeAtcion:(UIButton *)btn;
 - (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn;
 - (void)lengFengShanOpenAtcion:(UIButton *)btn;
 - (void)ganYiJiOpenAtcion:(UIButton *)btn;

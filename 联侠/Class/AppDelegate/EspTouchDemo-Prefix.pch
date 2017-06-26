@@ -480,5 +480,6 @@
 
 #define kRequestWeatherURL [NSString stringWithFormat:@"http://%@:80/adapter/weather/queryWeather", localhost]
 
+#define kServiceDescriptionURL(typeSn , devTypeSn) [NSString stringWithFormat:@"http://112.124.48.212/webpage/%@/%@/introduction/index.html" , typeSn , devTypeSn]
 
 #endif

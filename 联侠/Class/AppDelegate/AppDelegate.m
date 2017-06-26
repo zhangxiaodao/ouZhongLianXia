@@ -205,7 +205,6 @@
                 [self.alertVC dismissViewControllerAnimated:YES completion:^{
                     self.alertVC = nil;
                 }];
-                [self setRootViewController];
             }
             
         }
@@ -421,10 +420,17 @@
     NSLog(@"程序被激活（获得焦点）后执行");
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
+    NSInteger nowTime = [NSString getNowTimeInterval];
+    NSString *endTime = [kStanderDefault objectForKey:@"endTime"];
+    if (nowTime > endTime.integerValue + 3600 * 2 && endTime != nil) {
+        [self setRootViewController];
+    }
+    
     [GeTuiSdk resetBadge];
     [self setUpEnterForeground];
     
-    
+   
     
 }
 
@@ -452,6 +458,9 @@
     NSLog(@"程序在终止时执行");
     
     [kSocketTCP cutOffSocket];
+    
+    NSString *endTime = [NSString stringWithFormat:@"%ld" , [NSString getNowTimeInterval]];
+    [kStanderDefault setObject:endTime forKey:@"endTime"];
     
 }
 
