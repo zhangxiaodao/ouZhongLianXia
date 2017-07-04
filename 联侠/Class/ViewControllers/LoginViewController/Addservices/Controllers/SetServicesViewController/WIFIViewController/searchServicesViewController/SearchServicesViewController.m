@@ -252,6 +252,10 @@
         
         if ([self.devTypeSn isEqualToString:self.addServiceModel.typeSn]) {
             
+            if ([self.devTypeSn isEqualToString:@"4132"]) {
+                self.devTypeSn = @"4131";
+            }
+            
             NSDictionary *parames = @{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn};
             
             

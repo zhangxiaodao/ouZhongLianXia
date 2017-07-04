@@ -60,7 +60,7 @@ static CGFloat speed = 0.0;
 
 - (void)getBottomBtnSelected:(NSNotification *)post {
     NSString *selected = post.userInfo[@"BottomBtnSelected"];
-    NSLog(@"-----%@ , %@" , selected , _wind);
+//    NSLog(@"-----%@ , %@" , selected , _wind);
     self.isAnimation = selected.integerValue;
     
     if (self.isAnimation == 0) {
@@ -262,7 +262,7 @@ static CGFloat speed = 0.0;
     lvXinLastTimeLittle = [NSString turnHexToInt:lvXinLastTimeLittle];
     NSInteger sumTime = lvXinLastTimeBig.integerValue * 100 + lvXinLastTimeLittle.integerValue;
     
-    NSLog(@"temprature--%@ , humidity--%@ , pm25--%@ , methanal--%@ , sumTime--%ld , wind--%@" , temprature , humidity , pm25 , methanal , (long)sumTime , _wind);
+//    NSLog(@"temprature--%@ , humidity--%@ , pm25--%@ , methanal--%@ , sumTime--%ld , wind--%@" , temprature , humidity , pm25 , methanal , (long)sumTime , _wind);
     
     
     _temperatureLabel.text = temprature;

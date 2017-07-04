@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-            timestampString = "517561865.601741"
+            timestampString = "520830156.630827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
+            startingLineNumber = "322"
+            endingLineNumber = "322"
             landmarkName = "-requestData:didFinishLoadingDtaArray:"
             landmarkType = "7">
             <Locations>
@@ -36,26 +36,26 @@
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "520139180.865822"
+                  timestampString = "520830157.755767"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "318"
-                  endingLineNumber = "318"
+                  startingLineNumber = "322"
+                  endingLineNumber = "322"
                   offsetFromSymbolStart = "784">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__69-[SearchServicesViewController requestData:didFinishLoadingDtaArray:]_block_invoke.296"
+                  symbolName = "__69-[SearchServicesViewController requestData:didFinishLoadingDtaArray:]_block_invoke.300"
                   moduleName = "&#x8054;&#x4fa0;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/SetServicesViewController/WIFIViewController/searchServicesViewController/SearchServicesViewController.m"
-                  timestampString = "520139180.869113"
+                  timestampString = "520830157.758695"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "318"
-                  endingLineNumber = "318"
+                  startingLineNumber = "322"
+                  endingLineNumber = "322"
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>

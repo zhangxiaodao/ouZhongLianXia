@@ -17,14 +17,23 @@
     
 @property (nonatomic,strong) UIButton *bottomBtn;
 @property (nonatomic,strong) UIImageView *exitImgvi;
-
+//@property (nonatomic , strong) NSArray *tagArray;
 @end
 
 @implementation XinFengCaiDengViewController
 
+//- (NSArray *)tagArray {
+//    if (!_tagArray) {
+//        _tagArray = @[@"4" , @"6" , @"8" , @"10" , @"12" , @"14" , @"3" , @"7" , @"9" , @"11" ,@"13" , @"15"];
+//    }
+//    return _tagArray;
+//}
+
 - (NSMutableArray *)nameArray {
     if (!_nameArray) {
         _nameArray = [NSMutableArray arrayWithArray:@[@"七彩渐变" , @"幻彩转动" , @"红绿蓝" , @"黄青紫" , @"七色转动" , @"红" , @"绿" , @"蓝" , @"黄" , @"青" ,@"紫" , @"白"]];
+//        _nameArray = [NSMutableArray arrayWithArray:@[ @"幻彩转动" ,@"红绿蓝" ,@"七色转动" ,@"绿" ,@"黄" ,@"紫",@"七彩渐变" ,@"黄青紫" ,@"红" , @"蓝" , @"青",@"白"]];
+
     }
     return _nameArray;
 }
@@ -150,7 +159,7 @@
         } else {
             cell.tag = indexPath.row + 3;
         }
-        
+//        cell.tag = [self.tagArray[indexPath.row] integerValue];
     }
     cell.titleString = self.nameArray[indexPath.row];
     cell.serviceModel = self.serviceModel;

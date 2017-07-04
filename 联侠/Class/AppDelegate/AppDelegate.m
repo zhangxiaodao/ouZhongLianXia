@@ -224,7 +224,7 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 34) {
+            if ([data[@"id"] integerValue] > 38) {
                 
                 if ([data[@"isForce"] integerValue] == 0) {
                     return ;
@@ -425,6 +425,7 @@
     NSString *endTime = [kStanderDefault objectForKey:@"endTime"];
     if (nowTime > endTime.integerValue + 3600 * 2 && endTime != nil) {
         [self setRootViewController];
+        [kStanderDefault removeObjectForKey:@"endTime"];
     }
     
     [GeTuiSdk resetBadge];

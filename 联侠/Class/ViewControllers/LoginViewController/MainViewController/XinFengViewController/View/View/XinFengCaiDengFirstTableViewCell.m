@@ -59,7 +59,7 @@
 
 - (void)rightBtnAtcion:(UIButton *)btn {
     
-    btn.selected = 1;
+//    btn.selected = 1;
     
     NSInteger indexaa = self.tag;
     
@@ -69,8 +69,6 @@
     NSLog(@"点击的彩灯%@" , toHex);
     if (_serviceModel) {
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]] andType:kZhiLing andIsNewOrOld:kNew];
-        NSLog(@"%@" , [NSString stringWithFormat:@"HMFFA%@%@w0000%@0000000000000000000000%@%@0000000000000000#" , _serviceModel.devTypeSn , _serviceModel.devSn ,  toHex, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]);
-        
     }
 }
 
@@ -88,11 +86,11 @@
     
     [self.rightBtn setImage:[UIImage imageNamed:@"dingshiguanbi"] forState:UIControlStateNormal];
     if (index == self.tag) {
-        if (self.rightBtn.selected == 1) {
-            [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
-        }
+//        if (self.rightBtn.selected == 1) {
+//            [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
+//        }
         
-//        [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
+        [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
     }
 }
     
