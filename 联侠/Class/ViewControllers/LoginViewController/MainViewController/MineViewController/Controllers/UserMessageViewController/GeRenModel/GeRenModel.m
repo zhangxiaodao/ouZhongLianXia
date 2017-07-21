@@ -16,7 +16,7 @@
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"_birthday--%@ \n _email--%@ \n nickName--%@ \n _sex--%@" , _birthday , _email , _nickName , _sex];
+    return [NSString stringWithFormat:@"_birthday--%@ \n _email--%@ \n nickName--%@ \n _sex--%ld , _address--%@" , _birthday , _email , _nickName , _sex , _address];
 }
 
 @end

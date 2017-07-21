@@ -11,8 +11,9 @@
 @interface GeRenModel : NSObject
 
 @property (nonatomic , strong) NSString *nickName;
-@property (nonatomic , strong) NSString *sex;
+@property (nonatomic , assign) NSInteger sex;
 @property (nonatomic  ,strong) NSString *birthday;
 @property (nonatomic , strong) NSString *email;
+@property (nonatomic , strong) NSString *address;
 
 @end

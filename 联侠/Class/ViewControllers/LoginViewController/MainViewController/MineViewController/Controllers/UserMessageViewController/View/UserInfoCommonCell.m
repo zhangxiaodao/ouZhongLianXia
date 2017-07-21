@@ -44,16 +44,18 @@
             
         } else if (self.indexPath.row == 1) {
             self.lable.text = @"昵称";
-            
+ 
         } else if (self.indexPath.row == 2){
             self.lable.text = @"性别";
-            
+
         } else if (self.indexPath.row == 3) {
             self.lable.text = @"生日";
-            
+
+
         } else if (self.indexPath.row == 4) {
             self.lable.text = @"我的地址";
             
+        
         } else if (self.indexPath.row == 5) {
             self.fenGeView.hidden = YES;
             self.backImage.image = [UIImage imageNamed:@"bottomleftandright"];

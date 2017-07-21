@@ -39,9 +39,14 @@
     // 这句代码放在sizeToFit后面
     backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
     backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+    [backButton addTarget:self action:@selector(backAtcion) forControlEvents:UIControlEventTouchUpInside];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
+}
+
+- (void)backAtcion {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 设置UI

@@ -21,7 +21,6 @@ static NSString *str = nil;
         
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:@"4131" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:@"4132" object:nil];
         
         UILabel *modelChanceLable = [UILabel creatLableWithTitle:@"风速控制" andSuperView:self.contentView andFont:k17 andTextAligment:NSTextAlignmentCenter];
         modelChanceLable.textColor = [UIColor whiteColor];
@@ -113,7 +112,6 @@ static NSString *str = nil;
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:@"4132" object:nil];
 }
 
 #pragma mark - 取得tcp返回的数据
@@ -161,7 +159,6 @@ static NSString *str = nil;
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:@"4132" object:nil];
 }
 
 /**

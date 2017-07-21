@@ -68,7 +68,6 @@ static NSString *fifthCelled = @"fifth";
     [self setUI];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:@"4132" object:nil];
     [self requestServiceState];
     
 }

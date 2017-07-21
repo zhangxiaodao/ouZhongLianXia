@@ -46,9 +46,9 @@ static NSString *celled = @"celled";
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
     [self.tableView registerClass:[UserInfoCommonCell class] forCellReuseIdentifier:celled];
     
-    if ([kStanderDefault objectForKey:@"GeRenModel"]) {
+    if ([kStanderDefault objectForKey:@"GeRenInfo"] != nil) {
         self.geRenModel = [[GeRenModel alloc]init];
-        [self.geRenModel setValuesForKeysWithDictionary:[kStanderDefault objectForKey:@"GeRenModel"]];
+        [self.geRenModel setValuesForKeysWithDictionary:[kStanderDefault objectForKey:@"GeRenInfo"]];
         NSLog(@"%@" , self.geRenModel);
     }
     
@@ -93,7 +93,7 @@ static NSString *celled = @"celled";
     }
     
     NSString *nickName = nil;
-    NSString *sex = nil;
+    NSInteger sex = 0;
     NSString *birthday = nil;
     NSString *address = nil;
     NSString *email = nil;
@@ -105,7 +105,7 @@ static NSString *celled = @"celled";
                 nickName = cell.rightLabel.text;
                 break;
             case 2:
-                sex = cell.rightLabel.text;
+                sex = [cell.rightLabel.text isEqualToString:@"男"] ? 1 : 2;
                 break;
             case 3:
                 birthday = cell.rightLabel.text;
@@ -120,7 +120,7 @@ static NSString *celled = @"celled";
                 break;
         }
     }
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:nickName , @"nickName", sex , @"sex" , birthday , @"birthday" , email ,@"email", nil];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:nickName , @"nickName", @(sex) , @"sex" , birthday , @"birthday" , email ,@"email", address , @"address" , nil];
     NSLog(@"%@" , dic);
     [kStanderDefault setValue:dic forKey:@"GeRenInfo"];
     
@@ -302,8 +302,17 @@ static NSString *celled = @"celled";
     if (self.sexPicker) {
         UserInfoCommonCell *cell = [self tableViewindexPathForRow:2 inSection:0];
         cell.rightLabel.text = [NSString stringWithFormat:@"%@" , self.sexArray[[picker selectedRowInComponent:0]]];
+        
+        NSString *sexText = cell.rightLabel.text;
+        NSInteger sex = 0;
+        if ([sexText isEqualToString:@"男"]) {
+            sex = 1;
+        } else {
+            sex = 2;
+        }
+        
         self.sexPicker = nil;
-        NSDictionary *parames = @{@"user.sn" : @(self.userModel.sn) , @"user.sex" : cell.rightLabel.text};
+        NSDictionary *parames = @{@"user.sn" : @(self.userModel.sn) , @"user.sex" : @(sex)};
         NSLog(@"%@" , parames);
         [HelpFunction requestDataWithUrlString:kXiuGaiXinXi andParames:parames andDelegate:self];
     }
@@ -372,11 +381,7 @@ static NSString *celled = @"celled";
         GeRenModel *model = [[GeRenModel alloc]init];
         [model setValuesForKeysWithDictionary:dic];
         _userModel.nickname = model.nickName;
-        if ([model.sex isEqualToString:@"男"]) {
-            _userModel.sex = 1;
-        } else {
-            _userModel.sex = 2;
-        }
+        _userModel.sex = model.sex;
         _userModel.birthdate = model.birthday;
         _userModel.email = model.email;
     }
@@ -419,8 +424,8 @@ static NSString *celled = @"celled";
             [firstSectionArray addObject:self.userModel.birthdate];
         }
         
-        if (self.diZhiModel != nil) {
-            [firstSectionArray addObject:[NSString stringWithFormat:@"%@-%@" , self.diZhiModel.addrProvince , self.diZhiModel.addrCity]];
+        if (self.geRenModel.address != nil) {
+            [firstSectionArray addObject:[NSString stringWithFormat:@"%@" , self.geRenModel.address]];
         } else {
             [firstSectionArray addObject:@"请输入地址"];
         }

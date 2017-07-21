@@ -66,7 +66,6 @@
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate444444444:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate444444444:) name:@"4132" object:nil];
 
     
     [UIView creatBottomFenGeView:self.contentView andBackGroundColor:[UIColor whiteColor] isOrNotAllLenth:@"NO"];
@@ -82,14 +81,7 @@
     }];
     
 
-    self.array = nil;
-
-    if ([self.serviceModel.devTypeSn isEqualToString:@"4132"]) {
-        self.array = @[@"正常风", @"自然风" , @"睡眠风" , @"空气净化"];
-    } else {
-        self.array = @[@"正常风", @"自然风" , @"睡眠风" ];
-    }
-    
+    self.array = @[@"正常风", @"自然风" , @"睡眠风" ];
     
     for (int i = 0; i < kArrayCount; i++) {
         UILabel *downLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" , self.array[i]] andSuperView:self.contentView andFont:k14 andTextAligment:NSTextAlignmentCenter];
@@ -133,7 +125,6 @@
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate444444444:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate444444444:) name:@"4132" object:nil];
 }
 
 #pragma mark - 取得tcp返回的数据
@@ -297,40 +288,6 @@
     
 }
 
-- (void)setJingHuaBtnWithSelected:(NSInteger)aaa {
-    self.xuanZhongArray = [NSArray arrayWithObjects: @"正常风" ,@"空气净化", @"自然风" , @"睡眠风" , nil];
-    self.weiXuanZhogArray = [NSArray arrayWithObjects:@"正常风1",@"空气净化1", @"自然风1" , @"睡眠风1" ,  nil];
-    
-    
-    self.jingHuaBtn = [UIButton initWithTitle:@"" andColor:[UIColor clearColor] andSuperView:self.contentView];
-    self.jingHuaBtn.layer.borderWidth = 2;
-    self.jingHuaBtn.layer.cornerRadius = 10;
-    self.jingHuaBtn.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.jingHuaBtn.tag = 3;
-    self.jingHuaBtn.selected = aaa;
-
-    if (self.jingHuaBtn.selected == 1) {
-        
-        [self.jingHuaBtn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@" , self.xuanZhongArray[1]]] forState:UIControlStateNormal];
-    } else {
-        [self.jingHuaBtn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@" , self.weiXuanZhogArray[1]]] forState:UIControlStateNormal];
-    }
-    [self.jingHuaBtn addTarget:self action:@selector(stateBtnAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    
-    [self.jingHuaBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.size.mas_equalTo(CGSizeMake(kBtnW, kBtnW));
-        make.centerY.mas_equalTo(self.contentView.mas_centerY);
-        make.centerX.mas_equalTo(self.contentView.mas_left).offset(((kScreenW - kArrayCount * kBtnW) / kArrayCountJiaYi + kBtnW / 2) + 3 * ((kScreenW - kArrayCount * kBtnW) / kArrayCountJiaYi + kBtnW));
-        
-    }];
-    
-    [self beginAnimation:self.jingHuaBtn];
-}
-
-
 - (void)beginAnimation:(UIButton *)btn{
     
     
@@ -347,19 +304,6 @@
 }
 
 - (void)setModel:(StateModel *)model {
-
-    if ([self.serviceModel.devTypeSn isEqualToString:@"4132"]) {
-        
-        if (model.fMode == 4) {
-            [self.jingHuaBtn removeFromSuperview];
-            [self setJingHuaBtnWithSelected:YES];
-        } else {
-            
-            [self.jingHuaBtn removeFromSuperview];
-            [self setJingHuaBtnWithSelected:NO];
-        }
-
-    }
     
     if (model.fMode == 2) {
         [self.ziRanBtn removeFromSuperview];

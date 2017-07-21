@@ -110,7 +110,7 @@
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
-//    NSLog(@"%@" , _serviceModel);
+    
     if (_serviceModel) {
         
         [kApplicate initServiceModel:self.serviceModel];
@@ -122,7 +122,7 @@
 - (void)requestMainVCServiceState {
     NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
 
-    if ([self.serviceModel.devTypeSn isEqualToString:@"4131"] || [self.serviceModel.devTypeSn isEqualToString:@"4132"]) {
+    if ([self.serviceModel.devTypeSn isEqualToString:@"4131"]) {
         
         [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianZhuangTai andParames:parames andDelegate:self];
  
@@ -140,7 +140,7 @@
 - (void)requestMainVCServiceData {
     NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
     
-    if ([self.serviceModel.devTypeSn isEqualToString:@"4131"] || [self.serviceModel.devTypeSn isEqualToString:@"4132"]) {
+    if ([self.serviceModel.devTypeSn isEqualToString:@"4131"]) {
 
         [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianShuJu andParames:parames andDelegate:self];
     } else if ([self.serviceModel.devTypeSn isEqualToString:@"4231"]) {
@@ -193,7 +193,7 @@
                 [self setBottomBackGroundColor:kKongJingYanSe andSelected:1 andState:@"YES"];
             }
             [self.bottomBtn addTarget:self action:@selector(kongQiJingHuaQiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
-        } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"] || [_serviceModel.devTypeSn isEqualToString:@"4132"]) {
+        } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"]) {
             if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
                 [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
             } else if (self.stateModel.fSwitch == 1){
@@ -219,7 +219,7 @@
         if ([_serviceModel.devTypeSn isEqualToString:@"4231"]) {
 
             [self.bottomBtn addTarget:self action:@selector(kongQiJingHuaQiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
-        } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"] || [_serviceModel.devTypeSn isEqualToString:@"4132"]) {
+        } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"]) {
             
             [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {

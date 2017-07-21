@@ -38,8 +38,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanInfo:) name:@"4131" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanInfo:) name:@"4132" object:nil];
-    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     

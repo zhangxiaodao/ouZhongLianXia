@@ -24,11 +24,6 @@
         //cell选中时的颜色
         self.selectionStyle = UITableViewCellSeparatorStyleNone;
         
-        if ([self.serviceModel.devTypeSn isEqualToString: @"4132"]) {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingBtn:) name:@"KongJing" object:nil];
-        }
-        
-        
         [self customFrame];
         
     }
@@ -57,9 +52,6 @@
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:@"4132" object:nil];
-    
-    
     
     UILabel *modelChanceLable = [UILabel creatLableWithTitle:@"当前功能" andSuperView:self.contentView andFont:k17 andTextAligment:NSTextAlignmentCenter];
     modelChanceLable.textColor = [UIColor whiteColor];
@@ -115,13 +107,6 @@
         [self.zhiLengBtn setTitle:@"关闭" forState:UIControlStateNormal];
         [self.zhiLengBtn setImage:[UIImage new] forState:UIControlStateNormal];
         [self.zhiLengBtn addTarget:self action:@selector(btnAtcion2:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    if ([self.serviceModel.devTypeSn isEqualToString: @"4132"]) {
-        [self.zhiLengBtn setTitle:@"关闭" forState:UIControlStateNormal];
-        [self.zhiLengBtn setImage:[UIImage new] forState:UIControlStateNormal];
-        [self.zhiLengBtn addTarget:self action:@selector(btnAtcion2:) forControlEvents:UIControlEventTouchUpInside];
-        self.zhiLengBtn.userInteractionEnabled = NO;
     }
     
 }
@@ -199,7 +184,6 @@
     btn.tag = 1;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:@"4132" object:nil];
 }
 
 - (void)btnAtcion2:(UIButton *)btn {
@@ -217,7 +201,6 @@
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:@"4131" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:@"4132" object:nil];
 }
 - (void)beginAnimation:(UIButton *)btn{
     
@@ -326,14 +309,6 @@
         [self.shanJunBtn removeFromSuperview];
         [self setshanJunBtnWithSelected:NO];
     }
-//    
-//    if (model.fLock == 1) {
-//        [self.tongSuoBtn removeFromSuperview];
-//        [self settongSuoBtnWithSelected:YES];
-//    } else {
-//        [self.tongSuoBtn removeFromSuperview];
-//        [self settongSuoBtnWithSelected:NO];
-//    }
     
     if (model.fCold == 1) {
         [self.zhiLengBtn removeFromSuperview];

@@ -434,7 +434,7 @@
     [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn] andType:kAddService andIsNewOrOld:nil];
     
 //    self.tabBarController.tabBar.hidden = YES;
-    if ([model.devTypeSn isEqualToString:@"4131"] || [model.devTypeSn isEqualToString:@"4132"]) {
+    if ([model.devTypeSn isEqualToString:@"4131"]) {
 
         LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
         lengFengShanVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
