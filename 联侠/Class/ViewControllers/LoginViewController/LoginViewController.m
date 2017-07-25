@@ -150,9 +150,9 @@
         [SVProgressHUD show];
         NSDictionary *parameters = nil;
         if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-            parameters = @{@"loginName":self.acctextFiled.text , @"password" : self.pwdTectFiled.text , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+            parameters = @{@"loginName":self.acctextFiled.text , @"password" : self.pwdTectFiled.text , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
         } else {
-            parameters = @{@"loginName":self.acctextFiled.text , @"password" : self.pwdTectFiled.text ,  @"ua.phoneType" : @(2)};
+            parameters = @{@"loginName":self.acctextFiled.text , @"password" : self.pwdTectFiled.text ,  @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
         }
         
         [kStanderDefault setObject:self.pwdTectFiled.text forKey:@"password"];

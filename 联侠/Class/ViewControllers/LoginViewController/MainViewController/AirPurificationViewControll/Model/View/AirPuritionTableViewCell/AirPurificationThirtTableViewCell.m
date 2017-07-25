@@ -302,7 +302,7 @@
     
      NSString *lastValue = [_shiWaiPm25Value lastObject];
      NSString *shiNeiLastValue = [_shiNeiPm25Value lastObject];
-    if (lastValue && _stateModel.pm25) {
+    if (lastValue && _stateModel.sPm25) {
        
         CGFloat lastShiWaiValue = lastValue.floatValue;
         CGFloat shiNeiValue = shiNeiLastValue.floatValue;

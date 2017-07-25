@@ -99,12 +99,12 @@
             _fShift = [value integerValue];
         }
         
-    } if ([key isEqualToString:@"currentC"]) {
+    } if ([key isEqualToString:@"sCurrentC"]) {
         
         if ([value isKindOfClass:[NSNull class]]) {
-            _currentC = 0;
+            _sCurrentC = 0;
         } else {
-            _currentC = value;
+            _sCurrentC = value;
         }
         
     }  if ([key isEqualToString:@"aqi"]) {
@@ -115,44 +115,44 @@
             _aqi = value;
         }
         
-    }  if ([key isEqualToString:@"cleanFilterScreen"]) {
+    }  if ([key isEqualToString:@"sCleanFilterScreen"]) {
         
         if ([value isKindOfClass:[NSNull class]]) {
-            _cleanFilterScreen = 0;
+            _sCleanFilterScreen = 0;
         } else {
-            _cleanFilterScreen = [value integerValue];
+            _sCleanFilterScreen = [value integerValue];
         }
         
-    }  if ([key isEqualToString:@"changeFilterScreen"]) {
+    }  if ([key isEqualToString:@"sChangeFilterScreen"]) {
         
         if ([value isKindOfClass:[NSNull class]]) {
-            _changeFilterScreen = 0;
+            _sChangeFilterScreen = 0;
         } else {
-            _changeFilterScreen = [value integerValue];
+            _sChangeFilterScreen = [value integerValue];
         }
         
-    }  if ([key isEqualToString:@"pm25"]) {
+    }  if ([key isEqualToString:@"sPm25"]) {
         
         if ([value isKindOfClass:[NSNull class]]) {
-            _pm25 = 0;
+            _sPm25 = 0;
         } else {
-            _pm25 = value;
+            _sPm25 = value;
         }
         
-    } if ([key isEqualToString:@"light"]) {
+    } if ([key isEqualToString:@"fLight"]) {
         
         if ([value isKindOfClass:[NSNull class]]) {
-            _light = 0;
+            _fLight = 0;
         } else {
-            _light = [value integerValue];
+            _fLight = [value integerValue];
         }
         
-    }  if ([key isEqualToString:@"currentH"]) {
+    }  if ([key isEqualToString:@"sCurrentH"]) {
         
         if ([value isKindOfClass:[NSNull class]]) {
-            _currentH = 0;
+            _sCurrentH = 0;
         } else {
-            _currentH = [value integerValue];
+            _sCurrentH = [value integerValue];
         }
         
     } if ([key isEqualToString:@"co2"]) {
@@ -171,19 +171,19 @@
             _durTime = [value integerValue];
         }
         
-    } if ([key isEqualToString:@"methanal"]) {
+    } if ([key isEqualToString:@"sMethanal"]) {
         
         if ([value isKindOfClass:[NSNull class]]) {
-            _methanal = 0;
+            _sMethanal = 0;
         } else {
-            _methanal = [value integerValue];
+            _sMethanal = [value integerValue];
         }
         
     }
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"fSwitch--%ld , _fWind--%ld , _fAnion--%ld , _fAuto--%ld , _light--%ld" , (long)_fSwitch , _fWind , _fAnion , _fAuto , _light];
+    return [NSString stringWithFormat:@"fSwitch--%ld , _fWind--%ld , _fAnion--%ld , _fAuto--%ld , _fLight--%ld" , (long)_fSwitch , _fWind , _fAnion , _fAuto , _fLight];
 }
 
 

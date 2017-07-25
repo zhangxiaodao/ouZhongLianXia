@@ -109,7 +109,7 @@
 - (void)setStateModel:(StateModel *)stateModel {
     _stateModel = stateModel;
     
-    if (_stateModel.light == self.tag) {
+    if (_stateModel.fLight == self.tag) {
         [self.rightBtn setImage:[UIImage imageNamed:@"dingshikaiqi"] forState:UIControlStateNormal];
     }
 }

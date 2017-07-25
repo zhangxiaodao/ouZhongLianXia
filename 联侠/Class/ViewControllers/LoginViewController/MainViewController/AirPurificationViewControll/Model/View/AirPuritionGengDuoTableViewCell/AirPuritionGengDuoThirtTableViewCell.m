@@ -96,8 +96,8 @@
 
 - (void)setStateModel:(StateModel *)stateModel {
     _stateModel = stateModel;
-    if (_stateModel.changeFilterScreen) {
-        shengYuTime = _stateModel.changeFilterScreen;
+    if (_stateModel.sChangeFilterScreen) {
+        shengYuTime = _stateModel.sChangeFilterScreen;
         
         [NSString setNSMutableAttributedString:shengYuTime andSuperLabel:rightLable andDanWei:@"小时" andSize:k20 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"NO"];
         

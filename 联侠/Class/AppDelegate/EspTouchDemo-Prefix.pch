@@ -295,7 +295,7 @@
  *  更多产品
  *
  */
-#define kGengDuoChanPin [NSString stringWithFormat:@"http://%@:8080/smarthome/device/queryMoreProduct", localhost]
+#define kGengDuoChanPin [NSString stringWithFormat:@"http://%@:8080/smarthome/deviceType/queryMoreProduct", localhost]
 
 
 
@@ -470,7 +470,7 @@
 /**
  *  所有设备类型借口
  */
-#define kAllTypeServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/device/queryTypeList", localhost]
+#define kAllTypeServiceURL [NSString stringWithFormat:@"http://%@:8080/smarthome/deviceType/queryTypeList", localhost]
 
 #define kBindLengFengShanURL [NSString stringWithFormat:@"http://%@:8080/smarthome/fan/bindDevice", localhost]
 

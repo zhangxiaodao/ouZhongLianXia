@@ -186,17 +186,17 @@ static NSString *seventhCelled = @"seventhCelled";
         BingJingShouMingTableViewCell *cell
         =[tableView dequeueReusableCellWithIdentifier:sexthCelled];
         cell.isKongJing = @"YES";
-        [cell setUIbuJuWithNowUesrTime:self.stateModel.changeFilterScreen andViewController:self];
+        [cell setUIbuJuWithNowUesrTime:self.stateModel.sChangeFilterScreen andViewController:self];
         
         return cell;
     } else {
         LvWangJieDuTableViewCell *cell
         =[tableView dequeueReusableCellWithIdentifier:seventhCelled];
         cell.isKongJingLvWang = @"YES";
-        long int a ;
+        long int a = 0;
         
-        if (self.stateModel.cleanFilterScreen != 0) {
-            a = self.stateModel.cleanFilterScreen / 100;
+        if (self.stateModel.sCleanFilterScreen != 0) {
+            a = self.stateModel.sCleanFilterScreen / 100;
         }
         
         [cell setZhiZhenView:a andViewController:self];

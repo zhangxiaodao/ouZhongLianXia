@@ -170,19 +170,14 @@
         if (self.serviceModel.devSn) {
             
             if (![_fromWhich isEqualToString:@"thirt"]) {
-                
+                NSDictionary *parames = nil;
                 if ([_timeTextArray[3] integerValue] == 0) {
-                    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn, @"task.fSwitchOn" : @(1), @"task.fSwitchOff" : @(1) , @"task.onJobTime" : _timeTextArray[0] , @"task.offJobTime" : _timeTextArray[1]};
-                    
-//                    NSLog(@"%@" , parames);
-                    [HelpFunction requestDataWithUrlString:kKongJingDingShiYuYue andParames:parames andDelegate:self];
+                    parames = @{@"devSn" : self.serviceModel.devSn, @"devTypSn" : self.serviceModel.devTypeSn, @"task.fSwitchOn" : @(1), @"task.fSwitchOff" : @(1) , @"task.onJobTime" : _timeTextArray[0] , @"task.offJobTime" : _timeTextArray[1]};
                 } else if([_timeTextArray[3] integerValue] == 1){
-                    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn, @"task.fSwitchOn" : @(1), @"task.fSwitchOff" : @(1) , @"task.onJobTime" : _timeTextArray[0] , @"task.offJobTime" : _timeTextArray[1] , @"task.runWeek" : @"1111111"};
-//                    NSLog(@"%@" , parames);
-                    [HelpFunction requestDataWithUrlString:kKongJingDingShiYuYue andParames:parames andDelegate:self];
+                    parames = @{@"devSn" : self.serviceModel.devSn, @"devTypSn" : self.serviceModel.devTypeSn, @"task.fSwitchOn" : @(1), @"task.fSwitchOff" : @(1) , @"task.onJobTime" : _timeTextArray[0] , @"task.offJobTime" : _timeTextArray[1] , @"task.runWeek" : @"1111111"};
                 }
-                
-                
+                NSLog(@"%@" , parames);
+                [HelpFunction requestDataWithUrlString:kKongJingDingShiYuYue andParames:parames andDelegate:self];
             }
             
         }

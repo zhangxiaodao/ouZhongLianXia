@@ -51,9 +51,9 @@
     
     NSDictionary *parameters = nil;
     if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-        parameters = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2)};
+        parameters = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2) , @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
     } else {
-        parameters = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2)};
+        parameters = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
     }
     
     [HelpFunction requestDataWithUrlString:kLogin andParames:parameters andDelegate:self];
@@ -92,9 +92,11 @@
         
     } andFirstTitle:@"修改名称" andSecondHandle:^{
         
-        NSDictionary *parames = @{@"id" : @(self.serviceModel.userDeviceID)};
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            NSDictionary *parames = @{@"id" : @(self.serviceModel.userDeviceID)};
+            [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
+        } andSuperViewController:self Title:@"是否移除设备"];
         
-        [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
     } andSecondTitle:@"移除设备" andThirtHandle:^{
      
         ChanPinShuoMingViewController *chanPinDesVC = [[ChanPinShuoMingViewController alloc]init];

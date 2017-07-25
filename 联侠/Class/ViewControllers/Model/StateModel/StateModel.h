@@ -74,7 +74,7 @@
 /**
  *  温度
  */
-@property (nonatomic , copy) NSString *currentC;
+@property (nonatomic , copy) NSString *sCurrentC;
 /**
  *  空气质量
  */
@@ -82,19 +82,19 @@
 /**
  *  清洁滤网时间
  */
-@property (nonatomic , assign) NSInteger cleanFilterScreen;
+@property (nonatomic , assign) NSInteger sCleanFilterScreen;
 /**
  *  更换滤网时间
  */
-@property (nonatomic , assign) NSInteger changeFilterScreen;
+@property (nonatomic , assign) NSInteger sChangeFilterScreen;
 /**
- *  pm25的值
+ *  sPm25的值
  */
-@property (nonatomic , copy) NSString *pm25;
+@property (nonatomic , copy) NSString *sPm25;
 /**
  *  指示灯颜色
  */
-@property (nonatomic , assign) NSInteger light;
+@property (nonatomic , assign) NSInteger fLight;
 /**
  *  干衣机
  */
@@ -105,7 +105,7 @@
 
 #pragma mark - 新风空净的属性
 #pragma mark - 新风当前湿度
-@property (nonatomic , assign) NSInteger   currentH;
+@property (nonatomic , assign) NSInteger   sCurrentH;
 
 #pragma mark - 新风当前co2
 @property (nonatomic , assign) NSInteger   co2;
@@ -114,7 +114,7 @@
 @property (nonatomic , assign) NSInteger   durTime;
 
 #pragma mark - 新风甲醛
-@property (nonatomic , assign) NSInteger   methanal;
+@property (nonatomic , assign) NSInteger   sMethanal;
 
 
 

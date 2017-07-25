@@ -344,11 +344,11 @@ static CGFloat speed = 0.0;
     NSLog(@"第一个--%@ " , _stateModel);
     
     if (_stateModel) {
-        _airQulityLable.text = [NSString stringWithFormat:@"%@" , _stateModel.pm25];
-        _temperatureLabel.text = [NSString stringWithFormat:@"%@" , _stateModel.currentC];
-        _humidityLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.currentH];
-        _methanalLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.methanal];
-        _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)_stateModel.changeFilterScreen];
+        _airQulityLable.text = [NSString stringWithFormat:@"%@" , _stateModel.sPm25];
+        _temperatureLabel.text = [NSString stringWithFormat:@"%@" , _stateModel.sCurrentC];
+        _humidityLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.sCurrentH];
+        _methanalLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.sMethanal];
+        _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)_stateModel.sChangeFilterScreen];
         
         if (_stateModel.fSwitch == 1) {
            

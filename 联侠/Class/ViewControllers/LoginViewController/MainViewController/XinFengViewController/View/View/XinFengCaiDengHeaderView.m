@@ -112,11 +112,11 @@
     self.closeBtn.backgroundColor = [UIColor whiteColor];
     
     if (_stateModel) {
-        if (_stateModel.light == 1) {
+        if (_stateModel.fLight == 1) {
             self.closeBtn.backgroundColor = kXinFengKongJingYanSe;
-        } else if (_stateModel.light == 2) {
+        } else if (_stateModel.fLight == 2) {
             self.autoBtn.backgroundColor = kXinFengKongJingYanSe;
-        } else if (_stateModel.light == 16) {
+        } else if (_stateModel.fLight == 16) {
             self.pauseBtn.backgroundColor = kXinFengKongJingYanSe;
         }
     }

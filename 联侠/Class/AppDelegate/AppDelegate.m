@@ -45,6 +45,9 @@
     self.noNetWorkStr = 1;
         
     NSLog(@"%f , %f" , kScreenW , kScreenH);
+    
+    
+    
     _alertController = nil;
     
     [self setRootViewController];
@@ -57,6 +60,7 @@
     
     return YES;
 }
+
 
 - (UILabel *)addNoNetLabel {
     UILabel *noNetWork = [UILabel creatLableWithTitle:@"❗️当前网络不可用，请检查手机网络" andSuperView:kWindowRoot.view andFont:k13 andTextAligment:NSTextAlignmentCenter];

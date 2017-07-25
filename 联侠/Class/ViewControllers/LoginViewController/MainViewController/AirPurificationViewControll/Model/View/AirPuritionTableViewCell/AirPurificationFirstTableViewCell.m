@@ -115,30 +115,30 @@
 - (void)setStateModel:(StateModel *)stateModel {
     _stateModel = stateModel;
         
-    if (_stateModel.currentC) {
+    if (_stateModel.sCurrentC) {
         
-        [NSString setNSMutableAttributedString:_stateModel.currentC.floatValue andSuperLabel:timeLable andDanWei:@"°C" andSize:k25 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"NO"];
+        [NSString setNSMutableAttributedString:_stateModel.sCurrentC.floatValue andSuperLabel:timeLable andDanWei:@"°C" andSize:k25 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"NO"];
     }
     
     self.circleProgressView.isAnimation = _isAnimation;
-    if (_stateModel.pm25) {
+    if (_stateModel.sPm25) {
    
-        CGFloat kongQiZhiLiang = _stateModel.pm25.floatValue / 4;
+        CGFloat kongQiZhiLiang = _stateModel.sPm25.floatValue / 4;
 //        self.circleProgressView.text = [NSString stringWithFormat:@"%.f" , kongQiZhiLiang];
         
         [self.circleProgressView setText:[NSString stringWithFormat:@"%.f" , kongQiZhiLiang]];
         
-        xiaBiaoLable.text = [NSString stringWithFormat:@"相当于 %.2f 颗大米" , (_stateModel.pm25.floatValue / kDaMi)];
+        xiaBiaoLable.text = [NSString stringWithFormat:@"相当于 %.2f 颗大米" , (_stateModel.sPm25.floatValue / kDaMi)];
     } else {
         
         self.circleProgressView.text = [NSString stringWithFormat:@"%d" , 50];
     }
     
-    if (_stateModel.light == 01) {
+    if (_stateModel.fLight == 01) {
         zhaungTailLable.text = @"空气:优";
-    } else if (_stateModel.light == 02) {
+    } else if (_stateModel.fLight == 02) {
         zhaungTailLable.text = @"空气:良";
-    } else if (_stateModel.light == 03) {
+    } else if (_stateModel.fLight == 03) {
         zhaungTailLable.text = @"空气:差";
     }
     
