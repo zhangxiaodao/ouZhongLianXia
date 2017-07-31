@@ -74,7 +74,10 @@
 - (void)setupNav {
     self.navigationController.delegate = self;
     
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(gengDuoTapAtcion) image:@"gengDuo" highImage:nil];
+//    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(gengDuoTapAtcion) image:@"gengDuo" highImage:nil];
+    
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(gengDuoTapAtcion) title:@"产品说明" highTitle:@"产品说明"];
+    
 }
 
 #pragma mark - 右上角点击事件
