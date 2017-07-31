@@ -208,7 +208,7 @@
         repeatStr = @"1111111";
     }
     
-    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn ,@"devTypSn" : self.serviceModel.devTypeSn, @"task.fSwitchOn" : @(self.openSwitch.on) , @"task.fSwitchOff" : @(self.closeSwitch.on) , @"task.onJobTime" : openTime , @"task.offJobTime" : closeTime ,  @"task.runWeek" : repeatStr};
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn ,@"devTypeSn" : self.serviceModel.devTypeSn, @"task.fSwitchOn" : @(self.openSwitch.on) , @"task.fSwitchOff" : @(self.closeSwitch.on) , @"task.onJobTime" : openTime , @"task.offJobTime" : closeTime ,  @"task.runWeek" : repeatStr};
 //    NSLog(@"%@ , %@" , self.openTimeLabel.text , self.closeLabel.text);
     NSLog(@"%@" , parames);
     [HelpFunction requestDataWithUrlString:kKongJingDingShiYuYue andParames:parames andDelegate:self];

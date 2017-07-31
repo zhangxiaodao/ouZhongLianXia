@@ -230,8 +230,8 @@
     NSString *devSn = [str substringWithRange:NSMakeRange(12, 12)];
     
     
-    NSString *zhiLengState = nil;
-    NSString *baiFengState = nil;
+    NSString *zhiLengState = @"==";
+    NSString *baiFengState = @"==";
     if ([self.serviceModel.devSn isEqualToString:devSn])  {
         if ([zhiLeng isEqualToString:@"01"]) {
             [self.zhiLengBtn setImage:[UIImage imageNamed:@"已开启"] forState:UIControlStateNormal];
@@ -270,18 +270,7 @@
             [self.shanJunBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
             [self.shanJunBtn addTarget:self action:@selector(btnAtcion3456:) forControlEvents:UIControlEventTouchUpInside];
         }
-        //    if ([tongSong isEqualToString:@"01"]) {
-        //        [self.tongSuoBtn setImage:[UIImage imageNamed:@"已开启"] forState:UIControlStateNormal];
-        //        [self.tongSuoBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-        //        [self.tongSuoBtn addTarget:self action:@selector(btnAtcion2:) forControlEvents:UIControlEventTouchUpInside];
-        //    } else if ([tongSong isEqualToString:@"02"]) {
-        //        [self.tongSuoBtn setTitle:@"关闭" forState:UIControlStateNormal];
-        //        [self.tongSuoBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        //        [self.tongSuoBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-        //        [self.tongSuoBtn addTarget:self action:@selector(btnAtcion3456:) forControlEvents:UIControlEventTouchUpInside];
-        //    }
-        //    
-        //    
+       
 
         NSArray *stateType = @[[NSString stringWithFormat:@"%@" , zhiLengState] , [NSString stringWithFormat:@"%@" , baiFengState]];
         if (_delegate && [_delegate respondsToSelector:@selector(sendStateType:)]) {

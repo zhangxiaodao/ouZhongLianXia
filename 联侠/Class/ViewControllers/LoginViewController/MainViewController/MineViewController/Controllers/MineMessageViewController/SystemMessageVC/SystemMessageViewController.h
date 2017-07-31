@@ -10,4 +10,6 @@
 
 @interface SystemMessageViewController : UITableViewController
 
+@property (nonatomic , assign) BOOL presentVC;
+
 @end

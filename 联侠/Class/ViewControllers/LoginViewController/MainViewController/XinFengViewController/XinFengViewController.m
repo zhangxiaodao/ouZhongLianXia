@@ -92,7 +92,7 @@
         
     } andFirstTitle:@"修改名称" andSecondHandle:^{
         
-        [UIAlertController creatRightAlertControllerWithHandle:^{
+        [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
             NSDictionary *parames = @{@"id" : @(self.serviceModel.userDeviceID)};
             [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
         } andSuperViewController:self Title:@"是否移除设备"];

@@ -1939,9 +1939,9 @@
 		ED83491D1E9CAFF700FF22A3 /* SystemMessageVC */ = {
 			isa = PBXGroup;
 			children = (
-				ED83491E1E9CAFF700FF22A3 /* Mode */,
 				ED8349211E9CAFF700FF22A3 /* SystemMessageViewController.h */,
 				ED8349221E9CAFF700FF22A3 /* SystemMessageViewController.m */,
+				ED83491E1E9CAFF700FF22A3 /* Mode */,
 				ED8349231E9CAFF700FF22A3 /* View */,
 			);
 			path = SystemMessageVC;

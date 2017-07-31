@@ -29,6 +29,8 @@
 @property (nonatomic , strong) NSString *cityName;
 @property (nonatomic , strong) NSMutableDictionary *wearthDic;
 
+@property (nonatomic , strong) UIAlertController *alert;
+
 @end
 
 static HelpFunction *_request = nil;
@@ -380,13 +382,12 @@ static HelpFunction *_request = nil;
         NSLog(@"CCCCCCCC");
         NSLog(@"%@" , self.urlString);
         [_delegate requestData:self didFailLoadData:self.error];
-//        if ([kApplicate wheatherHaveNet]) {
-//            if ([kWindowRoot isKindOfClass:[TabBarViewController class]]) {
-//                [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getCurrentVC]  Title:@"网络异常，请重试"];
-//            } else {
-//                [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getPresentedViewController]  Title:@"网络异常，请重试"];
-//            }
-//        }
+        if ([kApplicate wheatherHaveNet]) {
+            
+            if (self.alert == nil) {
+                self.alert = [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getPresentedViewController]  Title:@"网络异常，请重试"];
+            }
+        }
         
     }];
     

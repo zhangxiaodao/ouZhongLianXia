@@ -41,8 +41,10 @@ static const CGFloat kNumberMarkHeight = 80.f;
         _label = [[UILabel alloc] init];
         _label.text = [NSString stringWithFormat:@"%.0f%%" , _percent * 100];
         _label.font = [UIFont systemFontOfSize:k30];
-        _label.frame = CGRectMake(frame.size.width / 2 - kNumberMarkWidth / 2, frame.size.width / 2 - kNumberMarkHeight / 2, kNumberMarkWidth, kNumberMarkHeight);
+        _label.frame = CGRectMake(0, frame.size.width / 2 - kNumberMarkHeight / 2, frame.size.width, kNumberMarkHeight);
+        _label.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_label];
+        
         
         
         // 疑问：label只是用来做文字裁剪，能否不添加到view上。

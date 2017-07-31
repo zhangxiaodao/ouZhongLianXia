@@ -53,6 +53,9 @@
 @property (nonatomic , strong) UILabel *searchLable;
 @property (nonatomic , strong) UILabel *registerLable;
 @property (nonatomic , strong) UILabel *addLable;
+
+@property (nonatomic , strong) UIAlertController *alertVC;
+
 @end
 
 
@@ -198,9 +201,7 @@
     
     self.num++;
     if (self.num >= 30) {
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self addServiceFail];
-        } andSuperViewController:self Title:@"此设备绑定失败"];
+        [self addFailAlert];
     }
 }
 
@@ -276,17 +277,13 @@
             [_progressTimer setFireDate:[NSDate distantPast]];
             
         } else {
-            [UIAlertController creatRightAlertControllerWithHandle:^{
-                [self addServiceFail];
-            } andSuperViewController:self Title:@"此设备绑定失败"];
+            [self addFailAlert];
         }
         
     } else {
         
         if (self.count >= 10) {
-            [UIAlertController creatRightAlertControllerWithHandle:^{
-                [self addServiceFail];
-            } andSuperViewController:self Title:@"此设备绑定失败"];
+            [self addFailAlert];
         } else {
             self.count++;
             [self.updSocket close];
@@ -322,18 +319,12 @@
         } andSuperViewController:self Title:@"此设备已绑定"];
         
     } else if ([dic[@"state"] integerValue] == 1){
-        
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self addServiceFail];
-        } andSuperViewController:self Title:@"此设备绑定失败"];
-        
+        [self addFailAlert];
     }
 }
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    [UIAlertController creatRightAlertControllerWithHandle:^{
-        [self addServiceFail];
-    } andSuperViewController:self Title:@"此设备绑定失败"];
+    [self addFailAlert];
 }
 
 #pragma mark - 绑定设备失败
@@ -348,6 +339,15 @@
     failVC.navigationItem.title = @"失败";
     [self.navigationController pushViewController:failVC animated:YES];
 }
+
+- (void)addFailAlert {
+    if (!self.alertVC) {
+        self.alertVC = [UIAlertController creatRightAlertControllerWithHandle:^{
+            [self addServiceFail];
+        } andSuperViewController:self Title:@"此设备绑定失败"];
+    }
+}
+
 #pragma mark - 判断并绑定设备
 - (void)determineAndBindTheDevice {
     
@@ -411,9 +411,8 @@
                 ESPTouchResult *firstResult = [esptouchResultArray objectAtIndex:0];
                 
                 if (firstResult.bssid == nil || [firstResult isKindOfClass:[NSNull class]]) {
-                    [UIAlertController creatRightAlertControllerWithHandle:^{
-                        [self addServiceFail];
-                    } andSuperViewController:self Title:@"此设备绑定失败"];
+                    [self addFailAlert];
+                    
                 } else {
                     self.deviceSn = firstResult.bssid;
                     

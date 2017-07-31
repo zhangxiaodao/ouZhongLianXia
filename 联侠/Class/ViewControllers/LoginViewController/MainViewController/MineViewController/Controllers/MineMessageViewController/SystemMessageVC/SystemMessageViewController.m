@@ -34,6 +34,11 @@
     self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     
     [self setUI];
+    
+    if (self.presentVC) {
+        [self setNav];
+    }
+    
 }
 
 #pragma mark - 设置UI
@@ -44,6 +49,31 @@
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 49, 0);
     [self setRefresh];
     
+}
+
+- (void)setNav{
+    self.navigationController.navigationBar.hidden = false;
+    self.navigationItem.title = @"系统消息";
+    self.navigationItem.leftBarButtonItem = nil;
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"navigationButtonReturn"] forState:UIControlStateNormal];
+    [backButton setTitle:@"返回" forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor colorWithHexString:@"00a2ff"] forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:k15];
+    [backButton sizeToFit];
+    // 这句代码放在sizeToFit后面
+    backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+    backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+    [backButton addTarget:self action:@selector(backAtcion) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+}
+
+- (void)backAtcion {
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.presentVC = false;
+    }];
 }
 
 - (void)setRefresh{

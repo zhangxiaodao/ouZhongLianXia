@@ -15,6 +15,7 @@
 #import "XMGNavigationController.h"
 #import "LaunchScreenViewController.h"
 #import "HTMLBaseViewController.h"
+#import "SystemMessageViewController.h"
 
 
 #define STOREAPPID @"1113948983"
@@ -228,7 +229,7 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 42) {
+            if ([data[@"id"] integerValue] > 44) {
                 
                 if ([data[@"isForce"] integerValue] == 0) {
                     return ;
@@ -367,6 +368,12 @@
     // 将收到的APNs信息传给个推统计
     [GeTuiSdk handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
+    
+    SystemMessageViewController *sysVC = [[SystemMessageViewController alloc]init];
+    sysVC.presentVC = YES;
+    XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:sysVC];
+    
+    [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
 }
 
 

@@ -135,7 +135,7 @@
     
     NSString *devSn = [str substringWithRange:NSMakeRange(12, 12)];
     
-    NSString *modelType = nil;
+    NSString *modelType = @"==";
     if ([self.serviceModel.devSn isEqualToString:devSn])  {
         
         UIImage *jingHuaImage = self.imageArray[0];

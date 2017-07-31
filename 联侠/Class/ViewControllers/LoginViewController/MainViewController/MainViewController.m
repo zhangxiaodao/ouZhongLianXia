@@ -29,6 +29,8 @@
 @property (nonatomic , strong) UIImageView *firstView;
 @property (nonatomic , strong) UIImageView *headImageView;
 
+@property (nonatomic , copy) NSString *deviceName;
+
 @property (nonatomic , strong) RollLabel* testLabel;
 @end
 
@@ -298,23 +300,23 @@
     imageBG.userInteractionEnabled = YES;
     
     setVIew = [UIView creatViewWithBackView:[UIImage imageNamed:[NSString stringWithFormat:@"iconfont-ordinaryset"]] andSuperView:imageBG];
-    setVIew.userInteractionEnabled = NO;
+    setVIew.userInteractionEnabled = YES;
     [setVIew mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenH / 29, kScreenH / 29));
         make.right.mas_equalTo(-5);
         make.centerY.mas_equalTo(self.view.mas_top).offset(kScreenH / 22.72);
     }];
     
-    UIImageView *zheGaiView = [[UIImageView alloc]init];
-    [imageBG addSubview:zheGaiView];
-    zheGaiView.backgroundColor = [UIColor clearColor];
-    [zheGaiView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 6));
-        make.right.mas_equalTo(-5);
-        make.centerY.mas_equalTo(self.view.mas_top).offset(kScreenH / 22.72);
-    }];
-    
-    zheGaiView.userInteractionEnabled = YES;
+//    UIImageView *zheGaiView = [[UIImageView alloc]init];
+//    [imageBG addSubview:zheGaiView];
+//    zheGaiView.backgroundColor = [UIColor clearColor];
+//    [zheGaiView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 6));
+//        make.right.mas_equalTo(-5);
+//        make.centerY.mas_equalTo(self.view.mas_top).offset(kScreenH / 22.72);
+//    }];
+//    
+//    zheGaiView.userInteractionEnabled = YES;
     
 //    UITapGestureRecognizer *tap4 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImageAtcion)];
 //    [zheGaiView addGestureRecognizer:tap4];
@@ -324,7 +326,7 @@
     UITapGestureRecognizer *gengHuanTuPianTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gengHuanTuPianTapAction:)];
     
     //添加到指定视图
-    [imageBG addGestureRecognizer:gengHuanTuPianTap];
+    [setVIew addGestureRecognizer:gengHuanTuPianTap];
     
     
     
@@ -430,12 +432,73 @@
 
 #pragma mark - 长按手势  更换图片
 - (void)gengHuanTuPianTapAction:(UITapGestureRecognizer *)longPress {
-    ExchangeCollectionViewController *exchangeVC = [[UIStoryboard storyboardWithName:@"ExchangeCollectionViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"ExchangeCollectionViewController"];
     
-    exchangeVC.fromMainVC = [NSString stringWithFormat:@"1"];
     
-    [self.navigationController pushViewController:exchangeVC animated:YES];
+    
+    [UIAlertController creatSheetControllerWithFirstHandle:^{
+        
+        [UIAlertController creatAlertControllerWithFirstTextfiledPlaceholder:nil andFirstTextfiledText:[NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName] andFirstAtcion:nil andWhetherEdite:NO WithSecondTextfiledPlaceholder:@"请输入修改名称" andSecondTextfiledText:nil andSecondAtcion:@selector(secondTextFieldsValueDidChange:) andAlertTitle:@"修改设备名称" andAlertMessage:@"你可以再次修改设备名称，便于区分。" andTextfiledAtcionTarget:self andSureHandle:^{
+            if (self.deviceName) {
+                NSDictionary *parames = @{@"ud.devTypeSn" :  self.serviceModel.devTypeSn, @"ud.devSn" :  self.serviceModel.devSn, @"ud.definedName" : self.deviceName};
+                NSLog(@"修改设备名称---%@" , parames);
+                [HelpFunction requestDataWithUrlString:kChangeServiceName andParames:parames andDelegate:self];
+            }
+        } andSuperViewController:self];
+        
+    } andFirstTitle:@"修改名称" andSecondHandle:^{
+        
+        [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
+            NSDictionary *parames = @{@"id" : @(self.serviceModel.userDeviceID)};
+            [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
+        } andSuperViewController:self Title:@"是否移除设备"];
+        
+        
+    } andSecondTitle:@"移除设备" andThirtHandle:^{
+        ExchangeCollectionViewController *exchangeVC = [[UIStoryboard storyboardWithName:@"ExchangeCollectionViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"ExchangeCollectionViewController"];
+        
+        exchangeVC.fromMainVC = [NSString stringWithFormat:@"1"];
+        
+        [self.navigationController pushViewController:exchangeVC animated:YES];
+    } andThirtTitle:@"更换背景" andForthHandle:nil andForthTitle:nil andSuperViewController:self];
 }
+
+- (void)secondTextFieldsValueDidChange:(UITextField *)textfiled {
+    self.deviceName = textfiled.text;
+}
+
+#pragma mark - 修改设备名称
+- (void)requestData:(HelpFunction *)request changeServiceName:(NSDictionary *)dic {
+    //    NSLog(@"%@" , dic);
+    
+    if ([dic[@"state"] isKindOfClass:[NSNull class]]) {
+        return ;
+    }
+    
+    NSInteger index = [dic[@"state"] integerValue];
+    if (index == 0) {
+        if (self.deviceName) {
+            self.navigationItem.title = [NSString stringWithFormat:@"%@%@" , self.deviceName , self.serviceModel.typeName];
+        } else {
+            self.navigationItem.title = [NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName];
+        }
+    }
+    
+}
+
+
+#pragma mark - 移除设备
+- (void)requestRemoveService:(HelpFunction *)request didDone:(NSDictionary *)dic{
+    //    NSLog(@"%@" , dic);
+    
+    if ([dic[@"state"] integerValue] == 0) {
+        
+        
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        } andSuperViewController:self Title:@"设备删除成功"];
+    }
+}
+
 
 #pragma mark - 向左滑动推出界面
 - (void)swipeGesture11:(UISwipeGestureRecognizer *)swipe {
