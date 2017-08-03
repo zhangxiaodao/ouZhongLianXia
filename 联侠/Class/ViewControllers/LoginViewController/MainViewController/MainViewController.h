@@ -49,5 +49,6 @@
 - (void)swipeGesture:(UISwipeGestureRecognizer *)swipe;
 - (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn;
 - (void)lengFengShanOpenAtcion:(UIButton *)btn;
+- (void)lengFengShanCloseAtcion:(UIButton *)btn;
 - (void)ganYiJiOpenAtcion:(UIButton *)btn;
 @end

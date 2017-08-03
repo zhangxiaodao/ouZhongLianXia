@@ -261,7 +261,11 @@
             
             if ([kStanderDefault objectForKey:@"cityName"] && [kStanderDefault objectForKey:@"provience"]) {
                 NSString *city = [kStanderDefault objectForKey:@"cityName"];
-                city = [NSString stringWithFormat:@"%@市" , city];
+                
+                NSString *subStr = [city substringWithRange:NSMakeRange(city.length - 1, 1)];
+                if (![subStr isEqualToString:@"市"]) {
+                    city = [NSString stringWithFormat:@"%@市" , city];
+                }
                 
                 [parames setValuesForKeysWithDictionary:@{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : city, @"phoneType":@(2)}];
             } else {

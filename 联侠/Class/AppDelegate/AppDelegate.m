@@ -434,6 +434,11 @@
     
     NSInteger nowTime = [NSString getNowTimeInterval];
     NSString *endTime = [kStanderDefault objectForKey:@"endTime"];
+    
+    if (nowTime > endTime.integerValue + 3600 * 24 * 5 && endTime != nil) {
+        [self requestLoginURL];
+    }
+    
     if (nowTime > endTime.integerValue + 3600 * 2 && endTime != nil) {
         [self setRootViewController];
         [kStanderDefault removeObjectForKey:@"endTime"];
@@ -442,8 +447,33 @@
     [GeTuiSdk resetBadge];
     [self setUpEnterForeground];
     
-   
     
+    
+    
+    
+}
+
+- (void)requestLoginURL {
+    NSString *phone = [kStanderDefault objectForKey:@"phone"];
+    NSString *password = [kStanderDefault objectForKey:@"password"];
+    NSString *clientId = [kStanderDefault objectForKey:@"GeTuiClientId"];
+    
+    if (phone == nil || password == nil) {
+        return ;
+    }
+    
+    NSDictionary *parames = nil;
+    if (clientId != nil) {
+        parames = @{@"loginName" : phone , @"password" : password , @"ua.clientId" : clientId, @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
+    } else {
+        parames = @{@"loginName" : phone , @"password" : password , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
+    }
+    
+    [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
+}
+
+- (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
+    NSLog(@"%@" , data);
 }
 
 - (void)setUpEnterForeground {

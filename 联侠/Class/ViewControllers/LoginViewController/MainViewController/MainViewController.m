@@ -198,10 +198,12 @@
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"]) {
             if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
                 [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
+                [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
             } else if (self.stateModel.fSwitch == 1){
                 [self setBottomBackGroundColor:kMainColor andSelected:1 andState:@"YES"];
+                [self.bottomBtn addTarget:self action:@selector(lengFengShanCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
             }
-            [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {
             if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
 
@@ -223,7 +225,7 @@
             [self.bottomBtn addTarget:self action:@selector(kongQiJingHuaQiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"]) {
             
-            [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            [self.bottomBtn addTarget:self action:@selector(lengFengShanCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {
             [self.bottomBtn addTarget:self action:@selector(ganYiJiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         }
@@ -302,26 +304,10 @@
     setVIew = [UIView creatViewWithBackView:[UIImage imageNamed:[NSString stringWithFormat:@"iconfont-ordinaryset"]] andSuperView:imageBG];
     setVIew.userInteractionEnabled = YES;
     [setVIew mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenH / 29, kScreenH / 29));
+        make.size.mas_equalTo(CGSizeMake(kScreenH / 13, kScreenH / 13));
         make.right.mas_equalTo(-5);
         make.centerY.mas_equalTo(self.view.mas_top).offset(kScreenH / 22.72);
     }];
-    
-//    UIImageView *zheGaiView = [[UIImageView alloc]init];
-//    [imageBG addSubview:zheGaiView];
-//    zheGaiView.backgroundColor = [UIColor clearColor];
-//    [zheGaiView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 6));
-//        make.right.mas_equalTo(-5);
-//        make.centerY.mas_equalTo(self.view.mas_top).offset(kScreenH / 22.72);
-//    }];
-//    
-//    zheGaiView.userInteractionEnabled = YES;
-    
-//    UITapGestureRecognizer *tap4 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImageAtcion)];
-//    [zheGaiView addGestureRecognizer:tap4];
-    
-    
     
     UITapGestureRecognizer *gengHuanTuPianTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gengHuanTuPianTapAction:)];
     

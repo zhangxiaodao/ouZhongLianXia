@@ -319,6 +319,8 @@
     
     [HelpFunction requestWeatherDataWithDelegate:self andCityName:cityName];
     [kStanderDefault setObject:cityName forKey:@"cityName"];
+    
+    
 }
 
 

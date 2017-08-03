@@ -196,7 +196,7 @@
 
 + (UIView *)creatViewWithBackView:(UIImage *)iamge andSuperView:(UIView *)superView{
     
-    UIView *bigView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenH / 23, kScreenH / 23)];
+    UIView *bigView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenH / 13, kScreenH / 13)];
     bigView.backgroundColor = [UIColor clearColor];
     [superView addSubview:bigView];
     bigView.userInteractionEnabled = YES;

@@ -45,23 +45,18 @@
     for (int i = 0; i < 5; i++) {
         [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
     }
-    
-    
-    
+        
 }
 
 - (void)lengFengShanOpenAtcion:(UIButton *)btn {
-    
-    if (btn.selected == 1) {
-        [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S0#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-    } else {
-        [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-    }
-    
+    [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
+    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+}
 
-    btn.selected = !btn.selected;
+- (void)lengFengShanCloseAtcion:(UIButton *)btn {
+    
+    [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
+    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S0#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
 }
 
 #pragma mark - 取得tcp返回的数据
@@ -74,8 +69,12 @@
     if ([self.serviceModel.devSn isEqualToString:devSn]) {
         if ([kaiGuan isEqualToString:@"02"]) {
             self.bottomBtn.backgroundColor = [UIColor grayColor];
+            [self.bottomBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+            [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([kaiGuan isEqualToString:@"01"]) {
             self.bottomBtn.backgroundColor = kMainColor;
+            [self.bottomBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+            [self.bottomBtn addTarget:self action:@selector(lengFengShanCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
         }
     }
 }
