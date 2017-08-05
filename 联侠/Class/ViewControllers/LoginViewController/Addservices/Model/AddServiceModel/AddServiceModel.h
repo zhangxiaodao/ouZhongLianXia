@@ -11,6 +11,7 @@
 @interface AddServiceModel : NSObject
 @property (nonatomic , strong) NSString *typeSn;
 @property (nonatomic , copy) NSString *typeName;
+@property (nonatomic , copy) NSString *typeNumber;
 @property (nonatomic , copy) NSString *protocol;
 @property (nonatomic , copy) NSString *bindUrl;
 @property (nonatomic , copy) NSString *brand;

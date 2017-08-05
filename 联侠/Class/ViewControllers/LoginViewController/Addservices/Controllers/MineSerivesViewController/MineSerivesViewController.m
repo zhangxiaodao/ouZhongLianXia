@@ -475,7 +475,7 @@
         ganYiJiVC.wearthDic = self.wearthDic;
 
         [self.navigationController pushViewController:ganYiJiVC animated:YES];
-    } else if ([model.devTypeSn isEqualToString:@"4332"] || [model.devTypeSn isEqualToString:@"4133"] || [model.devTypeSn isEqualToString:@"4134"]) {
+    } else  {
         HTMLBaseViewController *htmlVC = [[HTMLBaseViewController alloc]init];
         htmlVC.serviceModel = model;
         [self.navigationController pushViewController:htmlVC animated:YES];

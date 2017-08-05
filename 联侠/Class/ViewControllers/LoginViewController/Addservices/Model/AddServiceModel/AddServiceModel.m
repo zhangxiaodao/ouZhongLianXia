@@ -28,6 +28,10 @@
         _typeName = value;
     }
     
+    if ([key isEqualToString:@"typeNumber"]) {
+        _typeNumber = value;
+    }
+    
     if ([key isEqualToString:@"protocol"]) {
         _protocol = value;
     }
@@ -39,7 +43,7 @@
 
 -(NSString *)description{
     
-    return [NSString stringWithFormat:@"typeSn--%@ , typeName--%@ , protocol--%@ , bindUrl--%@" , _typeSn , _typeName , _protocol , _bindUrl];
+    return [NSString stringWithFormat:@"typeSn--%@ , typeName--%@ , typeNumber--%@ , protocol--%@ , bindUrl--%@" , _typeSn , _typeName , _typeNumber ,  _protocol , _bindUrl];
 }
 
 @end

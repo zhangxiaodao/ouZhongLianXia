@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
@@ -32,11 +32,13 @@
     
     [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
     
+    
+    
     _webView = [[UIWebView alloc]initWithFrame:kScreenFrame];
     [self.view addSubview:_webView];
     _webView.scrollView.scrollEnabled = NO;
-//    _webView.backgroundColor = kMainColor;
-    
+    _webView.backgroundColor = [UIColor clearColor];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     self.webView.delegate = self;
     
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.serviceModel.indexUrl]]];
@@ -48,11 +50,12 @@
     
     [self passValueWithBlock];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:@"4332" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:@"4133" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:@"4134" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:@"4431" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:@"4432" object:nil];
+    
+    NSArray *array = @[@"4332" , @"4133" , @"4134" , @"4431" , @"4432" , @"4433" , @"4434" , @"4531" , @"4532" , @"4533" , @"4534" , @"4631" , @"4632" , @"4633" , @"4634"];
+    
+    for (int i = 0; i < array.count; i++) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:array[i] object:nil];
+    }
     
 }
 
@@ -76,7 +79,7 @@
         if ([bself.serviceModel.brand isKindOfClass:[NSNull class]]) {
             userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , nil];
         } else {
-            userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , bself.serviceModel.brand, @"BrandName" , nil];
+            userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , [NSString stringWithFormat:@"%@%@" , bself.serviceModel.brand , bself.serviceModel.typeName], @"BrandName" , nil];
         }
         
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userData options:NSJSONWritingPrettyPrinted error:nil];
@@ -143,12 +146,19 @@
         
         NSMutableString *sumStr = [NSMutableString string];
         [sumStr appendFormat:@"%@", [NSString stringWithFormat:@"HMFFM%@%@w" , self.serviceModel.devTypeSn, self.serviceModel.devSn]];
+        
         for (NSString *sub in array) {
-            [sumStr appendFormat:@"%@", [NSString stringWithFormat:@"%.2d" , sub.intValue]];
             
+            if (sub.length == 1) {
+                [sumStr appendFormat:@"0%@", sub];
+            } else {
+                [sumStr appendFormat:@"%@", sub];
+            }
         }
         
         [sumStr appendString:@"#"];
+        
+        NSLog(@"发送给TCP的命令%@ , %@" , sumStr , parames);
         
         [kSocketTCP sendDataToHost:sumStr andType:kZhiLing andIsNewOrOld:kNew];
     };
@@ -166,7 +176,12 @@
     NSString *callJSstring = nil;
     callJSstring = [NSString stringWithFormat:@"ReceiveOrder('%@')" , sumStr];
     
-    NSLog(@"%@" , callJSstring);
+    NSLog(@"发送给H5的命令%@" , callJSstring);
+    
+    if (_context == nil || callJSstring == nil) {
+        return ;
+    }
+    
     [_context evaluateScript:callJSstring];
     sumStr = nil;
     
@@ -212,5 +227,8 @@
     return _dic;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end
