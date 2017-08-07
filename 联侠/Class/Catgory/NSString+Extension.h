@@ -84,4 +84,12 @@
  */
 + (NSString *)getDeviceName;
 
+
+/**
+ 获取手机系统版本型号
+ 
+ @return 系统版本型号
+ */
++ (NSString *)getDeviceSystemVersion;
+
 @end

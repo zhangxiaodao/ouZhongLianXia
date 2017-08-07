@@ -9,6 +9,8 @@
 #import "FailContextViewController.h"
 #import "AllTypeServiceViewController.h"
 #import "UserFeedBackViewController.h"
+#import "MineSerivesViewController.h"
+
 @interface FailContextViewController ()<UIGestureRecognizerDelegate>
 @end
 
@@ -17,15 +19,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(noAtcion) image:nil highImage:nil];
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+   
+    
     [self setUI];
     
+    [self setupNav];
     
 }
 
-- (void)noAtcion {
+- (void)setupNav {
     
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:[UIImage imageNamed:@"navigationButtonReturn"] forState:UIControlStateNormal];
+    [backButton setTitle:@"返回主界面" forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor colorWithHexString:@"00a2ff"] forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont systemFontOfSize:k15];
+    [backButton sizeToFit];
+    // 这句代码放在sizeToFit后面
+    backButton.contentEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+    backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+    [backButton addTarget:self action:@selector(backAtcion) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+}
+
+- (void)backAtcion {
+    MineSerivesViewController *tabVC = [[MineSerivesViewController alloc]init];
+    tabVC.fromAddVC = @"YES";
+    
+    for (UIViewController *vc in self.navigationController.childViewControllers) {
+        if ([vc isKindOfClass:[tabVC class]]) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
@@ -47,12 +75,12 @@
     }];
     lable1.textColor = [UIColor whiteColor];
     
-    UILabel *lable2 = [UILabel creatLableWithTitle:@"产品名称+型号" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentLeft];
+    UILabel *lable2 = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@%@" , self.addServiceModel.brand , self.addServiceModel.typeName] andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentLeft];
     lable2.layer.borderWidth = 0;
     [lable2 mas_makeConstraints:^(MASConstraintMaker *make) {
 
         make.left.mas_equalTo(lable1.mas_left);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 15));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 15));
         make.top.mas_equalTo(view.mas_centerY);
     }];
     lable2.textColor = [UIColor whiteColor];
@@ -163,6 +191,15 @@
     fanKuiVC.navigationItem.title = @"在线反馈";
     [self.navigationController pushViewController:fanKuiVC animated:YES];
     
+}
+
+- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
+    _addServiceModel = addServiceModel;
+    
+    
+    if (_addServiceModel.brand == nil) {
+        _addServiceModel.brand = @"";
+    }
 }
 
 @end

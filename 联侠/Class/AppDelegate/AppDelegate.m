@@ -464,9 +464,9 @@
     
     NSDictionary *parames = nil;
     if (clientId != nil) {
-        parames = @{@"loginName" : phone , @"password" : password , @"ua.clientId" : clientId, @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
+        parames = @{@"loginName" : phone , @"password" : password , @"ua.clientId" : clientId, @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     } else {
-        parames = @{@"loginName" : phone , @"password" : password , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
+        parames = @{@"loginName" : phone , @"password" : password , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     }
     
     [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];

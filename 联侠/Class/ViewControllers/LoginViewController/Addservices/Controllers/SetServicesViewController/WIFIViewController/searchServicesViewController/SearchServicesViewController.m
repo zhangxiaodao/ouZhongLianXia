@@ -341,6 +341,7 @@
     self.updSocket = nil;
     FailContextViewController *failVC = [[FailContextViewController alloc]init];
     failVC.navigationItem.title = @"失败";
+    failVC.addServiceModel = self.addServiceModel;
     [self.navigationController pushViewController:failVC animated:YES];
 }
 

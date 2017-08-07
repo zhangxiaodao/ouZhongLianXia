@@ -350,4 +350,9 @@
 }
 
 
++ (NSString *)getDeviceSystemVersion {
+    NSString* phoneVersion = [[UIDevice currentDevice] systemVersion];
+    return phoneVersion;
+}
+
 @end

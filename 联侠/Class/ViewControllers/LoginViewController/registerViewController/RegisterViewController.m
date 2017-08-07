@@ -65,9 +65,9 @@
 
         NSDictionary *parameters = nil;
         if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-            parameters = @{@"user.phone":self.accTectFiled.text , @"user.password" : self.pwdTectFiled.text , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
+            parameters = @{@"user.phone":self.accTectFiled.text , @"user.password" : self.pwdTectFiled.text , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
         } else {
-            parameters = @{@"user.phone":self.accTectFiled.text , @"user.password" : self.pwdTectFiled.text ,  @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
+            parameters = @{@"user.phone":self.accTectFiled.text , @"user.password" : self.pwdTectFiled.text ,  @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
         }
         
         [kStanderDefault setObject:self.pwdTectFiled.text forKey:@"password"];

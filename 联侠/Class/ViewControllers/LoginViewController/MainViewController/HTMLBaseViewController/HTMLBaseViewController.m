@@ -25,9 +25,9 @@
     
     NSDictionary *parames = nil;
     if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
+        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     } else {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName]};
+        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     }
     
     [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
@@ -51,7 +51,7 @@
     [self passValueWithBlock];
     
     
-    NSArray *array = @[@"4332" , @"4133" , @"4134" , @"4431" , @"4432" , @"4433" , @"4434" , @"4531" , @"4532" , @"4533" , @"4534" , @"4631" , @"4632" , @"4633" , @"4634"];
+    NSArray *array = @[@"4332" , @"4133" , @"4134" , @"4431" , @"4432" , @"4433" , @"4434" , @"4531" , @"4532" , @"4533" , @"4534" , @"4631" , @"4632" , @"4633" , @"4634" , @"4731", @"4732", @"4733", @"4734", @"4831", @"4832", @"4833", @"4834"];
     
     for (int i = 0; i < array.count; i++) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:array[i] object:nil];

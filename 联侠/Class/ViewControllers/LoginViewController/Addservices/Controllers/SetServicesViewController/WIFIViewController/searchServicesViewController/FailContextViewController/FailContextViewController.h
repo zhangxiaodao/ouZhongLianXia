@@ -10,4 +10,6 @@
 
 @interface FailContextViewController : UIViewController
 
+@property (nonatomic , strong) AddServiceModel *addServiceModel;
+
 @end
