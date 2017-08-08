@@ -28,16 +28,25 @@
 @property (strong, nonatomic) NSMutableArray *cityArray;
 @property (strong, nonatomic) NSMutableArray *townArray;
 
+@property (nonatomic , strong) NSMutableDictionary *pickerDic;
+
 @end
 
 @implementation CustomPickerView
 
+- (NSMutableDictionary *)pickerDic {
+    if (!_pickerDic) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"Address" ofType:@"plist"];
+        _pickerDic = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+
+    }
+    return _pickerDic;
+}
+
 - (void)getAddressData {
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Address" ofType:@"plist"];
-    NSMutableDictionary *pickerDic = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
-    self.provinceArray = [[pickerDic allKeys] mutableCopy];
-    NSMutableArray *selectedArray = [pickerDic objectForKey:[[pickerDic allKeys] objectAtIndex:0]];
+    self.provinceArray = [[self.pickerDic allKeys] mutableCopy];
+    NSMutableArray *selectedArray = [self.pickerDic objectForKey:[self.provinceArray objectAtIndex:0]];
     
     if (selectedArray.count > 0) {
         self.cityArray = [[[selectedArray objectAtIndex:0] allKeys] mutableCopy];
@@ -255,6 +264,35 @@
             return [self.townArray objectAtIndex:row];
         }
     }
+    
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    [self getSelectedAddressData];
+    
+    [self.myPicker reloadAllComponents];
+}
+
+- (void)getSelectedAddressData {
+    
+    
+    NSInteger colProvince = [self.myPicker selectedRowInComponent:0];
+    NSInteger colCity = [self.myPicker selectedRowInComponent:1];
+    
+    NSString *province = self.provinceArray[colProvince];
+    
+    NSDictionary *selectedDict = [self.pickerDic objectForKey:province][0];
+    
+    if (selectedDict.count > 0) {
+        self.cityArray = [[selectedDict allKeys] mutableCopy];
+    }
+    
+    
+    if (self.cityArray.count > colCity) {
+        NSString *city = self.cityArray[colCity];
+        self.townArray = selectedDict[city];
+    }
+    
     
 }
 

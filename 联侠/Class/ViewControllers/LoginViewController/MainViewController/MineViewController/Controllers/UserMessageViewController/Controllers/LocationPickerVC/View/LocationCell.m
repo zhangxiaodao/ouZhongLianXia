@@ -13,8 +13,25 @@
 @property (strong, nonatomic) NSMutableArray *provinceArray;
 @property (strong, nonatomic) NSMutableArray *cityArray;
 @property (strong, nonatomic) NSMutableArray *townArray;
+
+@property (nonatomic , strong) NSMutableDictionary *pickerDic;
 @end
 @implementation LocationCell
+
+- (void)getAddressData {
+    
+    self.provinceArray = [[self.pickerDic allKeys] mutableCopy];
+    NSMutableArray *selectedArray = [self.pickerDic objectForKey:[self.provinceArray objectAtIndex:0]];
+    
+    if (selectedArray.count > 0) {
+        self.cityArray = [[[selectedArray objectAtIndex:0] allKeys] mutableCopy];
+    }
+    
+    if (self.cityArray.count > 0) {
+        self.townArray = [[selectedArray objectAtIndex:0] objectForKey:[self.cityArray objectAtIndex:0]];
+    }
+    
+}
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -121,9 +138,31 @@
 
 - (void)sendPickerViewToVC:(UIPickerView *)picker {
     if (self.indexPath.section == 0 && self.indexPath.row == 2) {
-        _provience = self.provinceArray[[picker selectedRowInComponent:0]];
-        _city = self.cityArray[[picker selectedRowInComponent:1]];
-        _town = self.townArray[[picker selectedRowInComponent:2]];
+        
+        NSInteger colProvince = [picker selectedRowInComponent:0];
+        NSInteger colCity = [picker selectedRowInComponent:1];
+        NSInteger colTown = [picker selectedRowInComponent:2];
+        
+        NSString *province = self.provinceArray[colProvince];
+        
+        NSDictionary *selectedDict = [self.pickerDic objectForKey:province][0];
+        
+        if (selectedDict.count > 0) {
+            self.cityArray = [[selectedDict allKeys] mutableCopy];
+        }
+        
+        NSString *city = @"";
+        
+        if (self.cityArray.count > colCity) {
+            city = self.cityArray[colCity];
+            self.townArray = selectedDict[city];
+        }
+        
+        NSString *town = self.townArray[colTown];
+        
+        _provience = province;
+        _city = city;
+        _town = town;
         
         
         if ([_city isEqualToString:_town]) {
@@ -133,7 +172,6 @@
         }
     }
 }
-
 
 
 - (void)setUserModel:(UserModel *)userModel {
@@ -149,22 +187,13 @@
     
 }
 
-
-- (void)getAddressData {
-    
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Address" ofType:@"plist"];
-    NSMutableDictionary *pickerDic = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
-    self.provinceArray = [[pickerDic allKeys] mutableCopy];
-    NSMutableArray *selectedArray = [pickerDic objectForKey:[[pickerDic allKeys] objectAtIndex:0]];
-    
-    if (selectedArray.count > 0) {
-        self.cityArray = [[[selectedArray objectAtIndex:0] allKeys] mutableCopy];
+- (NSMutableDictionary *)pickerDic {
+    if (!_pickerDic) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"Address" ofType:@"plist"];
+        _pickerDic = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+        
     }
-    
-    if (self.cityArray.count > 0) {
-        self.townArray = [[selectedArray objectAtIndex:0] objectForKey:[self.cityArray objectAtIndex:0]];
-    }
-    
+    return _pickerDic;
 }
 
 @end
