@@ -102,33 +102,42 @@
     
     NSDictionary *data = dic[@"data"];
     TimeModel *timeModel = [[TimeModel alloc]init];
+    [timeModel setValuesForKeysWithDictionary:data];
     
-    for (NSString *key in [data allKeys]) {
-        [timeModel setValue:data[key] forKey:key];
+    
+    if ([timeModel.runWeek isEqualToString:@"1111111"]) {
+        self.repeatSwitch.on = YES;
+    } else {
+        self.repeatSwitch.on = NO;
     }
     
-    if (timeModel.hasRunOnOnce == 0 || timeModel.hasRunOn == 0) {
-        if ([timeModel.runWeek isEqualToString:@"0000000"]) {
-            self.repeatSwitch.on = NO;
-        }
+    if (timeModel.onJobTime == nil && timeModel.offJobTime == nil) {
+        self.openSwitch.on = NO;
+        self.closeSwitch.on = NO;
         
-        if (timeModel.fSwitchOn == 1) {
-            self.openSwitch.on = YES;
-        }
-        
-        if (timeModel.fSwitchOff == 1) {
-            self.closeSwitch.on = NO;
-        }
-        
-        if (![timeModel.onJobTime isKindOfClass:[NSNull class]]) {
-            self.openTimeLabel.text = timeModel.onJobTime;
-        }
-        
-        if (![timeModel.offJobTime isKindOfClass:[NSNull class]]) {
-            self.closeLabel.text = timeModel.offJobTime;
-        }
     }
+    
+    if (timeModel.onJobTime != nil && timeModel.offJobTime != nil) {
+        self.openSwitch.on = YES;
+        self.closeSwitch.on = YES;
+        self.openTimeLabel.text = timeModel.onJobTime;
+        self.closeLabel.text = timeModel.offJobTime;
+    }
+    
+    if (timeModel.onJobTime != nil && timeModel.offJobTime == nil) {
+        self.openSwitch.on = YES;
+        self.closeSwitch.on = NO;
+        self.openTimeLabel.text = timeModel.onJobTime;
         
+    }
+    
+    if (timeModel.onJobTime == nil && timeModel.offJobTime != nil) {
+        self.openSwitch.on = NO;
+        self.closeSwitch.on = YES;
+        
+        self.closeLabel.text = timeModel.offJobTime;
+    }
+    
 }
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
@@ -203,13 +212,21 @@
         [_delegate xinFengTimeVCSendTimeToParentVCDelegate:array];
     }
     
-    NSString *repeatStr = @"0000000";
-    if (self.repeatSwitch.on) {
-        repeatStr = @"1111111";
+    
+    NSMutableDictionary *parames = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.serviceModel.devSn, @"devSn", self.serviceModel.devTypeSn, @"devTypeSn", @"0000000", @"task.runWeek", nil];
+    
+    if (self.openSwitch.on == 1) {
+        [parames setValue:openTime forKey:@"task.onJobTime"];
     }
     
-    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn ,@"devTypeSn" : self.serviceModel.devTypeSn, @"task.fSwitchOn" : @(self.openSwitch.on) , @"task.fSwitchOff" : @(self.closeSwitch.on) , @"task.onJobTime" : openTime , @"task.offJobTime" : closeTime ,  @"task.runWeek" : repeatStr};
-//    NSLog(@"%@ , %@" , self.openTimeLabel.text , self.closeLabel.text);
+    if (self.closeSwitch.on == 1) {
+        [parames setValue:closeTime forKey:@"task.offJobTime"];
+    }
+    
+    if (self.repeatSwitch.on == 1) {
+        [parames setValue:@"1111111" forKey:@"task.runWeek"];
+    }
+    
     NSLog(@"%@" , parames);
     [HelpFunction requestDataWithUrlString:kKongJingDingShiYuYue andParames:parames andDelegate:self];
 }
@@ -236,7 +253,7 @@
     _serviceModel = serviceModel;
     
     if (_serviceModel.devSn) {
-        [HelpFunction requestDataWithUrlString:kGetKongJingTiming andParames:@{@"devSn" : _serviceModel.devSn} andDelegate:self];
+        [HelpFunction requestDataWithUrlString:kGetKongJingTiming andParames:@{@"devSn" : _serviceModel.devSn , @"devTypeSn":_serviceModel.devTypeSn} andDelegate:self];
     }
     
 }

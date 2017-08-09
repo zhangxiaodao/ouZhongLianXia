@@ -140,7 +140,7 @@
     NSLog(@"%@" , _servicModel);
     
     if (_servicModel.devSn) {
-        [HelpFunction requestDataWithUrlString:kGetKongJingTiming andParames:@{@"devSn" : _servicModel.devSn} andDelegate:self];
+        [HelpFunction requestDataWithUrlString:kGetKongJingTiming andParames:@{@"devSn" : _servicModel.devSn , @"devTypeSn":_servicModel.devTypeSn } andDelegate:self];
     }
 
 }
@@ -158,53 +158,28 @@
     NSDictionary *data = dic[@"data"];
     TimeModel *timeModel = [[TimeModel alloc]init];
     
-    for (NSString *key in [data allKeys]) {
-        [timeModel setValue:data[key] forKey:key];
-    }
-    
+    [timeModel setValuesForKeysWithDictionary:data];
     
     if ([timeModel.runWeek isEqualToString:@"1111111"]) {
         _openOrOffLable.text = @"每天";
-        
-        if (timeModel.fSwitchOn == 1 && timeModel.fSwitchOff == 1) {
-            time = [NSString stringWithFormat:@"开启时间%@, 关闭时间%@" , timeModel.onJobTime , timeModel.offJobTime];
-        } else if (timeModel.fSwitchOn == 1 && timeModel.fSwitchOff == 0) {
-            time = [NSString stringWithFormat:@"开启时间%@" , timeModel.onJobTime ];
-        } else if (timeModel.fSwitchOn == 0 && timeModel.fSwitchOff == 1) {
-            time = [NSString stringWithFormat:@"关闭时间%@" , timeModel.offJobTime];
-        } else if (timeModel.fSwitchOn == 0 && timeModel.fSwitchOff == 0) {
-            time = @"暂无定时预约";
-        }
-        
-        
     } else {
         _openOrOffLable.text = @"无重复";
-        if (timeModel.hasRunOnOnce == 0 && timeModel.hasRunOff == 0) {
-            if (timeModel.fSwitchOn == 1 && timeModel.fSwitchOff == 1) {
-                time = [NSString stringWithFormat:@"开启时间%@, 关闭时间%@" , timeModel.onJobTime , timeModel.offJobTime];
-            } else if (timeModel.fSwitchOn == 1 && timeModel.fSwitchOff == 0) {
-                time = [NSString stringWithFormat:@"开启时间%@" , timeModel.onJobTime ];
-            } else if (timeModel.fSwitchOn == 0 && timeModel.fSwitchOff == 1) {
-                time = [NSString stringWithFormat:@"关闭时间%@" , timeModel.offJobTime];
-            } else if (timeModel.fSwitchOn == 0 && timeModel.fSwitchOff == 0) {
-                time = @"暂无定时预约";
-            }
-        } else if (timeModel.hasRunOnOnce == 0 && timeModel.hasRunOff == 1) {
-            if (timeModel.fSwitchOn == 1) {
-                time = [NSString stringWithFormat:@"开启时间%@" , timeModel.onJobTime];
-            }  else {
-                time = @"暂无定时预约";
-            }
-        } else if (timeModel.hasRunOnOnce == 1 && timeModel.hasRunOff == 0) {
-            if (timeModel.fSwitchOff == 1) {
-                time = [NSString stringWithFormat:@"关闭时间%@" , timeModel.offJobTime];
-            }  else {
-                time = @"暂无定时预约";
-            }
-        }
-        else {
-            time = @"暂无定时预约";
-        }
+    }
+    
+    if (timeModel.onJobTime == nil && timeModel.offJobTime == nil) {
+        time = @"暂无定时预约";
+    }
+    
+    if (timeModel.onJobTime != nil && timeModel.offJobTime != nil) {
+        time = [NSString stringWithFormat:@"开启时间%@, 关闭时间%@" , timeModel.onJobTime , timeModel.offJobTime];
+    }
+    
+    if (timeModel.onJobTime != nil && timeModel.offJobTime == nil) {
+        time = [NSString stringWithFormat:@"开启时间%@" , timeModel.onJobTime];
+    }
+    
+    if (timeModel.onJobTime == nil && timeModel.offJobTime != nil) {
+        time = [NSString stringWithFormat:@"关闭时间%@" , timeModel.offJobTime];
     }
     
     _shuoMingLabel.text = time;
