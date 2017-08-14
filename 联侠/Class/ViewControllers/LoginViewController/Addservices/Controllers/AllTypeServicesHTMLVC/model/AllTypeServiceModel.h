@@ -12,6 +12,6 @@
 
 @property (nonatomic , copy) NSString *imageUrl;
 @property (nonatomic , copy) NSString *typeName;
-@property (nonatomic , assign) NSInteger typeSn;
+@property (nonatomic , assign) NSString *typeSn;
 
 @end

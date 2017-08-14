@@ -217,7 +217,7 @@
             if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
                 self.bottomBtn.backgroundColor = [UIColor grayColor];
                 self.bottomBtn.selected = 0;
-                [self.bottomBtn addTarget:self action:@selector(xinFengOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
+                [self btn:self.bottomBtn removeAtcion:@"xinFengCloseAtcion" addAtcion:@"xinFengOpenAtcion"];
                 [kStanderDefault setObject:@(0) forKey:@"offBtn"];
             } else if (self.stateModel.fSwitch == 1){
                 
@@ -226,7 +226,7 @@
                 }];
                 self.bottomBtn.backgroundColor = kXinFengKongJingYanSe;
                 self.bottomBtn.selected = 1;
-                [self.bottomBtn addTarget:self action:@selector(xinFengCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
+                [self btn:self.bottomBtn removeAtcion:@"xinFengOpenAtcion" addAtcion:@"xinFengCloseAtcion"];
                 [kStanderDefault setObject:@(1) forKey:@"offBtn"];
             }
             
@@ -239,10 +239,17 @@
         if ([self.serviceModel.devTypeSn isEqualToString:@"4232"]) {
             [kStanderDefault setObject:@(0) forKey:@"offBtn"];
             self.bottomBtn.backgroundColor = [UIColor grayColor];
-            [self.bottomBtn addTarget:self action:@selector(xinFengOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
+
+            [self btn:self.bottomBtn removeAtcion:@"xinFengCloseAtcion" addAtcion:@"xinFengOpenAtcion"];
         }
     }
     
+}
+
+- (void)btn:(UIButton *)btn removeAtcion:(NSString *)removetcion addAtcion:(NSString *)addAtcion {
+    
+    [btn removeTarget:self action:NSSelectorFromString(removetcion) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:NSSelectorFromString(addAtcion) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
@@ -250,20 +257,15 @@
 }
 
 #pragma mark - 按钮开点击事件
-- (void)xinFengOpenAtcion:(UIButton *)btn {
+- (void)xinFengOpenAtcion {
     
     [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"01", @"00", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
-    
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJing:) name:@"4232" object:nil];
 }
 
 #pragma mark - 按钮关点击事件
-- (void)xinFengCloseAtcion:(UIButton *)btn {
+- (void)xinFengCloseAtcion {
     
     [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"02", @"00", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJing:) name:@"4232" object:nil];
-    
 }
 
 #pragma mark - 获取TCP命令
@@ -282,9 +284,8 @@
             [UIView animateWithDuration:0.3 animations:^{
                 _markView.alpha = 0.3;
             }];
-            [self.bottomBtn removeTarget:self action:@selector(xinFengCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
             self.bottomBtn.backgroundColor = [UIColor grayColor];
-            [self.bottomBtn addTarget:self action:@selector(xinFengOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            [self btn:self.bottomBtn removeAtcion:@"xinFengCloseAtcion" addAtcion:@"xinFengOpenAtcion"];
         } else if ([kaiGuan isEqualToString:@"01"]) {
             
             self.bottomBtn.selected = 1;
@@ -292,10 +293,9 @@
             [UIView animateWithDuration:0.3 animations:^{
                 _markView.alpha = 0;
             }];
-            
-            [self.bottomBtn removeTarget:self action:@selector(xinFengOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
             self.bottomBtn.backgroundColor = kXinFengKongJingYanSe;
-            [self.bottomBtn addTarget:self action:@selector(xinFengCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
+
+            [self btn:self.bottomBtn removeAtcion:@"xinFengOpenAtcion" addAtcion:@"xinFengCloseAtcion"];
         }
         
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"BottomBtnSelected" object:nil userInfo:@{@"BottomBtnSelected" : @(self.bottomBtn.selected)}]];
@@ -363,7 +363,7 @@
         make.left.mas_equalTo(kScreenW / 15);
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(-5);
     }];
-    [self.bottomBtn addTarget:self action:@selector(xinFengOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottomBtn addTarget:self action:@selector(xinFengOpenAtcion) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *bottomLable = [UILabel creatLableWithTitle:@"开启" andSuperView:self.bottomBtn andFont:k17 andTextAligment:NSTextAlignmentLeft];
     bottomLable.textColor = [UIColor whiteColor];
@@ -575,12 +575,16 @@
     NSInteger closeOn = [array[3] integerValue];
     NSInteger repeatOn = [array[4] integerValue];
     
+    if (openOn == 0 && closeOn == 0) {
+        time = [NSString stringWithFormat:@"暂无定时预约"];
+    }
     if (openOn == 1 && closeOn == 0) {
         time = [NSString stringWithFormat:@"%@开启" , openTime];
-        
-    }  if (openOn == 0 && closeOn == 1) {
+    }
+    if (openOn == 0 && closeOn == 1) {
        time = [NSString stringWithFormat:@"%@关闭" , closeTime];
-    }  if (openOn == 1 && closeOn == 1) {
+    }
+    if (openOn == 1 && closeOn == 1) {
         time = [NSString stringWithFormat:@"%@开启 , %@关闭" , openTime , closeTime];
     }
     
@@ -596,5 +600,10 @@
         cell.openOrOffLable.text = repeatStr;
     }
 }
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
+}
+
 
 @end

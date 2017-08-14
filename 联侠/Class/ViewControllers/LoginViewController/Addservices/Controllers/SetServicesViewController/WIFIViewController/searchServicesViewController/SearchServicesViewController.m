@@ -253,11 +253,9 @@
         
         if ([self.devTypeSn isEqualToString:self.addServiceModel.typeSn]) {
             
-            if ([self.devTypeSn isEqualToString:@"4132"]) {
-                self.devTypeSn = @"4131";
-            }
-            
             NSDictionary *parames = [NSMutableDictionary dictionary];
+            [parames setValuesForKeysWithDictionary:@{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn, @"phoneType":@(2) , @"ud.devTypeNumber":self.addServiceModel.typeNumber}];
+            
             
             if ([kStanderDefault objectForKey:@"cityName"] && [kStanderDefault objectForKey:@"provience"]) {
                 NSString *city = [kStanderDefault objectForKey:@"cityName"];
@@ -267,13 +265,7 @@
                     city = [NSString stringWithFormat:@"%@市" , city];
                 }
                 
-                [parames setValuesForKeysWithDictionary:@{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn , @"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : city, @"phoneType":@(2)}];
-            } else {
-                [parames setValuesForKeysWithDictionary:@{@"ud.userSn" : [kStanderDefault objectForKey:@"userSn"] ,  @"ud.devSn" : self.deviceSn , @"ud.devTypeSn" : self.devTypeSn, @"phoneType":@(2)}];
-            }
-            
-            if ([self.addServiceModel.typeSn isEqualToString:@"4132"]) {
-                [parames setValue:@"4132" forKey:@"ud.remark"];
+                [parames setValuesForKeysWithDictionary:@{@"province" : [kStanderDefault objectForKey:@"provience"] , @"city" : city}];
             }
             
             NSLog(@"%@" , parames);

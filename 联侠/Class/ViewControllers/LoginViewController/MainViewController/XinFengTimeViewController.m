@@ -200,19 +200,6 @@
     NSString *openTime = self.openTimeLabel.text;
     NSString *closeTime = self.closeLabel.text;
     
-    NSMutableArray *array = [NSMutableArray array];
-    
-    [array addObject:openTime];
-    [array addObject:closeTime];
-    [array addObject:@(self.openSwitch.on)];
-    [array addObject:@(self.closeSwitch.on)];
-    [array addObject:@(self.repeatSwitch.on)];
-    
-    if (_delegate && [_delegate respondsToSelector:@selector(xinFengTimeVCSendTimeToParentVCDelegate:)]) {
-        [_delegate xinFengTimeVCSendTimeToParentVCDelegate:array];
-    }
-    
-    
     NSMutableDictionary *parames = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.serviceModel.devSn, @"devSn", self.serviceModel.devTypeSn, @"devTypeSn", @"0000000", @"task.runWeek", nil];
     
     if (self.openSwitch.on == 1) {
@@ -227,8 +214,24 @@
         [parames setValue:@"1111111" forKey:@"task.runWeek"];
     }
     
+    if (self.openSwitch.on == false && self.closeSwitch.on == false) {
+        [parames removeObjectForKey:@"task.runWeek"];
+    }
+    
     NSLog(@"%@" , parames);
     [HelpFunction requestDataWithUrlString:kKongJingDingShiYuYue andParames:parames andDelegate:self];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    [array addObject:openTime];
+    [array addObject:closeTime];
+    [array addObject:@(self.openSwitch.on)];
+    [array addObject:@(self.closeSwitch.on)];
+    [array addObject:@(self.repeatSwitch.on)];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(xinFengTimeVCSendTimeToParentVCDelegate:)]) {
+        [_delegate xinFengTimeVCSendTimeToParentVCDelegate:array];
+    }
 }
 
 - (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {

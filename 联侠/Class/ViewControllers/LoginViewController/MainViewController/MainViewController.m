@@ -564,4 +564,8 @@
     return _arrImage;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
+}
+
 @end

@@ -229,7 +229,7 @@
             return ;
         } else {
             
-            if ([data[@"id"] integerValue] > 46) {
+            if ([data[@"id"] integerValue] > 48) {
                 
                 if ([data[@"isForce"] integerValue] == 0) {
                     return ;

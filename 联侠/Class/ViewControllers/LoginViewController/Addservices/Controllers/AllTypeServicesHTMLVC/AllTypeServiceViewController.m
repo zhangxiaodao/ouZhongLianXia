@@ -108,7 +108,7 @@
     AllTypeServiceModel *allTypeServiceModel = _dataArray[indexPath.row];
     AllServicesViewController *allServiceVC = [[AllServicesViewController alloc]init];
     allServiceVC.navigationItem.title = self.navigationItem.title;
-    allServiceVC.typeSn = [NSString stringWithFormat:@"%ld" , (long)allTypeServiceModel.typeSn];
+    allServiceVC.typeSn = [NSString stringWithFormat:@"%@" , allTypeServiceModel.typeSn];
     [self.navigationController pushViewController:allServiceVC animated:YES];
 }
 
