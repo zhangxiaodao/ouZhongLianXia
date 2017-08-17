@@ -56,7 +56,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
+    
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -124,7 +132,10 @@
     JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
     __block typeof(self)bself = self;
     context[@"BackIOS"] = ^() {
-        [bself.navigationController popViewControllerAnimated:YES];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [bself.navigationController popViewControllerAnimated:YES];
+        });
         
     };
     

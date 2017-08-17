@@ -60,7 +60,7 @@
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated
 {
-    return [super popViewControllerAnimated:YES];
+    return [super popViewControllerAnimated:animated];
 }
 
 - (NSArray<UIViewController *> *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated
