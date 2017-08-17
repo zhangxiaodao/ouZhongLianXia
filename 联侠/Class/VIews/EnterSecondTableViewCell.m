@@ -51,7 +51,7 @@
 - (void)customFrame{
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:kServiceOrder object:nil];
     
     UILabel *modelChanceLable = [UILabel creatLableWithTitle:@"当前功能" andSuperView:self.contentView andFont:k17 andTextAligment:NSTextAlignmentCenter];
     modelChanceLable.textColor = [UIColor whiteColor];
@@ -183,7 +183,7 @@
     
     btn.tag = 1;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:kServiceOrder object:nil];
 }
 
 - (void)btnAtcion2:(UIButton *)btn {
@@ -200,7 +200,7 @@
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@U0#" , self.serviceModel.devTypeSn, self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getData66666765:) name:kServiceOrder object:nil];
 }
 - (void)beginAnimation:(UIButton *)btn{
     
@@ -316,6 +316,10 @@
 
 - (void)setIsAimation:(NSString *)isAimation {
     _isAimation = isAimation;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

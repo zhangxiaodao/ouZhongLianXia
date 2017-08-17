@@ -85,7 +85,7 @@ static CGFloat speed = 0.0;
 
 - (void)customUI {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJingDataMessageFunction:) name:@"4232" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJingDataMessageFunction:) name:kServiceOrder object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBottomBtnSelected:) name:@"BottomBtnSelected" object:nil];
     
@@ -387,5 +387,7 @@ static CGFloat speed = 0.0;
     
     
 }
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

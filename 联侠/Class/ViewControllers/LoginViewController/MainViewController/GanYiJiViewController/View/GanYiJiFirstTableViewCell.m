@@ -194,5 +194,7 @@
     
     _leiJiJingHua.text = @"累计运行时间";
 }
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

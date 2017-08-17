@@ -22,7 +22,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengCaiDengHeaderViewAtcion:) name:@"4232" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengCaiDengHeaderViewAtcion:) name:kServiceOrder object:nil];
         
         NSArray *threeNameArray = @[@"暂停" , @"自动" , @"关闭"];
         for (int i = 0; i < 3; i++) {
@@ -121,5 +121,7 @@
         }
     }
 }
-    
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

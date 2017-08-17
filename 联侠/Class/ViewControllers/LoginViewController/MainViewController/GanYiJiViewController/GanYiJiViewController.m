@@ -55,7 +55,7 @@
 - (void)setUI {
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:@"4331" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:kServiceOrder object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ganYiJiBeginWork22:) name:@"GanYiJiBeginWork" object:nil];
     
@@ -80,7 +80,7 @@
         [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:@"4331" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:kServiceOrder object:nil];
     btn.selected = !btn.selected;
 }
 
@@ -319,6 +319,8 @@
 {
     return 1;
 }
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end

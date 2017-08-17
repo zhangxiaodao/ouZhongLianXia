@@ -12,7 +12,6 @@
 		ED08A5611D3C86EC00B48831 /* GanYiJIClothesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ED08A5601D3C86EC00B48831 /* GanYiJIClothesModel.m */; };
 		ED08B3F21DEFF7380001AB9E /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = ED08B3F11DEFF7380001AB9E /* UIBarButtonItem+Extension.m */; };
 		ED08B3F91DEFFD600001AB9E /* HTMLBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED08B3F81DEFFD600001AB9E /* HTMLBaseViewController.m */; };
-		ED08B4001DEFFDEC0001AB9E /* HTMLAirTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED08B3FF1DEFFDEC0001AB9E /* HTMLAirTestViewController.m */; };
 		ED0B78CF1E82150F00A42CC7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ED0B78D11E82150F00A42CC7 /* InfoPlist.strings */; };
 		ED0B78D61E8215B400A42CC7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ED0B78D81E8215B400A42CC7 /* Localizable.strings */; };
 		ED0B78DD1E82330F00A42CC7 /* XinFengCaiDengViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED0B78DC1E82330F00A42CC7 /* XinFengCaiDengViewController.m */; };
@@ -273,8 +272,6 @@
 		ED08B3F11DEFF7380001AB9E /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
 		ED08B3F71DEFFD600001AB9E /* HTMLBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLBaseViewController.h; sourceTree = "<group>"; };
 		ED08B3F81DEFFD600001AB9E /* HTMLBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLBaseViewController.m; sourceTree = "<group>"; };
-		ED08B3FE1DEFFDEC0001AB9E /* HTMLAirTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLAirTestViewController.h; sourceTree = "<group>"; };
-		ED08B3FF1DEFFDEC0001AB9E /* HTMLAirTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLAirTestViewController.m; sourceTree = "<group>"; };
 		ED0B78D01E82150F00A42CC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ED0B78D21E82151700A42CC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ED0B78D31E82151D00A42CC7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -802,19 +799,9 @@
 				ED08B3F71DEFFD600001AB9E /* HTMLBaseViewController.h */,
 				ED08B3F81DEFFD600001AB9E /* HTMLBaseViewController.m */,
 				EDAB57471EADE126009E1DA1 /* HTMLColdFan */,
-				ED08B3FA1DEFFD990001AB9E /* HTMLAirTestViewController */,
 			);
 			name = HTMLBaseViewController;
 			path = MainViewController/HTMLBaseViewController;
-			sourceTree = "<group>";
-		};
-		ED08B3FA1DEFFD990001AB9E /* HTMLAirTestViewController */ = {
-			isa = PBXGroup;
-			children = (
-				ED08B3FE1DEFFDEC0001AB9E /* HTMLAirTestViewController.h */,
-				ED08B3FF1DEFFDEC0001AB9E /* HTMLAirTestViewController.m */,
-			);
-			path = HTMLAirTestViewController;
 			sourceTree = "<group>";
 		};
 		ED0B78DE1E8246EC00A42CC7 /* View */ = {
@@ -2483,7 +2470,6 @@
 				ED7DEDA91EA0AD0C00D65C02 /* LocationCell.m in Sources */,
 				ED08B3F21DEFF7380001AB9E /* UIBarButtonItem+Extension.m in Sources */,
 				ED5101861DAB8A2F0071F32C /* XinFengViewController.m in Sources */,
-				ED08B4001DEFFDEC0001AB9E /* HTMLAirTestViewController.m in Sources */,
 				ED225C361EA4B4D700E4FD85 /* MineServiceCollectionViewCell.m in Sources */,
 				ED0B78E71E8247B700A42CC7 /* XinFengCaiDengFirstTableViewCell.m in Sources */,
 				ED12E1DF1CF5C5470011CD2C /* NSObject+GetDeviceModel.m in Sources */,

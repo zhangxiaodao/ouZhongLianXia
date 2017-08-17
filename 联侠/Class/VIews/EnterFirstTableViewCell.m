@@ -65,7 +65,7 @@
 - (void)customFrame{
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate444444444:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate444444444:) name:kServiceOrder object:nil];
 
     
     [UIView creatBottomFenGeView:self.contentView andBackGroundColor:[UIColor whiteColor] isOrNotAllLenth:@"NO"];
@@ -124,7 +124,7 @@
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@M1#" , self.serviceModel.devTypeSn, self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate444444444:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate444444444:) name:kServiceOrder object:nil];
 }
 
 #pragma mark - 取得tcp返回的数据
@@ -338,6 +338,10 @@
 - (void)setIsAnimation:(NSString *)isAnimation {
     _isAnimation = isAnimation;
     NSLog(@"%@" , _isAnimation);
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

@@ -445,5 +445,7 @@ static NSString *celled = @"celled";
     }
     return _infoArray;
 }
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

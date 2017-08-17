@@ -36,7 +36,7 @@
 
 - (void)setUI {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanInfo:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanInfo:) name:kServiceOrder object:nil];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -268,6 +268,8 @@
     }
     return _dic;
 }
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end

@@ -43,9 +43,6 @@
 
 - (void)customUI {
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengKongJingTimeMessage:) name:@"4232" object:nil];
-    
-    
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 7)];
     [self.contentView addSubview:view];
     view.backgroundColor = kACOLOR(28, 157, 247, 1.0);

@@ -525,4 +525,8 @@
     self.mainVC = viewController;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 @end

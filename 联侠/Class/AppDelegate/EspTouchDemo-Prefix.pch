@@ -40,6 +40,8 @@
 #define kPort 6003
 #define localhost @"114.55.5.92"
 
+#define kServiceOrder @"ServiceOrder" 
+
 #define kXinTiao @"xinTiao"
 #define kZhiLing @"zhiLing"
 #define kLianJie @"lianJie"

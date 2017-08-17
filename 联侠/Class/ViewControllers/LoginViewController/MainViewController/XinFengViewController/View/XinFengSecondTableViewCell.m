@@ -60,7 +60,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBottomBtnSelectedMarkViewWhearthShow:) name:@"BottomBtnSelected" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengFunctionBtnAtcion:) name:@"4232" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengFunctionBtnAtcion:) name:kServiceOrder object:nil];
     
     self.backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW,  kBtnW * 9 / 4 + 1)];
     self.backView.backgroundColor = [UIColor whiteColor];
@@ -420,12 +420,13 @@
     [btn addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:selector name:@"4232" object:nil];
 }
 
 - (void)setBtnSubViewsOfLable:(NSString *)title withWhichBtn:(UIButton *)btn {
     UILabel *label = btn.subviews[0];
     label.text = title;
 }
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

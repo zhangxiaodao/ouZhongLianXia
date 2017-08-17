@@ -224,7 +224,6 @@
     }
     else{
 
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gateData:) name:@"model" object:nil];
 
         NSLog(@"%@ , %@ , %@" , @(self.model.sn) , @(self.model.idd) , self.textView.text);
         

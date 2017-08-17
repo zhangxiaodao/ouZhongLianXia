@@ -177,7 +177,7 @@
             }
             
             //        NSLog(@"%@ , %@ , %@ , %@" , sock.connectedHost , newMessage , str , typeSn);
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:typeSn object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kServiceOrder object:self userInfo:[NSDictionary dictionaryWithObject:str forKey:@"Message"]]];
             
         } else if ([newMessage isEqualToString:@"QUIT"]){
             
@@ -778,5 +778,7 @@
     return hexStr;
 }
 
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

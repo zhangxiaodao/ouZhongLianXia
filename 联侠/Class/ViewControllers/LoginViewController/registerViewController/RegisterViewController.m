@@ -379,8 +379,8 @@
         _xiaHuaXian3.backgroundColor = kMainColor;
     }
 }
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end
-
-

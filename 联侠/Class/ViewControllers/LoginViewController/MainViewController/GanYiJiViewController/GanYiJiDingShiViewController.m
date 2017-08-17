@@ -290,4 +290,8 @@
     _fromWhich = fromWhich;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 @end

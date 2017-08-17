@@ -57,7 +57,7 @@
 
 - (void)customUI {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:@"4231" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:kServiceOrder object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAnNiuZhuangTai:) name:@"AnNiuZhuangTai" object:nil];
     
     self.backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 3.7 + kBtnW * 3 / 4 - 10)];
@@ -195,7 +195,7 @@
     [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     [btn addTarget:self action:@selector(againDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:@"4231" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:kServiceOrder object:nil];
     
     
 }
@@ -234,7 +234,7 @@
     [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     [btn addTarget:self action:@selector(doneAtcion:) forControlEvents:UIControlEventTouchUpInside];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:@"4231" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:kServiceOrder object:nil];
     
 }
 
@@ -435,6 +435,10 @@
         self.subviews.lastObject.userInteractionEnabled = YES;
     }
     
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

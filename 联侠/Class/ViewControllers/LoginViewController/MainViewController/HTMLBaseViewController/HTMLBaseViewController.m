@@ -51,12 +51,7 @@
     [self passValueWithBlock];
     
     
-    NSArray *array = @[@"4133" , @"4134" , @"4135" , @"4136" , @"4137" , @"4138", @"4233" , @"4234" ,  @"4235" , @"4236" , @"4237" , @"4238" ,@"4332" , @"4431" , @"4432" , @"4433" , @"4434" , @"4531" , @"4532" , @"4533" , @"4534" , @"4631" , @"4632" , @"4633" , @"4634" , @"4731", @"4732", @"4733", @"4734", @"4831", @"4832", @"4833", @"4834"];
-    
-    for (int i = 0; i < array.count; i++) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:array[i] object:nil];
-    }
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMachineDeviceAtcion:) name:kServiceOrder object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

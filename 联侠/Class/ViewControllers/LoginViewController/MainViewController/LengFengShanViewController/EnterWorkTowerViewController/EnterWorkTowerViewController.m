@@ -67,7 +67,7 @@ static NSString *fifthCelled = @"fifth";
    
     [self setUI];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:kServiceOrder object:nil];
     [self requestServiceState];
     
 }
@@ -580,5 +580,8 @@ static NSString *fifthCelled = @"fifth";
     [self.navigationController pushViewController:exchangeVC animated:YES];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end

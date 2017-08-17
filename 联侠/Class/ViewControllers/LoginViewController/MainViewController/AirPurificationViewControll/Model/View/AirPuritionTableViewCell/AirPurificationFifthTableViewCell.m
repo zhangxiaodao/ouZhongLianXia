@@ -371,4 +371,8 @@
     _buttonSelected = buttonSelected;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 @end

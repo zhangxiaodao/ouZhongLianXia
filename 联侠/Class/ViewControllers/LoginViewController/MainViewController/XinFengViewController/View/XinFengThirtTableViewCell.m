@@ -58,7 +58,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBottomBtnSelectedMarkViewWhearthShowOfModelCell:) name:@"BottomBtnSelected" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengModelBtnAtcion:) name:@"4232" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengModelBtnAtcion:) name:kServiceOrder object:nil];
     
     self.backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW,  kBtnW * 3 / 2 )];
     self.backView.backgroundColor = [UIColor whiteColor];
@@ -296,5 +296,7 @@
         }
     }
 }
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

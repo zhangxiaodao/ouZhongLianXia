@@ -50,7 +50,7 @@
 
 - (void)customUI {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:@"4331" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:kServiceOrder object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiAnNiuZhuangTai:) name:@"GanYiJiAnNiuZhuangTai" object:nil];
     
@@ -142,7 +142,7 @@
             break;
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:@"4331" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:kServiceOrder object:nil];
     
 }
 
@@ -167,7 +167,7 @@
             break;
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:@"4331" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:kServiceOrder object:nil];
 }
 
 - (void)getGanYiJiData:(NSNotification *)post {
@@ -258,6 +258,8 @@
     }
 }
 
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end

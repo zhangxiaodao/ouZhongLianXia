@@ -127,5 +127,7 @@
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
     NSLog(@"%@" , error);
 }
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

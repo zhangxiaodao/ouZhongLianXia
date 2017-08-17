@@ -30,7 +30,7 @@
 - (void)cutomUI {
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingDataFirst:) name:@"4231" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingDataFirst:) name:kServiceOrder object:nil];
     
     UIView *view = [[UIView alloc]init];
     view.backgroundColor = [UIColor whiteColor];
@@ -147,6 +147,10 @@
 - (void)setIsAnimation:(NSString *)isAnimation {
     _isAnimation = isAnimation;
     
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

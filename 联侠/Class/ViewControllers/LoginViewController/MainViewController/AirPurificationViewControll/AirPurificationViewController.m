@@ -57,7 +57,7 @@ static NSString *seventhCelled = @"seventhCelled";
 - (void)setUI {
     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingDataMain:) name:@"4231" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingDataMain:) name:kServiceOrder object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingIsChongZhi:) name:@"KongJingIsChongZhi" object:nil];
     
     
@@ -93,7 +93,7 @@ static NSString *seventhCelled = @"seventhCelled";
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     }
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingDataMain:) name:@"4231" object:nil];
+
     btn.selected = !btn.selected;
     
 }
@@ -331,6 +331,10 @@ static NSString *seventhCelled = @"seventhCelled";
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 1;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

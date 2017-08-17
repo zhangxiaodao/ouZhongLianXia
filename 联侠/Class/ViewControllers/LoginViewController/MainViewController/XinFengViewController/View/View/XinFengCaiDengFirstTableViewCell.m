@@ -27,7 +27,7 @@
 
 - (void)customUI {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengCaiDengCellAtcion:) name:@"4232" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getXinFengCaiDengCellAtcion:) name:kServiceOrder object:nil];
     
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW / 8)];
     view.backgroundColor = [UIColor whiteColor];
@@ -114,8 +114,8 @@
     }
 }
 
-//- (void)setIndexPath:(NSIndexPath *)indexPath {
-//    _indexPath = indexPath;
-//}
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end

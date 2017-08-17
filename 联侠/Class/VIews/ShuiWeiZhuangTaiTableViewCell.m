@@ -150,4 +150,8 @@
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
 }
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

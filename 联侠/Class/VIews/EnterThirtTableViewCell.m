@@ -20,7 +20,7 @@ static NSString *str = nil;
         self.selectionStyle = UITableViewCellSeparatorStyleNone;
         
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:@"4131" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:kServiceOrder object:nil];
         
         UILabel *modelChanceLable = [UILabel creatLableWithTitle:@"风速控制" andSuperView:self.contentView andFont:k17 andTextAligment:NSTextAlignmentCenter];
         modelChanceLable.textColor = [UIColor whiteColor];
@@ -111,7 +111,7 @@ static NSString *str = nil;
         
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:kServiceOrder object:nil];
 }
 
 #pragma mark - 取得tcp返回的数据
@@ -158,7 +158,7 @@ static NSString *str = nil;
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@W3#" , self.serviceModel.devTypeSn, self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:@"4131" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDate555555555:) name:kServiceOrder object:nil];
 }
 
 /**
@@ -193,6 +193,10 @@ static NSString *str = nil;
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
