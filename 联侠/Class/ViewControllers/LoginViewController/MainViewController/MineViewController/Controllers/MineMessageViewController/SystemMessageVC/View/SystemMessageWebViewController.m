@@ -19,7 +19,7 @@
     self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     
     NSURL *url = [NSURL URLWithString:_model.url];
-    UIWebView *webView = [[UIWebView alloc]initWithFrame:kScreenFrame];
+    UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kHeight)];
     [self.view addSubview:webView];
     webView.delegate = self;
 

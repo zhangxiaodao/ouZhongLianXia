@@ -12,12 +12,13 @@
 #import "SystemMessageWebViewController.h"
 #import "XMGRefreshFooter.h"
 #import "XMGRefreshHeader.h"
+#import "SystemMessageNoMore.h"
 
 @interface SystemMessageViewController ()<UITableViewDataSource , UITableViewDelegate , HelpFunctionDelegate>{
     NSUInteger pages;
 }
 @property (nonatomic , strong) NSMutableArray *dataArray;
-
+@property (nonatomic , strong) SystemMessageNoMore *noMoreView;
 @end
 
 @implementation SystemMessageViewController
@@ -46,7 +47,12 @@
     
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 49, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+    
+    self.noMoreView = [[SystemMessageNoMore alloc]initWithFrame:CGRectMake(kScreenW / 6, kScreenH - 88, kScreenW * 2 / 3, 44)];
+    [self.view insertSubview:self.noMoreView aboveSubview:self.tableView];
+    self.noMoreView.alpha = 0;
+    
     [self setRefresh];
     
 }
@@ -94,13 +100,7 @@
     if ([self.navigationItem.title isEqualToString:@"系统消息"]) {
         [HelpFunction requestDataWithUrlString:kSystemMessageJieKou andParames:parames andDelegate:self];
     } else {
-        UIAlertController *alert = [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"暂无消息"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [self.tableView.mj_header endRefreshing];
-            [self.tableView.mj_footer endRefreshing];
-            [alert dismissViewControllerAnimated:YES completion:nil];
-        });
+        [self noHaveMessage];
     }
     
 }
@@ -113,24 +113,14 @@
     if ([self.navigationItem.title isEqualToString:@"系统消息"]) {
         [HelpFunction requestDataWithUrlString:kSystemMessageJieKou andParames:parames andDelegate:self];
     } else {
-        UIAlertController *alert = [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"暂无消息"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            [self.tableView.mj_header endRefreshing];
-            [self.tableView.mj_footer endRefreshing];
-            [alert dismissViewControllerAnimated:YES completion:nil];
-        });
+        [self noHaveMessage];
     }
 }
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
     
-    if ([dddd[@"total"] isKindOfClass:[NSNull class]]) {        [self.tableView.mj_header endRefreshing];
-        [self.tableView.mj_footer endRefreshing];
-        UIAlertController *alert = [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"暂无消息"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [alert dismissViewControllerAnimated:YES completion:nil];
-        });
+    if ([dddd[@"total"] isKindOfClass:[NSNull class]]) {
+        [self noHaveMessage];
         return ;
     }
     
@@ -157,33 +147,34 @@
             [self.tableView.mj_header endRefreshing];
             [self.tableView.mj_footer endRefreshing];
         } else {
-            [self.tableView.mj_header endRefreshing];
-            [self.tableView.mj_footer endRefreshing];
-           UIAlertController *alert = [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"暂无消息"];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [alert dismissViewControllerAnimated:YES completion:nil];
-            });
-            
+            [self noHaveMessage];
         }
     } else if (total == 0) {
-        [self.tableView.mj_header endRefreshing];
-        [self.tableView.mj_footer endRefreshing];
-        UIAlertController *alert = [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"暂无消息"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [alert dismissViewControllerAnimated:YES completion:nil];
-        });
-
+        [self noHaveMessage];
     }
     
 }
 
 - (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    [self noHaveMessage];
+}
+
+- (void)noHaveMessage {
     [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
-    UIAlertController *alert = [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"暂无消息"];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [alert dismissViewControllerAnimated:YES completion:nil];
+
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.noMoreView.alpha = 1;
+    }];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.5 animations:^{
+            self.noMoreView.alpha = 0;
+        }];
     });
+    
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

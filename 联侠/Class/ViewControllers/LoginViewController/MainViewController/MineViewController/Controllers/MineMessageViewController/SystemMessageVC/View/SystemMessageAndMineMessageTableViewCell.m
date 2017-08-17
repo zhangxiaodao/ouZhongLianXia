@@ -62,7 +62,7 @@
     }];
     self.subtitleLabel = subtitleLable;
     
-//    [UIView creatBottomFenGeView:view andBackGroundColor:[UIColor lightGrayColor] isOrNotAllLenth:@"NO"];
+    [UIView creatBottomFenGeView:view andBackGroundColor:[UIColor lightGrayColor] isOrNotAllLenth:@"YES"];
     
     titleLable.layer.borderWidth = 0;
     timeLable.layer.borderWidth = 0;

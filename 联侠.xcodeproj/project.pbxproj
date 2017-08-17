@@ -157,6 +157,7 @@
 		ED5391521E9DCDFC0075CCE6 /* AboutProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED5391511E9DCDFC0075CCE6 /* AboutProductCell.m */; };
 		ED5391621E9E2B910075CCE6 /* LocationPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = ED53915C1E9E2B910075CCE6 /* LocationPickerVC.m */; };
 		ED5391631E9E2B910075CCE6 /* NiChengViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED53915F1E9E2B910075CCE6 /* NiChengViewController.m */; };
+		ED66429A1F43F20B0053232C /* SystemMessageNoMore.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6642991F43F20B0053232C /* SystemMessageNoMore.m */; };
 		ED677EAA1D210150007D628E /* GanYiJiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EA91D210150007D628E /* GanYiJiViewController.m */; };
 		ED677EAE1D2115BD007D628E /* GanYiJiFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EAD1D2115BD007D628E /* GanYiJiFirstTableViewCell.m */; };
 		ED677EB11D2118C0007D628E /* GanYiJiSecondTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EB01D2118C0007D628E /* GanYiJiSecondTableViewCell.m */; };
@@ -538,6 +539,8 @@
 		ED53915C1E9E2B910075CCE6 /* LocationPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationPickerVC.m; sourceTree = "<group>"; };
 		ED53915E1E9E2B910075CCE6 /* NiChengViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NiChengViewController.h; sourceTree = "<group>"; };
 		ED53915F1E9E2B910075CCE6 /* NiChengViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NiChengViewController.m; sourceTree = "<group>"; };
+		ED6642981F43F20B0053232C /* SystemMessageNoMore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageNoMore.h; sourceTree = "<group>"; };
+		ED6642991F43F20B0053232C /* SystemMessageNoMore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageNoMore.m; sourceTree = "<group>"; };
 		ED677EA81D210150007D628E /* GanYiJiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJiViewController.h; sourceTree = "<group>"; };
 		ED677EA91D210150007D628E /* GanYiJiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GanYiJiViewController.m; sourceTree = "<group>"; };
 		ED677EAC1D2115BD007D628E /* GanYiJiFirstTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJiFirstTableViewCell.h; sourceTree = "<group>"; };
@@ -1963,6 +1966,8 @@
 				ED8349251E9CAFF700FF22A3 /* SystemMessageAndMineMessageTableViewCell.m */,
 				ED8349261E9CAFF700FF22A3 /* SystemMessageWebViewController.h */,
 				ED8349271E9CAFF700FF22A3 /* SystemMessageWebViewController.m */,
+				ED6642981F43F20B0053232C /* SystemMessageNoMore.h */,
+				ED6642991F43F20B0053232C /* SystemMessageNoMore.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2474,6 +2479,7 @@
 				ED8E3DB71EC2ED6F0040FD3B /* ESP_ByteUtil.m in Sources */,
 				ED12E2B61CF5C5470011CD2C /* FirstSectionView.m in Sources */,
 				ED32A5171E5D79BE005064E0 /* HistoryTableViewCell.m in Sources */,
+				ED66429A1F43F20B0053232C /* SystemMessageNoMore.m in Sources */,
 				ED7DEDA91EA0AD0C00D65C02 /* LocationCell.m in Sources */,
 				ED08B3F21DEFF7380001AB9E /* UIBarButtonItem+Extension.m in Sources */,
 				ED5101861DAB8A2F0071F32C /* XinFengViewController.m in Sources */,
