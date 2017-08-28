@@ -24,7 +24,7 @@
 }
 #pragma mark - 设置UI
 - (void)setUI {
-    webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kHeight)];
     [self.view addSubview: webView];
 
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:kGengXinRiZhi]];

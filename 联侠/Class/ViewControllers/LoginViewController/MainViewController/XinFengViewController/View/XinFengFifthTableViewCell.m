@@ -149,20 +149,20 @@
         _openOrOffLable.text = @"无重复";
     }
     
-    if (timeModel.onJobTime == nil && timeModel.offJobTime == nil) {
+    if (timeModel.jobTimeOn == nil && timeModel.jobTimeOff == nil) {
         time = @"暂无定时预约";
     }
     
-    if (timeModel.onJobTime != nil && timeModel.offJobTime != nil) {
-        time = [NSString stringWithFormat:@"开启时间%@, 关闭时间%@" , timeModel.onJobTime , timeModel.offJobTime];
+    if (timeModel.jobTimeOn != nil && timeModel.jobTimeOff != nil) {
+        time = [NSString stringWithFormat:@"开启时间%@, 关闭时间%@" , timeModel.jobTimeOn , timeModel.jobTimeOff];
     }
     
-    if (timeModel.onJobTime != nil && timeModel.offJobTime == nil) {
-        time = [NSString stringWithFormat:@"开启时间%@" , timeModel.onJobTime];
+    if (timeModel.jobTimeOn != nil && timeModel.jobTimeOff == nil) {
+        time = [NSString stringWithFormat:@"开启时间%@" , timeModel.jobTimeOn];
     }
     
-    if (timeModel.onJobTime == nil && timeModel.offJobTime != nil) {
-        time = [NSString stringWithFormat:@"关闭时间%@" , timeModel.offJobTime];
+    if (timeModel.jobTimeOn == nil && timeModel.jobTimeOff != nil) {
+        time = [NSString stringWithFormat:@"关闭时间%@" , timeModel.jobTimeOff];
     }
     
     _shuoMingLabel.text = time;

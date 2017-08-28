@@ -10,8 +10,8 @@
 
 @interface TimeModel : NSObject
 
-@property (nonatomic , copy) NSString *offJobTime;
-@property (nonatomic , copy) NSString *onJobTime;
+@property (nonatomic , copy) NSString *jobTimeOff;
+@property (nonatomic , copy) NSString *jobTimeOn;
 @property (nonatomic , copy) NSString *runWeek;
 @property (nonatomic , copy) NSString *durTime;
 

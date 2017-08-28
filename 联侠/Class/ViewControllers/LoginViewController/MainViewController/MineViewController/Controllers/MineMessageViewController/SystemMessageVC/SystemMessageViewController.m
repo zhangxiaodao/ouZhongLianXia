@@ -19,6 +19,7 @@
 }
 @property (nonatomic , strong) NSMutableArray *dataArray;
 @property (nonatomic , strong) SystemMessageNoMore *noMoreView;
+@property (nonatomic , strong) UITableView *tableView;
 @end
 
 @implementation SystemMessageViewController
@@ -45,12 +46,16 @@
 #pragma mark - 设置UI
 - (void)setUI{
     
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kHeight) style:UITableViewStylePlain];
+    [self.view addSubview:self.tableView];
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
-    self.noMoreView = [[SystemMessageNoMore alloc]initWithFrame:CGRectMake(kScreenW / 6, kScreenH - 88, kScreenW * 2 / 3, 44)];
-    [self.view insertSubview:self.noMoreView aboveSubview:self.tableView];
+    self.noMoreView = [[SystemMessageNoMore alloc]initWithFrame:CGRectMake(kScreenW / 6, kScreenH - 88 - 64, kScreenW * 2 / 3, 44)];
+    [self.view addSubview:self.noMoreView];
     self.noMoreView.alpha = 0;
     
     [self setRefresh];

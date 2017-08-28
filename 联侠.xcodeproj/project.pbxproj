@@ -1325,8 +1325,8 @@
 			isa = PBXGroup;
 			children = (
 				ED225C111EA4B4D700E4FD85 /* MineSerivesViewController */,
-				ED225C021EA4B4D700E4FD85 /* AllServicesViewController */,
 				ED225C081EA4B4D700E4FD85 /* AllTypeServicesHTMLVC */,
+				ED225C021EA4B4D700E4FD85 /* AllServicesViewController */,
 				ED225C1C1EA4B4D700E4FD85 /* SetServicesViewController */,
 			);
 			path = Controllers;
@@ -1335,9 +1335,9 @@
 		ED225C021EA4B4D700E4FD85 /* AllServicesViewController */ = {
 			isa = PBXGroup;
 			children = (
-				ED225C031EA4B4D700E4FD85 /* AllServicesCollectionViewCell */,
 				ED225C061EA4B4D700E4FD85 /* AllServicesViewController.h */,
 				ED225C071EA4B4D700E4FD85 /* AllServicesViewController.m */,
+				ED225C031EA4B4D700E4FD85 /* AllServicesCollectionViewCell */,
 			);
 			path = AllServicesViewController;
 			sourceTree = "<group>";

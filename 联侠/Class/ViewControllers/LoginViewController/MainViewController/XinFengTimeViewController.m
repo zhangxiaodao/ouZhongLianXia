@@ -111,31 +111,31 @@
         self.repeatSwitch.on = NO;
     }
     
-    if (timeModel.onJobTime == nil && timeModel.offJobTime == nil) {
+    if (timeModel.jobTimeOn == nil && timeModel.jobTimeOff == nil) {
         self.openSwitch.on = NO;
         self.closeSwitch.on = NO;
         
     }
     
-    if (timeModel.onJobTime != nil && timeModel.offJobTime != nil) {
+    if (timeModel.jobTimeOn != nil && timeModel.jobTimeOff != nil) {
         self.openSwitch.on = YES;
         self.closeSwitch.on = YES;
-        self.openTimeLabel.text = timeModel.onJobTime;
-        self.closeLabel.text = timeModel.offJobTime;
+        self.openTimeLabel.text = timeModel.jobTimeOn;
+        self.closeLabel.text = timeModel.jobTimeOff;
     }
     
-    if (timeModel.onJobTime != nil && timeModel.offJobTime == nil) {
+    if (timeModel.jobTimeOn != nil && timeModel.jobTimeOff == nil) {
         self.openSwitch.on = YES;
         self.closeSwitch.on = NO;
-        self.openTimeLabel.text = timeModel.onJobTime;
+        self.openTimeLabel.text = timeModel.jobTimeOn;
         
     }
     
-    if (timeModel.onJobTime == nil && timeModel.offJobTime != nil) {
+    if (timeModel.jobTimeOn == nil && timeModel.jobTimeOff != nil) {
         self.openSwitch.on = NO;
         self.closeSwitch.on = YES;
         
-        self.closeLabel.text = timeModel.offJobTime;
+        self.closeLabel.text = timeModel.jobTimeOff;
     }
     
 }
@@ -203,11 +203,11 @@
     NSMutableDictionary *parames = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.serviceModel.devSn, @"devSn", self.serviceModel.devTypeSn, @"devTypeSn", @"0000000", @"task.runWeek", nil];
     
     if (self.openSwitch.on == 1) {
-        [parames setValue:openTime forKey:@"task.onJobTime"];
+        [parames setValue:openTime forKey:@"task.jobTimeOn"];
     }
     
     if (self.closeSwitch.on == 1) {
-        [parames setValue:closeTime forKey:@"task.offJobTime"];
+        [parames setValue:closeTime forKey:@"task.jobTimeOff"];
     }
     
     if (self.repeatSwitch.on == 1) {

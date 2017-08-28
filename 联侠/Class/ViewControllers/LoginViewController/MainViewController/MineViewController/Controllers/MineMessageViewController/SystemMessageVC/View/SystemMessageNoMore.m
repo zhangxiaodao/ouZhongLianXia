@@ -14,7 +14,7 @@
     self = [super initWithFrame:frame];
     
     if (self) {
-        self.backgroundColor =  [[UIColor blackColor] colorWithAlphaComponent:0.8];
+        self.backgroundColor =  [[UIColor blackColor] colorWithAlphaComponent:0.5];
         self.layer.cornerRadius = 5;
         
         UILabel *label = [UILabel creatLableWithTitle:@"暂无消息" andSuperView:self andFont:k14 andTextAligment:NSTextAlignmentCenter];
