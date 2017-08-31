@@ -52,11 +52,6 @@
 }
 
 - (void) setImage:(UIImage *)image withTitle:(NSString *)title forState:(UIControlState)stateType {
-    //UIEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right)
-    
-    CGSize titleSize = [title sizeWithFont:[UIFont fontWithName:kFontWithName size:14]];
-
-    
     [self.imageView setContentMode:UIViewContentModeCenter];
     [self setImageEdgeInsets:UIEdgeInsetsMake(-8.0,
                                               0.0,
@@ -66,8 +61,7 @@
     
     [self.titleLabel setContentMode:UIViewContentModeCenter];
     [self.titleLabel setBackgroundColor:[UIColor clearColor]];
-//    [self.titleLabel setFont:HELVETICANEUEMEDIUM_FONT(12.0f)];
-//    [self.titleLabel setTextColor:COLOR_ffffff];
+
     [self setTitleEdgeInsets:UIEdgeInsetsMake(30.0,
                                               0.0,
                                               0.0,

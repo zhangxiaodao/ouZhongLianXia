@@ -16,8 +16,7 @@
     lable.textAlignment = modle;
     lable.numberOfLines = 0;
     
-    //根据文字的大小计算lable的宽高
-    CGSize size1 = [title sizeWithFont:lable.font constrainedToSize:CGSizeMake(lable.frame.size.width, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size1 = [title boundingRectWithSize:CGSizeMake(lable.frame.size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:lable.font} context:nil].size;
     //根据计算结果重新设置UILabel的尺寸
     [lable setFrame:CGRectMake(0, 10, 200, size1.height)];
     lable.text = title;

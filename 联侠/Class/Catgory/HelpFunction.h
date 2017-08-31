@@ -51,9 +51,6 @@
 
 //单例
 + (HelpFunction *)shareHelpFunction;
-//为外界提供一个类方法,方便外接使用
-+ (HelpFunction *)requestDataWithUrlString:(NSString *)urlString andPage:(NSNumber *)page andDelegate:(id<HelpFunctionDelegate>)delegate;
-
 
 + (HelpFunction *)requestDataWithUrlString:(NSString *)urlString andParames:(NSDictionary *)parames andDelegate:(id<HelpFunctionDelegate>)delegate;
 

@@ -33,7 +33,7 @@
 
 #define BackGroupHeight kScreenH / 2.964444
 
-#define kVersion @"5.5.7"
+#define kVersion @"5.5.9"
 
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip
@@ -204,7 +204,9 @@
  */
 #define kJiaoYanZhangHu [NSString stringWithFormat:@"http://%@:8080/smarthome/user/queryPhone" , localhost]
 
-
+/**
+ 查询用户名下绑定设备
+ */
 #define kQueryTheUserdevice [NSString stringWithFormat:@"http://%@:8080/smarthome/userDevice/queryUserDevice", localhost]
 
 /**

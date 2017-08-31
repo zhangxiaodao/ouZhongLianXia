@@ -32,7 +32,7 @@
     [super passValueWithBlock];
     
     JSContext *context = [self.webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    __block typeof(self)bself = self;
+//    __block typeof(self)bself = self;
     
     context[@"OrderWebToIOSColdFanA"] = ^() {
         NSArray *parames = [JSContext currentArguments];

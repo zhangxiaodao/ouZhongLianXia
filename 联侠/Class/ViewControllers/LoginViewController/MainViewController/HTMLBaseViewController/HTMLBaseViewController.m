@@ -209,7 +209,7 @@
             [_userModel setValue:user[key] forKey:key];
         }
         
-        [self webView:_webView shouldStartLoadWithRequest:nil navigationType:UIWebViewNavigationTypeLinkClicked];
+        [self webView:_webView shouldStartLoadWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@""]] navigationType:UIWebViewNavigationTypeLinkClicked];
     }
 }
 

@@ -17,7 +17,7 @@
 #import "AllServicesViewController.h"
 #import "FirstUserAlertView.h"
 
-@interface MainViewController ()<UIScrollViewDelegate , HelpFunctionDelegate , CCLocationManagerZHCDelegate>{
+@interface MainViewController ()<UIScrollViewDelegate , HelpFunctionDelegate>{
     UIImageView *imageBG;
     UIView *banTouMingLableView;
     UIView *setVIew;
@@ -36,12 +36,6 @@
 
 @implementation MainViewController
 
-//- (NSArray *)arrImage {
-//    if (!_arrImage) {
-//        _arrImage = [NSArray arrayWithObjects:[UIImage imageNamed:@"icon_qing"], [UIImage imageNamed:@"icon_leiZhenYu"], [UIImage imageNamed:@"icon_yangChen"], [UIImage imageNamed:@"icon_duoYun"], [UIImage imageNamed:@"icon_xue"], [UIImage imageNamed:@"icon_yu"], [UIImage imageNamed:@"icon_wu"], [UIImage imageNamed:@"icon_feng"],  nil];
-//    }
-//    return _arrImage;
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -563,6 +557,12 @@
     }
     return _arrImage;
 }
+
+- (void)swipeGesture:(UISwipeGestureRecognizer *)swipe{}
+- (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn{}
+- (void)lengFengShanOpenAtcion:(UIButton *)btn{}
+- (void)lengFengShanCloseAtcion:(UIButton *)btn{}
+- (void)ganYiJiOpenAtcion:(UIButton *)btn {}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];

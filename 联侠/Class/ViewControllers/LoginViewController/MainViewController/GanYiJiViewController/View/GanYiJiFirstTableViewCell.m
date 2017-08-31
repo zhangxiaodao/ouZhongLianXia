@@ -46,7 +46,7 @@
         if ([kStanderDefault objectForKey:@"ganYiJiHongGanDic"]) {
             _ganYiJiHongGanDic = [[kStanderDefault objectForKey:@"ganYiJiHongGanDic"] mutableCopy];
             date2 = [_ganYiJiHongGanDic[@"date2"] integerValue];
-        } else if([kStanderDefault objectForKey:@"GanYiJiData"]) {
+        } else {
             _ganYiJiHongGanDic = [[kStanderDefault objectForKey:@"GanYiJiData"] mutableCopy];
             date2 = [_ganYiJiHongGanDic[@"date2"] integerValue];
         }

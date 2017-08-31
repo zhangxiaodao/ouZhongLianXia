@@ -15,7 +15,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"_offJobTime--%@ , _onJobTime--%@ , _runWeek--%@ , _durTime--%@" , _jobTimeOff , _jobTimeOn , _runWeek , _durTime];
+    return [NSString stringWithFormat:@"_offJobTime--%@ , _onJobTime--%@ , _runWeekOn--%@ ,_runWeekOff--%@ , _durTime--%@" , _jobTimeOff , _jobTimeOn , _runWeekOn , _runWeekOff , _durTime];
 }
 
 @end

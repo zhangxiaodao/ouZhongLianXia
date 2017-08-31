@@ -173,23 +173,12 @@
     _dizhiModel = dizhiModel;
 }
 
+- (void)chanceAddressAtcion {
+    
+}
 
-//- (void)setTopCorner {
-//    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.view.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(5, 5)];
-//    
-//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-//    maskLayer.frame = self.view.bounds;
-//    maskLayer.path = maskPath.CGPath;
-//    self.view.layer.mask = maskLayer;
-//}
-//
-//- (void)setBottomCorner {
-//    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.view.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(5, 5)];
-//    
-//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-//    maskLayer.frame = self.view.bounds;
-//    maskLayer.path = maskPath.CGPath;
-//    self.view.layer.mask = maskLayer;
-//}
+- (void)changHeadPortraitAtcion {
+    
+}
 
 @end

@@ -105,7 +105,7 @@
     [timeModel setValuesForKeysWithDictionary:data];
     
     
-    if ([timeModel.runWeek isEqualToString:@"1111111"]) {
+    if ([timeModel.runWeekOn isEqualToString:@"1111111"]) {
         self.repeatSwitch.on = YES;
     } else {
         self.repeatSwitch.on = NO;
@@ -200,7 +200,7 @@
     NSString *openTime = self.openTimeLabel.text;
     NSString *closeTime = self.closeLabel.text;
     
-    NSMutableDictionary *parames = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.serviceModel.devSn, @"devSn", self.serviceModel.devTypeSn, @"devTypeSn", @"0000000", @"task.runWeek", nil];
+    NSMutableDictionary *parames = [NSMutableDictionary dictionaryWithObjectsAndKeys:self.serviceModel.devSn, @"devSn", self.serviceModel.devTypeSn, @"devTypeSn", @"0000000", @"task.runWeekOn", @"0000000", @"task.runWeekOff", nil];
     
     if (self.openSwitch.on == 1) {
         [parames setValue:openTime forKey:@"task.jobTimeOn"];
@@ -211,11 +211,13 @@
     }
     
     if (self.repeatSwitch.on == 1) {
-        [parames setValue:@"1111111" forKey:@"task.runWeek"];
+        [parames setValue:@"1111111" forKey:@"task.runWeekOn"];
+        [parames setValue:@"1111111" forKey:@"task.runWeekOff"];
     }
     
     if (self.openSwitch.on == false && self.closeSwitch.on == false) {
-        [parames removeObjectForKey:@"task.runWeek"];
+        [parames removeObjectForKey:@"task.runWeekOn"];
+        [parames removeObjectForKey:@"task.runWeekOff"];
     }
     
     NSLog(@"%@" , parames);

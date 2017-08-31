@@ -27,7 +27,6 @@
 - (NSInteger)wheatherHaveNet;
 - (void)initLastMainViewController:(MainViewController *)viewController;
 - (void)initLastXinFengViewController:(XinFengViewController *)viewController;
-- (void)initLastEnterWorkViewController:(EnterWorkTowerViewController *)viewController;
 - (void)initUserModel:(UserModel *)userModel;
 - (void)initServiceModel:(ServicesModel *)serviceModel;
 @end

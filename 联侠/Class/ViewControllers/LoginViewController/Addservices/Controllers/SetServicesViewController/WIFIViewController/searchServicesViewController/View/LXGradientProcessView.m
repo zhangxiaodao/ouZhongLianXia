@@ -11,7 +11,6 @@
 #import "UIColor+Extensions.h"
 
 static const CGFloat kProcessLineW = 8.f;
-static const CGFloat kNumberMarkWidth = 80.f;
 static const CGFloat kNumberMarkHeight = 80.f;
 
 

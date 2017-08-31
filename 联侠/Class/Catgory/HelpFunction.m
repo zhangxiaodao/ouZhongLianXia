@@ -384,8 +384,8 @@ static HelpFunction *_request = nil;
         [_delegate requestData:self didFailLoadData:self.error];
         if ([kApplicate wheatherHaveNet]) {
             
-            if (self.alert == nil) {
-                self.alert = [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getPresentedViewController]  Title:@"网络异常，请重试"];
+            if (_alert == nil) {
+                _alert = [UIAlertController creatCancleAndRightAlertControllerWithHandle:nil andSuperViewController:[self getPresentedViewController]  Title:@"网络异常，请重试"];
             }
         }
         

@@ -12,7 +12,8 @@
 
 @property (nonatomic , copy) NSString *jobTimeOff;
 @property (nonatomic , copy) NSString *jobTimeOn;
-@property (nonatomic , copy) NSString *runWeek;
+@property (nonatomic , copy) NSString *runWeekOn;
+@property (nonatomic , copy) NSString *runWeekOff;
 @property (nonatomic , copy) NSString *durTime;
 
 @end

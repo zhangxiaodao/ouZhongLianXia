@@ -17,7 +17,7 @@
 @end
 
 @interface CustomPickerView : UIView
-@property (nonatomic , assign) id<CustomPickerViewDelegate> delegate;
+@property (nonatomic , assign) id <CustomPickerViewDelegate> delegate;
 
 
 #pragma mark - type表示PickerView的类型，1 倒计时事件类型，2  是性别选择类型，3 是生日选择类型，4 是地址信息类型

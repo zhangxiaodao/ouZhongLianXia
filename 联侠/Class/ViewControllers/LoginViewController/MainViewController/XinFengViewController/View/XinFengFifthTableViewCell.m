@@ -143,7 +143,7 @@
     
     [timeModel setValuesForKeysWithDictionary:data];
     
-    if ([timeModel.runWeek isEqualToString:@"1111111"]) {
+    if ([timeModel.runWeekOn isEqualToString:@"1111111"]) {
         _openOrOffLable.text = @"每天";
     } else {
         _openOrOffLable.text = @"无重复";

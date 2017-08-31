@@ -10,7 +10,7 @@
 #import "UIColor+Extensions.h"
 #import "UIView+Extension.h"
 
-#define degreesToRadians(x) (M_PI*(x)/180.0) //把角度转换成PI的方式
+#define kDegreesToRadians(x) (M_PI*(x)/180.0) //把角度转换成PI的方式
 static const CGFloat kMarkerRadius = 10.f; // 光标直径
 //static const CGFloat kAnimationTime = 1;
 
@@ -82,8 +82,8 @@ static const CGFloat kMarkerRadius = 10.f; // 光标直径
     // 圆形路径
     UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.width / 2, self.height / 2)
                                                         radius:(self.circelRadius - self.lineWidth) / 2
-                                                    startAngle:degreesToRadians(self.stareAngle)
-                                                      endAngle:degreesToRadians(self.endAngle)
+                                                    startAngle:kDegreesToRadians(self.stareAngle)
+                                                      endAngle:kDegreesToRadians(self.endAngle)
                                                      clockwise:YES];
     
     // 底色
@@ -123,8 +123,8 @@ static const CGFloat kMarkerRadius = 10.f; // 光标直径
     [self.layer addSublayer:self.gradientLayer];
     
     // 240 是用整个弧度的角度之和 |-200| + 20 = 220
-    [self createAnimationWithStartAngle:degreesToRadians(self.stareAngle)
-                               endAngle:degreesToRadians(self.endAngle)];
+    [self createAnimationWithStartAngle:kDegreesToRadians(self.stareAngle)
+                               endAngle:kDegreesToRadians(self.endAngle)];
 }
 
 #pragma mark - Animation
