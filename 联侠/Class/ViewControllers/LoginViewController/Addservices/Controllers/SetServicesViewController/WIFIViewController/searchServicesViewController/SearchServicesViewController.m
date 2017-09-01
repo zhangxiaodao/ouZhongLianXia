@@ -19,24 +19,9 @@
 #import "ESPTouchDelegate.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 
-
-@interface EspTouchDelegateImpl : NSObject<ESPTouchDelegate>
-
-@end
-
-@implementation EspTouchDelegateImpl
-
--(void) onEsptouchResultAddedWithResult: (ESPTouchResult *) result
-{
-}
-
-@end
-
 @interface SearchServicesViewController ()<AsyncUdpSocketDelegate , HelpFunctionDelegate>
 @property (atomic, strong) ESPTouchTask *_esptouchTask;
 @property (nonatomic, strong) NSCondition *_condition;
-@property (nonatomic, assign) BOOL _isConfirmState;
-@property (nonatomic, strong) EspTouchDelegateImpl *_esptouchDelegate;
 
 @property (nonatomic , strong) AsyncUdpSocket *updSocket;
 
@@ -71,9 +56,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.count = 0;
-    self._isConfirmState = YES;
     self._condition = [[NSCondition alloc]init];
-    self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
     
     [self setUI];
 }
@@ -92,9 +75,9 @@
     _progressTimer = nil;
     [self.repeatSendTimer invalidate];
     self.repeatSendTimer = nil;
+    
     [self.updSocket close];
     self.updSocket = nil;
-    self._isConfirmState = YES;
     [self cancel];
 }
 
@@ -325,12 +308,7 @@
 
 #pragma mark - 绑定设备失败
 - (void)addServiceFail {
-    [_progressTimer invalidate];
-    _progressTimer = nil;
-    [self.repeatSendTimer invalidate];
-    self.repeatSendTimer = nil;
-    [self.updSocket close];
-    self.updSocket = nil;
+    
     FailContextViewController *failVC = [[FailContextViewController alloc]init];
     failVC.navigationItem.title = @"失败";
     failVC.addServiceModel = self.addServiceModel;
@@ -338,10 +316,22 @@
 }
 
 - (void)addFailAlert {
+    
+    [_progressTimer invalidate];
+    _progressTimer = nil;
+    [self.repeatSendTimer invalidate];
+    self.repeatSendTimer = nil;
+    [self.updSocket close];
+    self.updSocket = nil;
+    [self cancel];
+    
+    
+    
     if (!self.alertVC) {
         self.alertVC = [UIAlertController creatRightAlertControllerWithHandle:^{
             [self addServiceFail];
-        } andSuperViewController:self Title:@"此设备绑定失败"];
+        } andSuperViewController:[[HelpFunction shareHelpFunction]getPresentedViewController] Title:@"此设备绑定失败"];
+        
     }
 }
 
@@ -365,7 +355,11 @@
     [self.updSocket close];
 }
 
-#pragma mark - NSData转16进制字符串
+#pragma mark - 重复发送
+- (void)repeatSendMessage {
+    [self sendMessage:self.addServiceModel.protocol];
+}
+
 - (NSString *)convertDataToHexStr:(NSData *)data {
     if (!data || [data length] == 0) {
         return @"";
@@ -387,58 +381,43 @@
     return string;
 }
 
-#pragma mark - 重复发送
-- (void)repeatSendMessage {
-    [self sendMessage:self.addServiceModel.protocol];
-}
-
 - (void) tapConfirmForResults
 {
     
     self.searchLable.textColor = kMainColor;
-    if (self._isConfirmState)
-    {
-        self._isConfirmState = NO;
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSArray *esptouchResultArray = [self executeForResults];
-            NSLog(@"%@" , esptouchResultArray);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self._isConfirmState = YES;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray *esptouchResultArray = [self executeForResults];
+        NSLog(@"%@" , esptouchResultArray);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            ESPTouchResult *firstResult = [esptouchResultArray objectAtIndex:0];
+            
+            if (firstResult.bssid == nil || [firstResult isKindOfClass:[NSNull class]]) {
+                [self addFailAlert];
                 
-                ESPTouchResult *firstResult = [esptouchResultArray objectAtIndex:0];
+            } else {
+                self.deviceSn = firstResult.bssid;
                 
-                if (firstResult.bssid == nil || [firstResult isKindOfClass:[NSNull class]]) {
-                    [self addFailAlert];
-                    
-                } else {
-                    self.deviceSn = firstResult.bssid;
-                    
-                    [_progressTimer setFireDate:[NSDate distantPast]];
-                    _processView.percent = 0.33;
-                    [self openUDPServer];
-                    self.registerLable.textColor = kMainColor;
-                    [self sendMessage:self.addServiceModel.protocol];
-                    
-                    self.repeatSendTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(repeatSendMessage) userInfo:nil repeats:YES];
-                }
+                [_progressTimer setFireDate:[NSDate distantPast]];
+                _processView.percent = 0.33;
+                [self openUDPServer];
+                self.registerLable.textColor = kMainColor;
+                [self sendMessage:self.addServiceModel.protocol];
                 
-            });
+                self.repeatSendTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(repeatSendMessage) userInfo:nil repeats:YES];
+            }
+            
         });
-    } else {
-        
-        self._isConfirmState = YES;
-        [self cancel];
-    }
+    });
+    
 }
 
 #pragma mark - the example of how to cancel the executing task
 - (void) cancel
 {
     [self._condition lock];
-    if (self._esptouchTask != nil)
-    {
-        [self._esptouchTask interrupt];
-    }
+    [self._esptouchTask interrupt];
     [self._condition unlock];
 }
 
@@ -452,13 +431,17 @@
     NSString *apBssid = self.apSsid;
     self._esptouchTask =
     [[ESPTouchTask alloc]initWithApSsid:apSsid andApBssid:apBssid andApPwd:apPwd andIsSsidHiden:NO];
-    
-    [self._esptouchTask setEsptouchDelegate:self._esptouchDelegate];
+
     [self._condition unlock];
     
     NSArray * esptouchResults = [self._esptouchTask executeForResults:1];
     return esptouchResults;
 }
 
-
+- (void)dealloc {
+    [_progressTimer invalidate];
+    _progressTimer = nil;
+    [self.repeatSendTimer invalidate];
+    self.repeatSendTimer = nil;
+}
 @end

@@ -159,6 +159,8 @@
         [kStanderDefault setObject:self.acctextFiled.text forKey:@"phone"];
 
         [HelpFunction requestDataWithUrlString:kLogin andParames:parameters andDelegate:self];
+        
+        
     } else {
         if (self.acctextFiled.text.length == 0) {
             [self setAlertText:NSLocalizedString(@"AccEmpty", nil)];

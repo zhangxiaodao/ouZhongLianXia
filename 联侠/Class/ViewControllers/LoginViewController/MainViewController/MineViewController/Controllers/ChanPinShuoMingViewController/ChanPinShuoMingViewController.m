@@ -27,7 +27,15 @@
     [super viewWillAppear:animated];
     
     self.navigationController.navigationBar.hidden = false;
-    self.navigationItem.title = self.serviceModel.typeName;
+    
+    if (self.serviceModel) {
+        self.navigationItem.title = self.serviceModel.typeName;
+    }
+    
+    if (self.addServiceModel) {
+        self.navigationItem.title = self.addServiceModel.typeName;
+    }
+    
     self.navigationItem.leftBarButtonItem = nil;
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -56,10 +64,10 @@
     [self.view addSubview: webView];
     webView.delegate = self;
     
-    NSURL *url = [NSURL URLWithString:kServiceDescriptionURL(self.typeSn, self.serviceModel.typeSn)];
+    NSURL *url = [NSURL URLWithString:kServiceDescriptionURL(self.typeSn, self.addServiceModel.typeNumber)];
     
     if (_isFromMainVC) {
-        url = [NSURL URLWithString:kServiceDescriptionURL(self.typeSn, self.serviceModel.devTypeSn)];
+        url = [NSURL URLWithString:kServiceDescriptionURL(self.typeSn, self.serviceModel.devTypeNumber)];
     }
     
     [webView loadRequest:[NSURLRequest requestWithURL:url]];
@@ -76,6 +84,10 @@
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
+}
+
+- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
+    _addServiceModel = addServiceModel;
 }
 
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ChanPinShuoMingViewController : UIViewController
+@property (nonatomic , strong) AddServiceModel *addServiceModel;
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , copy) NSString *typeSn;
 @property (nonatomic , assign) NSInteger isFromMainVC;

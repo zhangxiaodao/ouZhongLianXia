@@ -145,6 +145,8 @@
 #import "UIBarButtonItem+Extension.h"
 #import "SVProgressHUD.h"
 #import "TabBarViewController.h"
+#import "CZNetworkManager.h"
+#import "YYModel.h"
 
 
 //#import "UIView+Btn.h"
@@ -276,7 +278,7 @@
  *  查询最新版本号
  *
  */
-#define kChaXunBanBenHao [NSString stringWithFormat:@"http://%@:8080/smarthome/app/queryLatestVersion", localhost]
+#define kChaXunBanBenHao [NSString stringWithFormat:@"http://114.55.5.92:8080/smarthome/app/queryLatestVersion"]
 
 /**
  *  查询消息接口

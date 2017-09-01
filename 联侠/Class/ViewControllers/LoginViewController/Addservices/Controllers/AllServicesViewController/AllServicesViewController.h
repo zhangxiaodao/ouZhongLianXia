@@ -10,5 +10,5 @@
 
 @interface AllServicesViewController : UICollectionViewController
 @property (nonatomic , copy) NSString *typeSn;
-
+@property (nonatomic , copy) NSString *typeNumber;
 @end

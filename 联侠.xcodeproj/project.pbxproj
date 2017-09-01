@@ -19,7 +19,6 @@
 		ED0B78EA1E82493D00A42CC7 /* XinFengCaiDengHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED0B78E91E82493D00A42CC7 /* XinFengCaiDengHeaderView.m */; };
 		ED0BC1441E49B6A9007BF312 /* XMGRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = ED0BC1411E49B6A9007BF312 /* XMGRefreshFooter.m */; };
 		ED0BC1451E49B6A9007BF312 /* XMGRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = ED0BC1431E49B6A9007BF312 /* XMGRefreshHeader.m */; };
-		ED0FCA181D8F98820005420C /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = ED0FCA171D8F98820005420C /* NSString+Extension.m */; };
 		ED119DCA1CFEB3FC0073094D /* AirgengDuoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED119DC91CFEB3FC0073094D /* AirgengDuoViewController.m */; };
 		ED119DDB1CFEBC200073094D /* AirThirtTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED119DD51CFEBC200073094D /* AirThirtTableViewCell.m */; };
 		ED119DDC1CFEBC200073094D /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED119DD71CFEBC200073094D /* CustomView.m */; };
@@ -160,6 +159,7 @@
 		ED677EAA1D210150007D628E /* GanYiJiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EA91D210150007D628E /* GanYiJiViewController.m */; };
 		ED677EAE1D2115BD007D628E /* GanYiJiFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EAD1D2115BD007D628E /* GanYiJiFirstTableViewCell.m */; };
 		ED677EB11D2118C0007D628E /* GanYiJiSecondTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EB01D2118C0007D628E /* GanYiJiSecondTableViewCell.m */; };
+		ED68B62D1F57FF9C003E5A82 /* CZNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED68B62C1F57FF9C003E5A82 /* CZNetworkManager.m */; };
 		ED6991421DBF3E7A002763AF /* XinFengThirtTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6991411DBF3E7A002763AF /* XinFengThirtTableViewCell.m */; };
 		ED6C780B1D067143007883EF /* AirPurificationForthTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6C780A1D067143007883EF /* AirPurificationForthTableViewCell.m */; };
 		ED6C780E1D068378007883EF /* AirPurificationThirtTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6C780D1D068378007883EF /* AirPurificationThirtTableViewCell.m */; };
@@ -235,6 +235,7 @@
 		EDEA426C1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEA426B1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m */; };
 		EDEEAD711E9F149E00115267 /* UserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD701E9F149E00115267 /* UserInfoCell.m */; };
 		EDEEAD741E9F17E100115267 /* UserInfoCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD731E9F17E100115267 /* UserInfoCommonCell.m */; };
+		EDF2916A1F59041A0090327D /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = EDF291691F59041A0090327D /* NSString+Extension.m */; };
 		EDF2DBF21D0FF9F300475E11 /* AirPuritionGengDuoFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDF2DBF11D0FF9F300475E11 /* AirPuritionGengDuoFirstTableViewCell.m */; };
 		EDF2DBF51D0FFB4300475E11 /* AirPuritionGengDuoSecondTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDF2DBF41D0FFB4300475E11 /* AirPuritionGengDuoSecondTableViewCell.m */; };
 		EDF2DBF81D0FFDCC00475E11 /* AirPuritionGengDuoThirtTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDF2DBF71D0FFDCC00475E11 /* AirPuritionGengDuoThirtTableViewCell.m */; };
@@ -262,8 +263,8 @@
 
 /* Begin PBXFileReference section */
 		4B5A33FEE6407793B8BF92D4 /* libPods-联侠.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-联侠.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E204E2FDDDAB9FD406D0259 /* Pods-联侠.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-联侠.debug.xcconfig"; path = "Pods/Target Support Files/Pods-联侠/Pods-联侠.debug.xcconfig"; sourceTree = "<group>"; };
-		E8CECCA1D7BD00B92544F72D /* Pods-联侠.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-联侠.release.xcconfig"; path = "Pods/Target Support Files/Pods-联侠/Pods-联侠.release.xcconfig"; sourceTree = "<group>"; };
+		9538F9149582DBFA6FC3690D /* Pods-联侠.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-联侠.debug.xcconfig"; path = "Pods/Target Support Files/Pods-联侠/Pods-联侠.debug.xcconfig"; sourceTree = "<group>"; };
+		B98817A02429EEB796CDF564 /* Pods-联侠.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-联侠.release.xcconfig"; path = "Pods/Target Support Files/Pods-联侠/Pods-联侠.release.xcconfig"; sourceTree = "<group>"; };
 		ED00DAAE1D8BCCFE00EDF817 /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
 		ED00DAAF1D8BCCFE00EDF817 /* UIImageView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Extension.m"; sourceTree = "<group>"; };
 		ED08A55F1D3C86EC00B48831 /* GanYiJIClothesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJIClothesModel.h; sourceTree = "<group>"; };
@@ -288,8 +289,6 @@
 		ED0BC1411E49B6A9007BF312 /* XMGRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMGRefreshFooter.m; sourceTree = "<group>"; };
 		ED0BC1421E49B6A9007BF312 /* XMGRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMGRefreshHeader.h; sourceTree = "<group>"; };
 		ED0BC1431E49B6A9007BF312 /* XMGRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMGRefreshHeader.m; sourceTree = "<group>"; };
-		ED0FCA161D8F98820005420C /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
-		ED0FCA171D8F98820005420C /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
 		ED119DC81CFEB3FC0073094D /* AirgengDuoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirgengDuoViewController.h; sourceTree = "<group>"; };
 		ED119DC91CFEB3FC0073094D /* AirgengDuoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirgengDuoViewController.m; sourceTree = "<group>"; };
 		ED119DD41CFEBC200073094D /* AirThirtTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirThirtTableViewCell.h; sourceTree = "<group>"; };
@@ -544,6 +543,8 @@
 		ED677EAD1D2115BD007D628E /* GanYiJiFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GanYiJiFirstTableViewCell.m; sourceTree = "<group>"; };
 		ED677EAF1D2118C0007D628E /* GanYiJiSecondTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJiSecondTableViewCell.h; sourceTree = "<group>"; };
 		ED677EB01D2118C0007D628E /* GanYiJiSecondTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GanYiJiSecondTableViewCell.m; sourceTree = "<group>"; };
+		ED68B62B1F57FF9C003E5A82 /* CZNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZNetworkManager.h; sourceTree = "<group>"; };
+		ED68B62C1F57FF9C003E5A82 /* CZNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZNetworkManager.m; sourceTree = "<group>"; };
 		ED6991401DBF3E7A002763AF /* XinFengThirtTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XinFengThirtTableViewCell.h; sourceTree = "<group>"; };
 		ED6991411DBF3E7A002763AF /* XinFengThirtTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XinFengThirtTableViewCell.m; sourceTree = "<group>"; };
 		ED6C78091D067143007883EF /* AirPurificationForthTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirPurificationForthTableViewCell.h; sourceTree = "<group>"; };
@@ -682,6 +683,8 @@
 		EDEEAD701E9F149E00115267 /* UserInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoCell.m; sourceTree = "<group>"; };
 		EDEEAD721E9F17E100115267 /* UserInfoCommonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoCommonCell.h; sourceTree = "<group>"; };
 		EDEEAD731E9F17E100115267 /* UserInfoCommonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoCommonCell.m; sourceTree = "<group>"; };
+		EDF291681F59041A0090327D /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
+		EDF291691F59041A0090327D /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
 		EDF2DBF01D0FF9F300475E11 /* AirPuritionGengDuoFirstTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirPuritionGengDuoFirstTableViewCell.h; sourceTree = "<group>"; };
 		EDF2DBF11D0FF9F300475E11 /* AirPuritionGengDuoFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirPuritionGengDuoFirstTableViewCell.m; sourceTree = "<group>"; };
 		EDF2DBF31D0FFB4300475E11 /* AirPuritionGengDuoSecondTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirPuritionGengDuoSecondTableViewCell.h; sourceTree = "<group>"; };
@@ -787,8 +790,8 @@
 		D881AAEA66738229A91F6009 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8E204E2FDDDAB9FD406D0259 /* Pods-联侠.debug.xcconfig */,
-				E8CECCA1D7BD00B92544F72D /* Pods-联侠.release.xcconfig */,
+				9538F9149582DBFA6FC3690D /* Pods-联侠.debug.xcconfig */,
+				B98817A02429EEB796CDF564 /* Pods-联侠.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -917,6 +920,7 @@
 		ED12E01A1CF5C5460011CD2C /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				ED68B6291F57FF6C003E5A82 /* Tools */,
 				ED12E01B1CF5C5460011CD2C /* AppDelegate */,
 				ED12E1021CF5C5470011CD2C /* ViewControllers */,
 				ED12E0211CF5C5460011CD2C /* Catgory */,
@@ -978,8 +982,8 @@
 				EDB559D51D3E12F500DC856C /* UIImage+Extension.m */,
 				ED00DAAE1D8BCCFE00EDF817 /* UIImageView+Extension.h */,
 				ED00DAAF1D8BCCFE00EDF817 /* UIImageView+Extension.m */,
-				ED0FCA161D8F98820005420C /* NSString+Extension.h */,
-				ED0FCA171D8F98820005420C /* NSString+Extension.m */,
+				EDF291681F59041A0090327D /* NSString+Extension.h */,
+				EDF291691F59041A0090327D /* NSString+Extension.m */,
 				ED32A5151E5D79BE005064E0 /* HistoryTableViewCell.h */,
 				ED32A5161E5D79BE005064E0 /* HistoryTableViewCell.m */,
 			);
@@ -1832,6 +1836,23 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		ED68B6291F57FF6C003E5A82 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				ED68B62A1F57FF6C003E5A82 /* NetWorkManager */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		ED68B62A1F57FF6C003E5A82 /* NetWorkManager */ = {
+			isa = PBXGroup;
+			children = (
+				ED68B62B1F57FF9C003E5A82 /* CZNetworkManager.h */,
+				ED68B62C1F57FF9C003E5A82 /* CZNetworkManager.m */,
+			);
+			path = NetWorkManager;
+			sourceTree = "<group>";
+		};
 		ED6C781A1D07BC3D007883EF /* AirDingShiJieMianView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2393,7 +2414,6 @@
 				EDF2DBFB1D0FFEC200475E11 /* AirPuritionGengDuoForthTableViewCell.m in Sources */,
 				ED12E1DE1CF5C5470011CD2C /* HelpFunction.m in Sources */,
 				ED225C3C1EA4B4D700E4FD85 /* CircleView.m in Sources */,
-				ED0FCA181D8F98820005420C /* NSString+Extension.m in Sources */,
 				ED12E2501CF5C5470011CD2C /* GCDAsyncUdpSocket.m in Sources */,
 				ED12E26C1CF5C5470011CD2C /* UULineChart.m in Sources */,
 				ED8E3DC11EC2ED6F0040FD3B /* ESPTouchResult.m in Sources */,
@@ -2455,6 +2475,7 @@
 				ED12E24C1CF5C5470011CD2C /* CLLocation+YCLocation.m in Sources */,
 				ED2297991DAC9949008DEBA4 /* CircleAnimation.m in Sources */,
 				ED12E26A1CF5C5470011CD2C /* UUChartConst.m in Sources */,
+				EDF2916A1F59041A0090327D /* NSString+Extension.m in Sources */,
 				ED12E2BD1CF5C5470011CD2C /* ShuiWeiZhuangTaiTableViewCell.m in Sources */,
 				ED12E2671CF5C5470011CD2C /* UUBar.m in Sources */,
 				ED225C371EA4B4D700E4FD85 /* ServiceBaseCollectionCell.m in Sources */,
@@ -2465,6 +2486,7 @@
 				ED2297A81DACCE53008DEBA4 /* XinFengSecondTableViewCell.m in Sources */,
 				ED8E3DB71EC2ED6F0040FD3B /* ESP_ByteUtil.m in Sources */,
 				ED12E2B61CF5C5470011CD2C /* FirstSectionView.m in Sources */,
+				ED68B62D1F57FF9C003E5A82 /* CZNetworkManager.m in Sources */,
 				ED32A5171E5D79BE005064E0 /* HistoryTableViewCell.m in Sources */,
 				ED66429A1F43F20B0053232C /* SystemMessageNoMore.m in Sources */,
 				ED7DEDA91EA0AD0C00D65C02 /* LocationCell.m in Sources */,
@@ -2605,7 +2627,6 @@
 /* Begin XCBuildConfiguration section */
 		ED12DFA61CF5C0FF0011CD2C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E204E2FDDDAB9FD406D0259 /* Pods-联侠.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -2654,7 +2675,6 @@
 		};
 		ED12DFA71CF5C0FF0011CD2C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8CECCA1D7BD00B92544F72D /* Pods-联侠.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -2697,7 +2717,7 @@
 		};
 		ED12DFA91CF5C0FF0011CD2C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E204E2FDDDAB9FD406D0259 /* Pods-联侠.debug.xcconfig */;
+			baseConfigurationReference = 9538F9149582DBFA6FC3690D /* Pods-联侠.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -2763,7 +2783,7 @@
 		};
 		ED12DFAA1CF5C0FF0011CD2C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8CECCA1D7BD00B92544F72D /* Pods-联侠.release.xcconfig */;
+			baseConfigurationReference = B98817A02429EEB796CDF564 /* Pods-联侠.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -2828,7 +2848,6 @@
 		};
 		ED12DFAC1CF5C0FF0011CD2C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E204E2FDDDAB9FD406D0259 /* Pods-联侠.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -2845,7 +2864,6 @@
 		};
 		ED12DFAD1CF5C0FF0011CD2C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8CECCA1D7BD00B92544F72D /* Pods-联侠.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -2862,7 +2880,6 @@
 		};
 		ED12DFAF1CF5C0FF0011CD2C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E204E2FDDDAB9FD406D0259 /* Pods-联侠.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2879,7 +2896,6 @@
 		};
 		ED12DFB01CF5C0FF0011CD2C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8CECCA1D7BD00B92544F72D /* Pods-联侠.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

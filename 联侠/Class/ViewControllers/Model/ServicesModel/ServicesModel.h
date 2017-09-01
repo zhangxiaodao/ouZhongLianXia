@@ -16,6 +16,7 @@
 
 @property (nonatomic , copy) NSString *typeSn;
 @property (nonatomic , strong) NSString *devSn;
+@property (nonatomic , copy) NSString *devTypeNumber;
 @property (nonatomic , strong) NSString *typeName;
 @property (nonatomic , copy) NSString *brand;
 @property (nonatomic , assign) NSInteger userDeviceID;
