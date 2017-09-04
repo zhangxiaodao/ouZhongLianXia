@@ -101,7 +101,9 @@ static NSString *seventhCelled = @"seventhCelled";
 #pragma mark - 取得tcp返回的数据
 - (void)getKongJingDataMain:(NSNotification *)post {
     NSString *str = post.userInfo[@"Message"];
-    
+    if (str.length != 56) {
+        return ;
+    }
     NSString *kaiGuan = [str substringWithRange:NSMakeRange(26, 2)];
     NSString *devSn = [str substringWithRange:NSMakeRange(12, 12)];
 //    NSLog(@"%@ , %@" , kaiGuan , str);

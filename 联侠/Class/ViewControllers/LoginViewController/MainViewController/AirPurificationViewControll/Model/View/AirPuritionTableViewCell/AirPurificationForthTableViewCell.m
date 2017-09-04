@@ -303,6 +303,10 @@
 - (void)getKongJingData:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
     
+    if (mingLing.length != 56) {
+        return ;
+    }
+    
     NSString *ziDong = [mingLing substringWithRange:NSMakeRange(28, 2)];
     NSString *shaJun = [mingLing substringWithRange:NSMakeRange(30, 2)];
     NSString *shuiMian = [mingLing substringWithRange:NSMakeRange(32, 2)];

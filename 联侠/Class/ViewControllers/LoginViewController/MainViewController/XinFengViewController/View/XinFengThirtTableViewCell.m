@@ -182,6 +182,11 @@
     [UIButton setBtnOfImageAndLableWithUnSelected:shuShiBtn andTintColor:kXinFengKongJingYanSe];
     
     NSString *mingLing = post.userInfo[@"Message"];
+    
+    if (mingLing.length != 78) {
+        return ;
+    }
+    
     NSString *ziDong = [mingLing substringWithRange:NSMakeRange(30, 2)];
     NSString *wind = [mingLing substringWithRange:NSMakeRange(40, 2)];
     NSString *fuLiZi = [mingLing substringWithRange:NSMakeRange(34, 2)];

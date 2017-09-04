@@ -118,6 +118,11 @@ static NSString *str = nil;
 - (void)getDate555555555:(NSNotification *)post {
     
     NSString *str = post.userInfo[@"Message"];
+    
+    if (str.length != 42) {
+        return;
+    }
+    
     NSString *wind = [str substringWithRange:NSMakeRange(30, 2)];
     NSString *devSn = [str substringWithRange:NSMakeRange(12, 12)];
     NSString *windType = @"中速";

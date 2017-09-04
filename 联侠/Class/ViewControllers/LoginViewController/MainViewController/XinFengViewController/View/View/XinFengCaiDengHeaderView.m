@@ -82,6 +82,11 @@
     
 - (void)getXinFengCaiDengHeaderViewAtcion:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
+    
+    if (mingLing.length != 78) {
+        return;
+    }
+    
     NSString *caiDeng = [mingLing substringWithRange:NSMakeRange(32, 2)];
     NSString *indexCaiDeng = [NSString turnHexToInt:caiDeng];
 //    NSLog(@"彩灯回传命令%@ , %@" , caiDeng , indexCaiDeng);

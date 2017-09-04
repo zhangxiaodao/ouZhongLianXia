@@ -273,6 +273,10 @@ static NSString *fifthCelled = @"fifth";
 - (void)getLengFengShanFunction:(NSNotification *)post {
     NSString *str = post.userInfo[@"Message"];
     
+    if (str.length != 42) {
+        return;
+    }
+    
     NSString *kaiGuan = [str substringWithRange:NSMakeRange(26, 2)];
     NSString *devSn = [str substringWithRange:NSMakeRange(12, 12)];
     if ([self.serviceModel.devSn isEqualToString:devSn]) {

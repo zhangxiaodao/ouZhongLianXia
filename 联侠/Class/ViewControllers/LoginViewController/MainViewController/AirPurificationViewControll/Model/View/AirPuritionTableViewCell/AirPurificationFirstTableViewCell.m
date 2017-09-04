@@ -100,6 +100,10 @@
 - (void)getKongJingDataFirst:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
     
+    if (mingLing.length != 56) {
+        return ;
+    }
+    
     NSString *wuRanChengDu = [mingLing substringWithRange:NSMakeRange(50, 2)];
     
     if ([wuRanChengDu isEqualToString:@"01"]) {

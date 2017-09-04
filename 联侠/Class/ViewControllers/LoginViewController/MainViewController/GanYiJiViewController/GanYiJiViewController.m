@@ -87,6 +87,10 @@
 - (void)getGanYiJiData:(NSNotification *)post {
     NSString *str = post.userInfo[@"Message"];
     
+    if (str.length != 62) {
+        return ;
+    }
+    
     NSString *kaiGuan = [str substringWithRange:NSMakeRange(28, 2)];
     NSString *devSn = [str substringWithRange:NSMakeRange(14, 12)];
 //    NSLog(@"%@ , %@" , kaiGuan , devSn);

@@ -173,6 +173,10 @@
 - (void)getGanYiJiData:(NSNotification *)post {
     NSString *str = post.userInfo[@"Message"];
     
+    if (str.length != 62) {
+        return;
+    }
+    
     NSString *devSn = [str substringWithRange:NSMakeRange(14, 12)];
     NSString *gaoRe = [str substringWithRange:NSMakeRange(30, 2)];
     NSString *shaJun = [str substringWithRange:NSMakeRange(32, 2)];

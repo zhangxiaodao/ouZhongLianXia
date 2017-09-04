@@ -131,6 +131,10 @@
 - (void)getDate444444444:(NSNotification *)post {
 
     NSString *str = post.userInfo[@"Message"];
+    if (str.length != 42) {
+        return ;
+    }
+    
     NSString *model = [str substringWithRange:NSMakeRange(28 , 2)];
     
     NSString *devSn = [str substringWithRange:NSMakeRange(12, 12)];

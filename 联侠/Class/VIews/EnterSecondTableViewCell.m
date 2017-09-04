@@ -223,6 +223,10 @@
     
     NSString *str = post.userInfo[@"Message"];
     
+    if (str.length != 42) {
+        return ;
+    }
+    
     NSString *baiFeng = [str substringWithRange:NSMakeRange(32,2)];
     NSString *shanJun = [str substringWithRange:NSMakeRange(34, 2)];
     NSString *zhiLeng = [str substringWithRange:NSMakeRange(38, 2)];

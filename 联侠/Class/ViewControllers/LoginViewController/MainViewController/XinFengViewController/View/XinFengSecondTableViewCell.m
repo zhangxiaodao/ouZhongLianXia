@@ -258,6 +258,10 @@
 #pragma mark 通知获取TCP协议命令
 - (void)getXinFengFunctionBtnAtcion:(NSNotification *)post {
     NSString *mingLing = post.userInfo[@"Message"];
+    if (mingLing.length != 78) {
+        return ;
+    }
+    
     NSString *ziDong = [mingLing substringWithRange:NSMakeRange(30, 2)];
     NSString *wind = [mingLing substringWithRange:NSMakeRange(40, 2)];
     NSString *fuLiZi = [mingLing substringWithRange:NSMakeRange(34, 2)];

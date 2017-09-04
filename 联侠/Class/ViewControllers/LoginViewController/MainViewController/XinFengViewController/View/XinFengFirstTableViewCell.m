@@ -241,7 +241,9 @@ static CGFloat speed = 0.0;
 
 - (void)getXinFengKongJingDataMessageFunction:(NSNotification *)post {
     NSString *messsage = post.userInfo[@"Message"];
-//    NSLog(@"%@" , messsage);
+    if (messsage.length != 78) {
+        return;
+    }
     
     NSString *kaiGuan = [messsage substringWithRange:NSMakeRange(28, 2)];
     NSString *temprature = [messsage substringWithRange:NSMakeRange(36, 2)];
