@@ -110,6 +110,9 @@
     }
 }
 
+- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
+    
+}
 
 - (void)whetherGegisterSuccess:(NSNotification *)post {
     NSString *vercodeStr = post.userInfo[@"VercodeStr"];
@@ -127,7 +130,6 @@
         }
         
         [kStanderDefault setObject:self.acctextFiled.text forKey:@"phone"];
-        ;
         [HelpFunction requestDataWithUrlString:kLoginWithRegisterURL andParames:parameters andDelegate:self];
     }
 }

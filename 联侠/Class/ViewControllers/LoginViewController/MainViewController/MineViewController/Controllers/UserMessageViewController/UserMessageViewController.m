@@ -188,7 +188,7 @@ static NSString *celled = @"celled";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) return 6;
-    else if (section == 1) return 2;
+    else if (section == 1) return 1;
     else return 1;
 }
 
@@ -246,15 +246,17 @@ static NSString *celled = @"celled";
         diZhiVC.delegate = self;
         diZhiVC.navigationItem.title = @"我的地址";
         [self.navigationController pushViewController:diZhiVC animated:YES];
-    } else if (indexPath.section == 1 && indexPath.row == 0) {
-        if (indexPath.row == 0) {
-            
-            ForgetPwdViewController *forgetPwdVC = [[ForgetPwdViewController alloc]init];
-            forgetPwdVC.navigationItem.title = @"重置密码";
-            forgetPwdVC.phoneNumber = [kStanderDefault objectForKey:@"phone"];
-            [self.navigationController pushViewController:forgetPwdVC animated:YES];
-        }
-    } else if (indexPath.section == 2) {
+    }
+//    else if (indexPath.section == 1 && indexPath.row == 0) {
+//        if (indexPath.row == 0) {
+//            
+//            ForgetPwdViewController *forgetPwdVC = [[ForgetPwdViewController alloc]init];
+//            forgetPwdVC.navigationItem.title = @"重置密码";
+//            forgetPwdVC.phoneNumber = [kStanderDefault objectForKey:@"phone"];
+//            [self.navigationController pushViewController:forgetPwdVC animated:YES];
+//        }
+//    }
+    else if (indexPath.section == 2) {
         
         if ([kApplicate.window.rootViewController isKindOfClass:[TabBarViewController class]]) {
             

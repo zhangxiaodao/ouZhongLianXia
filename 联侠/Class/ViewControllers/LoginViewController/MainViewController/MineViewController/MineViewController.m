@@ -47,14 +47,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
-    NSDictionary *parames = nil;
-    if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"]  , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
-    } else {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
-    }
-    
-    [HelpFunction requestDataWithUrlString:kLoginWithRegisterURL andParames:parames andDelegate:self];
+    NSDictionary *parames = @{@"userSn":[kStanderDefault objectForKey:@"userSn"]};
+    [HelpFunction requestDataWithUrlString:kUserInfoURL andParames:parames andDelegate:self];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHeadImage:) name:@"headImage" object:nil];
     

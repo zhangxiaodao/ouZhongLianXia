@@ -64,12 +64,12 @@
         }
     }
     else if (self.indexPath.section == 1) {
-        if (self.indexPath.row == 0) {
-            self.backImage.image = [UIImage imageNamed:@"topleftandright"];
-            self.lable.text = @"修改密码";
-        }
-        else if (self.indexPath.row == 1) {
-            self.backImage.image = [UIImage imageNamed:@"bottomleftandright"];
+//        if (self.indexPath.row == 0) {
+//            self.backImage.image = [UIImage imageNamed:@"topleftandright"];
+//            self.lable.text = @"修改密码";
+//        } else
+            if (self.indexPath.row == 0) {
+            self.backImage.image = [UIImage imageNamed:@"leftandright"];
             self.lable.text = @"我的ID";
             self.fenGeView.hidden = YES;
             self.jianTouImage.hidden = YES;
@@ -79,7 +79,7 @@
     else if (self.indexPath.section == 2) {
         if (self.indexPath.row == 0) {
             self.view.backgroundColor = [UIColor whiteColor];
-            self.view.layer.cornerRadius = 5;
+            self.backImage.image = [UIImage imageNamed:@"leftandright"];
             self.fenGeView.hidden = YES;
             self.lable.hidden = YES;
             self.jianTouImage.hidden = YES;

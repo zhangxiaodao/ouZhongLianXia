@@ -23,16 +23,9 @@
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
-    NSDictionary *parames = nil;
-    if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
-    } else {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] ,  @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
-    }
+    NSDictionary *parames = @{@"userSn":[kStanderDefault objectForKey:@"userSn"]};
     
-    [HelpFunction requestDataWithUrlString:kLoginWithRegisterURL andParames:parames andDelegate:self];
-    
-    
+    [HelpFunction requestDataWithUrlString:kUserInfoURL andParames:parames andDelegate:self];
     
     _webView = [[UIWebView alloc]initWithFrame:kScreenFrame];
     [self.view addSubview:_webView];
