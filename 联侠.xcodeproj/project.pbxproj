@@ -159,6 +159,7 @@
 		ED677EAA1D210150007D628E /* GanYiJiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EA91D210150007D628E /* GanYiJiViewController.m */; };
 		ED677EAE1D2115BD007D628E /* GanYiJiFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EAD1D2115BD007D628E /* GanYiJiFirstTableViewCell.m */; };
 		ED677EB11D2118C0007D628E /* GanYiJiSecondTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EB01D2118C0007D628E /* GanYiJiSecondTableViewCell.m */; };
+		ED6878BF1F5D39A1001CA683 /* LoginAnfRegisterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6878BE1F5D39A1001CA683 /* LoginAnfRegisterVC.m */; };
 		ED68B62D1F57FF9C003E5A82 /* CZNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED68B62C1F57FF9C003E5A82 /* CZNetworkManager.m */; };
 		ED6991421DBF3E7A002763AF /* XinFengThirtTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6991411DBF3E7A002763AF /* XinFengThirtTableViewCell.m */; };
 		ED6C780B1D067143007883EF /* AirPurificationForthTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6C780A1D067143007883EF /* AirPurificationForthTableViewCell.m */; };
@@ -543,6 +544,8 @@
 		ED677EAD1D2115BD007D628E /* GanYiJiFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GanYiJiFirstTableViewCell.m; sourceTree = "<group>"; };
 		ED677EAF1D2118C0007D628E /* GanYiJiSecondTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJiSecondTableViewCell.h; sourceTree = "<group>"; };
 		ED677EB01D2118C0007D628E /* GanYiJiSecondTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GanYiJiSecondTableViewCell.m; sourceTree = "<group>"; };
+		ED6878BD1F5D39A1001CA683 /* LoginAnfRegisterVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAnfRegisterVC.h; sourceTree = "<group>"; };
+		ED6878BE1F5D39A1001CA683 /* LoginAnfRegisterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAnfRegisterVC.m; sourceTree = "<group>"; };
 		ED68B62B1F57FF9C003E5A82 /* CZNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZNetworkManager.h; sourceTree = "<group>"; };
 		ED68B62C1F57FF9C003E5A82 /* CZNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZNetworkManager.m; sourceTree = "<group>"; };
 		ED6991401DBF3E7A002763AF /* XinFengThirtTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XinFengThirtTableViewCell.h; sourceTree = "<group>"; };
@@ -1117,6 +1120,8 @@
 			children = (
 				ED12E13F1CF5C5470011CD2C /* LoginViewController.h */,
 				ED12E1401CF5C5470011CD2C /* LoginViewController.m */,
+				ED6878BD1F5D39A1001CA683 /* LoginAnfRegisterVC.h */,
+				ED6878BE1F5D39A1001CA683 /* LoginAnfRegisterVC.m */,
 				ED08B3F61DEFFD600001AB9E /* HTMLBaseViewController */,
 				ED27A1E01CF81C1E006BD844 /* MainViewController */,
 				ED12E1301CF5C5470011CD2C /* ForgetPwdViewController */,
@@ -2488,6 +2493,7 @@
 				ED12E2B61CF5C5470011CD2C /* FirstSectionView.m in Sources */,
 				ED68B62D1F57FF9C003E5A82 /* CZNetworkManager.m in Sources */,
 				ED32A5171E5D79BE005064E0 /* HistoryTableViewCell.m in Sources */,
+				ED6878BF1F5D39A1001CA683 /* LoginAnfRegisterVC.m in Sources */,
 				ED66429A1F43F20B0053232C /* SystemMessageNoMore.m in Sources */,
 				ED7DEDA91EA0AD0C00D65C02 /* LocationCell.m in Sources */,
 				ED08B3F21DEFF7380001AB9E /* UIBarButtonItem+Extension.m in Sources */,

@@ -10,7 +10,7 @@
 "MineService" = "我的设备";
 
 "LoginVC_login" = "登录";
-"LoginVC_AccPlaceholder" = "请输入您的手机号码或ID账号";
+"LoginVC_AccPlaceholder" = "请输入您的手机号码";
 "LoginVC_PwdPlacrholder" = "请输入密码";
 "LoginVC_Register" = "立即注册";
 "LoginVC_ForgetPwd" = "忘记密码?";

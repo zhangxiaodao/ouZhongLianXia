@@ -14,4 +14,6 @@
 
 - (UIView *_Nullable)initWithFrame:(CGRect)frame TitleText:(NSString *_Nullable)titleText andBtnTarget:(nullable id)target andCancleAtcion:(nonnull SEL)cancleAtcion;
 
+- (void)clearNumber;
+
 @end

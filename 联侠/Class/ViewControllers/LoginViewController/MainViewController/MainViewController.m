@@ -13,7 +13,6 @@
 #import "ExchangeCollectionViewController.h"
 #import "RollLabel.h"
 #import "CCLocationManager.h"
-#import "LoginViewController.h"
 #import "AllServicesViewController.h"
 #import "FirstUserAlertView.h"
 
@@ -42,9 +41,9 @@
     self.view.backgroundColor = [UIColor whiteColor];
     NSDictionary *parames = nil;
     if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
+        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     } else {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
+        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     }
     
     [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];

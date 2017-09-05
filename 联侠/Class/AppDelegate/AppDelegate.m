@@ -16,6 +16,7 @@
 #import "LaunchScreenViewController.h"
 #import "HTMLBaseViewController.h"
 #import "SystemMessageViewController.h"
+#import "LoginAnfRegisterVC.h"
 
 
 #define STOREAPPID @"1113948983"
@@ -96,8 +97,9 @@
             self.window.rootViewController = [[TabBarViewController alloc]init];
         } else {
             
-            LoginViewController *loginVC = [[LoginViewController alloc]init];
-            XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:loginVC];
+//            LoginViewController *loginVC = [[LoginViewController alloc]init];
+            LoginAnfRegisterVC *loginAngRegisterVC = [[LoginAnfRegisterVC alloc]init];
+            XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:loginAngRegisterVC];
             
             
             self.window.rootViewController = nav;
@@ -450,21 +452,20 @@
 
 - (void)requestLoginURL {
     NSString *phone = [kStanderDefault objectForKey:@"phone"];
-    NSString *password = [kStanderDefault objectForKey:@"password"];
     NSString *clientId = [kStanderDefault objectForKey:@"GeTuiClientId"];
     
-    if (phone == nil || password == nil) {
+    if (phone == nil) {
         return ;
     }
     
     NSDictionary *parames = nil;
     if (clientId != nil) {
-        parames = @{@"loginName" : phone , @"password" : password , @"ua.clientId" : clientId, @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
+        parames = @{@"loginName" : phone , @"ua.clientId" : clientId, @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     } else {
-        parames = @{@"loginName" : phone , @"password" : password , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
+        parames = @{@"loginName" : phone , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     }
     
-    [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
+    [HelpFunction requestDataWithUrlString:kLoginWithRegisterURL andParames:parames andDelegate:self];
 }
 
 - (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {

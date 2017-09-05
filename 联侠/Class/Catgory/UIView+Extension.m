@@ -271,7 +271,7 @@
     }];
     
     
-    UILabel *nameLabel = [UILabel creatLableWithTitle:lableText andSuperView:view andFont:k14 andTextAligment:NSTextAlignmentLeft];
+    UILabel *nameLabel = [UILabel creatLableWithTitle:lableText andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentLeft];
     nameLabel.layer.borderWidth = 0;
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW / 7.2, kScreenW / 10));

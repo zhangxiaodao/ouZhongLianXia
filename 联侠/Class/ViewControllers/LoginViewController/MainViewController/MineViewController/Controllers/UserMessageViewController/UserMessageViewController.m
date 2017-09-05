@@ -16,6 +16,8 @@
 #import "LocationPickerVC.h"
 #import "NiChengViewController.h"
 #import "LoginViewController.h"
+#import "LoginAnfRegisterVC.h"
+
 #import "UserInfoCommonCell.h"
 #import "GeRenModel.h"
 
@@ -259,7 +261,8 @@ static NSString *celled = @"celled";
             [self kStanderDefaultRemoveAllObject];
             
             
-            XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+            //XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+            XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginAnfRegisterVC alloc]init]];
             kWindowRoot = nav;
             
         } else {

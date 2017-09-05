@@ -487,5 +487,9 @@
 #define kRequestWeatherURL [NSString stringWithFormat:@"http://114.55.5.92:80/adapter/weather/queryWeather"]
 
 #define kServiceDescriptionURL(typeSn , devTypeSn) [NSString stringWithFormat:@"http://112.124.48.212/webpage/%@/%@/introduction/index.html" , typeSn , devTypeSn]
+/**
+ 注册登入一体化
+ */
+#define kLoginWithRegisterURL [NSString stringWithFormat:@"http://%@:8080/smarthome/user/loginSimple", localhost]
 
 #endif

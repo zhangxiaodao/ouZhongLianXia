@@ -49,12 +49,12 @@
     self.view.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     NSDictionary *parames = nil;
     if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
+        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"]  , @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     } else {
-        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"password" : [kStanderDefault objectForKey:@"password"] , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
+        parames = @{@"loginName" : [kStanderDefault objectForKey:@"phone"] , @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
     }
     
-    [HelpFunction requestDataWithUrlString:kLogin andParames:parames andDelegate:self];
+    [HelpFunction requestDataWithUrlString:kLoginWithRegisterURL andParames:parames andDelegate:self];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHeadImage:) name:@"headImage" object:nil];
     

@@ -81,6 +81,10 @@
     return self;
 }
 
+- (void)clearNumber {
+    [_pzxView clearText];
+}
+
 - (void)timeFireMethod {
     [self.countdownBtn setTitle:[NSString stringWithFormat:@"%lds%@",(long)self.secondsCountDown , NSLocalizedString(@"AfterSecondsRe-Send", nil)] forState:UIControlStateNormal];
     

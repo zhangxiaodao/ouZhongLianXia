@@ -20,12 +20,13 @@
 @property (nonatomic , strong) AuthcodeView *authView;
 
 @property (nonatomic , strong) UIView *markView;
+@property (nonatomic , strong) AlertMessageView *alertMessageView;
 
 @property (nonatomic , strong) UIView *xiaHuaXian1;
 @property (nonatomic , strong) UIView *xiaHuaXian2;
 @property (nonatomic , strong) UIView *xiaHuaXian3;
 
-@property (nonatomic , strong) AlertMessageView *alertMessageView;
+
 @end
 
 @implementation RegisterViewController

@@ -9,6 +9,8 @@
 #import "Singleton.h"
 #import "LoginViewController.h"
 #import "XMGNavigationController.h"
+#import "LoginAnfRegisterVC.h"
+
 #import <sys/socket.h>
 
 #import <netinet/in.h>
@@ -203,7 +205,8 @@
             [kStanderDefault removeObjectForKey:@"wearthDic"];
             [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
             [kStanderDefault removeObjectForKey:@"GeRenInfo"];
-            XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+            //XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+            XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginAnfRegisterVC alloc]init]];
             kWindowRoot = nav;
             
             [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您的账号在其他设备登陆"];

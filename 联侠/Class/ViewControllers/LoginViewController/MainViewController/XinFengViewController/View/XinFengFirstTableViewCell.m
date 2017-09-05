@@ -272,7 +272,7 @@ static CGFloat speed = 0.0;
     _airQulityLable.text = pm25;
     _methanalLabel.text = methanal;
     
-    _lvXinLastTime.text = [NSString stringWithFormat:@"%ld小时" , (long)sumTime * 10];
+    _lvXinLastTime.text = [NSString stringWithFormat:@"%ld小时" , (long)sumTime];
     
     if ([kaiGuan isEqualToString:@"01"]) {
         UIImage *image = nil;
@@ -350,7 +350,7 @@ static CGFloat speed = 0.0;
         _temperatureLabel.text = [NSString stringWithFormat:@"%@" , _stateModel.sCurrentC];
         _humidityLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.sCurrentH];
         _methanalLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.sMethanal];
-        _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)_stateModel.sChangeFilterScreen * 10];
+        _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)_stateModel.sChangeFilterScreen];
         
         if (_stateModel.fSwitch == 1) {
            

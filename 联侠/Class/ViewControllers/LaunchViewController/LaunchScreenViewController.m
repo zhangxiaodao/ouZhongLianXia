@@ -9,6 +9,8 @@
 #import "LaunchScreenViewController.h"
 #import "LoginViewController.h"
 #import "XMGNavigationController.h"
+#import "LoginAnfRegisterVC.h"
+
 @interface LaunchScreenViewController ()<UIScrollViewDelegate>
 @property (nonatomic , retain) UIScrollView *scrollerView;
 @property (nonatomic , retain) UIPageControl *pageControl;
@@ -105,8 +107,9 @@
     [kStanderDefault setObject:@"NO" forKey:@"isLaunch"];
     AppDelegate *appdele = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    LoginViewController *loginVC = [[LoginViewController alloc]init];
-    XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:loginVC];
+//    LoginViewController *loginVC = [[LoginViewController alloc]init];
+    LoginAnfRegisterVC *loginAngRegisterVC = [[LoginAnfRegisterVC alloc]init];
+    XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:loginAngRegisterVC];
     
     appdele.window.rootViewController = nav;
 }
