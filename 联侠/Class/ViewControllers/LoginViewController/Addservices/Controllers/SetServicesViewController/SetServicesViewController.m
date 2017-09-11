@@ -15,6 +15,7 @@
 @property (nonatomic , strong) NSMutableArray *array;
 @property (nonatomic , strong) NSTimer *myTimer;
 @property (nonatomic , strong) UIImageView *imageView;
+@property (nonatomic , copy) NSString *alertMessage;
 @end
 
 @implementation SetServicesViewController
@@ -42,7 +43,7 @@
     }];
     
 
-    UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"请开机长按功能按键3秒，听到“滴”的声音后指示灯闪烁，进入配网模式。（wifi功能按键请查看说明书）"] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
+    UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"请开机长按%@，听到“滴”的声音后指示灯闪烁，进入配网模式。" , self.alertMessage] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     firstLable.textColor = [UIColor blackColor];
     firstLable.layer.borderWidth = 0;
     
@@ -117,7 +118,23 @@
 
 - (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
     _addServiceModel = addServiceModel;
-    NSLog(@"%@" , _addServiceModel);
+    
+    switch (_addServiceModel.slType) {
+        case 0:
+            self.alertMessage = @"定时3秒";
+            break;
+        case 1:
+            self.alertMessage = @"定时3秒";
+            break;
+        case 2:
+            self.alertMessage = @"开关3秒";
+            break;
+        case 3:
+            self.alertMessage = @"wifi3秒";
+            break;
+        default:
+            break;
+    }
 }
 
 @end

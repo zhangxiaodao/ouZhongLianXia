@@ -27,6 +27,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setUI];
+    [kStanderDefault removeObjectForKey:@"GeRenInfo"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(whetherGegisterSuccess:) name:@"RegisterSuccess" object:nil];
 }
@@ -95,7 +96,7 @@
     NSInteger state = [dic[@"state"] integerValue];
     
     if (state == 0) {
-        
+        [self cancleAtcion];
         NSDictionary *user = dic[@"data"];
         
         [kStanderDefault setObject:user[@"sn"] forKey:@"userSn"];
@@ -107,6 +108,10 @@
             
             
         }];
+    } else {
+        [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
+            [self.alertMessageView clearNumber];
+        } andSuperViewController:self Title:@"验证码填写错误"];
     }
 }
 
@@ -120,7 +125,7 @@
     //    NSLog(@"%@" , success);
     if ([success isEqualToString:@"YES"]) {
         
-        [self cancleAtcion];
+        
         
         NSDictionary *parameters = nil;
         if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {

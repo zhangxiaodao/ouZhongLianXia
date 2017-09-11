@@ -262,7 +262,7 @@ static CGFloat speed = 0.0;
     methanal = [NSString turnHexToInt:methanal];
     lvXinLastTimeBig = [NSString turnHexToInt:lvXinLastTimeBig];
     lvXinLastTimeLittle = [NSString turnHexToInt:lvXinLastTimeLittle];
-    NSInteger sumTime = lvXinLastTimeBig.integerValue * 100 + lvXinLastTimeLittle.integerValue;
+    NSInteger sumTime = lvXinLastTimeBig.integerValue + lvXinLastTimeLittle.integerValue * 10;
     
 //    NSLog(@"temprature--%@ , humidity--%@ , pm25--%@ , methanal--%@ , sumTime--%ld , wind--%@" , temprature , humidity , pm25 , methanal , (long)sumTime , _wind);
     

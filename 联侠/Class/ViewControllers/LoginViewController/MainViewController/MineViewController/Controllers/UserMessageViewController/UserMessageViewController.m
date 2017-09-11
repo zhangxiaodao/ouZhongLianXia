@@ -48,12 +48,6 @@ static NSString *celled = @"celled";
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
     [self.tableView registerClass:[UserInfoCommonCell class] forCellReuseIdentifier:celled];
     
-    if ([kStanderDefault objectForKey:@"GeRenInfo"] != nil) {
-        self.geRenModel = [[GeRenModel alloc]init];
-        [self.geRenModel setValuesForKeysWithDictionary:[kStanderDefault objectForKey:@"GeRenInfo"]];
-        NSLog(@"%@" , self.geRenModel);
-    }
-    
     
     [HelpFunction requestDataWithUrlString:kChaXunYongHuDiZhi andParames:@{@"userSn" : @(self.userModel.sn)} andDelegate:self];
     
@@ -301,6 +295,9 @@ static NSString *celled = @"celled";
     [kStanderDefault removeObjectForKey:@"GeRenInfo"];
     kSocketTCP.isDuanXianChongLian = @"NO";
     [kSocketTCP cutOffSocket];
+    
+    NSDictionary *dic = [kStanderDefault objectForKey:@"GeRenInfo"];
+    NSLog(@"%@" , dic);
 }
 
 - (void)sendPickerViewToVC:(UIPickerView *)picker {
@@ -379,16 +376,16 @@ static NSString *celled = @"celled";
 - (void)setUserModel:(UserModel *)userModel {
     _userModel = userModel;
 
-    if ([kStanderDefault objectForKey:@"GeRenInfo"]) {
+    if ([kStanderDefault objectForKey:@"GeRenInfo"] != nil) {
         
         NSDictionary *dic = [kStanderDefault objectForKey:@"GeRenInfo"];
         
-        GeRenModel *model = [[GeRenModel alloc]init];
-        [model setValuesForKeysWithDictionary:dic];
-        _userModel.nickname = model.nickName;
-        _userModel.sex = model.sex;
-        _userModel.birthdate = model.birthday;
-        _userModel.email = model.email;
+        self.geRenModel = [[GeRenModel alloc]init];
+        [self.geRenModel setValuesForKeysWithDictionary:dic];
+        _userModel.nickname = self.geRenModel.nickName;
+        _userModel.sex = self.geRenModel.sex;
+        _userModel.birthdate = self.geRenModel.birthday;
+        _userModel.email = self.geRenModel.email;
     }
 }
 

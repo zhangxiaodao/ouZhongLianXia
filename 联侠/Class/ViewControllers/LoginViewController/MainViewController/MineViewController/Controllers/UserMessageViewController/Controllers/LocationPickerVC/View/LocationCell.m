@@ -130,7 +130,10 @@
 }
 
 - (void)chanceAddressAtcion {
-   CustomPickerView *addressPicker = [[CustomPickerView alloc]initWithPickerViewType:4 andBackColor:kMainColor];
+    
+    
+    
+    CustomPickerView *addressPicker = [[CustomPickerView alloc]initWithPickerViewType:4 andBackColor:kMainColor];
     [self.currentVC.view addSubview:addressPicker];
     addressPicker.delegate = self;
     
@@ -195,5 +198,4 @@
     }
     return _pickerDic;
 }
-
 @end

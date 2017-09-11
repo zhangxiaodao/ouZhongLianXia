@@ -20,6 +20,14 @@
         }
     }
     
+    if ([key isEqualToString:@"slType"]) {
+        if ([value isKindOfClass:[NSNull class]]) {
+            _slType = 0;
+        } else {
+            _slType = [value integerValue];
+        }
+    }
+    
     if ([key isEqualToString:@"typeSn"]) {
         _typeSn = value;
     }

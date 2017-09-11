@@ -19,7 +19,7 @@
 
 @property (nonatomic, strong,readonly) NSString *vertificationCode;//验证码内容
 
-@property (nonatomic , copy) NSString *sendMessage;
+//@property (nonatomic , copy) NSString *sendMessage;
 
 @property (nonatomic, strong)UIColor *deselectColor;//未选中颜色
 

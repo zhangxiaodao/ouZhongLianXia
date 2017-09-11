@@ -268,8 +268,12 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    [self getSelectedAddressData];
     
+    if (pickerView.numberOfComponents == 1) {
+        return ;
+    }
+    
+    [self getSelectedAddressData];
     [self.myPicker reloadAllComponents];
 }
 

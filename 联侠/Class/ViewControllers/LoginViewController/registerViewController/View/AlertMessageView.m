@@ -14,7 +14,7 @@
 @interface AlertMessageView ()<HelpFunctionDelegate>
 @property(nonatomic,strong)PZXVerificationCodeView *pzxView;
 @property (nonatomic , strong) UILabel *phoneLabel;
-@property (nonatomic , strong) NSString *data;
+//@property (nonatomic , strong) NSString *data;
 @property (nonatomic , strong) NSTimer *countDownTimer;
 @property (nonatomic , strong) UIButton *countdownBtn;
 @property (nonatomic , assign) NSInteger secondsCountDown;
@@ -92,7 +92,7 @@
         [_countDownTimer invalidate];
         _countDownTimer = nil;
         
-        self.data = 0;
+//        self.data = 0;
         [self.countdownBtn setTitle:NSLocalizedString(@"Resend", nil) forState:UIControlStateNormal];
         self.countdownBtn.userInteractionEnabled = YES;
         
@@ -126,19 +126,18 @@
     NSDictionary *dic = data[0];
     NSLog(@"%@" , dic);
     
-    if (dic[@"data"]) {
-        NSInteger state = [dic[@"state"] integerValue];
-        
-        if (state == 0) {
-            NSDictionary *data = dic[@"data"];
-            NSString *code = data[@"code"];
-            self.data = code;
+//    if (dic[@"data"]) {
+//        NSInteger state = [dic[@"state"] integerValue];
+//        
+//        if (state == 0) {
+//            NSDictionary *data = dic[@"data"];
+//            NSString *code = data[@"code"];
+//            self.data = code;
             
-            _pzxView.sendMessage = self.data;
+//            _pzxView.sendMessage = self.data;
             
-            NSLog(@"%@" , self.data);
-        }
-    }
+//        }
+//    }
     
 }
 

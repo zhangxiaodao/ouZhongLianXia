@@ -205,4 +205,5 @@ static NSString *celled = @"celled";
     _diZhiModel = diZhiModel;
 }
 
+
 @end
