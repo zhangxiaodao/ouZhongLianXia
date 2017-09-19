@@ -32,8 +32,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(whetherGegisterSuccess:) name:@"RegisterSuccess" object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.navigationController.navigationBar setHidden:YES];
+    
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [self.navigationController.navigationBar setHidden:NO];
     [SVProgressHUD dismiss];
     
 }
@@ -41,18 +49,40 @@
 #pragma mark - 设置UI界面
 - (void)setUI{
     
-    //创建商标
+    
+    UIImageView *loginBackImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"loginBackImage"]];
+    [self.view addSubview:loginBackImage];
+    loginBackImage.frame = self.view.bounds;
+    
     UIImageView *shangBiaoImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo"]];
     [self.view addSubview:shangBiaoImage];
     [shangBiaoImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 3.5, kScreenW / 3.5));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 4.5, kScreenW / 4.5));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(kScreenH / 5.9 - kHeight);
+        make.top.mas_equalTo(kScreenW / 6.5);
+    }];
+    
+    UILabel *titleLabel = [UILabel creatLableWithTitle:@"联侠" andSuperView:self.view andFont:k20 andTextAligment:NSTextAlignmentCenter];
+    titleLabel.textColor = kCOLOR(14, 106, 121);
+    titleLabel.layer.borderWidth = 0;
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 20));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(shangBiaoImage.mas_bottom).offset(kScreenW / 30);
+    }];
+    
+    UILabel *lianXiaLabel = [UILabel creatLableWithTitle:@"L   I   A   N   X   I   A" andSuperView:self.view andFont:k12 andTextAligment:NSTextAlignmentCenter];
+    lianXiaLabel.textColor = kCOLOR(14, 106, 121);
+    lianXiaLabel.layer.borderWidth = 0;
+    [lianXiaLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 20));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(titleLabel.mas_bottom);
     }];
     
     UIView *accFiledView = [UIView creatTextFiledWithLableText:@"账户" andTextFiledPlaceHold:NSLocalizedString(@"LoginVC_AccPlaceholder", nil) andSuperView:self.view];
     [accFiledView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(shangBiaoImage.mas_bottom).offset(kScreenH / 4.75 + kScreenH / 11);
+        make.bottom.mas_equalTo(lianXiaLabel.mas_bottom).offset(kScreenH / 4.75);
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
         make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
@@ -65,13 +95,30 @@
     [loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 9));
         make.centerX.mas_equalTo(accFiledView.mas_centerX);
-        make.top.mas_equalTo(accFiledView.mas_bottom).offset(kScreenW / 7.5);
+        make.top.mas_equalTo(accFiledView.mas_bottom).offset(kScreenW / 16);
     }];
     loginBtn.layer.cornerRadius = kScreenW / 18;
     loginBtn.backgroundColor = kMainColor;
     [loginBtn addTarget:self action:@selector(loginBtnAction) forControlEvents:UIControlEventTouchUpInside];
     
     
+    UILabel *messageLabel = [UILabel creatLableWithTitle:@"开启你的云端智能生活" andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
+    messageLabel.textColor = kCOLOR(14, 106, 121);
+    messageLabel.layer.borderWidth = 0;
+    [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 20));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-kScreenW / 12.5);
+    }];
+    
+    UILabel *englishMessageLabel = [UILabel creatLableWithTitle:@"Open your intelligent life in the cloud" andSuperView:self.view andFont:k12 andTextAligment:NSTextAlignmentCenter];
+    englishMessageLabel.textColor = kCOLOR(14, 106, 121);
+    englishMessageLabel.layer.borderWidth = 0;
+    [englishMessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 20));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(messageLabel.mas_bottom);
+    }];
     
 }
 
