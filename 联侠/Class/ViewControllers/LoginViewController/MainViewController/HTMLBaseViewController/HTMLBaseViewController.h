@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <JavaScriptCore/JavaScriptCore.h>
+
+@protocol SendServiceModelToParentVCDelegate <NSObject>
+
+- (void)sendServiceModelToParentVC:(ServicesModel *)serviceModel;
+@end
+
 @interface HTMLBaseViewController : UIViewController
 
 @property (nonatomic , strong) ServicesModel *serviceModel;
@@ -20,6 +26,8 @@
 @property (nonatomic , strong) UIActivityIndicatorView *searchView;
 
 @property (nonatomic , strong) JSContext *context;
+
+@property (nonatomic , assign) id<SendServiceModelToParentVCDelegate> sendServiceModelToParentVCDelegate;
 
 - (void)passValueWithBlock;
 - (void)getMachineDeviceAtcion:(NSNotification *)post;

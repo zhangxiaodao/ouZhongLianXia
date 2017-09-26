@@ -43,7 +43,7 @@
     lable.textColor = [UIColor blackColor];
     lable.numberOfLines = 0;
     lable.font = [UIFont fontWithName:kFontWithName size:value];
-//    [lable sizeToFit];
+    [lable sizeToFit];
     return lable;
 }
 

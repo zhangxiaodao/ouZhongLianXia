@@ -477,6 +477,7 @@
         [self.navigationController pushViewController:ganYiJiVC animated:YES];
     } else  {
         HTMLBaseViewController *htmlVC = [[HTMLBaseViewController alloc]init];
+        htmlVC.sendServiceModelToParentVCDelegate = self;
         htmlVC.serviceModel = model;
         [self.navigationController pushViewController:htmlVC animated:YES];
     }

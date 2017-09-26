@@ -23,6 +23,15 @@
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
+//    NSDictionary *userinfo = [kStanderDefault objectForKey:@"UserInfo"];
+//    if (userinfo != nil) {
+////        self.userModel  = ;
+//    } else {
+//        NSDictionary *parames = @{@"userSn":[kStanderDefault objectForKey:@"userSn"]};
+//
+//        [HelpFunction requestDataWithUrlString:kUserInfoURL andParames:parames andDelegate:self];
+//    }
+    
     NSDictionary *parames = @{@"userSn":[kStanderDefault objectForKey:@"userSn"]};
     
     [HelpFunction requestDataWithUrlString:kUserInfoURL andParames:parames andDelegate:self];
@@ -52,12 +61,19 @@
     
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
+    
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (self.serviceModel) {
+        [_sendServiceModelToParentVCDelegate sendServiceModelToParentVC:self.serviceModel];
+        
+    }
+    
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -68,7 +84,11 @@
     _context[@"PageLoadIOS"] = ^{
         
         if (bself.searchView) {
-            bself.searchView.hidden = YES;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                bself.searchView.hidden = YES;
+            });
+            
         }
         
         NSDictionary *userData = nil;
@@ -202,6 +222,12 @@
             [_userModel setValue:user[key] forKey:key];
         }
         
+//        [kStanderDefault setObject:user forKey:@"UserInfo"];
+        
+        if (self.serviceModel && self.userModel) {
+            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+        }
+        
         [self webView:_webView shouldStartLoadWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@""]] navigationType:UIWebViewNavigationTypeLinkClicked];
     }
 }
@@ -214,8 +240,6 @@
     _serviceModel = serviceModel;
     
     NSLog(@"%@" , _serviceModel);
-    
-    
 }
 
 
@@ -227,6 +251,7 @@
 }
 
 - (void)dealloc {
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
