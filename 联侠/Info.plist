@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.6.1</string>
+	<string>5.6.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -44,7 +44,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>5.6.2</string>
+	<string>5.6.3</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
@@ -89,6 +89,8 @@
 	<string>App需要您的同意,才能访问蓝牙</string>
 	<key>NSCameraUsageDescription</key>
 	<string>YES</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>我们需要获取到您的位置，来为您提供您所在地区的天气信息。还请您允许。</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>我们需要获取到您的位置，来为您提供您所在地区的天气信息。还请您允许。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

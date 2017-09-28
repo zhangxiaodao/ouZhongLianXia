@@ -79,13 +79,21 @@
              _lastCity = placemark.locality;
 
              _lastProvience = placemark.addressDictionary[@"State"];
-             [kStanderDefault setObject:placemark.addressDictionary[@"State"] forKey:@"provience"];
+             if (_lastProvience != nil) {
+                 [kStanderDefault setObject:placemark.addressDictionary[@"State"] forKey:@"provience"];
+             }
              
              NSLog(@"%@ , %@" , _lastCity , _lastProvience);
             
-             if (_lastCity && _lastProvience) {
+             if (_lastCity) {
                  
-                 NSArray *address = @[_lastCity , _lastProvience];
+                 NSArray *address = nil;
+                 
+                 if (_lastProvience == nil) {
+                     address = @[_lastCity];
+                 } else {
+                     address = @[_lastCity , _lastProvience];
+                 }
                  
                  if (_delegate && [_delegate respondsToSelector:@selector(getCityNameAndProvience:)]) {
                      [_delegate getCityNameAndProvience:address];

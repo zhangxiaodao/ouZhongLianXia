@@ -61,7 +61,9 @@
     
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
-    
+    if (self.serviceModel && self.userModel) {
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
+    }
     
 }
 
@@ -220,12 +222,6 @@
         _userModel = [[UserModel alloc]init];
         for (NSString *key in [user allKeys]) {
             [_userModel setValue:user[key] forKey:key];
-        }
-        
-//        [kStanderDefault setObject:user forKey:@"UserInfo"];
-        
-        if (self.serviceModel && self.userModel) {
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%ld%@%@N#" , (long)self.userModel.sn , _serviceModel.devTypeSn , _serviceModel.devSn] andType:kAddService andIsNewOrOld:nil];
         }
         
         [self webView:_webView shouldStartLoadWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@""]] navigationType:UIWebViewNavigationTypeLinkClicked];

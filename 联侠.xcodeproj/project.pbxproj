@@ -864,6 +864,7 @@
 				ED12DF7F1CF5C0FF0011CD2C /* Products */,
 				B29C411418BA5B03B2E9E269 /* Frameworks */,
 				D881AAEA66738229A91F6009 /* Pods */,
+				ED7B91E11F7A0EB90024EA09 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1865,6 +1866,15 @@
 				ED6C781C1D07BC53007883EF /* AirDingShiTableViewCell.m */,
 			);
 			path = AirDingShiJieMianView;
+			sourceTree = "<group>";
+		};
+		ED7B91E11F7A0EB90024EA09 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				ED37168E1E84B5D600493248 /* libGeTuiSdk-1.6.2.0.a */,
+				ED37168F1E84B5D600493248 /* libGtExtensionSdk-1.1.0.a */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		ED7DEDA61EA0A9C900D65C02 /* View */ = {

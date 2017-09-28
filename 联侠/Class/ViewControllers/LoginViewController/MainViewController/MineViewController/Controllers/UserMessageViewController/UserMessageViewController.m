@@ -145,10 +145,8 @@ static NSString *celled = @"celled";
         if (indexPath.section == 0 && indexPath.row == 0) {
             cell.headPortraitImageView.image = array[0];
             cell.currentVC = self;
-        } else if (indexPath.section == 1 && indexPath.row == 1) {
+        } else if (indexPath.section == 1 && indexPath.row == 0) {
             cell.idLabel.text = array[indexPath.row];
-        } else {
-            cell.rightLabel.text = array[indexPath.row];
         }
     }
     
@@ -438,7 +436,6 @@ static NSString *celled = @"celled";
         } else {
             [firstSectionArray addObject:self.userModel.email];
         }
-        [secondSectionArray addObject:@""];
         [secondSectionArray addObject:[NSString stringWithFormat:@"%ld" , self.userModel.sn]];
         
         [_infoArray addObject:firstSectionArray];
