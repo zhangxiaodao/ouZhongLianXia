@@ -32,19 +32,18 @@
     return _sharedObject;
 }
 
-- (id)initWithDelegate:(id<CCLocationManagerZHCDelegate>)delegate {
+- (id)initWithBlock:(LocationBlock)block {
     self = [super init];
     if (self) {
-        self.delegate = delegate;
+        self.block = block;
     }
     return self;
 }
 
-- (CCLocationManager *)getNowCityNameAndProvienceName:(id<CCLocationManagerZHCDelegate>)delegate {
-    CCLocationManager *manager =  [self initWithDelegate:delegate];
+- (CCLocationManager *)getNowCityNameAndProvienceName:(LocationBlock)block {
+    CCLocationManager *manager =  [self initWithBlock:block];
     [self startLocation];
     return manager;
-
 }
 
 -(void)startLocation
@@ -86,7 +85,6 @@
              NSLog(@"%@ , %@" , _lastCity , _lastProvience);
             
              if (_lastCity) {
-                 
                  NSArray *address = nil;
                  
                  if (_lastProvience == nil) {
@@ -94,13 +92,9 @@
                  } else {
                      address = @[_lastCity , _lastProvience];
                  }
-                 
-                 if (_delegate && [_delegate respondsToSelector:@selector(getCityNameAndProvience:)]) {
-                     [_delegate getCityNameAndProvience:address];
-                 }
+                 self.block(address);
              }
          }
-         
      }];
     
     [manager stopUpdatingLocation];

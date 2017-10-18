@@ -13,13 +13,14 @@ typedef NS_ENUM(NSInteger, CZHTTPMethod) {
     CZHTTPMethodPOST = 1,
 };
 
-typedef void(^success)(NSURLSessionDataTask * task,id result);
-typedef void(^failure)(NSURLSessionDataTask * task,NSError * error);
+typedef void(^success)(NSDictionary * _Nullable responseObject);
+typedef void(^failure)(NSError * _Nonnull error);
 
 @interface CZNetworkManager : AFHTTPSessionManager
 
 + (instancetype _Nullable )shareCZNetworkManager;
 
-- (void)requestGetUrlString:(NSString *_Nullable)urlString parameters:(NSDictionary *_Nullable)parameters isSuccess:(success _Nullable )isSuccess failure:(failure _Nullable)failure;
+- (void)requestGETUrlString:(NSString *_Nullable)urlString parameters:(NSDictionary *_Nullable)parameters isSuccess:(success _Nullable )isSuccess failure:(failure _Nullable)failure;
 - (void)requestPOSTUrlString:(NSString *_Nullable)urlString parameters:(NSDictionary *_Nullable)parameters isSuccess:(success _Nullable )isSuccess failure:(failure _Nullable)failure;
+- (void)requestWetherParameters:(NSString *_Nullable)cityname isSuccess:(success _Nullable )isSuccess failure:(failure _Nullable)failure;
 @end

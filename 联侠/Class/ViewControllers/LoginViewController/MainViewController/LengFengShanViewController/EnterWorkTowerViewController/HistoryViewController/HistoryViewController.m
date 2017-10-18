@@ -31,55 +31,49 @@
     self.view.backgroundColor = [UIColor whiteColor];
 
     NSDictionary *parames = @{@"devSn" : self.deviceSn , @"devTypeSn" : self.serviceModel.devTypeSn , @"days" : @7};
-
-    [HelpFunction requestDataWithUrlString:kLengFengShanLiShiJiLu andParames:parames andDelegate:self];
-}
-
-- (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
     
-    //    NSLog(@"%@" , dddd);
-    
-    NSMutableDictionary *dddd = data[0];
-    if ([dddd[@"data"] isKindOfClass:[NSArray class]]) {
-        NSArray *arr = dddd[@"data"];
-        for (NSDictionary *dic in arr) {
-            LiShiModel *lishiModel = [[LiShiModel alloc]init];
-            [lishiModel setValuesForKeysWithDictionary:dic];
-            NSString *date = [NSString stringWithFormat:@"%@" , lishiModel.useDate];
-            NSString *sunDate = [date substringWithRange:NSMakeRange(5, 5)];
-            
-            NSInteger timeInterval = [NSString turnTimeToInterval:date];
-            NSNumber *useTime = @(lishiModel.useTime / 3600000);
-            
-            int i = (int)(useTime.integerValue / 24);
-            
-            if (i >= 1) {
-                for (int j = i - 1;j >= 1; j--) {
-                    
-                    NSNumber *lastUseTime = @(24);
-                    NSInteger lastTimeInterval = timeInterval - 3600 * 24 * j;
-                    NSString *lastSubDate = [[NSString turnTimeIntervalToString:lastTimeInterval] substringWithRange:NSMakeRange(5, 5)];
-                    NSArray *array = [NSArray arrayWithObjects:lastSubDate , lastUseTime, nil];
-                    [self.dataArray addObject:array];
+    [kNetWork requestPOSTUrlString:kLengFengShanLiShiJiLu parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+        
+        NSDictionary *dddd = responseObject;
+        if ([dddd[@"data"] isKindOfClass:[NSArray class]]) {
+            NSArray *arr = dddd[@"data"];
+            for (NSDictionary *dic in arr) {
+                LiShiModel *lishiModel = [[LiShiModel alloc]init];
+                [lishiModel setValuesForKeysWithDictionary:dic];
+                NSString *date = [NSString stringWithFormat:@"%@" , lishiModel.useDate];
+                NSString *sunDate = [date substringWithRange:NSMakeRange(5, 5)];
+                
+                NSInteger timeInterval = [NSString turnTimeToInterval:date];
+                NSNumber *useTime = @(lishiModel.useTime / 3600000);
+                
+                int i = (int)(useTime.integerValue / 24);
+                
+                if (i >= 1) {
+                    for (int j = i - 1;j >= 1; j--) {
+                        
+                        NSNumber *lastUseTime = @(24);
+                        NSInteger lastTimeInterval = timeInterval - 3600 * 24 * j;
+                        NSString *lastSubDate = [[NSString turnTimeIntervalToString:lastTimeInterval] substringWithRange:NSMakeRange(5, 5)];
+                        NSArray *array = [NSArray arrayWithObjects:lastSubDate , lastUseTime, nil];
+                        [self.dataArray addObject:array];
+                    }
                 }
+                
+                useTime = @(useTime.integerValue % 24);
+                NSArray *arr = [NSArray arrayWithObjects:sunDate, useTime , nil];
+                
+                [self.dataArray addObject:arr];
             }
-            
-            useTime = @(useTime.integerValue % 24);
-            NSArray *arr = [NSArray arrayWithObjects:sunDate, useTime , nil];
-            
-            [self.dataArray addObject:arr];
+            [self.forthView removeFromSuperview];
+            self.forthView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH / 1.522831, kScreenW, kScreenH / 2.9)];
+            [self.view addSubview:self.forthView];
+            [self configUI:self.forthView];
         }
-        [self.forthView removeFromSuperview];
-        self.forthView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH / 1.522831, kScreenW, kScreenH / 2.9)];
-        [self.view addSubview:self.forthView];
-        [self configUI:self.forthView];
-    }
+        
+    } failure:nil];
     
 }
 
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    NSLog(@"%@" , error);
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -99,20 +93,20 @@
     [view addSubview:imageView];
     imageView.frame = view.frame;
     
-    UIView *backView = [UIView creatViewWithBackView:[UIImage imageNamed:@"iconfont-fanhui"] andSuperView:view];
+    UIView *backView = [UIView creatViewWithFrame:CGSizeMake(kScreenH / 13, kScreenH / 13) image:[UIImage imageNamed:@"iconfont-fanhui"] andSuperView:self.view];
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kScreenW / 30);
-        make.top.mas_equalTo(kScreenH / 33.35);
-        make.size.mas_equalTo(CGSizeMake(kScreenH / 31.7619, kScreenH / 31.7619));
+        make.top.mas_equalTo(kStatusbarH / 2);
+        make.size.mas_equalTo(CGSizeMake(kScreenH / 13, kScreenH / 13));
     }];
-    UITapGestureRecognizer *backTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backTap1:)];
+    UITapGestureRecognizer *backTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backTap:)];
     [backView addGestureRecognizer:backTap];
     
-    UIView *titleView = [UIView creatViewWithBackViewandTitle:@"历史记录" andSuperView:view];
+    UIView *titleView = [UIView creatViewWithBackViewandTitle:@"历史记录" andSuperView:self.view];
     [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.centerY.mas_equalTo(backView.mas_centerY);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenH / 31.7619));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenH / 32));
     }];
     
     UILabel *leiJiJiangWenLable = [UILabel creatLableWithTitle:@"累计降温" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];
@@ -328,7 +322,7 @@
 }
 
 #pragma mark - 返回上一节面
-- (void)backTap1:(UITapGestureRecognizer *)tap {
+- (void)backTap:(UITapGestureRecognizer *)tap {
     [self.navigationController popViewControllerAnimated:YES];
 }
 

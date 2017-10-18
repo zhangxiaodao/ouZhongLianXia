@@ -14,6 +14,11 @@
 #import "BingJingShouMingTableViewCell.h"
 #import "EnterWorkTowerViewController.h"
 #import "SetServicesViewController.h"
+#import "LengFengShanMainBaseCell.h"
+
+static NSString *bingJing = @"bingJing";
+static NSString *water = @"water";
+static NSString *lvWang = @"lvWang";
 
 @interface LengFengShanViewController ()< UITableViewDataSource , UITableViewDelegate>
 
@@ -24,23 +29,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-   
+    [self setUI];
+    [self addNotification];
+}
+
+#pragma mark - 通知事件
+- (void)addNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBingJing:) name:@"bingJing" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getShuiWei:) name:@"ShuiWei" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLvWang:) name:@"lvWang" object:nil];
-    
-    
-    [self setUI];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanInfo:) name:kServiceOrder object:nil];
 }
 
 - (void)setUI {
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanInfo:) name:kServiceOrder object:nil];
-    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
+    [self.tableView registerClass:[BingJingShouMingTableViewCell class] forCellReuseIdentifier:bingJing];
+    [self.tableView registerClass:[ShuiWeiZhuangTaiTableViewCell class] forCellReuseIdentifier:water];
+    [self.tableView registerClass:[LvWangJieDuTableViewCell class] forCellReuseIdentifier:lvWang];
     
     for (int i = 0; i < 5; i++) {
         [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
@@ -48,15 +55,18 @@
         
 }
 
-- (void)lengFengShanOpenAtcion:(UIButton *)btn {
-    [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
-    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-}
-
-- (void)lengFengShanCloseAtcion:(UIButton *)btn {
+#pragma mark - 开关按钮的点击事件
+- (void)lengFengShanOpenAtcion {
     
-    [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
-    [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S0#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+    if (self.bottomBtn.selected == 1) {
+        [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S0#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+    } else {
+        [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
+        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+    }
+    self.bottomBtn.selected = !self.bottomBtn.selected;
+    
 }
 
 #pragma mark - 取得tcp返回的数据
@@ -73,29 +83,22 @@
     if ([self.serviceModel.devSn isEqualToString:devSn]) {
         if ([kaiGuan isEqualToString:@"02"]) {
             self.bottomBtn.backgroundColor = [UIColor grayColor];
-            [self.bottomBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-            [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
         } else if ([kaiGuan isEqualToString:@"01"]) {
             self.bottomBtn.backgroundColor = kMainColor;
-            [self.bottomBtn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-            [self.bottomBtn addTarget:self action:@selector(lengFengShanCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
         }
     }
 }
 
 
 #pragma mark - 轻扫手势触发方法
--(void)swipeGesture:(UISwipeGestureRecognizer *)sender
+-(void)leftSwipeAtcion:(UISwipeGestureRecognizer *)sender
 {
-    
     EnterWorkTowerViewController *enterVC = [[EnterWorkTowerViewController alloc]init];
     enterVC.model = self.userModel;
     enterVC.serviceDataModel = self.serviceDataModel;
     enterVC.serviceModel = self.serviceModel;
     [self.navigationController pushViewController:enterVC animated:YES];
 }
-
-
 
 #pragma mark - 复位通知传值
 - (void)getBingJing:(NSNotification *)post {
@@ -119,7 +122,6 @@
     }
 }
 
-
 #pragma mark - table的代理
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -127,21 +129,15 @@
     if (section == 0) {
         
         UIView *view = [FirstSectionView creatViewWithFenChen:self.serviceDataModel.totalTime andTemperature:self.serviceDataModel.totalC andTime:self.serviceDataModel.totalTime];
+        
         view.tag = section;
         return view;
     } else {
-        NSArray *imageArray = [[NSArray alloc]initWithObjects: @"", @"iconfont-jiankanglvxin",@"iconfont-jiankang",@"iconfont-jiankangqingsao", nil];
-        NSArray *nameArray = nil;
+        NSArray *imageArray = @[@"iconfont-jiankanglvxin",@"iconfont-jiankang",@"iconfont-jiankangqingsao"];
+        NSArray *nameArray = @[@"冰晶寿命",@"水位状态",@"水帘洁度"];
         
-        
-        if ([self.serviceModel.devTypeSn isEqualToString:@"4131"]) {
-            nameArray = [[NSArray alloc]initWithObjects: @"", @"冰晶寿命",@"水位状态",@"水帘洁度", nil];
-        } else {
-            nameArray = [[NSArray alloc]initWithObjects:@"",@"冰晶寿命",@"水位状态",@"滤网洁度", nil];
-        }
-        
-        UIView *view = [ThirtView creatViewWithIconArray:imageArray andNameArray:nameArray andSection:section];
-        view.backgroundColor = [UIColor whiteColor];
+        UIView *view = [ThirtView creatViewWithIconArray:imageArray andNameArray:nameArray andSection:section andColor:[UIColor grayColor]];
+        view.backgroundColor = kWhiteColor;
         view.tag = section;
         
         view.userInteractionEnabled = YES;
@@ -214,49 +210,27 @@
     
     
     if (indexPath.section == 1 && indexPath.row == 0) {
-        static NSString *cellId1 = @"1";
-        BingJingShouMingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId1];
-        if (cell == nil) {
-            cell = [[BingJingShouMingTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId1
-                    ];
-        }
-        
+        BingJingShouMingTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:bingJing];
         cell.serviceModel = self.serviceModel;
-        [cell setUIbuJuWithNowUesrTime:self.serviceDataModel.iceCrystalTime andViewController:self];
+        cell.alertVC = self;
+        cell.cellType = CellTypeBingJing;
+        cell.nowUserTime = self.stateModel.sChangeFilterScreen;
         return cell;
-    }  if (indexPath.section == 2 && indexPath.row == 0) {
-        static NSString *cellId2 = @"2";
-        ShuiWeiZhuangTaiTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId2];
-        if (cell == nil) {
-            cell = [[ShuiWeiZhuangTaiTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId2
-                    ];
-        }
-        
+    } else if (indexPath.section == 2 && indexPath.row == 0) {
+        ShuiWeiZhuangTaiTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:water];
         cell.serviceModel = self.serviceModel;
-        [cell setUIBuJuWith:self.serviceDataModel.waterStateTime andSumShuiWei:kLengFengShanShuiWei andImage:[UIImage imageNamed:@"shuiWei1.png"] andViewController:self];
+        cell.alertVC = self;
+        cell.cellType = CellTypeShuiWei;
+        cell.userWaterData = self.serviceDataModel.waterStateTime;
         return cell;
-    } if (indexPath.section == 3 && indexPath.row == 0) {
-        static NSString *cellId3 = @"3";
-        LvWangJieDuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId3];
-        if (cell == nil) {
-            cell = [[LvWangJieDuTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId3
-                    ];
-        }
-        
+    } else  {
+        LvWangJieDuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:lvWang];
         cell.serviceModel = self.serviceModel;
-        NSInteger i = self.serviceDataModel.totalTime / ((NSInteger)kLengFengShanSumLvWang * 3600000);
-        
-        [cell setZhiZhenView:i andViewController:self];
-        return cell;
-    } else {
-        NSString *celled = @"ceclled";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:celled];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:celled];
-        }
+        cell.alertVC = self;
+        cell.cellType = CellTypeLvWang;
+        cell.totalTime = self.serviceDataModel.totalTime;
         return cell;
     }
-    
 }
 
 #pragma mark - 取消cell的选中状态

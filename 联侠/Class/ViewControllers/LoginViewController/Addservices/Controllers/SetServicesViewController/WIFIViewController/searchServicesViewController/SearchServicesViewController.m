@@ -19,7 +19,7 @@
 #import "ESPTouchDelegate.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 
-@interface SearchServicesViewController ()<AsyncUdpSocketDelegate , HelpFunctionDelegate>
+@interface SearchServicesViewController ()<AsyncUdpSocketDelegate>
 @property (atomic, strong) ESPTouchTask *_esptouchTask;
 @property (nonatomic, strong) NSCondition *_condition;
 
@@ -252,7 +252,25 @@
             }
             
             NSLog(@"%@" , parames);
-            [HelpFunction requestDataWithUrlString:self.addServiceModel.bindUrl andParames:parames andDelegate:self];
+            [kNetWork requestPOSTUrlString:self.addServiceModel.bindUrl parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+                
+                _processView.percent = 1.00;
+                [_progressTimer invalidate];
+                _progressTimer = nil;
+                NSLog(@"%@" , responseObject);
+                
+                if ([responseObject[@"state"] integerValue] == 0) {
+                    [self determineAndBindTheDevice];
+                } else if ([responseObject[@"state"] integerValue] == 2 ) {
+                    [UIAlertController creatRightAlertControllerWithHandle:^{
+                        [self determineAndBindTheDevice];
+                    } andSuperViewController:self Title:@"此设备已绑定"];
+                    
+                } else if ([responseObject[@"state"] integerValue] == 1){
+                    [self addFailAlert];
+                }
+            } failure:nil];
+            
             [_progressTimer setFireDate:[NSDate distantPast]];
             
         } else {
@@ -276,34 +294,6 @@
     }
     
     return YES;
-}
-
-
-#pragma mark - 代理反馈
-- (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
-    
-    _processView.percent = 1.00;
-    
-    [_progressTimer invalidate];
-    _progressTimer = nil;
-    
-    NSDictionary *dic = data[0];
-    NSLog(@"%@" , dic);
-    
-    if ([dic[@"state"] integerValue] == 0) {
-        [self determineAndBindTheDevice];
-    } else if ([dic[@"state"] integerValue] == 2 ) {
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self determineAndBindTheDevice];
-        } andSuperViewController:self Title:@"此设备已绑定"];
-        
-    } else if ([dic[@"state"] integerValue] == 1){
-        [self addFailAlert];
-    }
-}
-
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    [self addFailAlert];
 }
 
 #pragma mark - 绑定设备失败

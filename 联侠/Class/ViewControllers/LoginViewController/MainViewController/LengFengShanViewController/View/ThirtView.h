@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ThirtView : UIView
-+ (UIView *)creatViewWithIconArray:(NSArray *)imageArray andNameArray:(NSArray *)nameArray andSection:(NSInteger)section;
++ (UIView *)creatViewWithIconArray:(NSArray *)imageArray andNameArray:(NSArray *)nameArray andSection:(NSInteger)section andColor:(UIColor *)color;
 
 @end

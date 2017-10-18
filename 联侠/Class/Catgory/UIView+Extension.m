@@ -194,28 +194,25 @@
 //    self.frame = frame;
 //}
 
-+ (UIView *)creatViewWithBackView:(UIImage *)iamge andSuperView:(UIView *)superView{
++ (UIView *)creatViewWithFrame:(CGSize)size image:(UIImage *)iamge andSuperView:(UIView *)superView {
     
-    UIView *bigView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenH / 13, kScreenH / 13)];
+    UIView *bigView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     bigView.backgroundColor = [UIColor clearColor];
     [superView addSubview:bigView];
     bigView.userInteractionEnabled = YES;
     
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenH / 31.7619, kScreenH / 31.7619)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0,bigView.width / 2, bigView.width / 2)];
     [bigView addSubview:view];
-
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenH / 31.7619, kScreenH / 31.7619));
+        make.size.mas_equalTo(CGSizeMake(bigView.width / 2, bigView.width / 2));
         make.centerY.mas_equalTo(bigView.mas_centerY);
         make.centerX.mas_equalTo(bigView.mas_centerX);
     }];
-    
     view.backgroundColor = [UIColor blackColor];
     view.layer.cornerRadius = view.height / 2;
     view.layer.masksToBounds = YES;
     view.layer.opacity = 0.5;
-//    view.userInteractionEnabled = YES;
     
     UIImageView *imageVIew = [[UIImageView alloc]initWithImage:iamge];
     [bigView addSubview:imageVIew];
@@ -224,12 +221,8 @@
         make.centerX.mas_equalTo(view.mas_centerX);
         make.centerY.mas_equalTo(view.mas_centerY);
     }];
-//    imageVIew.userInteractionEnabled = YES;
-    imageVIew.image = [imageVIew.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    imageVIew.tintColor = [UIColor whiteColor];
-    
+    [UIImageView setImageViewColor:imageVIew andColor:kWhiteColor];
     return bigView;
-    
 }
 
 + (UIView *)creatViewWithBackViewandTitle:(NSString *)text andSuperView:(UIView *)superView{
@@ -259,8 +252,6 @@
     [superView addSubview:view];
     view.backgroundColor = [UIColor clearColor];
     
-    
-    
     UIView *xiaHuaXian2 = [[UIView alloc]init];
     [view addSubview:xiaHuaXian2];
     xiaHuaXian2.backgroundColor = [UIColor lightGrayColor];
@@ -272,18 +263,18 @@
     
     
     UILabel *nameLabel = [UILabel creatLableWithTitle:lableText andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentLeft];
-    nameLabel.layer.borderWidth = 0;
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW / 7.2, kScreenW / 10));
         make.left.mas_equalTo(xiaHuaXian2.mas_left);
         make.bottom.mas_equalTo(xiaHuaXian2.mas_top);
     }];
-    
+
     
     UITextField *textFiled = [UITextField creatTextfiledWithPlaceHolder:placeHolder andSuperView:view];
+    CGFloat width = kStandardW - [nameLabel contentSize].width - kStandardW / 25;
     [textFiled mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW - kStandardW / 7.2 - kStandardW / 25 , kScreenW / 10));
-        make.left.mas_equalTo(nameLabel.mas_right).offset(kStandardW / 25);
+        make.size.mas_equalTo(CGSizeMake(width, kScreenW / 10));
+        make.left.mas_equalTo(nameLabel.mas_right)
+        .offset(kStandardW / 25);
         make.centerY.mas_equalTo(nameLabel.mas_centerY);
     }];
     textFiled.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -307,7 +298,7 @@
     }];
     
     
-    UIView *backView = [UIView creatViewWithBackView:[UIImage imageNamed:@"iconfont-fanhui"] andSuperView:navView];
+    UIView *backView = [UIView creatViewWithFrame:CGSizeMake(kNavibarH  * 4 / 5, kNavibarH * 4 / 5) image:[UIImage imageNamed:@"iconfont-fanhui"] andSuperView:navView];
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kScreenW / 30);
         make.centerY.mas_equalTo(navView.mas_centerY);

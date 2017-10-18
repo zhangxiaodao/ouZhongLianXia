@@ -8,15 +8,16 @@
 
 #import "DingShiYuYueCell.h"
 #import "AFNetworking.h"
-@interface DingShiYuYueCell ()<UIPickerViewDataSource , UIPickerViewDelegate , HelpFunctionDelegate>
+#import "CustomPickerView.h"
+@interface DingShiYuYueCell ()<UIPickerViewDataSource , UIPickerViewDelegate , HelpFunctionDelegate , CustomPickerViewDelegate>
 
 @property (nonatomic , strong) UIImageView *sureView;
 @property (nonatomic , strong) UIImageView *sureImage;
 
-@property (nonatomic , strong) UIView *firstPickView;
-@property (nonatomic , strong) UIView *secondPickView;
-@property (nonatomic , strong) UIView *thirtPickView;
-@property (nonatomic , strong) UIView *forthPickView;
+@property (nonatomic , strong) CustomPickerView *firstPickView;
+@property (nonatomic , strong) CustomPickerView *secondPickView;
+@property (nonatomic , strong) CustomPickerView *thirtPickView;
+@property (nonatomic , strong) CustomPickerView *forthPickView;
 
 
 @property (nonatomic , strong) NSMutableArray *hourArray;
@@ -27,27 +28,52 @@
 @property (nonatomic , strong) NSMutableDictionary *dic;
 
 
-@property (nonatomic , strong) UILabel *timeLable;
+@property (nonatomic , strong) UILabel *openTimeLabel;
 @property (nonatomic , retain) UILabel *modelLable;
 @property (nonatomic , retain) UILabel *windLable;
-@property (nonatomic , retain) UILabel *time1Lable;
-@property (nonatomic , retain) UILabel *maxTimeLable;
-@property (nonatomic , strong) UIButton *queDingBtn;
-@property (nonatomic  ,strong) UIButton *queDingBtn1;
+@property (nonatomic , retain) UILabel *closeTimeLabel;
+@property (nonatomic , retain) UILabel *maxopenTimeLabel;
+@property (nonatomic , strong) UIButton *openBtn;
+@property (nonatomic  ,strong) UIButton *closeBtn;
 
 @property (nonatomic  ,strong) UIView *pickerBgView;
 @property (nonatomic , strong) UIPickerView *myPicker;
 @property (strong, nonatomic) UIView *maskView;
 @property (nonatomic , strong) NSMutableArray *btnArray;
+@property (nonatomic , strong) NSArray *keysArray;
 @end
 
 @implementation DingShiYuYueCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self creatPickViewData];
         
-        [self setUI];
+//        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 2 + kScreenW / 10 + 30)];
+//        view.backgroundColor = [UIColor clearColor];
+//        [self.contentView addSubview:view];
+//
+//        UILabel *offLable = [UILabel creatLableWithTitle:@"开启设定" andSuperView:view andFont:k20 andTextAligment:NSTextAlignmentCenter];
+//        offLable.textColor = [UIColor whiteColor];
+//        [offLable mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.mas_equalTo(kScreenW / 5.8);
+//            make.top.mas_equalTo(view.mas_top)
+//            .offset(10);
+//        }];
+//
+//        UILabel *openTimeLabel = [UILabel creatLableWithTitle:@"00:00" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentCenter];
+//        openTimeLabel.textColor = [UIColor whiteColor];
+//        openTimeLabel.userInteractionEnabled = YES;
+//        [openTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.mas_equalTo(view.mas_right).offset(-kScreenW / 5.8);
+//            make.centerY.mas_equalTo(offLable.mas_centerY);
+//        }];
+//        UITapGestureRecognizer *timeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAtcion:)];
+//        [openTimeLabel addGestureRecognizer:timeTap];
+//        self.openTimeLabel = openTimeLabel;
+        
+        [self setupUI];
+        
+//        [self dic];
         
     }
     return self;
@@ -56,260 +82,199 @@
 
 
 #pragma mark - 设置UI界面
-- (void)setUI{
-    self.dic =  [[kStanderDefault objectForKey:@"data"] mutableCopy];
-    NSLog(@"%@" , self.dic);
+- (void)setupUI{
+  
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 2 )];
+    view.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:view];
     
-    UILabel *offLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"开启设定"] andSuperView:self.contentView andFont:k20 andTextAligment:NSTextAlignmentCenter];
-    offLable.backgroundColor = [UIColor clearColor];
-    offLable.layer.borderWidth = 0;
+    UILabel *offLable = [UILabel creatLableWithTitle:@"开启设定" andSuperView:view andFont:k20 andTextAligment:NSTextAlignmentCenter];
     offLable.textColor = [UIColor whiteColor];
     [offLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4.6875, kScreenH / 22.23333));
-        make.left.mas_equalTo(kScreenW / 5.76923);
-        make.top.mas_equalTo(self.contentView.mas_top).offset(10);
+        make.left.mas_equalTo(kScreenW / 5.8);
+        make.top.mas_equalTo(view.mas_top)
+        .offset(10);
     }];
     
-    self.timeLable = [UILabel creatLableWithTitle:[NSString  stringWithFormat:@"%@" , self.dic[@"timeLable"] ] andSuperView:self.contentView andFont:k16 andTextAligment:NSTextAlignmentCenter];
-    self.timeLable.textColor = [UIColor whiteColor];
-    self.timeLable.backgroundColor = [UIColor clearColor];
-    self.timeLable.tag = 2;
-    self.timeLable.userInteractionEnabled = YES;
-    [self.timeLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4.6875, kScreenH / 22.23333));
-        make.left.mas_equalTo(offLable.mas_right).offset(kScreenW / 4.16666);
+    UILabel *openTimeLabel = [UILabel creatLableWithTitle:@"00:00" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentCenter];
+    openTimeLabel.textColor = [UIColor whiteColor];
+    openTimeLabel.userInteractionEnabled = YES;
+    [openTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(view.mas_right).offset(-kScreenW / 5.8);
         make.centerY.mas_equalTo(offLable.mas_centerY);
     }];
     UITapGestureRecognizer *timeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAtcion:)];
-    [self.timeLable addGestureRecognizer:timeTap];
+    [openTimeLabel addGestureRecognizer:timeTap];
+    self.openTimeLabel = openTimeLabel;
     
-    self.queDingBtn = [UIButton initWithTitle:@"" andColor:[UIColor clearColor] andSuperView:self.contentView];
-    self.queDingBtn.layer.borderColor = [UIColor whiteColor].CGColor;
-    //    self.queDingBtn.tag = 1;
-    [self.queDingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.contentView.mas_right).offset(- (kScreenW / 5.76923) / 2);
-        make.centerY.mas_equalTo(self.timeLable.mas_bottom).offset(kScreenH / 66.7 );
+    self.openBtn = [UIButton initWithTitle:@"" andColor:[UIColor clearColor] andSuperView:view];
+    self.openBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+    [self.openBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(view.mas_right)
+        .offset(- (kScreenW / 5.8) / 2);
+        make.centerY
+        .mas_equalTo(self.openTimeLabel.mas_bottom)
+        .offset(kScreenH / 66.7 );
         make.size.mas_equalTo(CGSizeMake(kScreenW / 20, kScreenW / 20));
     }];
-    self.queDingBtn.layer.cornerRadius = kScreenW / 40;
-    self.queDingBtn.layer.borderWidth = 1;
-    if ([[self.dic objectForKey:@"queDingBtn"] integerValue] == 0) {
-        [self.queDingBtn setImage:[UIImage new] forState:UIControlStateNormal];
-        [self.queDingBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-        [self.queDingBtn addTarget:self action:@selector(queDingBtn1Atcion:) forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        [self.queDingBtn setImage:[UIImage imageNamed:@"iconfont-gougou"] forState:UIControlStateNormal];
-        [self.queDingBtn setTintColor:[UIColor clearColor]];
-        [self.queDingBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-        [self.queDingBtn addTarget:self action:@selector(queDingBtn1AgainAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    
-    self.modelLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" , self.dic[@"model"]] andSuperView:self.contentView andFont:k16 andTextAligment:NSTextAlignmentCenter];
+    self.openBtn.layer.cornerRadius = kScreenW / 40;
+    self.openBtn.layer.borderWidth = 1;
+
+    self.modelLable = [UILabel creatLableWithTitle:@"模式未选" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentCenter];
     self.modelLable.textColor = [UIColor whiteColor];
-    self.modelLable.tag = 3;
     self.modelLable.userInteractionEnabled = YES;
-    self.modelLable.backgroundColor = [UIColor clearColor];
     [self.modelLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4.6875, kScreenH / 22.23333));
-        make.left.mas_equalTo(kScreenW / 5.76923);
-        make.top.mas_equalTo(offLable.mas_bottom).offset(kScreenH / 33.35);
+        make.centerX.mas_equalTo(offLable.mas_centerX);
+        make.top.mas_equalTo(offLable.mas_bottom)
+        .offset(kScreenH / 33.35);
     }];
     UITapGestureRecognizer *modelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAtcion:)];
     [self.modelLable addGestureRecognizer:modelTap];
-    
-    
-    self.windLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" , self.dic[@"wind"]] andSuperView:self.contentView andFont:k16 andTextAligment:NSTextAlignmentCenter];
+
+    self.windLable = [UILabel creatLableWithTitle:@"风速未选" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentCenter];
     self.windLable.textColor = [UIColor whiteColor];
-    self.windLable.backgroundColor = [UIColor clearColor];
-    self.windLable.tag = 4;
     self.windLable.userInteractionEnabled = YES;
     [self.windLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4.6875, kScreenH / 22.23333));
-        make.left.mas_equalTo(self.modelLable.mas_right).offset(kScreenW / 4.16666);
+        make.centerX
+        .mas_equalTo(self.openTimeLabel.mas_centerX);
         make.centerY.mas_equalTo(self.modelLable.mas_centerY);
     }];
     UITapGestureRecognizer *windTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAtcion:)];
     [self.windLable addGestureRecognizer:windTap];
-    
-    
-    
-    
+
     UIView *fenGeView = [[UIView alloc]init];
     fenGeView.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:fenGeView];
+    [view addSubview:fenGeView];
     [fenGeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 10.7142);
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 10.7142, 1));
-        make.top.mas_equalTo(self.windLable.mas_bottom).offset(kScreenH / 33.35);
+        make.centerX
+        .mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW / 5, 1));
+        make.top.mas_equalTo(self.windLable.mas_bottom)
+        .offset(kScreenH / 33.35);
     }];
-    
-    UILabel *onLable = [UILabel creatLableWithTitle:@"关闭设定" andSuperView:self.contentView andFont:k20 andTextAligment:NSTextAlignmentCenter];
-    onLable.layer.borderWidth = 0;
+
+    UILabel *onLable = [UILabel creatLableWithTitle:@"关闭设定" andSuperView:view andFont:k20 andTextAligment:NSTextAlignmentCenter];
     onLable.textColor = [UIColor whiteColor];
-    onLable.backgroundColor = [UIColor clearColor];
-    
     [onLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4.6875, kScreenH / 22.23333));
-        make.left.mas_equalTo(kScreenW / 5.76923);
-        make.top.mas_equalTo(fenGeView.mas_top).offset(kScreenH / 33.35);
+        make.centerX.mas_equalTo(offLable.mas_centerX);
+        make.top.mas_equalTo(fenGeView.mas_top)
+        .offset(kScreenH / 33.35);
     }];
-    
-    self.time1Lable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" ,  self.dic[@"time1Lable"]] andSuperView:self.contentView andFont:k16 andTextAligment:NSTextAlignmentCenter];
-    self.time1Lable.textColor = [UIColor whiteColor];
-    self.time1Lable.backgroundColor = [UIColor clearColor];
-    self.time1Lable.tag = 6;
-    self.time1Lable.userInteractionEnabled = YES;
-    [self.time1Lable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4.6875, kScreenW / 12));
-        make.left.mas_equalTo(onLable.mas_right).offset(kScreenW / 4.16666);
+
+    self.closeTimeLabel = [UILabel creatLableWithTitle:@"00:00" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentCenter];
+    self.closeTimeLabel.textColor = [UIColor whiteColor];
+    self.closeTimeLabel.userInteractionEnabled = YES;
+    [self.closeTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX
+        .mas_equalTo(self.openTimeLabel.mas_centerX);
         make.centerY.mas_equalTo(onLable.mas_centerY);
     }];
     UITapGestureRecognizer *time1Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAtcion:)];
-    [self.time1Lable addGestureRecognizer:time1Tap];
-    
-    
-    self.queDingBtn1 = [UIButton initWithTitle:@"" andColor:[UIColor clearColor] andSuperView:self.contentView];
-    self.queDingBtn1.layer.borderColor = [UIColor whiteColor].CGColor;
-    //    self.queDingBtn1.tag = 2;
-    [self.queDingBtn1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.queDingBtn.mas_centerX);
-        make.centerY.mas_equalTo(self.time1Lable.mas_centerY);
+    [self.closeTimeLabel addGestureRecognizer:time1Tap];
+
+
+    self.closeBtn = [UIButton initWithTitle:@"" andColor:[UIColor clearColor] andSuperView:view];
+    self.closeBtn.layer.borderColor = [UIColor whiteColor].CGColor;
+    [self.closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.openBtn.mas_centerX);
+        make.centerY
+        .mas_equalTo(self.closeTimeLabel.mas_centerY);
         make.size.mas_equalTo(CGSizeMake(kScreenW / 20, kScreenW / 20));
     }];
-    self.queDingBtn1.layer.cornerRadius = kScreenW / 40;
-    self.queDingBtn1.layer.borderWidth = 1;
-    if ([[self.dic objectForKey:@"queDingBtn1"] integerValue] == 0) {
-        [self.queDingBtn1 setImage:[UIImage new] forState:UIControlStateNormal];
-        [self.queDingBtn1 removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-        [self.queDingBtn1 addTarget:self action:@selector(queDingBtn1Atcion:) forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        [self.queDingBtn1 setImage:[UIImage imageNamed:@"iconfont-gougou"] forState:UIControlStateNormal];
-        [self.queDingBtn1 setTintColor:[UIColor clearColor]];
-        [self.queDingBtn1 removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-        [self.queDingBtn1 addTarget:self action:@selector(queDingBtn1AgainAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    
-    
+    self.closeBtn.layer.cornerRadius = kScreenW / 40;
+    self.closeBtn.layer.borderWidth = 1;
+
     UIView *fenGeView1 = [[UIView alloc]init];
     fenGeView1.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:fenGeView1];
+    [view addSubview:fenGeView1];
     [fenGeView1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 10.7142);
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 10.7142, 1));
-        make.top.mas_equalTo(self.time1Lable.mas_bottom).offset(kScreenH / 33.35);
+        make.centerX
+        .mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW / 5, 1));
+        make.top
+        .mas_equalTo(self.closeTimeLabel.mas_bottom).offset(kScreenH / 33.35);
     }];
-    
-    
-    UILabel *maxOnLable = [UILabel creatLableWithTitle:@"设定最大开启时间" andSuperView:self.contentView andFont:k20 andTextAligment:NSTextAlignmentCenter];
-    maxOnLable.layer.borderWidth = 0;
+
+    UILabel *maxOnLable = [UILabel creatLableWithTitle:@"设定最大开启时间" andSuperView:view andFont:k20 andTextAligment:NSTextAlignmentCenter];
     maxOnLable.textColor = [UIColor whiteColor];
-    maxOnLable.backgroundColor = [UIColor clearColor];
     [maxOnLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 2.34375, kScreenW / 12));
-        make.left.mas_equalTo(kScreenW / 5.76923);
-        make.top.mas_equalTo(fenGeView1.mas_top).offset(kScreenH / 33.35);
+        make.left.mas_equalTo(onLable.mas_left);
+        make.top.mas_equalTo(fenGeView1.mas_top)
+        .offset(kScreenH / 33.35);
     }];
-    
-    
-    self.maxTimeLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" , self.dic[@"maxTimeLable"]] andSuperView:self.contentView andFont:k16 andTextAligment:NSTextAlignmentCenter];
-    self.maxTimeLable.textColor = [UIColor whiteColor];
-    self.maxTimeLable.backgroundColor = [UIColor clearColor];
-    self.maxTimeLable.tag = 8;
-    self.maxTimeLable.userInteractionEnabled = YES;
-    [self.maxTimeLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 13.5, kScreenW / 12));
+
+    self.maxopenTimeLabel = [UILabel creatLableWithTitle:@"00" andSuperView:view andFont:k16 andTextAligment:NSTextAlignmentCenter];
+    self.maxopenTimeLabel.textColor = [UIColor whiteColor];
+    self.maxopenTimeLabel.userInteractionEnabled = YES;
+    [self.maxopenTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(maxOnLable.mas_right).offset(5);
         make.centerY.mas_equalTo(maxOnLable.mas_centerY);
     }];
     UITapGestureRecognizer *maxTimeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAtcion:)];
-    [self.maxTimeLable addGestureRecognizer:maxTimeTap];
-    
-    UILabel *xiaoShiLable = [UILabel creatLableWithTitle:@"小时" andSuperView:self.contentView andFont:k20 andTextAligment:NSTextAlignmentCenter];
-    xiaoShiLable.layer.borderWidth = 0;
+    [self.maxopenTimeLabel addGestureRecognizer:maxTimeTap];
+
+    UILabel *xiaoShiLable = [UILabel creatLableWithTitle:@"小时" andSuperView:view andFont:k20 andTextAligment:NSTextAlignmentCenter];
     xiaoShiLable.textColor = [UIColor whiteColor];
     [xiaoShiLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.maxTimeLable.mas_right).offset(5);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 8, kScreenW / 12));
+        make.left
+        .mas_equalTo(self.maxopenTimeLabel.mas_right).offset(5);
         make.centerY.mas_equalTo(maxOnLable.mas_centerY);
     }];
-    
-    UILabel *wenHaoLable = [UILabel creatLableWithTitle:@"?" andSuperView:self.contentView andFont:k15 andTextAligment:NSTextAlignmentCenter];
-    wenHaoLable.layer.borderWidth = 1;
-    wenHaoLable.layer.borderColor = [UIColor whiteColor].CGColor;
+
+    UILabel *wenHaoLable = [UILabel creatLableWithTitle:@"?" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     wenHaoLable.textColor = [UIColor whiteColor];
-    wenHaoLable.backgroundColor = [UIColor clearColor];
-    wenHaoLable.userInteractionEnabled = YES;
-    wenHaoLable.layer.cornerRadius = kScreenW / 40;
-    wenHaoLable.layer.masksToBounds = YES;
-    
     [wenHaoLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 20, kScreenW / 20));
-        make.left.mas_equalTo(xiaoShiLable.mas_right).offset(5);
+        make.left.mas_equalTo(xiaoShiLable.mas_right)
+        .offset(5);
         make.centerY.mas_equalTo(xiaoShiLable.mas_centerY);
     }];
-    
+    wenHaoLable.userInteractionEnabled = YES;
     UITapGestureRecognizer *wenHaoTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(wenHaoAtcion:)];
     [wenHaoLable addGestureRecognizer:wenHaoTap];
-    
-    
+    wenHaoLable.layer.borderWidth = 1;
+    wenHaoLable.layer.borderColor = [UIColor whiteColor].CGColor;
+    wenHaoLable.layer.cornerRadius = kScreenW / 40;
+    wenHaoLable.layer.masksToBounds = YES;
+
     UIView *fenGeView2 = [[UIView alloc]init];
     fenGeView2.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:fenGeView2];
+    [view addSubview:fenGeView2];
     [fenGeView2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(kScreenW / 10.7142);
-        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 10.7142, 1));
-        make.top.mas_equalTo(maxOnLable.mas_bottom).offset(kScreenH / 33.35);
+        make.centerX
+        .mas_equalTo(view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW / 5, 1));
+        make.top.mas_equalTo(maxOnLable.mas_bottom)
+        .offset(kScreenH / 33.35);
     }];
-    
+
     UIButton *leftBtn = nil;
     UIButton *rightBtn = nil;
-    NSArray *array = [NSArray arrayWithObjects:@"一", @"二" , @"三" , @"四" , @"五" , @"六" , @"日", nil];
-    for (int i = 0; i < 7; i++) {
-        UIButton *btn = [UIButton initWithTitle:[NSString stringWithFormat:@"%@" , array[i]] andColor:[UIColor clearColor] andSuperView:self.contentView];
+    NSArray *array = @[@"一", @"二" , @"三" , @"四" , @"五" , @"六" , @"日"];
+
+    for (int i = 0; i < array.count; i++) {
+        UIButton *btn = [UIButton initWithTitle:[NSString stringWithFormat:@"%@" , array[i]] andColor:[UIColor clearColor] andSuperView:view];
         btn.tag = i;
         btn.layer.cornerRadius = 0;
         btn.layer.borderWidth = 1;
-        
         btn.layer.borderColor = [UIColor whiteColor].CGColor;
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(kScreenW  / 9.375 + i * ((kScreenW - kScreenW * 2 / 9.375) / 7 - 1)) ;
             make.size.mas_equalTo(CGSizeMake((kScreenW - kScreenW * 2 / 9.375) / 7, (kScreenW - kScreenW * 2 / 9.375) / 7));
-            make.top.mas_equalTo(fenGeView2.mas_top).offset(kScreenH / 33.35);
+            make.top.mas_equalTo(fenGeView2.mas_top)
+            .offset(kScreenH / 33.35);
         }];
-        
-        if (btn.tag == 0) {
-            if ([[self.dic objectForKey:@"yi"] isEqualToString:@"1"]) {
-                btn.selected = YES;
-            }
+
+        if (i == 0) {
             leftBtn = btn;
-        } else if (btn.tag == 1) {
-            if ([[self.dic objectForKey:@"er"] isEqualToString:@"1"]) {
-                btn.selected = YES;
-            }
-        } else if (btn.tag == 2) {
-            if ([[self.dic objectForKey:@"san"] isEqualToString:@"1"]) {
-                btn.selected = YES;
-            }
-        } else if (btn.tag == 3) {
-            if ([[self.dic objectForKey:@"si"] isEqualToString:@"1"]) {
-                btn.selected = YES;
-            }
-        } else if (btn.tag == 4) {
-            if ([[self.dic objectForKey:@"wu"] isEqualToString:@"1"]) {
-                btn.selected = YES;
-            }
-        } else if (btn.tag == 5) {
-            if ([[self.dic objectForKey:@"liu"] isEqualToString:@"1"]) {
-                btn.selected = YES;
-            }
-        } else if (btn.tag == 6) {
-            if ([[self.dic objectForKey:@"qi"] isEqualToString:@"1"]) {
-                btn.selected = YES;
-            }
+        } else if (i == 6) {
             rightBtn = btn;
         }
-        
+
+        if ([self.dic[self.keysArray[i]] isEqualToString:@"1"]) {
+            btn.selected = YES;
+        }
+
         if (btn.selected == YES) {
             btn.backgroundColor = [UIColor clearColor];
             [btn setTitleColor:kMainColor forState:UIControlStateNormal];
@@ -319,104 +284,67 @@
             btn.backgroundColor = [UIColor clearColor];
             [btn addTarget:self action:@selector(btnAtcion:) forControlEvents:UIControlEventTouchUpInside];
         }
-        
+
         [self.btnArray addObject:btn];
     }
-    
-    UIButton *cancleBtn = [UIButton initWithTitle:@"重置" andColor:kMainColor andSuperView:self.contentView];
-    [cancleBtn addTarget:self action:@selector(chongZhiAction:) forControlEvents:UIControlEventTouchUpInside];
+
+    UIButton *cancleBtn = [UIButton initWithTitle:@"重置" andColor:kMainColor andSuperView:view];
+    [cancleBtn addTarget:self action:@selector(chongZhiAction) forControlEvents:UIControlEventTouchUpInside];
     [cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kScreenW / 2 - 40) / 2, kScreenW / 10));
         make.left.mas_equalTo(leftBtn.mas_left);
-        make.top.mas_equalTo(leftBtn.mas_bottom).offset(10);
+        make.top.mas_equalTo(leftBtn.mas_bottom)
+        .offset(kScreenH / 33.35);
     }];
-    
-    
-    UIButton *doneBtn = [UIButton initWithTitle:@"确定" andColor:kMainColor andSuperView:self.contentView];
-    doneBtn.tag = 33;
-    [doneBtn addTarget:self action:@selector(queDingBtn1Atcion:) forControlEvents:UIControlEventTouchUpInside];
+
+    UIButton *doneBtn = [UIButton initWithTitle:@"确定" andColor:kMainColor andSuperView:view];
+    [doneBtn addTarget:self action:@selector(closeBtnAtcion:) forControlEvents:UIControlEventTouchUpInside];
     [doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kScreenW / 2 - 40) / 2, kScreenW / 10));
         make.right.mas_equalTo(rightBtn.mas_right);
-        make.top.mas_equalTo(rightBtn.mas_bottom).offset(10);
+        make.top.mas_equalTo(rightBtn.mas_bottom)
+        .offset(kScreenH / 33.35);
     }];
-    
-    [cancleBtn setBackgroundImage:[self imageWithColor:[UIColor colorWithRed:218/255.0 green:235/255.0 blue:254/255.0 alpha:1.0]] forState:UIControlStateHighlighted];
-    [doneBtn setBackgroundImage:[self imageWithColor:[UIColor colorWithRed:218/255.0 green:235/255.0 blue:254/255.0 alpha:1.0]] forState:UIControlStateHighlighted];
-    
-    if ([self.dic objectForKey:@"timeLable"] == nil) {
-        self.timeLable.text = @"00:00";
-    }  if ([self.dic objectForKey:@"model"] == nil) {
-        self.modelLable.text = @"模式未选";
-    }  if ([self.dic objectForKey:@"wind"] == nil) {
-        self.windLable.text = @"风速未选";
-    }  if ([self.dic objectForKey:@"time1Lable"] == nil) {
-        self.time1Lable.text = @"00:00";
-    }  if ([self.dic objectForKey:@"maxTimeLable"] == nil) {
-        self.maxTimeLable.text = @"00";
-    }
-    
-    
-    if (self.queDingBtn.imageView.image.size.width == 0) {
-        self.queDingBtn.tag = 0;
-    } else {
-        self.queDingBtn.tag = 1;
-    }
-    
-    if (self.queDingBtn1.imageView.image.size.width == 0) {
-        self.queDingBtn1.tag = 0;
-    } else {
-        self.queDingBtn1.tag = 1;
-    }
-}
+    doneBtn.tag = 33;
 
+    [cancleBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:218/255.0 green:235/255.0 blue:254/255.0 alpha:1.0]] forState:UIControlStateHighlighted];
+    [doneBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithRed:218/255.0 green:235/255.0 blue:254/255.0 alpha:1.0]] forState:UIControlStateHighlighted];
 
-/**
- *  颜色转换为图片
- *
- *
- */
-- (UIImage *)imageWithColor:(UIColor *)color {
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return image;
+    self.openTimeLabel.tag = 2;
+    self.modelLable.tag = 3;
+    self.windLable.tag = 4;
+    self.closeTimeLabel.tag = 6;
+    self.maxopenTimeLabel.tag = 7;
+
+    if (self.openBtn.imageView.image.size.width == 0) {
+        self.openBtn.tag = 0;
+    } else {
+        self.openBtn.tag = 1;
+    }
+
+    if (self.closeBtn.imageView.image.size.width == 0) {
+        self.closeBtn.tag = 0;
+    } else {
+        self.closeBtn.tag = 1;
+    }
 }
 
 #pragma mark - 充值数据
-- (void)chongZhiAction:(UIButton *)btn {
+- (void)chongZhiAction {
     
     [self.dic removeAllObjects];
     [kStanderDefault removeObjectForKey:@"data"];
-    //    NSArray *array = [NSArray arrayWithArray:self.contentView.subviews];
-    //    for (int i = 0; i < array.count; i++) {
-    //        [array[i] removeFromSuperview];
-    //    }
-    //
-    //    [self setUI];
     
-    self.timeLable.text = @"00:00";
+    self.openTimeLabel.text = @"00:00";
     self.modelLable.text = @"模式未选";
     self.windLable.text = @"风速未选";
-    self.time1Lable.text = @"00:00";
-    self.maxTimeLable.text = @"00";
+    self.closeTimeLabel.text = @"00:00";
+    self.maxopenTimeLabel.text = @"00";
     
+    [UIButton btn:self.openBtn removeAtcion:@selector(closeBtnAgainAtcion:) addAtcion:@selector(closeBtnAtcion:) target:self image:[UIImage new]];
     
-    [self.queDingBtn setImage:[UIImage new] forState:UIControlStateNormal];
-    [self.queDingBtn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-    [self.queDingBtn addTarget:self action:@selector(queDingBtn1Atcion:) forControlEvents:UIControlEventTouchUpInside];
+    [UIButton btn:self.closeBtn removeAtcion:@selector(closeBtnAgainAtcion:) addAtcion:@selector(closeBtnAtcion:) target:self image:[UIImage new]];
     
-    
-    [self.queDingBtn1 setImage:[UIImage new] forState:UIControlStateNormal];
-    [self.queDingBtn1 removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-    [self.queDingBtn1 addTarget:self action:@selector(queDingBtn1Atcion:) forControlEvents:UIControlEventTouchUpInside];
     
     for (int i = 0; i < 7; i++) {
         UIButton *btn = self.btnArray[i];
@@ -429,22 +357,20 @@
 
 
 #pragma mark - 设定确认按钮点击事件
-- (void)queDingBtn1Atcion:(UIButton *)btn {
-    //    btn.backgroundColor = [UIColor clearColor];
-    
+- (void)closeBtnAtcion:(UIButton *)btn {
     if (btn.tag != 33) {
         
         [btn setImage:[UIImage imageNamed:@"iconfont-gougou"] forState:UIControlStateNormal];
         [btn setTintColor:[UIColor clearColor]];
     }
-    if ([btn isEqual:self.queDingBtn]) {
-        self.queDingBtn.tag = 1;
-    } else if ([btn isEqual:self.queDingBtn1]){
-        self.queDingBtn1.tag = 1;
+    if ([btn isEqual:self.openBtn]) {
+        self.openBtn.tag = 1;
+    } else if ([btn isEqual:self.closeBtn]){
+        self.closeBtn.tag = 1;
     }
     
-    [self.dic setObject:@(self.queDingBtn.tag) forKey:@"queDingBtn"];
-    [self.dic setObject:@(self.queDingBtn1.tag) forKey:@"queDingBtn1"];
+    [self.dic setObject:@(self.openBtn.tag) forKey:@"openBtn"];
+    [self.dic setObject:@(self.closeBtn.tag) forKey:@"closeBtn"];
     NSDictionary *dataDic = [self.dic mutableCopy];
     [kStanderDefault setObject:dataDic forKey:@"data"];
     
@@ -452,31 +378,31 @@
         [self getData];
     }
     
-    NSLog(@"%ld , %ld" , (long)self.queDingBtn.tag , (long)self.queDingBtn1.tag);
+    NSLog(@"%ld , %ld" , (long)self.openBtn.tag , (long)self.closeBtn.tag);
     [btn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
     
-    [btn addTarget:self action:@selector(queDingBtn1AgainAtcion:) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(closeBtnAgainAtcion:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - 设定确认按钮再次点击事件
-- (void)queDingBtn1AgainAtcion:(UIButton *)btn {
+- (void)closeBtnAgainAtcion:(UIButton *)btn {
     //    btn.backgroundColor = [UIColor clearColor];
     [btn setImage:[UIImage new] forState:UIControlStateNormal];
     
-    if ([btn isEqual:self.queDingBtn]) {
-        self.queDingBtn.tag = 0;
-    } else if ([btn isEqual:self.queDingBtn1]) {
-        self.queDingBtn1.tag = 0;
+    if ([btn isEqual:self.openBtn]) {
+        self.openBtn.tag = 0;
+    } else if ([btn isEqual:self.closeBtn]) {
+        self.closeBtn.tag = 0;
     }
     
-    [self.dic setObject:@(self.queDingBtn.tag) forKey:@"queDingBtn"];
-    [self.dic setObject:@(self.queDingBtn1.tag) forKey:@"queDingBtn1"];
+    [self.dic setObject:@(self.openBtn.tag) forKey:@"openBtn"];
+    [self.dic setObject:@(self.closeBtn.tag) forKey:@"closeBtn"];
     NSDictionary *dataDic = [self.dic mutableCopy];
     [kStanderDefault setObject:dataDic forKey:@"data"];
-    NSLog(@"%ld , %ld" , (long)self.queDingBtn.tag , (long)self.queDingBtn1.tag);
+    NSLog(@"%ld , %ld" , (long)self.openBtn.tag , (long)self.closeBtn.tag);
     
     [btn removeTarget:nil action:nil forControlEvents:UIControlEventTouchUpInside];
-    [btn addTarget:self action:@selector(queDingBtn1Atcion:) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(closeBtnAtcion:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -484,7 +410,6 @@
 - (void)getData {
     
     NSString *task = [NSString stringWithFormat:@"%d%d%d%d%d%d%d" , [[self.dic objectForKey:@"yi"] intValue], [[self.dic objectForKey:@"er"] intValue] , [[self.dic objectForKey:@"san"] intValue], [[self.dic objectForKey:@"si"] intValue], [[self.dic objectForKey:@"wu"] intValue], [[self.dic objectForKey:@"liu"] intValue], [[self.dic objectForKey:@"qi"] intValue]];
-    
     
     NSUInteger modelIndex = 0;
     NSUInteger windIndex = 0;
@@ -494,81 +419,38 @@
         }
     }
     
-    for (NSString *itemss in self.windArray) {
-        if ([itemss isEqualToString:self.windLable.text]) {
-            windIndex = [self.windArray indexOfObject:itemss];
+    for (NSString *items in self.windArray) {
+        if ([items isEqualToString:self.windLable.text]) {
+            windIndex = [self.windArray indexOfObject:items];
         }
     }
     
-    NSInteger i = [self.maxTimeLable.text intValue] * 60 * 60 * 1000;
+    NSInteger i = [self.maxopenTimeLabel.text intValue] * 60 * 60 * 1000;
     
     
-    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn ,@"task.fSwitchOn" : @(self.queDingBtn.tag) , @"task.fSwitchOff" : @(self.queDingBtn1.tag) , @"task.onJobTime" : self.timeLable.text , @"task.offJobTime" : self.time1Lable.text , @"task.fMode" : @(modelIndex + 1) , @"task.fWind" : @(windIndex + 1) , @"task.durTime" : @(i) , @"task.runWeek" : task};
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn ,@"task.fSwitchOn" : @(self.openBtn.tag) , @"task.fSwitchOff" : @(self.closeBtn.tag) , @"task.onJobTime" : self.openTimeLabel.text , @"task.offJobTime" : self.closeTimeLabel.text , @"task.fMode" : @(modelIndex + 1) , @"task.fWind" : @(windIndex + 1) , @"task.durTime" : @(i) , @"task.runWeek" : task};
     
     NSLog(@"%@" , parames);
     
+    [kNetWork requestPOSTUrlString:kLengFengShanDingShiYuYue parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+        [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self.currentVC Title:@"预约成功"];
+    } failure:nil];
     
-    [HelpFunction requestDataWithUrlString:kLengFengShanDingShiYuYue andParames:parames andDelegate:self];
-    
-    [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self.currentVC Title:@"预约成功"];
-    
-}
-
-
-- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    NSLog(@"%@" , dddd);
-}
-
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    NSLog(@"%@" , error);
 }
 
 #pragma mark - 星期的点击事件
 - (void)btnAtcion:(UIButton *)btn {
-    btn.backgroundColor = [UIColor whiteColor];
-    [btn setTitleColor:[UIColor colorWithRed:46 / 255.0 green:190 / 255.0 blue:105 / 255.0 alpha:1.0] forState:UIControlStateNormal];
-    
-    if (btn.tag == 0) {
-        [self.dic setObject:@"1" forKey:@"yi"];
-    } else if (btn.tag == 1) {
-        [self.dic setObject:@"1" forKey:@"er"];
-    } else if (btn.tag == 2) {
-        [self.dic setObject:@"1" forKey:@"san"];
-    } else if (btn.tag == 3) {
-        [self.dic setObject:@"1" forKey:@"si"];
-    } else if (btn.tag == 4) {
-        [self.dic setObject:@"1" forKey:@"wu"];
-    }else if (btn.tag == 5) {
-        [self.dic setObject:@"1" forKey:@"liu"];
-    }else if (btn.tag == 6) {
-        [self.dic setObject:@"1" forKey:@"qi"];
-    }
-    
+    btn.backgroundColor = [UIColor clearColor];
+    [btn setTitleColor:kMainColor forState:UIControlStateNormal];
+    [self.dic setObject:@"1" forKey:self.keysArray[btn.tag]];
     [btn addTarget:self action:@selector(btnAgainAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    
 }
 
 #pragma mark - 星期再次点击事件
 - (void)btnAgainAtcion:(UIButton *)btn {
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btn.backgroundColor = [UIColor clearColor];
-    
-    if (btn.tag == 0) {
-        [self.dic setObject:@"0" forKey:@"yi"];
-    } else if (btn.tag == 1) {
-        [self.dic setObject:@"0" forKey:@"er"];
-    } else if (btn.tag == 2) {
-        [self.dic setObject:@"0" forKey:@"san"];
-    } else if (btn.tag == 3) {
-        [self.dic setObject:@"0" forKey:@"si"];
-    } else if (btn.tag == 4) {
-        [self.dic setObject:@"0" forKey:@"wu"];
-    }else if (btn.tag == 5) {
-        [self.dic setObject:@"0" forKey:@"liu"];
-    }else if (btn.tag == 6) {
-        [self.dic setObject:@"0" forKey:@"qi"];
-    }
-    
+    [self.dic setObject:@"0" forKey:self.keysArray[btn.tag]];
     [btn addTarget:self action:@selector(btnAtcion:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -578,230 +460,154 @@
     [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self.currentVC Title:@"设定您机器的最大开启时间"];
 }
 
-
 #pragma mark - 几个控件的点击事件
 - (void)tapAtcion:(UITapGestureRecognizer *)tap {
+    self.firstPickView = nil;
+    self.secondPickView = nil;
+    self.thirtPickView = nil;
+    self.forthPickView = nil;
     if (tap.view.tag == 1 || tap.view.tag == 2) {
-        self.firstPickView = [self creatPickView];
+        self.firstPickView = [[CustomPickerView alloc]initWithPickerViewType:UIPickerViewTypeOfTime andBackColor:kCOLOR(244, 244, 244)];
+        self.firstPickView.delegate = self;
+        [self.currentVC.view addSubview:self.firstPickView];
     } else if (tap.view.tag == 3 || tap.view.tag == 4) {
-        self.secondPickView = [self creatPickView];
+        NSDictionary *dataDic = @{@(0):self.modelArray , @(1):self.windArray};
+        self.secondPickView = [[CustomPickerView alloc]initWithPickerViewType:UIPickerViewTypeOfCustom data:dataDic andBackColor:kCOLOR(244, 244, 244)];
+        self.secondPickView.delegate = self;
+        [self.currentVC.view addSubview:self.secondPickView];
     } else if (tap.view.tag == 5 || tap.view.tag == 6) {
-        self.thirtPickView = [self creatPickView];
+        self.thirtPickView = [[CustomPickerView alloc]initWithPickerViewType:UIPickerViewTypeOfTime andBackColor:kCOLOR(244, 244, 244)];
+        self.thirtPickView.delegate = self;
+        [self.currentVC.view addSubview:self.thirtPickView];
     } else  {
-        self.forthPickView = [self creatPickView];
+        NSDictionary *dataDic = @{@(0):self.hourArray};
+        self.forthPickView = [[CustomPickerView alloc]initWithPickerViewType:UIPickerViewTypeOfCustom data:dataDic andBackColor:kCOLOR(244, 244, 244)];
+        self.forthPickView.delegate = self;
+        [self.currentVC.view addSubview:self.forthPickView];
     }
 }
 
-
-#pragma mark - 创建UIPickView
-- (UIView *)creatPickView{
+- (void)sendPickerViewToVC:(UIPickerView *)picker {
     
-    self.maskView = [[UIView alloc] initWithFrame:kScreenFrame];
-    self.maskView.backgroundColor = [UIColor clearColor];
-    //    self.maskView.alpha = 0;
-    self.maskView.userInteractionEnabled = YES;
-    //    [self.view addSubview:self.maskView];
-    [self.maskView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideMyPicker)]];
+    if (self.firstPickView) {
+        self.openTimeLabel.text = [NSString stringWithFormat:@"%@:%@" , self.hourArray[[picker selectedRowInComponent:0]] , self.minuteArray[[picker selectedRowInComponent:1]]];
+    }
     
+    if (self.secondPickView) {
+        self.modelLable.text = self.modelArray[[picker selectedRowInComponent:0]];
+        self.windLable.text = self.windArray[[picker selectedRowInComponent:1]];
+    }
     
-    self.pickerBgView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenH - kScreenH / 2.61568, kScreenW, kScreenH / 2.61568)];
+    if (self.thirtPickView) {
+        self.closeTimeLabel.text = [NSString stringWithFormat:@"%@:%@" , self.hourArray[[picker selectedRowInComponent:0]] , self.minuteArray[[picker selectedRowInComponent:1]]];
+    }
     
-    self.pickerBgView.backgroundColor = [UIColor whiteColor];
+    if (self.forthPickView) {
+        self.maxopenTimeLabel.text = self.hourArray[[picker selectedRowInComponent:0]];
+    }
     
-    self.myPicker = [[UIPickerView alloc]init];
-    [self.pickerBgView addSubview:self.myPicker];
-    [self.myPicker mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.08796));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(kScreenH / 17.1025);
-    }];
-    self.myPicker.delegate = self;
-    self.myPicker.dataSource = self;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.pickerBgView.alpha = 1.0;
-    }];
-    
-    
-    UIView *view  =[[UIView alloc]init];
-    view.backgroundColor = [UIColor colorWithRed:224/255.0 green:224/255.0 blue:224/255.0 alpha:1.0];
-    [self.pickerBgView addSubview:view];
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 17.1025));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(0);
-    }];
-    
-    UIButton *cancleBtn = [UIButton initWithTitle:@"取消" andColor:[UIColor clearColor] andSuperView:view]
-    ;
-    [cancleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [cancleBtn addTarget:self action:@selector(cancel:) forControlEvents:UIControlEventTouchUpInside];
-    [cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
-        make.top.mas_equalTo(0);
-    }];
-    
-    UIButton *sureBtn = [UIButton initWithTitle:@"确定" andColor:[UIColor clearColor] andSuperView:view]
-    ;
-    [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [sureBtn addTarget:self action:@selector(ensure:) forControlEvents:UIControlEventTouchUpInside];
-    [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, kScreenH / 17.1025));
-        make.top.mas_equalTo(0);
-    }];
-    
-    [self.contentView addSubview:self.maskView];
-    [self.contentView addSubview:self.pickerBgView];
-    
-    self.pickerBgView.top = self.contentView.height;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        self.myPicker.alpha = 1.0;
-        self.pickerBgView.bottom = self.contentView.height;
-    }];
-    
-    return self.pickerBgView;
-    
-}
-
-#pragma mark - 确定  取消  的点击事件
-- (void)cancel:(UIButton *)btn {
-    [self hideMyPicker];
-}
-
-- (void)ensure:(UIButton *)btn {
-    
-    UIPickerView *firstPickerView = self.firstPickView.subviews[0];
-    UIPickerView *secondPickerView = self.secondPickView.subviews[0];
-    UIPickerView *thirtPickerView = self.thirtPickView.subviews[0];
-    UIPickerView *forthPickerView = self.forthPickView.subviews[0];
-    
-    
-    self.timeLable.text = [NSString stringWithFormat:@"%@:%@" , self.hourArray[[firstPickerView selectedRowInComponent:0]] , self.minuteArray[[firstPickerView selectedRowInComponent:1]]];
-    self.modelLable.text = [NSString stringWithFormat:@"%@" , self.modelArray[[secondPickerView selectedRowInComponent:0]]];
-    self.windLable.text = [NSString stringWithFormat:@"%@" , self.windArray[[secondPickerView selectedRowInComponent:1]]];
-    
-    self.time1Lable.text = [NSString stringWithFormat:@"%@:%@" , self.hourArray[[thirtPickerView selectedRowInComponent:0]] , self.minuteArray[[thirtPickerView selectedRowInComponent:1]]];
-    
-    self.maxTimeLable.text = [NSString stringWithFormat:@"%@" , self.hourArray[[forthPickerView selectedRowInComponent:0]]];
-    
-    [self.dic setObject:self.timeLable.text forKey:@"timeLable"];
+    [self.dic setObject:self.openTimeLabel.text forKey:@"openTimeLabel"];
     [self.dic setObject:self.modelLable.text forKey:@"model"];
     [self.dic setObject:self.windLable.text forKey:@"wind"];
-    [self.dic setObject:self.time1Lable.text forKey:@"time1Lable"];
-    [self.dic setObject:self.maxTimeLable.text forKey:@"maxTimeLable"];
-    
-    [self hideMyPicker];
+    [self.dic setObject:self.closeTimeLabel.text forKey:@"closeTimeLabel"];
+    [self.dic setObject:self.maxopenTimeLabel.text forKey:@"maxopenTimeLabel"];
 }
 
-
-#pragma mark - 隐藏UIPickView
-- (void)hideMyPicker {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.maskView.alpha = 0;
-        self.pickerBgView.top = self.contentView.height;
-    } completion:^(BOOL finished) {
-        [self.maskView removeFromSuperview];
-        [self.pickerBgView removeFromSuperview];
-    }];
+#pragma mark - 懒加载
+- (NSArray *)windArray {
+    if (!_windArray) {
+        _windArray = @[@"风速未选",@"低速", @"中速" , @"高速"];
+    }
+    return _windArray;
 }
 
-#pragma mark - UIPickView的代理
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    
-    if ([pickerView isEqual:self.forthPickView.subviews[0]]) {
-        return 1;
+- (NSArray *)modelArray {
+    if (!_modelArray) {
+        _modelArray = @[@"模式未选" , @"正常" , @"自然" , @"睡眠"];
     }
-    return 2;
+    return _modelArray;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    
-    if ([pickerView isEqual:self.secondPickView.subviews[0]]) {
-        if (component == 0) {
-            return self.modelArray.count;
-        } else {
-            return self.windArray.count;
-        }
-    } else if ([pickerView isEqual:self.forthPickView.subviews[0]]) {
-        return self.hourArray.count;
-    } else {
-        if (component == 0) {
-            return self.hourArray.count;
-        } else {
-            return self.minuteArray.count;
+- (NSMutableArray *)minuteArray {
+    if (!_minuteArray) {
+        _minuteArray = [NSMutableArray array];
+        for (int i = 0; i < 60; i++) {
+            if (i < 10) {
+                [_minuteArray addObject:[NSString stringWithFormat:@"0%d" , i]];
+            } else {
+                [_minuteArray addObject:[NSString stringWithFormat:@"%d" , i]];
+            }
         }
     }
-}
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    if ([pickerView isEqual:self.secondPickView.subviews[0]]) {
-        if (component == 0) {
-            return [self.modelArray objectAtIndex:row];
-        } else {
-            return [self.windArray objectAtIndex:row];
-        }
-    } else if ([pickerView isEqual:self.forthPickView.subviews[0]]) {
-        return [self.hourArray objectAtIndex:row];
-    } else {
-        if (component == 0) {
-            return [self.hourArray objectAtIndex:row];
-        } else {
-            return [self.minuteArray objectAtIndex:row];
-        }
-    }
+    return _minuteArray;
 }
 
-#pragma mark - PickView的点击事件
-//- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-//
-//
-//    if ([pickerView isEqual:self.forthPickView.subviews[0]]) {
-//        NSInteger i =  [pickerView selectedRowInComponent:0];
-//        self.maxTimeLable.text = [NSString stringWithFormat:@"%@" , self.hourArray[i]];
-//    } else {
-//        NSInteger i =  [pickerView selectedRowInComponent:0];
-//        NSInteger j =  [pickerView selectedRowInComponent:1];
-//        if ([pickerView isEqual:self.firstPickView.subviews[0]]) {
-//            self.timeLable.text = [NSString stringWithFormat:@"%@:%@" , self.hourArray[[pickerView selectedRowInComponent:0]] , self.minuteArray[[pickerView selectedRowInComponent:1]]];
-//        } else if ([pickerView isEqual:self.secondPickView.subviews[0]]) {
-//            self.modelLable.text = [NSString stringWithFormat:@"%@" , self.modelArray[[pickerView selectedRowInComponent:0]]];
-//            self.windLable.text = [NSString stringWithFormat:@"%@" , self.windArray[[pickerView selectedRowInComponent:1]]];
-//        } else if ([pickerView isEqual:self.thirtPickView.subviews[0]]) {
-//            self.time1Lable.text = [NSString stringWithFormat:@"%@:%@" , self.hourArray[[pickerView selectedRowInComponent:0]] , self.minuteArray[[pickerView selectedRowInComponent:1]]];
-//        }
-//    }
-//}
-
-- (void)creatPickViewData{
-    self.windArray = [NSArray arrayWithObjects: @"未选",@"低速", @"中速" , @"高速" ,  nil];
-    self.modelArray = [NSArray arrayWithObjects:@"未选" , @"正常" , @"自然" , @"睡眠" ,  nil];
-    self.minuteArray = [NSMutableArray array];
-    for (int i = 0; i < 60; i++) {
-        if (i < 10) {
-            [self.minuteArray addObject:[NSString stringWithFormat:@"0%d" , i]];
-        } else {
-            [self.minuteArray addObject:[NSString stringWithFormat:@"%d" , i]];
+- (NSMutableArray *)hourArray {
+    if (!_hourArray) {
+        _hourArray = [NSMutableArray array];
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) {
+                [_hourArray addObject:[NSString stringWithFormat:@"0%d" , i]];
+            } else {
+                [_hourArray addObject:[NSString stringWithFormat:@"%d" , i]];
+            }
         }
-        
     }
-    
-    self.hourArray = [NSMutableArray array];
-    for (int i = 0; i < 24; i++) {
-        if (i < 10) {
-            [self.hourArray addObject:[NSString stringWithFormat:@"0%d" , i]];
-        } else {
-            [self.hourArray addObject:[NSString stringWithFormat:@"%d" , i]];
-        }
-        
-    }
+    return _hourArray;
 }
 
 - (NSMutableDictionary *)dic{
     if (!_dic) {
-        self.dic = [NSMutableDictionary dictionary];
+        _dic = [NSMutableDictionary dictionary];
+        
+        if ([kStanderDefault objectForKey:@"data"]) {
+            _dic = [[kStanderDefault objectForKey:@"data"] mutableCopy];
+        }
+        
+        if (_dic[@"openTimeLabel"] == nil || [_dic[@"openTimeLabel"] isKindOfClass:[NSNull class]]) {
+            self.openTimeLabel.text = @"00:00";
+        } else {
+            self.openTimeLabel.text = _dic[@"openTimeLabel"];
+        }
+        
+        if (_dic[@"wind"] == nil || [_dic[@"wind"] isKindOfClass:[NSNull class]]) {
+            self.windLable.text = @"风速未选";
+        } else {
+            self.windLable.text = _dic[@"wind"];
+        }
+        
+        if (_dic[@"model"] == nil || [_dic[@"model"] isKindOfClass:[NSNull class]]) {
+            self.modelLable.text = @"模式未选";
+        } else {
+            self.modelLable.text = _dic[@"model"];
+        }
+        
+        if (_dic[@"closeTimeLabel"] == nil || [_dic[@"closeTimeLabel"] isKindOfClass:[NSNull class]]) {
+            self.closeTimeLabel.text = @"00:00";
+        } else {
+            self.closeTimeLabel.text = _dic[@"closeTimeLabel"];
+        }
+        
+        if (_dic[@"maxopenTimeLabel"] == nil || [_dic[@"maxopenTimeLabel"] isKindOfClass:[NSNull class]]) {
+            self.maxopenTimeLabel.text = @"00";
+        } else {
+            self.maxopenTimeLabel.text = _dic[@"maxopenTimeLabel"];
+        }
+        
+        if ([[self.dic objectForKey:@"openBtn"] integerValue] == 0) {
+            [UIButton btn:self.openBtn removeAtcion:@selector(closeBtnAgainAtcion:) addAtcion:@selector(closeBtnAtcion:) target:self image:[UIImage new]];
+        } else {
+            [UIButton btn:self.openBtn removeAtcion:@selector(closeBtnAtcion:) addAtcion:@selector(closeBtnAgainAtcion:) target:self image:[UIImage imageNamed:@"iconfont-gougou"]];
+            [self.openBtn setTintColor:[UIColor clearColor]];
+        }
+        
+
+        if ([[self.dic objectForKey:@"closeBtn"] integerValue] == 0) {
+            [UIButton btn:self.closeBtn removeAtcion:@selector(closeBtnAgainAtcion:) addAtcion:@selector(closeBtnAtcion:) target:self image:[UIImage new]];
+        } else {
+            [UIButton btn:self.closeBtn removeAtcion:@selector(closeBtnAtcion:) addAtcion:@selector(closeBtnAgainAtcion:) target:self image:[UIImage imageNamed:@"iconfont-gougou"]];
+            [self.closeBtn setTintColor:[UIColor clearColor]];
+        }
     }
     return _dic;
 }
@@ -811,6 +617,13 @@
         _btnArray = [NSMutableArray array];
     }
     return _btnArray;
+}
+
+- (NSArray *)keysArray {
+    if (!_keysArray) {
+        _keysArray = @[@"yi" , @"er" , @"san" , @"si" , @"wu" , @"liu" , @"qi"];
+    }
+    return _keysArray;
 }
 
 @end

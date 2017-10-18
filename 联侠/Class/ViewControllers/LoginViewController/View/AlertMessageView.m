@@ -9,12 +9,11 @@
 #import "AlertMessageView.h"
 #import "PZXVerificationCodeView.h"
 
-#define kSpace ((self.height - kScreenW / 20 - 5 - self.height / 7 - self.height / 10 - self.height / 8 - self.height / 5) / 5)
+#define kSpace (kScreenW / 20)
 
-@interface AlertMessageView ()<HelpFunctionDelegate>
+@interface AlertMessageView ()
 @property(nonatomic,strong)PZXVerificationCodeView *pzxView;
 @property (nonatomic , strong) UILabel *phoneLabel;
-//@property (nonatomic , strong) NSString *data;
 @property (nonatomic , strong) NSTimer *countDownTimer;
 @property (nonatomic , strong) UIButton *countdownBtn;
 @property (nonatomic , assign) NSInteger secondsCountDown;
@@ -26,7 +25,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-        self.layer.cornerRadius = 3;
+        self.layer.cornerRadius = 5;
         self.layer.masksToBounds = YES;
         
         UIButton *cancleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -41,36 +40,32 @@
         
         UILabel *titleLabel = [UILabel creatLableWithTitle:titleText andSuperView:self andFont:k20 andTextAligment:NSTextAlignmentCenter];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(self.width, self.height / 7));
-            make.left.mas_equalTo(self.mas_left).offset(0);
+            make.centerX.mas_equalTo(self.mas_centerX);
             make.top.mas_equalTo(cancleBtn.mas_bottom);
         }];
         
         UILabel *phoneLabel = [UILabel creatLableWithTitle:@"" andSuperView:self andFont:k12 andTextAligment:NSTextAlignmentCenter];
         [phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(self.width, self.height / 10));
-            make.left.mas_equalTo(self.mas_left).offset(0);
-            make.top.mas_equalTo(titleLabel.mas_bottom).offset(kSpace);
+            make.centerX.mas_equalTo(self.mas_centerX);
+            make.top.mas_equalTo(titleLabel.mas_bottom)
+            .offset(kSpace);
         }];
         self.phoneLabel = phoneLabel;
-        
-        _countdownBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+ 
+        _countdownBtn = [UIButton creatBtnWithTitle:NSLocalizedString(@"Resend", nil) withLabelFont:14 withLabelTextColor:[UIColor grayColor] andSuperView:self andBackGroundColor:kWhiteColor andHighlightedBackGroundColor:kWhiteColor andwhtherNeendCornerRadius:YES WithTarget:self andDoneAtcion:@selector(againSendAtcion)];
         [self addSubview:_countdownBtn];
-        [_countdownBtn setTitle:NSLocalizedString(@"Resend", nil) forState:UIControlStateNormal];
-        [_countdownBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        _countdownBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-        [_countdownBtn addTarget:self action:@selector(againSendAtcion) forControlEvents:UIControlEventTouchUpInside];
         [_countdownBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(self.width / 2, self.height / 8));
-            make.centerX.mas_equalTo(self.mas_left).offset(self.width / 2);
-            make.top.mas_equalTo(phoneLabel.mas_bottom).offset(kSpace);
+            make.centerX.mas_equalTo(self.mas_centerX);
+            make.top.mas_equalTo(phoneLabel.mas_bottom)
+            .offset(kSpace);
         }];
         _countdownBtn.layer.cornerRadius = 3;
         _countdownBtn.layer.masksToBounds = YES;
         _countdownBtn.layer.borderColor = [UIColor grayColor].CGColor;
         _countdownBtn.layer.borderWidth = 1;
         
-        _pzxView = [[PZXVerificationCodeView alloc]initWithFrame:CGRectMake(0, self.height * 3 / 5 + kSpace, kScreenW / 1.4, self.height / 5)];
+        _pzxView = [[PZXVerificationCodeView alloc]initWithFrame:CGRectMake(0, self.height - 3  * kSpace - self.height / 8 - self.height / 20 - [titleLabel contentSize].height - [phoneLabel contentSize].height - 10, kScreenW / 1.4, self.height / 5)];
         [self addSubview:_pzxView];
         _pzxView.tag = 10003;
 
@@ -92,7 +87,6 @@
         [_countDownTimer invalidate];
         _countDownTimer = nil;
         
-//        self.data = 0;
         [self.countdownBtn setTitle:NSLocalizedString(@"Resend", nil) forState:UIControlStateNormal];
         self.countdownBtn.userInteractionEnabled = YES;
         
@@ -107,7 +101,10 @@
     self.countdownBtn.userInteractionEnabled = NO;
     
     NSDictionary *parameters = @{@"dest":self.phoneNumber , @"bool" : @(0)};
-    [HelpFunction requestDataWithUrlString:kFaSongDuanXin andParames:parameters andDelegate:self];
+    [kNetWork requestPOSTUrlString:kFaSongDuanXin parameters:parameters isSuccess:^(NSDictionary * _Nullable responseObject) {
+        NSLog(@"发送的短信%@" , responseObject);
+    } failure:nil];
+    
 }
 
 - (void)setPhoneNumber:(NSString *)phoneNumber {
@@ -118,31 +115,6 @@
     if (!_countDownTimer) {
         [self againSendAtcion];
     }
-    
-}
-
-#pragma mark - 代理返回的数据
-- (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
-    NSDictionary *dic = data[0];
-    NSLog(@"%@" , dic);
-    
-//    if (dic[@"data"]) {
-//        NSInteger state = [dic[@"state"] integerValue];
-//        
-//        if (state == 0) {
-//            NSDictionary *data = dic[@"data"];
-//            NSString *code = data[@"code"];
-//            self.data = code;
-            
-//            _pzxView.sendMessage = self.data;
-            
-//        }
-//    }
-    
-}
-
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    NSLog(@"%@" , error);
 }
 
 @end

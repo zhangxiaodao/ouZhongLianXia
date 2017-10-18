@@ -14,7 +14,7 @@
 #import "ChanPinShuoMingViewController.h"
 #import "AllServicesCollectionViewCell.h"
 
-@interface AllServicesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout,  HelpFunctionDelegate>
+@interface AllServicesViewController ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout>
 @property (nonatomic , strong) NSMutableArray *array;
 @property (nonatomic , strong) NSMutableArray *addModelArray;
 @end
@@ -26,7 +26,8 @@
     
     /** 创建布局参数 */
     UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.itemSize = CGSizeMake(30, 40);
+    flowLayout.itemSize = CGSizeMake((kScreenW - kScreenW * 3 / 25) / 2, kScreenW / 2.6);
+    flowLayout.sectionInset = UIEdgeInsetsMake(kScreenW / 25, kScreenW / 25, kScreenW / 25, kScreenW / 25);
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:[UIScreen mainScreen].bounds collectionViewLayout:flowLayout];
     
@@ -47,39 +48,31 @@
     [super viewWillAppear:animated];
     
     NSDictionary *parames = @{@"typeSn":self.typeSn};
-    [HelpFunction requestDataWithUrlString:kGengDuoChanPin andParames:parames andDelegate:self];
-    
-}
-#pragma mark - 代理返回的数据
-- (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
-    NSDictionary *dic = data[0];
-//    NSLog(@"%@" , dic);
-    
-    self.array = [NSMutableArray array];
-    self.addModelArray = [NSMutableArray array];
-    if ([dic[@"data"] isKindOfClass:[NSArray class]]) {
-        NSArray *arr = [NSArray arrayWithArray:dic[@"data"]];
+//    [HelpFunction requestDataWithUrlString:kGengDuoChanPin andParames:parames andDelegate:self];
+    [kNetWork requestPOSTUrlString:kGengDuoChanPin parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+        NSDictionary *dic = responseObject;
         
-        for (NSDictionary *dd in arr) {
+        self.array = [NSMutableArray array];
+        self.addModelArray = [NSMutableArray array];
+        if ([dic[@"data"] isKindOfClass:[NSArray class]]) {
+            NSArray *arr = [NSArray arrayWithArray:dic[@"data"]];
             
-            ServicesModel *model = [[ServicesModel alloc]init];
-            [model setValuesForKeysWithDictionary:dd];
-            if (![dd[@"slType"] isKindOfClass:[NSNull class]]) {
-                model.slTypeInt = [dd[@"slType"] integerValue];
+            for (NSDictionary *dd in arr) {
+                
+                ServicesModel *model = [[ServicesModel alloc]init];
+                [model setValuesForKeysWithDictionary:dd];
+                if (![dd[@"slType"] isKindOfClass:[NSNull class]]) {
+                    model.slTypeInt = [dd[@"slType"] integerValue];
+                }
+                AddServiceModel *addModel = [[AddServiceModel alloc]init];
+                [addModel setValuesForKeysWithDictionary:dd];
+                [self.array addObject:model];
+                [self.addModelArray addObject:addModel];
             }
-            AddServiceModel *addModel = [[AddServiceModel alloc]init];
-            [addModel setValuesForKeysWithDictionary:dd];
-            [self.array addObject:model];
-            [self.addModelArray addObject:addModel];
+            [self.collectionView reloadData];
         }
-        
-        [self.collectionView reloadData];
-    }
+    } failure:nil];
     
-}
-
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    NSLog(@"%@" , error);
 }
 
 #pragma mark - collectionView有多少分区
@@ -126,16 +119,5 @@
     }
     
 }
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake((kScreenW - kScreenW * 3 / 25) / 2, kScreenH / 4.6);
-}
-
-//定义每个UICollectionView 的 margin
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(kScreenW / 25, kScreenW / 25, 0, kScreenW / 25);
-}
-
 
 @end

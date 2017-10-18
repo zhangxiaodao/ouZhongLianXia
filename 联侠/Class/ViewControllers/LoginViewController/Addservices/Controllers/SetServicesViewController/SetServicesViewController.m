@@ -13,7 +13,6 @@
 #import "MineSerivesViewController.h"
 @interface SetServicesViewController ()
 @property (nonatomic , strong) NSMutableArray *array;
-@property (nonatomic , strong) NSTimer *myTimer;
 @property (nonatomic , strong) UIImageView *imageView;
 @property (nonatomic , copy) NSString *alertMessage;
 @end
@@ -29,75 +28,50 @@
 
 #pragma mark - 设置UI
 - (void)setUI {
-    
-    UIImage *image = nil;
 
-    image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
-    
-    _imageView = [[UIImageView alloc]initWithImage:image];
+    UIImage *image1 = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
+    UIImage *image2 = [UIImage imageNamed:@"wifianjianpeiwangmoshi1"];
+    _imageView = [[UIImageView alloc]initWithImage:image1];
     [self.view addSubview:_imageView];
     [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake( kScreenW * 2 / 3, kScreenW * 2 / 3));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 11);
+        make.top.mas_equalTo(self.view.mas_top)
+        .offset(kScreenW / 6.25);
     }];
+    _imageView.animationImages = @[image1 , image2];
+    _imageView.animationDuration = 1;
+    _imageView.animationRepeatCount = MAXFLOAT;
+    [_imageView startAnimating];
     
-
     UILabel *firstLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"请开机长按%@，听到“滴”的声音后指示灯闪烁，进入配网模式。" , self.alertMessage] andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     firstLable.textColor = [UIColor blackColor];
-    firstLable.layer.borderWidth = 0;
-    
+    firstLable.numberOfLines = 0;
     [firstLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 5));
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kStandardW / 5));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(_imageView.mas_bottom).offset(kScreenH / 8.5);
+        make.top.mas_equalTo(_imageView.mas_bottom)
+        .offset(kScreenW / 4.7);
     }];
     
     UIButton *neaxtBtn = [UIButton initWithTitle:@"下一步" andColor:[UIColor redColor] andSuperView:self.view];
     neaxtBtn.layer.cornerRadius = kScreenW / 18;
-    
     neaxtBtn.backgroundColor = kMainColor;
-    
     [neaxtBtn addTarget:self action:@selector(neaxtBtnAction) forControlEvents:UIControlEventTouchUpInside];
     
     [neaxtBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 9));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(firstLable.mas_bottom).offset(kScreenH /  22.30303);
+        make.top.mas_equalTo(firstLable.mas_bottom)
+        .offset(kScreenW /  12.5);
     }];
     
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-    _myTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(qieHuanTuPian) userInfo:nil repeats:YES];
-}
+
 
 - (void)viewWillDisappear:(BOOL)animated{
-    [_myTimer invalidate];
-    _myTimer = nil;
-}
-
-- (void)qieHuanTuPian{
-    
-    if ([_imageView.image isEqual:[UIImage imageNamed:@"wifianjianpeiwangmoshi1"]]) {
-        [self qieHuanTuPianGuan];
-    } else{
-        [self qieHuanTuPianKai];
-    }
-}
-
-- (void)qieHuanTuPianKai{
-    
-    _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi1"];
-    
-}
-
-- (void)qieHuanTuPianGuan{
-    
-    _imageView.image = [UIImage imageNamed:@"wifianjianpeiwangmoshi0"];
-    
+    [_imageView stopAnimating];
 }
 
 #pragma mark - 下一步按钮点击事件

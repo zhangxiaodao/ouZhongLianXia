@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface EnterWorkTowerFirsetView : UIView
-
-+ (EnterWorkTowerFirsetView *)creatViewWithColor:(UIColor *)color withSuperView:(UIView *)superView;
-
+- (instancetype)initWithSize:(CGSize)size color:(UIColor *)color superView:(UIView *)superView;
 @property (nonatomic , strong) NSArray *stateArray;
-- (void)setStateArray:(NSArray *)stateArray;
+
 @end

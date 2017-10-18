@@ -11,7 +11,6 @@
 @implementation UIButton (Custom)
 + (UIButton *)initWithTitle:(NSString *)title andColor:(UIColor *)color andSuperView:(UIView *)view{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(100, 100,90, 90);
     btn.layer.cornerRadius = 5;
     btn.layer.masksToBounds = YES;
     [btn setTitle:title forState:UIControlStateNormal];
@@ -20,7 +19,7 @@
     //button文字自适应button的高度
     btn.titleLabel.adjustsFontSizeToFitWidth = YES;
     btn.backgroundColor = color;
-
+    [btn sizeToFit];
     [view addSubview:btn];
     return btn;
 }
@@ -142,9 +141,19 @@
 //    btn.titleLabel.textColor = textColor;
     [btn setTitleColor:textColor forState:UIControlStateNormal];
     [btn setTitle:title forState:UIControlStateNormal];
-    
+    [btn sizeToFit];
     return btn;
 }
 
++ (void)btn:(UIButton *)btn removeAtcion:(SEL)removeAtcion addAtcion:(SEL)addAtcion target:(nullable id)target {
+    [btn removeTarget:target action:removeAtcion forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:target action:addAtcion forControlEvents:UIControlEventTouchUpInside];
+}
+
++ (void)btn:(UIButton *_Nullable)btn removeAtcion:(SEL _Nullable )removeAtcion addAtcion:(SEL _Nonnull )addAtcion target:(nullable id)target image:(UIImage *)image {
+    [btn setImage:image forState:UIControlStateNormal];
+    [btn removeTarget:target action:removeAtcion forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:target action:addAtcion forControlEvents:UIControlEventTouchUpInside];
+}
 
 @end

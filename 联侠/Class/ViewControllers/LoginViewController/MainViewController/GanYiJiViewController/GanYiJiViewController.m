@@ -11,7 +11,6 @@
 #import "GanYiJiSecondTableViewCell.h"
 #import "GanYiJiYiWuXuanZeTableViewCell.h"
 #import "AirPurificationFifthTableViewCell.h"
-#import "BingJingShouMingTableViewCell.h"
 #import "LvWangJieDuTableViewCell.h"
 #import "ThirtView.h"
 #import "EnterForthTableViewCell.h"
@@ -71,6 +70,7 @@
 
 - (void)ganYiJiOpenAtcion:(UIButton *)btn {
     
+    btn.selected = !btn.selected;
     if (btn.selected == 1) {
         [kSocketTCP sendDataToHost:GanYiJiXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"02", @"00", @"00", @"00") andType:kZhiLing andIsNewOrOld:kNew];
         [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
@@ -81,7 +81,6 @@
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:kServiceOrder object:nil];
-    btn.selected = !btn.selected;
 }
 
 - (void)getGanYiJiData:(NSNotification *)post {

@@ -38,8 +38,6 @@
     lable.font = [UIFont fontWithName:kFontWithName size:value];
     lable.layer.cornerRadius = 5;
     lable.layer.masksToBounds = YES;
-    lable.layer.borderWidth = 1;
-    lable.layer.borderColor = [UIColor whiteColor].CGColor;
     lable.textColor = [UIColor blackColor];
     lable.numberOfLines = 0;
     lable.font = [UIFont fontWithName:kFontWithName size:value];

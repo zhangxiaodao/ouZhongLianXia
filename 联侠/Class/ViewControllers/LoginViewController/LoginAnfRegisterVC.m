@@ -15,7 +15,7 @@
 
 #define kStandardW kScreenW / 1.47
 
-@interface LoginAnfRegisterVC ()<UITextFieldDelegate  , HelpFunctionDelegate>
+@interface LoginAnfRegisterVC ()<UITextFieldDelegate>
 @property (nonatomic , strong) UITextField *acctextFiled;
 @property (nonatomic , strong) UIView *markView;
 @property (nonatomic , strong) AlertMessageView *alertMessageView;
@@ -27,75 +27,70 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setUI];
-    [kStanderDefault removeObjectForKey:@"GeRenInfo"];
+    [self setOther];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(whetherGegisterSuccess:) name:@"RegisterSuccess" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [self.navigationController.navigationBar setHidden:YES];
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController.navigationBar setHidden:NO];
     [SVProgressHUD dismiss];
-    
 }
 
 #pragma mark - 设置UI界面
 - (void)setUI{
     
-    
     UIImageView *loginBackImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"loginBackImage"]];
     [self.view addSubview:loginBackImage];
     loginBackImage.frame = self.view.bounds;
+    
     
     UIImageView *shangBiaoImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo"]];
     [self.view addSubview:shangBiaoImage];
     [shangBiaoImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 4.5, kScreenW / 4.5));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(kScreenW / 6.5);
+        make.top.mas_equalTo(kNavibarH);
     }];
+    
     
     UILabel *titleLabel = [UILabel creatLableWithTitle:@"联侠" andSuperView:self.view andFont:k20 andTextAligment:NSTextAlignmentCenter];
     titleLabel.textColor = kCOLOR(14, 106, 121);
     titleLabel.layer.borderWidth = 0;
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 20));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(shangBiaoImage.mas_bottom).offset(kScreenW / 30);
+        make.top.mas_equalTo(shangBiaoImage.mas_bottom)
+        .offset(kScreenW / 30);
     }];
     
     UILabel *lianXiaLabel = [UILabel creatLableWithTitle:@"L   I   A   N   X   I   A" andSuperView:self.view andFont:k12 andTextAligment:NSTextAlignmentCenter];
     lianXiaLabel.textColor = kCOLOR(14, 106, 121);
-    lianXiaLabel.layer.borderWidth = 0;
     [lianXiaLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 20));
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.top.mas_equalTo(titleLabel.mas_bottom);
     }];
     
     UIView *accFiledView = [UIView creatTextFiledWithLableText:@"账户" andTextFiledPlaceHold:NSLocalizedString(@"LoginVC_AccPlaceholder", nil) andSuperView:self.view];
     [accFiledView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(lianXiaLabel.mas_bottom).offset(kScreenH / 4.75);
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
+        make.bottom.mas_equalTo(lianXiaLabel.mas_bottom)
+        .offset(kScreenW / 2.67);
         make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 10));
     }];
-    
     self.acctextFiled = accFiledView.subviews[2];
-    self.acctextFiled.delegate = self;
-    
+//    self.acctextFiled.delegate = self;
     
     UIButton *loginBtn = [UIButton initWithTitle:NSLocalizedString(@"LoginVC_login", nil) andColor:[UIColor clearColor] andSuperView:self.view];
     [loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 9));
         make.centerX.mas_equalTo(accFiledView.mas_centerX);
-        make.top.mas_equalTo(accFiledView.mas_bottom).offset(kScreenW / 16);
+        make.top.mas_equalTo(accFiledView.mas_bottom)
+        .offset(kScreenW / 16);
     }];
     loginBtn.layer.cornerRadius = kScreenW / 18;
     loginBtn.backgroundColor = kMainColor;
@@ -104,22 +99,23 @@
     
     UILabel *messageLabel = [UILabel creatLableWithTitle:@"开启你的云端智能生活" andSuperView:self.view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     messageLabel.textColor = kCOLOR(14, 106, 121);
-    messageLabel.layer.borderWidth = 0;
     [messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 20));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-kScreenW / 12.5);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-kNavibarH);
     }];
     
     UILabel *englishMessageLabel = [UILabel creatLableWithTitle:@"Open your intelligent life in the cloud" andSuperView:self.view andFont:k12 andTextAligment:NSTextAlignmentCenter];
     englishMessageLabel.textColor = kCOLOR(14, 106, 121);
-    englishMessageLabel.layer.borderWidth = 0;
     [englishMessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 20));
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.top.mas_equalTo(messageLabel.mas_bottom);
     }];
     
+}
+
+- (void)setOther {
+    [kStanderDefault removeObjectForKey:@"GeRenInfo"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(whetherGegisterSuccess:) name:@"RegisterSuccess" object:nil];
 }
 
 - (void)setMarkView {
@@ -138,51 +134,39 @@
     self.alertMessageView.alpha = 0;
 }
 
--(void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
-    NSDictionary *dic = data[0];
-    NSInteger state = [dic[@"state"] integerValue];
-    
-    if (state == 0) {
-        [self cancleAtcion];
-        NSDictionary *user = dic[@"data"];
-        
-        [kStanderDefault setObject:user[@"sn"] forKey:@"userSn"];
-        [kStanderDefault setObject:user[@"id"] forKey:@"userId"];
-        
-        [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:^{
-            
-            self.acctextFiled.text = nil;
-            
-            
-        }];
-    } else {
-        [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
-            [self.alertMessageView clearNumber];
-        } andSuperViewController:self Title:@"验证码填写错误"];
-    }
-}
-
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    
-}
 
 - (void)whetherGegisterSuccess:(NSNotification *)post {
     NSString *vercodeStr = post.userInfo[@"VercodeStr"];
     NSString *success = post.userInfo[@"RegisterSuccess"];
-    //    NSLog(@"%@" , success);
     if ([success isEqualToString:@"YES"]) {
         
-        
-        
-        NSDictionary *parameters = nil;
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"loginName":self.acctextFiled.text , @"code" : vercodeStr ,@"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]}];
         if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-            parameters = @{@"loginName":self.acctextFiled.text , @"code" : vercodeStr, @"ua.clientId" : [kStanderDefault objectForKey:@"GeTuiClientId"], @"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
-        } else {
-            parameters = @{@"loginName":self.acctextFiled.text , @"code" : vercodeStr ,@"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]};
+            [parameters setObject:@"ua.clientId" forKey:[kStanderDefault objectForKey:@"GeTuiClientId"]];
         }
         
         [kStanderDefault setObject:self.acctextFiled.text forKey:@"phone"];
-        [HelpFunction requestDataWithUrlString:kLoginWithRegisterURL andParames:parameters andDelegate:self];
+
+        [kNetWork requestPOSTUrlString:kLoginWithRegisterURL parameters:parameters isSuccess:^(NSDictionary * _Nullable responseObject) {
+            NSDictionary *dic = responseObject;
+            NSInteger state = [dic[@"state"] integerValue];
+            
+            if (state == 0) {
+                [self cancleAtcion];
+                NSDictionary *user = dic[@"data"];
+                
+                [kStanderDefault setObject:user[@"sn"] forKey:@"userSn"];
+                [kStanderDefault setObject:user[@"id"] forKey:@"userId"];
+                
+                [kWindowRoot presentViewController:[[TabBarViewController alloc]init] animated:YES completion:^{
+                    self.acctextFiled.text = nil;
+                }];
+            } else {
+                [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
+                    [self.alertMessageView clearNumber];
+                } andSuperViewController:self Title:@"验证码填写错误"];
+            }
+        } failure:nil];
     }
 }
 
@@ -216,7 +200,7 @@
         
         if(offset > 0)
         {
-            self.alertMessageView.frame = CGRectMake((kScreenW - kScreenW / 1.4) / 2, (kScreenH - kScreenH / 2.66) / 2 - offset, kScreenW / 1.4, kScreenH / 2.66);
+            self.alertMessageView.frame = CGRectMake((kScreenW - kScreenW / 1.4) / 2, (kScreenH - kScreenW / 1.5) / 2 - offset, kScreenW / 1.4, kScreenW / 1.5);
             
         }
         

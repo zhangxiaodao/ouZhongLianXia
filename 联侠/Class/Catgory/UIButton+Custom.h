@@ -20,4 +20,8 @@
 
 + (void)setBtnOfImageAndLableWithUnSelected:(UIButton * _Nonnull)btn andTintColor:(UIColor * _Nonnull)tintColor;
 
++ (void)btn:(UIButton *_Nullable)btn removeAtcion:(SEL _Nullable )removeAtcion addAtcion:(SEL _Nonnull )addAtcion target:(nullable id)target;
+
++ (void)btn:(UIButton *_Nullable)btn removeAtcion:(SEL _Nullable )removeAtcion addAtcion:(SEL _Nonnull )addAtcion target:(nullable id)target image:(UIImage *)image;
+
 @end

@@ -20,7 +20,7 @@
 
 
 #define STOREAPPID @"1113948983"
-@interface AppDelegate ()<GCDAsyncSocketDelegate , AsyncSocketDelegate , HelpFunctionDelegate>
+@interface AppDelegate ()<GCDAsyncSocketDelegate , AsyncSocketDelegate>
 @property (nonatomic) Reachability *hostReachability;
 @property (nonatomic) Reachability *internetReachAbility;
 
@@ -57,13 +57,30 @@
     [self setYouMeng];
     [self setGeTui];
     [self checkNetwork];
-    
-    [HelpFunction requestDataWithUrlString:kChaXunBanBenHao andParames:@{@"type" : @(2)} andDelegate:self];
+    [self chaXunBanBenHao];
+
     
     return YES;
 }
 
-
+- (void)chaXunBanBenHao {
+    [kNetWork requestGETUrlString:kChaXunBanBenHao parameters:@{@"type" : @(2)} isSuccess:^(NSDictionary * _Nullable responseObject) {
+        NSDictionary *data = responseObject[@"data"];
+        if ([responseObject[@"success"] integerValue] == 1) {
+            if ([data[@"isForce"] isKindOfClass:[NSNull class]]) {return ; } else {
+                if ([data[@"id"] integerValue] > 56) {
+                    
+                    if ([data[@"isForce"] integerValue] == 0) return ;
+                    if ([data[@"isForce"] integerValue] == 1) {
+                        [self wheatherUpdate:@"您当前的版本过低，无法使用请更新！"];
+                    } else {
+                        [self wheatherUpdate:@"检查到有新的版本，是否更新?"];
+                    }
+                }
+            }
+        }
+    } failure:nil];
+}
 - (UILabel *)addNoNetLabel {
     UILabel *noNetWork = [UILabel creatLableWithTitle:@"❗️当前网络不可用，请检查手机网络" andSuperView:kWindowRoot.view andFont:k13 andTextAligment:NSTextAlignmentCenter];
     [noNetWork mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -220,36 +237,6 @@
 
 - (NSInteger)wheatherHaveNet {
     return self.noNetWorkStr;
-}
-
-- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-    NSLog(@"%@" , dddd);
-    NSDictionary *data = dddd[@"data"];
-    
-    if ([dddd[@"success"] integerValue] == 1) {
-        if ([data[@"isForce"] isKindOfClass:[NSNull class]]) {
-            return ;
-        } else {
-            
-            if ([data[@"id"] integerValue] > 56) {
-                
-                if ([data[@"isForce"] integerValue] == 0) {
-                    return ;
-                }
-                
-                if ([data[@"isForce"] integerValue] == 1) {
-                    
-                    [self wheatherUpdate:@"您当前的版本过低，无法使用请更新！"];
-                } else {
-                    [self wheatherUpdate:@"检查到有新的版本，是否更新?"];
-                }
-            }
-        }
-    }
-}
-
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    NSLog(@"%@" , error);
 }
 
 - (void)wheatherUpdate:(NSString *)title {

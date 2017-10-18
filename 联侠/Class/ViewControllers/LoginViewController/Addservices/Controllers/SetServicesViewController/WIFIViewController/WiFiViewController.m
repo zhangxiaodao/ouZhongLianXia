@@ -5,8 +5,7 @@
 #import "MineSerivesViewController.h"
 
 #define HEIGHT_KEYBOARD 216
-#define HEIGHT_TEXT_FIELD 30
-#define HEIGHT_SPACE (6+HEIGHT_TEXT_FIELD)
+
 
 @interface WiFiViewController ()<UITextFieldDelegate> {
     CFDictionaryRef dictRef;
@@ -80,16 +79,16 @@
     [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"请输入正确的WIFI密码，密码错误，设备无法绑定!"];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    if (dictRef) {
-    } else {
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self.navigationController popViewControllerAnimated:YES];
-        } andSuperViewController:kWindowRoot Title:@"您当前没有连接WIFI，设备无法添加"];
-    }
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//
+//    if (dictRef) {
+//    } else {
+//        [UIAlertController creatRightAlertControllerWithHandle:^{
+//            [self.navigationController popViewControllerAnimated:YES];
+//        } andSuperViewController:kWindowRoot Title:@"您当前没有连接WIFI，设备无法添加"];
+//    }
+//}
 
 #pragma mark - 设置UI
 - (void)setUI {
@@ -99,9 +98,9 @@
     [backImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 1.7, kScreenW / 1.7));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(kScreenH / 11);
+        make.top.mas_equalTo(self.view.mas_top)
+        .offset(kScreenW / 6.25);
     }];
-    
     
     UIView *xiaHuaXian = [[UIView alloc]init];
     [self.view addSubview:xiaHuaXian];
@@ -109,25 +108,22 @@
     [xiaHuaXian mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.bottom.mas_equalTo(backImage.mas_bottom).offset(kScreenH/5);
+        make.bottom.mas_equalTo(backImage.mas_bottom)
+        .offset(kScreenW / 2.9);
     }];
     
-
-    
     UILabel *nameWiFi = [UILabel creatLableWithTitle:@"WIFI名字:" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
-    nameWiFi.layer.borderWidth = 0;
     [nameWiFi mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenW / 10));
         make.left.mas_equalTo(xiaHuaXian.mas_left);
         make.bottom.mas_equalTo(xiaHuaXian.mas_top);
     }];
 
     self.ssidLabel = [UILabel creatLableWithTitle:@"" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
-    self.ssidLabel.layer.borderWidth = 0;
     [self.ssidLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, kScreenW / 10));
         make.centerY.mas_equalTo(nameWiFi.mas_centerY);
-        make.left.mas_equalTo(nameWiFi.mas_right).offset(kScreenW / 30);
+        make.left.mas_equalTo(nameWiFi.mas_right)
+        .offset(kScreenW / 30);
     }];
     self.ssidLabel.textColor = [UIColor grayColor];
     
@@ -137,19 +133,17 @@
         self.ssidLabel.text = [NSString stringWithFormat:@"%@" , [self getWifiName]];
     }
 
-    
     UIView *xiaHuaXian2 = [[UIView alloc]init];
     [self.view addSubview:xiaHuaXian2];
     xiaHuaXian2.backgroundColor = [UIColor grayColor];
     [xiaHuaXian2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, 1));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(xiaHuaXian.mas_bottom).offset(kScreenH/13.875);
+        make.top.mas_equalTo(xiaHuaXian.mas_bottom)
+        .offset(kScreenW / 8);
     }];
 
-    
     UILabel *pwdWiFi = [UILabel creatLableWithTitle:@"WiFi密码:" andSuperView:self.view andFont:k14 andTextAligment:NSTextAlignmentLeft];
-    pwdWiFi.layer.borderWidth = 0;
     [pwdWiFi mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenW / 10));
         make.left.mas_equalTo(xiaHuaXian2.mas_left);
@@ -159,7 +153,8 @@
     self._pwdTextView = [UITextField creatTextfiledWithPlaceHolder:@"请输入WIFI密码" andSuperView:self.view];
     [self._pwdTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, kScreenW / 10));
-        make.left.mas_equalTo(pwdWiFi.mas_right).offset(kScreenW / 30);
+        make.left.mas_equalTo(pwdWiFi.mas_right)
+        .offset(kScreenW / 30);
         make.centerY.mas_equalTo(pwdWiFi.mas_centerY);
     }];
 
@@ -172,11 +167,11 @@
     self._confirmCancelBtn.layer.cornerRadius = kScreenW / 18;
 
     [self._confirmCancelBtn addTarget:self action:@selector(tapConfirmCancelBtn:) forControlEvents:UIControlEventTouchUpInside];
-    //注册按钮的约束
     [self._confirmCancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kStandardW, kScreenW / 8));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(xiaHuaXian2.mas_bottom).offset(kScreenH / 22.2);
+        make.top.mas_equalTo(xiaHuaXian2.mas_bottom)
+        .offset(kScreenW / 12.5);
     }];
     
     _xianHuaXian = xiaHuaXian2;
@@ -190,25 +185,19 @@
 }
 
 #pragma mark - textFiled的代理  键盘弹起时，textFiled上移
+
+static int offset = 0;
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     
     _xianHuaXian.backgroundColor = kMainColor;
     
-    CGRect frame = textField.frame;
-    NSLog(@"%@" , NSStringFromCGRect(frame));
-    int offset = frame.origin.y + frame.size.height - (kScreenH - (HEIGHT_KEYBOARD+HEIGHT_SPACE)) + kScreenW / 10;
+    CGRect frame = self._confirmCancelBtn.frame;
+    offset = CGRectGetMaxY(frame) - (kScreenH - (HEIGHT_KEYBOARD+kTabbarH));
 
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-
-    if(offset > 0)
-    {
+    [UIView animateWithDuration:0.5 animations:^{
         self.view.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
-    }
-
-    [UIView commitAnimations];
+    }];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
@@ -216,16 +205,11 @@
     
     _xianHuaXian.backgroundColor = [UIColor grayColor];
     
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    self.view.frame = CGRectMake(0, kHeight, kScreenW, self.view.frame.size.height);
-    [UIView commitAnimations];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.frame = CGRectMake(0, kNavibarH, self.view.frame.size.width, self.view.frame.size.height);
+    }];
+    
 }
-
-//- (void)setAddServiceModel:(AddServiceModel *)addServiceModel {
-//    _addServiceModel = addServiceModel;
-//}
 
 @end
 

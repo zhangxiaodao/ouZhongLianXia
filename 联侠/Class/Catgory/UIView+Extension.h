@@ -27,7 +27,8 @@
 - (void)widthAdd:(CGFloat)add;
 - (void)heightAdd:(CGFloat)add;
 
-+ (UIView * _Nonnull)creatViewWithBackView:(UIImage * _Nonnull)iamge andSuperView:(UIView * _Nonnull)superView;
++ (UIView *_Nonnull)creatViewWithFrame:(CGSize)size image:(UIImage *_Nonnull)iamge andSuperView:(UIView *_Nonnull)superView;
+
 + (UIView * _Nonnull)creatViewWithBackViewandTitle:(NSString * _Nonnull)text andSuperView:(UIView * _Nonnull)superView;
 
 + (UIView * _Nonnull)creatTextFiledWithLableText:(NSString * _Nonnull)lableText andTextFiledPlaceHold:(NSString * _Nonnull)placeHolder andSuperView:(UIView * _Nonnull)superView;

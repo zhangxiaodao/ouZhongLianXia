@@ -10,4 +10,8 @@
 
 @interface WeatherView : UIView
 + (void)creatViewWeatherDic:(NSMutableDictionary *)dic andSuperView:(UIImageView *)superView andWearthImage:(UIImage *)image andMainColor:(UIColor *)color;
+
+@property (nonatomic , strong) NSDictionary *weatherDic;
+@property (nonatomic , copy) UIImage *weartherImage;
+
 @end

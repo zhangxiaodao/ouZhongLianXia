@@ -14,9 +14,7 @@
 @property (strong, nonatomic) UIView *markView;
 @property (nonatomic , strong) CustomPickerView *customView;
 
-
-
-@property (nonatomic , assign) NSInteger type;
+@property (nonatomic , assign) UIPickerViewType type;
 @property (nonatomic , copy) UIColor *backColor;
 @property (nonatomic , strong) UIPickerView *myPicker;
 @property (nonatomic , strong) UIDatePicker *myDatePicker;
@@ -29,7 +27,7 @@
 @property (strong, nonatomic) NSMutableArray *townArray;
 
 @property (nonatomic , strong) NSMutableDictionary *pickerDic;
-
+@property (nonatomic , strong) NSDictionary *dataDic;
 @end
 
 @implementation CustomPickerView
@@ -94,7 +92,12 @@
     return _hourArray;
 }
 
-- (instancetype _Nullable )initWithPickerViewType:(NSInteger)type andBackColor:(UIColor * _Nullable)backColor {
+- (void)setDataDic:(NSDictionary *)dataDic {
+    _dataDic = dataDic;
+    
+}
+
+- (instancetype _Nullable )initWithPickerViewType:(UIPickerViewType)type andBackColor:(UIColor * _Nullable)backColor {
     self = [super initWithFrame:kScreenFrame];
     if (self) {
         self.backColor = [UIColor clearColor];
@@ -104,8 +107,20 @@
         self.myDatePicker = nil;
         [self getAddressData];
         [self creatPickerView];
-        
-        
+    }
+    return self;
+}
+
+- (instancetype _Nullable)initWithPickerViewType:(UIPickerViewType)type data:(NSDictionary *)dataDic andBackColor:(UIColor * _Nullable)backColor {
+    self = [super initWithFrame:kScreenFrame];
+    if (self) {
+        self.backColor = [UIColor clearColor];
+        _type = type;
+        _backColor = backColor;
+        self.myPicker = nil;
+        self.myDatePicker = nil;
+        self.dataDic = dataDic;
+        [self creatPickerView];
     }
     return self;
 }
@@ -129,11 +144,7 @@
         myPicker.timeZone = [NSTimeZone timeZoneWithName:@"GTM+8"];
         [self.pickerBgView addSubview:myPicker];
         myPicker.frame = CGRectMake(0, kScreenH / 2.61568 - kScreenH / 3.2, kScreenW, kScreenH / 3.2);
-//        [myPicker mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.2));
-//            make.left.mas_equalTo(0);
-//            make.top.mas_equalTo(kScreenH / 17.1025);
-//        }];
+
         myPicker.datePickerMode = UIDatePickerModeDate;
         NSDate *maxDate = [[NSDate alloc]initWithTimeIntervalSinceNow:24*60*60];
         myPicker.maximumDate = maxDate;
@@ -144,11 +155,6 @@
         UIPickerView *myPicker = [[UIPickerView alloc]init];
         [self.pickerBgView addSubview:myPicker];
         myPicker.frame = CGRectMake(0, kScreenH / 2.61568 - kScreenH / 3.2, kScreenW, kScreenH / 3.2);
-//        [myPicker mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 3.2));
-//            make.left.mas_equalTo(0);
-//            make.top.mas_equalTo(kScreenH / 17.1025);
-//        }];
         myPicker.delegate = self;
         myPicker.dataSource = self;
         self.myPicker = myPicker;
@@ -221,6 +227,7 @@
     
     if (_type == 1) return 2;
     else if (_type == 2) return 1;
+    else if (_type == 5) return self.dataDic.count;
     else return 3;
 }
 
@@ -234,6 +241,10 @@
         }
     } else if (_type == 2) {
         return self.sexArray.count;
+    } else if (_type == 5) {
+        
+        NSArray *dataArray = self.dataDic[@(component)];
+        return dataArray.count;
     } else {
         if (component == 0) {
             return self.provinceArray.count;
@@ -255,6 +266,10 @@
         }
     } else if (_type == 2) {
         return [self.sexArray objectAtIndex:row];
+    } else if (_type == 5) {
+        
+        NSArray *dataArray = self.dataDic[@(component)];
+        return [dataArray objectAtIndex:row];
     } else {
         if (component == 0) {
             return [self.provinceArray objectAtIndex:row];

@@ -233,6 +233,7 @@
 		EDC934F01EA462F700C60A6B /* ChongZhiPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDC934ED1EA462F700C60A6B /* ChongZhiPwdViewController.m */; };
 		EDC934F11EA462F700C60A6B /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDC934EF1EA462F700C60A6B /* ForgetPwdViewController.m */; };
 		EDCBDC191DA8CBF300DD8E6C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDCBDC181DA8CBF300DD8E6C /* TabBarViewController.m */; };
+		EDDAB8821F909C2C0034F561 /* LengFengShanMainBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDDAB8811F909C2C0034F561 /* LengFengShanMainBaseCell.m */; };
 		EDEA426C1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEA426B1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m */; };
 		EDEEAD711E9F149E00115267 /* UserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD701E9F149E00115267 /* UserInfoCell.m */; };
 		EDEEAD741E9F17E100115267 /* UserInfoCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEEAD731E9F17E100115267 /* UserInfoCommonCell.m */; };
@@ -680,6 +681,8 @@
 		EDC934EF1EA462F700C60A6B /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
 		EDCBDC171DA8CBF300DD8E6C /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
 		EDCBDC181DA8CBF300DD8E6C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
+		EDDAB8801F909C2C0034F561 /* LengFengShanMainBaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LengFengShanMainBaseCell.h; sourceTree = "<group>"; };
+		EDDAB8811F909C2C0034F561 /* LengFengShanMainBaseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LengFengShanMainBaseCell.m; sourceTree = "<group>"; };
 		EDEA426A1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJiYiWuXuanZeTableViewCell.h; sourceTree = "<group>"; };
 		EDEA426B1D73DC89000336CD /* GanYiJiYiWuXuanZeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GanYiJiYiWuXuanZeTableViewCell.m; sourceTree = "<group>"; };
 		EDEEAD6F1E9F149E00115267 /* UserInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoCell.h; sourceTree = "<group>"; };
@@ -927,6 +930,7 @@
 				ED68B6291F57FF6C003E5A82 /* Tools */,
 				ED12E01B1CF5C5460011CD2C /* AppDelegate */,
 				ED12E1021CF5C5470011CD2C /* ViewControllers */,
+				ED7443E21F8B18BE00BEB080 /* ReplaceVC */,
 				ED12E0211CF5C5460011CD2C /* Catgory */,
 				ED12E0A51CF5C5460011CD2C /* Lib */,
 				ED12E1B51CF5C5470011CD2C /* VIews */,
@@ -1119,14 +1123,11 @@
 		ED12E1061CF5C5470011CD2C /* LoginViewController */ = {
 			isa = PBXGroup;
 			children = (
-				ED12E13F1CF5C5470011CD2C /* LoginViewController.h */,
-				ED12E1401CF5C5470011CD2C /* LoginViewController.m */,
 				ED6878BD1F5D39A1001CA683 /* LoginAnfRegisterVC.h */,
 				ED6878BE1F5D39A1001CA683 /* LoginAnfRegisterVC.m */,
+				EDDAB87C1F8DC9440034F561 /* View */,
 				ED08B3F61DEFFD600001AB9E /* HTMLBaseViewController */,
 				ED27A1E01CF81C1E006BD844 /* MainViewController */,
-				ED12E1301CF5C5470011CD2C /* ForgetPwdViewController */,
-				ED12E1871CF5C5470011CD2C /* registerViewController */,
 			);
 			path = LoginViewController;
 			sourceTree = "<group>";
@@ -1263,28 +1264,6 @@
 			children = (
 				ED12E1B81CF5C5470011CD2C /* AuthcodeView.h */,
 				ED12E1B91CF5C5470011CD2C /* AuthcodeView.m */,
-				ED12E1BA1CF5C5470011CD2C /* BingJingShouMingTableViewCell.h */,
-				ED12E1BB1CF5C5470011CD2C /* BingJingShouMingTableViewCell.m */,
-				ED12E1BC1CF5C5470011CD2C /* EnterFirstTableViewCell.h */,
-				ED12E1BD1CF5C5470011CD2C /* EnterFirstTableViewCell.m */,
-				ED12E1BE1CF5C5470011CD2C /* EnterForthTableViewCell.h */,
-				ED12E1BF1CF5C5470011CD2C /* EnterForthTableViewCell.m */,
-				ED12E1C01CF5C5470011CD2C /* EnterSecondTableViewCell.h */,
-				ED12E1C11CF5C5470011CD2C /* EnterSecondTableViewCell.m */,
-				ED12E1C21CF5C5470011CD2C /* EnterThirtTableViewCell.h */,
-				ED12E1C31CF5C5470011CD2C /* EnterThirtTableViewCell.m */,
-				ED12E1C41CF5C5470011CD2C /* EnterWorkTowerFirsetView.h */,
-				ED12E1C51CF5C5470011CD2C /* EnterWorkTowerFirsetView.m */,
-				ED12E1C61CF5C5470011CD2C /* FirstSectionView.h */,
-				ED12E1C71CF5C5470011CD2C /* FirstSectionView.m */,
-				ED12E1C81CF5C5470011CD2C /* LvWangJieDuTableViewCell.h */,
-				ED12E1C91CF5C5470011CD2C /* LvWangJieDuTableViewCell.m */,
-				ED12E1CC1CF5C5470011CD2C /* MainFirstView.h */,
-				ED12E1CD1CF5C5470011CD2C /* MainFirstView.m */,
-				ED12E1D41CF5C5470011CD2C /* ShuiWeiZhuangTaiTableViewCell.h */,
-				ED12E1D51CF5C5470011CD2C /* ShuiWeiZhuangTaiTableViewCell.m */,
-				ED12E1D61CF5C5470011CD2C /* ThirtView.h */,
-				ED12E1D71CF5C5470011CD2C /* ThirtView.m */,
 			);
 			path = VIews;
 			sourceTree = "<group>";
@@ -1302,8 +1281,6 @@
 		ED1EE6FA1E77F10E005D4FC4 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				ED1EE6FB1E77F10E005D4FC4 /* AlertMessageView.h */,
-				ED1EE6FC1E77F10E005D4FC4 /* AlertMessageView.m */,
 				ED1EE6FD1E77F10E005D4FC4 /* PZXVerificationCodeTextField */,
 			);
 			path = View;
@@ -1312,10 +1289,6 @@
 		ED1EE6FD1E77F10E005D4FC4 /* PZXVerificationCodeTextField */ = {
 			isa = PBXGroup;
 			children = (
-				ED1EE6FE1E77F10E005D4FC4 /* PZXVerificationCodeView.h */,
-				ED1EE6FF1E77F10E005D4FC4 /* PZXVerificationCodeView.m */,
-				ED1EE7001E77F10E005D4FC4 /* PZXVerificationTextField.h */,
-				ED1EE7011E77F10E005D4FC4 /* PZXVerificationTextField.m */,
 			);
 			path = PZXVerificationCodeTextField;
 			sourceTree = "<group>";
@@ -1512,6 +1485,7 @@
 			children = (
 				ED27A1FA1CF81C1E006BD844 /* MainViewController.h */,
 				ED27A1FB1CF81C1E006BD844 /* MainViewController.m */,
+				EDDAB87F1F909A200034F561 /* View */,
 				ED5101791DAB7D1A0071F32C /* XinFengKongJing */,
 				ED677EA71D210150007D628E /* GanYiJiViewController */,
 				ED27A1E11CF81C1E006BD844 /* AirPurificationViewControll */,
@@ -1579,6 +1553,7 @@
 			children = (
 				EDB899F41CF8231E006D565D /* LengFengShanViewController.h */,
 				EDB899F51CF8231E006D565D /* LengFengShanViewController.m */,
+				EDDAB87D1F90993F0034F561 /* View */,
 				ED27A1F11CF81C1E006BD844 /* EnterWorkTowerViewController */,
 			);
 			path = LengFengShanViewController;
@@ -1589,6 +1564,7 @@
 			children = (
 				ED27A1F51CF81C1E006BD844 /* EnterWorkTowerViewController.h */,
 				ED27A1F61CF81C1E006BD844 /* EnterWorkTowerViewController.m */,
+				EDDAB87E1F9099940034F561 /* View */,
 				ED27A1F21CF81C1E006BD844 /* DingShiYuYueCell */,
 				ED27A1F71CF81C1E006BD844 /* HistoryViewController */,
 			);
@@ -1866,6 +1842,17 @@
 				ED6C781C1D07BC53007883EF /* AirDingShiTableViewCell.m */,
 			);
 			path = AirDingShiJieMianView;
+			sourceTree = "<group>";
+		};
+		ED7443E21F8B18BE00BEB080 /* ReplaceVC */ = {
+			isa = PBXGroup;
+			children = (
+				ED12E13F1CF5C5470011CD2C /* LoginViewController.h */,
+				ED12E1401CF5C5470011CD2C /* LoginViewController.m */,
+				ED12E1301CF5C5470011CD2C /* ForgetPwdViewController */,
+				ED12E1871CF5C5470011CD2C /* registerViewController */,
+			);
+			path = ReplaceVC;
 			sourceTree = "<group>";
 		};
 		ED7B91E11F7A0EB90024EA09 /* Recovered References */ = {
@@ -2171,6 +2158,64 @@
 				EDC934ED1EA462F700C60A6B /* ChongZhiPwdViewController.m */,
 			);
 			path = ChongZhiPwdViewController;
+			sourceTree = "<group>";
+		};
+		EDDAB87C1F8DC9440034F561 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED1EE6FE1E77F10E005D4FC4 /* PZXVerificationCodeView.h */,
+				ED1EE6FF1E77F10E005D4FC4 /* PZXVerificationCodeView.m */,
+				ED1EE7001E77F10E005D4FC4 /* PZXVerificationTextField.h */,
+				ED1EE7011E77F10E005D4FC4 /* PZXVerificationTextField.m */,
+				ED1EE6FB1E77F10E005D4FC4 /* AlertMessageView.h */,
+				ED1EE6FC1E77F10E005D4FC4 /* AlertMessageView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EDDAB87D1F90993F0034F561 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED12E1C61CF5C5470011CD2C /* FirstSectionView.h */,
+				ED12E1C71CF5C5470011CD2C /* FirstSectionView.m */,
+				ED12E1D61CF5C5470011CD2C /* ThirtView.h */,
+				ED12E1D71CF5C5470011CD2C /* ThirtView.m */,
+				EDDAB8801F909C2C0034F561 /* LengFengShanMainBaseCell.h */,
+				EDDAB8811F909C2C0034F561 /* LengFengShanMainBaseCell.m */,
+				ED12E1BA1CF5C5470011CD2C /* BingJingShouMingTableViewCell.h */,
+				ED12E1BB1CF5C5470011CD2C /* BingJingShouMingTableViewCell.m */,
+				ED12E1C81CF5C5470011CD2C /* LvWangJieDuTableViewCell.h */,
+				ED12E1C91CF5C5470011CD2C /* LvWangJieDuTableViewCell.m */,
+				ED12E1D41CF5C5470011CD2C /* ShuiWeiZhuangTaiTableViewCell.h */,
+				ED12E1D51CF5C5470011CD2C /* ShuiWeiZhuangTaiTableViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EDDAB87E1F9099940034F561 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED12E1BC1CF5C5470011CD2C /* EnterFirstTableViewCell.h */,
+				ED12E1BD1CF5C5470011CD2C /* EnterFirstTableViewCell.m */,
+				ED12E1C21CF5C5470011CD2C /* EnterThirtTableViewCell.h */,
+				ED12E1C31CF5C5470011CD2C /* EnterThirtTableViewCell.m */,
+				ED12E1C01CF5C5470011CD2C /* EnterSecondTableViewCell.h */,
+				ED12E1C11CF5C5470011CD2C /* EnterSecondTableViewCell.m */,
+				ED12E1BE1CF5C5470011CD2C /* EnterForthTableViewCell.h */,
+				ED12E1BF1CF5C5470011CD2C /* EnterForthTableViewCell.m */,
+				ED12E1C41CF5C5470011CD2C /* EnterWorkTowerFirsetView.h */,
+				ED12E1C51CF5C5470011CD2C /* EnterWorkTowerFirsetView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EDDAB87F1F909A200034F561 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED12E1CC1CF5C5470011CD2C /* MainFirstView.h */,
+				ED12E1CD1CF5C5470011CD2C /* MainFirstView.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		EDF2DBEF1D0FF9E300475E11 /* AirPuritionGengDuoTableViewCell */ = {
@@ -2581,6 +2626,7 @@
 				EDFB24441E9B641F00487D76 /* XMGNavigationController.m in Sources */,
 				ED27A2321CF81C1E006BD844 /* EnterWorkTowerViewController.m in Sources */,
 				EDA2208A1EFCBABF0052A56F /* FirstUserAlertView.m in Sources */,
+				EDDAB8821F909C2C0034F561 /* LengFengShanMainBaseCell.m in Sources */,
 				EDB559D91D3E21F500DC856C /* GanYiJiCommonTableViewCell.m in Sources */,
 				ED119DDB1CFEBC200073094D /* AirThirtTableViewCell.m in Sources */,
 			);

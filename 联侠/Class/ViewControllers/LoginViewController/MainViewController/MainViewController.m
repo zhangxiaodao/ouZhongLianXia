@@ -17,8 +17,7 @@
 #import "FirstUserAlertView.h"
 
 @interface MainViewController ()<UIScrollViewDelegate , HelpFunctionDelegate>{
-    UIImageView *imageBG;
-    UIView *banTouMingLableView;
+    UIImageView *tableViewBackView;
     UIView *setVIew;
 }
 @property (nonatomic , strong) UIImage *werthImage;
@@ -30,8 +29,9 @@
 
 @property (nonatomic , copy) NSString *deviceName;
 
-@property (nonatomic , strong) RollLabel* testLabel;
 @end
+
+static CGFloat tableViewContentOffsetY = 0;
 
 @implementation MainViewController
 
@@ -39,27 +39,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    NSDictionary *parames = @{@"userSn":[kStanderDefault objectForKey:@"userSn"]};
     
-    [HelpFunction requestDataWithUrlString:kUserInfoURL andParames:parames andDelegate:self];
+    [self setRequestUserInfo];
     
     [self setMainUI];
     
     [self setAlertView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHeadImage:) name:@"headImage" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getNiCheng:) name:@"niCheng" object:nil];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
     self.navigationController.navigationBar.hidden = YES;
+    
+    
     if ([kStanderDefault objectForKey:@"zhuYe"]) {
         NSNumber *aa = [kStanderDefault objectForKey:@"zhuYe"];
-        imageBG.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@" , [self.zhuYeArray objectAtIndex:[aa integerValue]]]];
+        tableViewBackView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@" , [self.zhuYeArray objectAtIndex:[aa integerValue]]]];
     } else {
-        imageBG.image=[UIImage imageNamed:@"主页背景图4"];
+        tableViewBackView.image=[UIImage imageNamed:@"主页背景图4"];
     }
 
     if (self.serviceModel && self.userModel) {
@@ -67,355 +68,240 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    tableViewContentOffsetY = self.tableView.contentOffset.y;
+//    NSLog(@"%.2f" , self.tableView.contentOffset.y);
+}
 
-#pragma mark - 获取代理的数据
-- (void)requestData:(HelpFunction *)request didFinishLoadingDtaArray:(NSMutableArray *)data {
-    NSDictionary *dic = data[0];
-//        NSLog(@"%@" , dic);
-    if ([dic[@"state"] integerValue] == 0) {
-        
-        NSDictionary *user = dic[@"data"];
-        
-        [kStanderDefault setObject:user[@"sn"] forKey:@"userSn"];
-        [kStanderDefault setObject:user[@"id"] forKey:@"userId"];
-        
-        _userModel = [[UserModel alloc]init];
-        for (NSString *key in [user allKeys]) {
-            [_userModel setValue:user[key] forKey:key];
-        }
-        
-        [kApplicate initLastMainViewController:self];
-        [kApplicate initUserModel:_userModel];
-        if (![self.userModel.headImageUrl isKindOfClass:[NSNull class]]) {
-            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage new]];
-            if (self.headImageView.image.size.width == 0) {
-                self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
+#pragma mark - 获取用户信息
+- (void)setRequestUserInfo {
+    NSDictionary *parames = @{@"userSn":[kStanderDefault objectForKey:@"userSn"]};
+    [kNetWork requestPOSTUrlString:kUserInfoURL parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+        NSDictionary *dic = responseObject;
+        if ([dic[@"state"] integerValue] == 0) {
+            NSDictionary *user = dic[@"data"];
+            [kStanderDefault setObject:user[@"sn"] forKey:@"userSn"];
+            [kStanderDefault setObject:user[@"id"] forKey:@"userId"];
+            
+            _userModel = [[UserModel alloc]init];
+            for (NSString *key in [user allKeys]) {
+                [_userModel setValue:user[key] forKey:key];
             }
             
-        } else {
+            [kApplicate initLastMainViewController:self];
+            [kApplicate initUserModel:_userModel];
+            
+            [self setAvertImage];
+        }
+    } failure:nil];
+}
+
+#pragma mark - 设置用户头像
+- (void)setAvertImage {
+    if (![self.userModel.headImageUrl isKindOfClass:[NSNull class]]) {
+        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage new]];
+        if (self.headImageView.image.size.width == 0) {
             self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
         }
+    } else {
+        self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
     }
 }
 
-- (void)setServiceModel:(ServicesModel *)serviceModel {
-    _serviceModel = serviceModel;
-    
-    if (_serviceModel) {
-        
-        [kApplicate initServiceModel:self.serviceModel];
-        [self requestMainVCServiceData];
-        [self requestMainVCServiceState];
-    }
-}
-
+#pragma mark - 查询设备状态
 - (void)requestMainVCServiceState {
     NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
-
-    if ([self.serviceModel.devTypeSn isEqualToString:@"4131"]) {
-        
-        [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianZhuangTai andParames:parames andDelegate:self];
- 
-    } else if ([self.serviceModel.devTypeSn isEqualToString:@"4231"]) {
-        
-        [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianZhuangTai andParames:parames andDelegate:self];
-        
-    } else if ([self.serviceModel.devTypeSn isEqualToString:@"4331"]) {
-        
-        [HelpFunction requestDataWithUrlString:kChaXunGanYiJiZhuangTai andParames:parames andDelegate:self];
-    }
+    NSDictionary *urlStringDic = @{ @"4131":kChaXunLengFengShanDangQianZhuangTai ,@"4231":kChaXunKongJingDangQianZhuangTai ,@"4331":kChaXunGanYiJiZhuangTai};
+    
+    [kNetWork requestPOSTUrlString:urlStringDic[self.serviceModel.devTypeSn] parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+        if ([responseObject[@"data"] isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *dic = responseObject[@"data"];
+            
+            self.stateModel = [[StateModel alloc]init];
+            
+            for (NSString *key in [dic allKeys]) {
+                [self.stateModel setValue:dic[key] forKey:key];
+            }
+            
+            if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
+                [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
+            } else if (self.stateModel.fSwitch == 1){
+                [self setBottomBackGroundColor:kKongJingYanSe andSelected:1 andState:@"YES"];
+            }
+            [self.tableView reloadData];
+        } else {
+            [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
+        }
+    } failure:nil];
     
 }
 
-- (void)requestMainVCServiceData {
-    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
-    
-    if ([self.serviceModel.devTypeSn isEqualToString:@"4131"]) {
-
-        [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianShuJu andParames:parames andDelegate:self];
-    } else if ([self.serviceModel.devTypeSn isEqualToString:@"4231"]) {
-
-        [HelpFunction requestDataWithUrlString:kChaXunKongJingDangQianShuJu andParames:parames andDelegate:self];
-    } else if ([self.serviceModel.devTypeSn isEqualToString:@"4331"]) {
-        [HelpFunction requestDataWithUrlString:kChaXunGanYiJiShuJu andParames:parames andDelegate:self];
-    }
-}
 
 
 #pragma mark - 查询设备数据
-- (void)requestServicesData:(HelpFunction *)request didOK:(NSDictionary *)dic {
-//    NSLog(@"%@" , dic);
-    if ([dic[@"data"] isKindOfClass:[NSDictionary class]]) {
-        self.serviceDataModel = [[ServicesDataModel alloc]init];
-        [self.serviceDataModel setValuesForKeysWithDictionary:dic[@"data"]];
-        [self.tableView reloadData];
-    }
+- (void)requestMainVCServiceData {
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
+    NSDictionary *urlStringDic = @{ @"4131":kChaXunLengFengShanDangQianShuJu ,@"4231":kChaXunKongJingDangQianShuJu ,@"4331":kChaXunGanYiJiShuJu};
+    
+    [kNetWork requestPOSTUrlString:urlStringDic[self.serviceModel.devTypeSn] parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+        if ([responseObject[@"data"] isKindOfClass:[NSDictionary class]]) {
+            self.serviceDataModel = [[ServicesDataModel alloc]init];
+            [self.serviceDataModel setValuesForKeysWithDictionary:responseObject[@"data"]];
+            [self.tableView reloadData];
+        }
+    } failure:nil];
 }
 
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    NSLog(@"%@" , error);
-}
-
+#pragma mark - 设置开关按钮的不同状态
 - (void)setBottomBackGroundColor:(UIColor *)color andSelected:(BOOL)selected andState:(NSString *)state {
     self.bottomBtn.backgroundColor = color;
     self.bottomBtn.selected = selected;
     [kStanderDefault setObject:state forKey:@"offBtn"];
 }
 
-#pragma mark - 查询设备状态
-- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-//    NSLog(@"%@" , dddd);
-    if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *dic = dddd[@"data"];
-        
-        self.stateModel = [[StateModel alloc]init];
-        
-        for (NSString *key in [dic allKeys]) {
-            [self.stateModel setValue:dic[key] forKey:key];
-        }
-        
-        if ([_serviceModel.devTypeSn isEqualToString:@"4231"]) {
-            if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
-                [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
-                
-            } else if (self.stateModel.fSwitch == 1){
-             
-                [self setBottomBackGroundColor:kKongJingYanSe andSelected:1 andState:@"YES"];
-            }
-            [self.bottomBtn addTarget:self action:@selector(kongQiJingHuaQiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
-        } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"]) {
-            if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
-                [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
-                [self.bottomBtn addTarget:self action:@selector(lengFengShanOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
-            } else if (self.stateModel.fSwitch == 1){
-                [self setBottomBackGroundColor:kMainColor andSelected:1 andState:@"YES"];
-                [self.bottomBtn addTarget:self action:@selector(lengFengShanCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
-            }
-            
-        } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {
-            if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
-
-                [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
-            } else if (self.stateModel.fSwitch == 1){
-
-                [self setBottomBackGroundColor:kKongJingYanSe andSelected:1 andState:@"YES"];
-            }
-            
-            [self.bottomBtn addTarget:self action:@selector(ganYiJiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        
-        [self.tableView reloadData];
-        
-    } else {
-        
-        if ([_serviceModel.devTypeSn isEqualToString:@"4231"]) {
-
-            [self.bottomBtn addTarget:self action:@selector(kongQiJingHuaQiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
-        } else if ([_serviceModel.devTypeSn isEqualToString:@"4131"]) {
-            
-            [self.bottomBtn addTarget:self action:@selector(lengFengShanCloseAtcion:) forControlEvents:UIControlEventTouchUpInside];
-        } else if ([_serviceModel.devTypeSn isEqualToString:@"4331"]) {
-            [self.bottomBtn addTarget:self action:@selector(ganYiJiOpenAtcion:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        self.bottomBtn.backgroundColor = [UIColor grayColor];
-        [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
-        self.bottomBtn.selected = 0;
+#pragma mark - 设置UI
+- (void)setMainUI {
+    
+    [self setTableViewBackView];
+    
+    [self setTableView];
+    
+    NSArray *subviewsArray = [NSArray arrayWithArray:_touMingImageVIew.subviews];
+    for (int i = 0; i < subviewsArray.count; i++) {
+        [subviewsArray[i] removeFromSuperview];
     }
-    
+    [_touMingImageVIew removeFromSuperview];
+    [self getWeatherDic:self.wearthDic];
+    [self setBottomView];
+    [self setSwipeGesture];
 }
-
-
-#pragma mark - 设置滚动Lable 
-- (void)setScrollLable:(NSMutableDictionary *)dic {
-    self.testLabel = [[RollLabel alloc] initWithFrame:CGRectMake(kScreenW / 9 , kScreenH / 22.72 - kScreenH / 58 , kScreenW - kScreenW * 2 / 9 , kScreenH / 29) text:dic[@"chuanYi"] font:[UIFont systemFontOfSize:15] textColor:[UIColor whiteColor]];
-    [self.testLabel startRoll];
+#pragma mark - 设置 tableView 的背景图片
+- (void)setTableViewBackView {
+    tableViewBackView=[[UIImageView alloc]init];
+    [self.view addSubview:tableViewBackView];
+    tableViewBackView.frame = CGRectMake(0, 0, kScreenW, kScreenH);
+    tableViewBackView.contentMode = UIViewContentModeTop;
+    tableViewBackView.userInteractionEnabled = YES;
     
-    [imageBG addSubview:self.testLabel];
-    self.testLabel.tag = 2;
-    self.testLabel.backgroundColor = [UIColor clearColor];
-    self.testLabel.layer.cornerRadius = kScreenH / 58;
-    self.testLabel.layer.masksToBounds = YES;
+    setVIew = [UIView creatViewWithFrame:CGSizeMake(kScreenH / 13, kScreenH / 13) image:[UIImage imageNamed:@"iconfont-ordinaryset"] andSuperView:tableViewBackView];
+    [setVIew mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenH / 13, kScreenH / 13));
+        make.right.mas_equalTo(tableViewBackView.mas_right)
+        .offset(-5);
+        make.top.mas_equalTo(kStatusbarH);
+    }];
+    
+    UITapGestureRecognizer *setTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(setTapAction)];
+    [setVIew addGestureRecognizer:setTap];
+    
+    self.headImageView = [[UIImageView alloc]init];
+    self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
+    [tableViewBackView addSubview:self.headImageView];
+    [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 6));
+        make.top.mas_equalTo(kStatusbarH + kScreenW / 30);
+        make.left.mas_equalTo(kScreenW / 20);
+    }];
+    self.headImageView.layer.cornerRadius = kScreenW / 12;
+    self.headImageView.layer.masksToBounds = YES;
 }
-
-#pragma mark - 天气数据
+#pragma mark - 设置tableView
+- (void)setTableView {
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kScreenW / 6.8) style:UITableViewStyleGrouped];
+    self.tableView.tag = 234;
+    [self.view addSubview:self.tableView];
+    self.tableView.contentInset = UIEdgeInsetsMake(BackGroupHeight, 0, 0, 0);
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundView = tableViewBackView;
+}
+#pragma mark - 设置天气UI
 - (void)getWeatherDic:(NSMutableDictionary *)dic {
-    banTouMingLableView = [[UIView alloc]init];
-    banTouMingLableView.backgroundColor = [UIColor blackColor];
-    banTouMingLableView.layer.opacity = 0.2;
-    [imageBG addSubview:banTouMingLableView];
-    banTouMingLableView.tag = 1;
-    banTouMingLableView.frame = CGRectMake(kScreenW / 9, kScreenH / 22.72 - kScreenH / 58 , kScreenW - kScreenW * 2 / 9, kScreenH / 29);
-    
-    banTouMingLableView.layer.cornerRadius = kScreenH / 59;
-    
-    [self setScrollLable:dic];
-    self.testLabel.hidden = YES;
-    banTouMingLableView.hidden = YES;
-    
     
     _touMingImageVIew = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"主页透明.jpg"]];
     _touMingImageVIew.frame=CGRectMake(0, -BackGroupHeight, self.view.frame.size.width, BackGroupHeight);
     
     NSString *imagetr = self.arrImage[[dic[@"weather_icon"] integerValue]];
     self.werthImage = [UIImage imageNamed:imagetr];
-
+    
     [MainFirstView creatViewWeatherDic:dic andSuperView:_touMingImageVIew andWearthImage:self.werthImage];
     
     _touMingImageVIew.contentMode = UIViewContentModeScaleAspectFill;
     [self.tableView addSubview:_touMingImageVIew];
     _touMingImageVIew.tag = 3;
-    
-    //添加轻扫手势
-    UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture:)];
-    //设置轻扫的方向
-    swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft; //默认向右
-    [self.view addGestureRecognizer:swipeGesture];
-    
-
-    //添加轻扫手势
-    UISwipeGestureRecognizer *swipeGesture1 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGesture11:)];
-    //设置轻扫的方向
-    swipeGesture1.direction = UISwipeGestureRecognizerDirectionRight; //默认向右
-    [self.view addGestureRecognizer:swipeGesture1];
 }
-
-- (void)setMainUI {
-    
-    
-    imageBG=[[UIImageView alloc]init];
-    
-    [self.view addSubview:imageBG];
-    imageBG.frame=CGRectMake(0, 0, kScreenW, kScreenH);
-    imageBG.contentMode = UIViewContentModeTop;
-    imageBG.userInteractionEnabled = YES;
-    
-    setVIew = [UIView creatViewWithBackView:[UIImage imageNamed:[NSString stringWithFormat:@"iconfont-ordinaryset"]] andSuperView:imageBG];
-    setVIew.userInteractionEnabled = YES;
-    [setVIew mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenH / 13, kScreenH / 13));
-        make.right.mas_equalTo(-5);
-        make.centerY.mas_equalTo(self.view.mas_top).offset(kScreenH / 22.72);
-    }];
-    
-    UITapGestureRecognizer *gengHuanTuPianTap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gengHuanTuPianTapAction:)];
-    
-    //添加到指定视图
-    [setVIew addGestureRecognizer:gengHuanTuPianTap];
-    
-    
-    
-    self.headImageView = [[UIImageView alloc]init];
-//    self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
-    if (self.headImage == nil) {
-
-        if (![self.userModel.headImageUrl isKindOfClass:[NSNull class]]) {
-            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage new]];
-        } else {
-            self.headImageView.image = [UIImage imageNamed:@"iconfont-touxiang"];
-        }
-    } else if (self.headImage != nil) {
-        self.headImageView.image = self.headImage;
-    } else {
-        
-        if (![self.userModel.headImageUrl isKindOfClass:[NSNull class]]) {
-            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:self.userModel.headImageUrl] placeholderImage:[UIImage new]];
-        }
-        
-        
-    }
-    
-    
-    [imageBG addSubview:self.headImageView];
-    [self.headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 6, kScreenW / 6));
-        make.top.mas_equalTo(kScreenH / 15.15909);
-        make.left.mas_equalTo(kScreenW / 20);
-    }];
-    self.headImageView.layer.cornerRadius = kScreenW / 12;
-    self.headImageView.layer.masksToBounds = YES;
-    self.headImageView.userInteractionEnabled = YES;
-    
-    
-//    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImageAtcion)];
-//    [self.headImageView addGestureRecognizer:tap1];
-    
-    
-    
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kScreenH / 12.3518518) style:UITableViewStyleGrouped];
-    self.tableView.tag = 234;
-    [self.view addSubview:self.tableView];
-    self.tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 1)];
-    self.tableView.contentInset=UIEdgeInsetsMake(BackGroupHeight, 0, 0, 0);
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.backgroundView = imageBG;
-    
-    
-    NSArray *subviewsArray = [NSArray arrayWithArray:_touMingImageVIew.subviews];
-    for (int i = 0; i < subviewsArray.count; i++) {
-        [subviewsArray[i] removeFromSuperview];
-    }
-    [banTouMingLableView removeFromSuperview];
-    [self.testLabel removeFromSuperview];
-    [_touMingImageVIew removeFromSuperview];
-    [self getWeatherDic:self.wearthDic];
-    
-    self.bottomView = [[UIView alloc]init];
-    [self.view addSubview:self.bottomView];
-    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
+#pragma mark - 设置底部开关UI
+- (void)setBottomView {
+    UIView *bottomView = [[UIView alloc]init];
+    [self.view addSubview:bottomView];
+    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.view.mas_bottom);
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 12.3518518));
-        make.right.mas_equalTo(self.view.mas_right);
+        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenW / 6.8));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
-    self.bottomView.backgroundColor = [UIColor whiteColor];
+    bottomView.backgroundColor = [UIColor whiteColor];
     
-    self.bottomBtn = [UIButton initWithTitle:@"" andColor:[UIColor grayColor] andSuperView:self.view];
+    self.bottomBtn = [UIButton initWithTitle:@"开启" andColor:[UIColor grayColor] andSuperView:bottomView];
     self.bottomBtn.layer.cornerRadius = kScreenW / 18;
-    //注册按钮的约束
     [self.bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 15, kScreenW / 9));
-        make.left.mas_equalTo(kScreenW / 15);
-        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-5);
+        make.centerX.mas_equalTo(bottomView.mas_centerX);
+        make.centerY.mas_equalTo(bottomView.mas_centerY);
     }];
-    
-    UILabel *lable = [UILabel creatLableWithTitle:@"开启" andSuperView:self.bottomBtn andFont:k17 andTextAligment:NSTextAlignmentLeft];
-    lable.textColor = [UIColor whiteColor];
-    lable.layer.borderWidth = 0;
-    [lable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(self.bottomBtn.height / 2, self.bottomBtn.height / 2));
-        make.left.mas_equalTo(self.bottomBtn.mas_centerX).offset(3);
-        make.centerY.mas_equalTo(self.bottomBtn.mas_centerY);
-    }];
-    
-    UIImageView *offImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"iconfont-kaiguan222"]];
-    offImageView.image = [offImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    offImageView.tintColor = [UIColor whiteColor];
-    [self.bottomBtn addSubview:offImageView];
-    [offImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(self.bottomBtn.height / 4, self.bottomBtn.height / 4));
-        make.right.mas_equalTo(self.bottomBtn.mas_centerX).offset(-3);
-        make.centerY.mas_equalTo(self.bottomBtn.mas_centerY);
-    }];
-            
+    [self.bottomBtn setImage:[UIImage imageNamed:@"iconfont-kaiguan222"] forState:UIControlStateNormal];
+    [self.bottomBtn setImage:[UIImage imageNamed:@"iconfont-kaiguan222"] forState:UIControlStateHighlighted];
+    self.bottomBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+    [self bottomBtnAddAtcion];
+}
+#pragma mark - 开关按钮的点击事件
+- (void)bottomBtnAddAtcion {
+    NSDictionary *atcionDic = @{@"4131":@"lengFengShanOpenAtcion" , @"4231":@"kongQiJingHuaQiOpenAtcion" , @"4331":@"ganYiJiOpenAtcion"};
+    NSString *actionStr = atcionDic[_serviceModel.devTypeSn];
+    [self.bottomBtn addTarget:self action:NSSelectorFromString(actionStr) forControlEvents:UIControlEventTouchUpInside];
 }
 
+#pragma mark - 左右滑动事件
+- (void)setSwipeGesture {
+    UISwipeGestureRecognizer *leftSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(leftSwipeAtcion:)];
+    leftSwipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:leftSwipeGesture];
+    
+    UISwipeGestureRecognizer *rightSwipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rightSwipeAtcion:)];
+    //设置轻扫的方向
+    rightSwipeGesture.direction = UISwipeGestureRecognizerDirectionRight; //默认向右
+    [self.view addGestureRecognizer:rightSwipeGesture];
+}
+#pragma mark - 第一次进入主页的提示图片
 - (void)setAlertView {
     [[FirstUserAlertView alloc]creatAlertViewwithImage:@"主页提示" deleteFirstObj:@"move"];
 }
 
-#pragma mark - 长按手势  更换图片
-- (void)gengHuanTuPianTapAction:(UITapGestureRecognizer *)longPress {
-    
-    
-    
+#pragma mark - 设置功能的点击事件
+- (void)setTapAction {
     [UIAlertController creatSheetControllerWithFirstHandle:^{
         
         [UIAlertController creatAlertControllerWithFirstTextfiledPlaceholder:nil andFirstTextfiledText:[NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName] andFirstAtcion:nil andWhetherEdite:NO WithSecondTextfiledPlaceholder:@"请输入修改名称" andSecondTextfiledText:nil andSecondAtcion:@selector(secondTextFieldsValueDidChange:) andAlertTitle:@"修改设备名称" andAlertMessage:@"你可以再次修改设备名称，便于区分。" andTextfiledAtcionTarget:self andSureHandle:^{
             if (self.deviceName) {
                 NSDictionary *parames = @{@"ud.devTypeSn" :  self.serviceModel.devTypeSn, @"ud.devSn" :  self.serviceModel.devSn, @"ud.definedName" : self.deviceName};
                 NSLog(@"修改设备名称---%@" , parames);
-                [HelpFunction requestDataWithUrlString:kChangeServiceName andParames:parames andDelegate:self];
+                
+                [kNetWork requestPOSTUrlString:kChangeServiceName parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+                    
+                    if ([responseObject[@"state"] isKindOfClass:[NSNull class]]) {
+                        return ;
+                    }
+                    
+                    NSInteger index = [responseObject[@"state"] integerValue];
+                    if (index == 0) {
+                        if (self.deviceName) {
+                            self.navigationItem.title = [NSString stringWithFormat:@"%@%@" , self.deviceName , self.serviceModel.typeName];
+                        } else {
+                            self.navigationItem.title = [NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName];
+                        }
+                    }
+                    
+                } failure:nil];
             }
         } andSuperViewController:self];
         
@@ -423,59 +309,30 @@
         
         [UIAlertController creatCancleAndRightAlertControllerWithHandle:^{
             NSDictionary *parames = @{@"id" : @(self.serviceModel.userDeviceID)};
-            [HelpFunction requestDataWithUrlString:kDeleteServiceURL andParames:parames andDelegate:self];
+            [kNetWork requestPOSTUrlString:kDeleteServiceURL parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+                if ([responseObject[@"state"] integerValue] == 0) {
+                    [UIAlertController creatRightAlertControllerWithHandle:^{
+                        [self.navigationController popViewControllerAnimated:YES];
+                    } andSuperViewController:self Title:@"设备删除成功"];
+                }
+            } failure:nil];
+            
         } andSuperViewController:self Title:@"是否移除设备"];
-        
         
     } andSecondTitle:@"移除设备" andThirtHandle:^{
         ExchangeCollectionViewController *exchangeVC = [[UIStoryboard storyboardWithName:@"ExchangeCollectionViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"ExchangeCollectionViewController"];
-        
         exchangeVC.fromMainVC = [NSString stringWithFormat:@"1"];
-        
         [self.navigationController pushViewController:exchangeVC animated:YES];
     } andThirtTitle:@"更换背景" andForthHandle:nil andForthTitle:nil andSuperViewController:self];
 }
 
+#pragma mark - 修改设备名称的代理
 - (void)secondTextFieldsValueDidChange:(UITextField *)textfiled {
     self.deviceName = textfiled.text;
 }
 
-#pragma mark - 修改设备名称
-- (void)requestData:(HelpFunction *)request changeServiceName:(NSDictionary *)dic {
-    //    NSLog(@"%@" , dic);
-    
-    if ([dic[@"state"] isKindOfClass:[NSNull class]]) {
-        return ;
-    }
-    
-    NSInteger index = [dic[@"state"] integerValue];
-    if (index == 0) {
-        if (self.deviceName) {
-            self.navigationItem.title = [NSString stringWithFormat:@"%@%@" , self.deviceName , self.serviceModel.typeName];
-        } else {
-            self.navigationItem.title = [NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName];
-        }
-    }
-    
-}
-
-
-#pragma mark - 移除设备
-- (void)requestRemoveService:(HelpFunction *)request didDone:(NSDictionary *)dic{
-    //    NSLog(@"%@" , dic);
-    
-    if ([dic[@"state"] integerValue] == 0) {
-        
-        
-        [UIAlertController creatRightAlertControllerWithHandle:^{
-            [self.navigationController popViewControllerAnimated:YES];
-        } andSuperViewController:self Title:@"设备删除成功"];
-    }
-}
-
-
-#pragma mark - 向左滑动推出界面
-- (void)swipeGesture11:(UISwipeGestureRecognizer *)swipe {
+#pragma mark - 向右滑动推出界面
+- (void)rightSwipeAtcion:(UISwipeGestureRecognizer *)swipe {
     
     if (_sendVCDelegate && [_sendVCDelegate respondsToSelector:@selector(sendViewControllerToParentVC:)]) {
         [_sendVCDelegate sendViewControllerToParentVC:self];
@@ -491,24 +348,15 @@
     
 }
 
-#pragma mark - 修改昵称
-- (void)getNiCheng:(NSNotification *)post {
-    self.userModel.nickname = post.userInfo[@"niCheng"];
-}
-
-
 #pragma mark - 获取头像
 - (void)getHeadImage:(NSNotification *)post {
     self.headImageView.image = post.userInfo[@"headImage"];
 }
 
+#pragma mark - 懒加载
 - (void)setWearthDic:(NSMutableDictionary *)wearthDic {
     _wearthDic = wearthDic;
-//    NSLog(@"%@" , _wearthDic);
-    
 }
-
-#pragma mark - 懒加载
 - (NSMutableArray *)serviceArray {
     if (!_serviceArray) {
         _serviceArray = [NSMutableArray array];
@@ -528,19 +376,21 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat yOffset  = scrollView.contentOffset.y;
-    
-    if (yOffset < -BackGroupHeight) {
-        
-        CGRect rect = self.touMingImageVIew.frame;
-        rect.origin.y = yOffset;
-        rect.size.height =  -yOffset ;
-        self.touMingImageVIew.frame = rect;
+    if (yOffset <= tableViewContentOffsetY) {
+        self.tableView.bounces = YES;
     }
-    
-    if (yOffset > scrollView.contentSize.height - self.tableView.height){
-        
-        // 取消上拉回弹
-        [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, scrollView.contentSize.height - self.tableView.height)];
+    else if (yOffset >= tableViewContentOffsetY){
+        self.tableView.bounces = NO;
+    }
+}
+
+#pragma mark - 懒加载
+- (void)setServiceModel:(ServicesModel *)serviceModel {
+    _serviceModel = serviceModel;
+    if (_serviceModel) {
+        [kApplicate initServiceModel:self.serviceModel];
+        [self requestMainVCServiceData];
+        [self requestMainVCServiceState];
     }
 }
 
@@ -552,11 +402,11 @@
     return _arrImage;
 }
 
-- (void)swipeGesture:(UISwipeGestureRecognizer *)swipe{}
-- (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn{}
-- (void)lengFengShanOpenAtcion:(UIButton *)btn{}
-- (void)lengFengShanCloseAtcion:(UIButton *)btn{}
-- (void)ganYiJiOpenAtcion:(UIButton *)btn {}
+- (void)leftSwipeAtcion:(UISwipeGestureRecognizer *)swipe{}
+- (void)kongQiJingHuaQiOpenAtcion{}
+- (void)lengFengShanOpenAtcion{}
+- (void)lengFengShanCloseAtcion{}
+- (void)ganYiJiOpenAtcion{}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];

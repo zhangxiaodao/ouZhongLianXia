@@ -18,7 +18,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, (kScreenW - kScreenW * 3 / 25) / 2, kScreenH / 4.6)];
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, (kScreenW - kScreenW * 3 / 25) / 2, kScreenW / 2.6)];
         [self.contentView addSubview:view];
         self.contentView.backgroundColor = [UIColor whiteColor];
         self.contentView.layer.cornerRadius = 5;
@@ -30,7 +30,8 @@
         [_backImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_offset(CGSizeMake(view.width, view.height * 5 / 9));
             make.centerX.mas_equalTo(view.mas_centerX);
-            make.top.mas_equalTo(view.mas_top).offset(view.height / 9);
+            make.top.mas_equalTo(view.mas_top)
+            .offset(view.height / 9);
         }];
         _backImage.contentMode = UIViewContentModeScaleAspectFit;
         
@@ -68,7 +69,8 @@
         UILabel *onlieLabel = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentRight];
         [onlieLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(view.width / 3, view.height / 8));
-            make.centerY.mas_equalTo(_numberLabel.mas_centerY);
+            make.centerY
+            .mas_equalTo(_numberLabel.mas_centerY);
             make.right.mas_equalTo(view.mas_right).offset(-kScreenW / 37.5);
         }];
         onlieLabel.layer.borderWidth = 0;

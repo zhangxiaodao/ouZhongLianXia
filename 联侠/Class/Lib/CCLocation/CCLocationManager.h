@@ -15,20 +15,26 @@
 #define  CCLastCity      @"CCLastCity"
 #define  CCLastAddress   @"CCLastAddress"
 
+typedef void(^LocationBlock)(NSArray *address);
 
-@protocol CCLocationManagerZHCDelegate <NSObject>
+//@protocol CCLocationManagerZHCDelegate <NSObject>
+//
+//- (void)getCityNameAndProvience:(NSArray *)address;
+//
+//@end
 
-- (void)getCityNameAndProvience:(NSArray *)address;
 
-@end
 
 
 @interface CCLocationManager : NSObject<CLLocationManagerDelegate>
 
-@property (nonatomic , assign) id<CCLocationManagerZHCDelegate> delegate;
+//@property (nonatomic , assign) id<CCLocationManagerZHCDelegate> delegate;
+
 
 + (CCLocationManager *)shareLocation;
 
-- (CCLocationManager *)getNowCityNameAndProvienceName:(id<CCLocationManagerZHCDelegate>)delegate;
+- (CCLocationManager *)getNowCityNameAndProvienceName:(LocationBlock)block;
+
+@property (nonatomic , copy) LocationBlock block;
 
 @end

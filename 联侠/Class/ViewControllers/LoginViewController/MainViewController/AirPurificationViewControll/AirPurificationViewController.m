@@ -84,7 +84,7 @@ static NSString *seventhCelled = @"seventhCelled";
 }
 
 - (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn {
-    
+    btn.selected = !btn.selected;
     if (btn.selected == 1) {
         [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S2#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
@@ -94,7 +94,7 @@ static NSString *seventhCelled = @"seventhCelled";
     }
     
 
-    btn.selected = !btn.selected;
+    
     
 }
 
@@ -188,20 +188,20 @@ static NSString *seventhCelled = @"seventhCelled";
         BingJingShouMingTableViewCell *cell
         =[tableView dequeueReusableCellWithIdentifier:sexthCelled];
         cell.isKongJing = @"YES";
-        [cell setUIbuJuWithNowUesrTime:self.stateModel.sChangeFilterScreen andViewController:self];
+//        [cell setUIbuJuWithNowUesrTime:self.stateModel.sChangeFilterScreen andViewController:self];
         
         return cell;
     } else {
         LvWangJieDuTableViewCell *cell
         =[tableView dequeueReusableCellWithIdentifier:seventhCelled];
-        cell.isKongJingLvWang = @"YES";
+//        cell.isKongJingLvWang = @"YES";
         long int a = 0;
         
         if (self.stateModel.sCleanFilterScreen != 0) {
             a = self.stateModel.sCleanFilterScreen / 100;
         }
         
-        [cell setZhiZhenView:a andViewController:self];
+//        [cell setZhiZhenView:a andViewController:self];
         
         return cell;
     }
@@ -223,7 +223,7 @@ static NSString *seventhCelled = @"seventhCelled";
     if (section == 1 || section == 2 ) {
         NSArray *imageArray = @[@"iconfont-jiankanglvxin" , @"iconfont-jiankangqingsao" ];
         NSArray *nameArray = @[ @"滤网寿命" , @"滤网洁度"];
-        UIView *view  = [ThirtView creatViewWithIconArray:imageArray andNameArray:nameArray andSection:(section - 1)];
+        UIView *view  = [ThirtView creatViewWithIconArray:imageArray andNameArray:nameArray andSection:(section - 1) andColor:[UIColor grayColor]];
         view.tag = section;
         view.backgroundColor = [UIColor whiteColor];
         view.userInteractionEnabled = YES;

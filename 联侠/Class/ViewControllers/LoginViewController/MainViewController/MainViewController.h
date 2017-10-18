@@ -35,7 +35,6 @@
 
 @property (nonatomic , strong) NSMutableArray *serviceArray;
 
-@property (nonatomic , strong) UIView *bottomView;
 @property (nonatomic , strong) UIButton *bottomBtn;
 @property (nonatomic , strong) UITableView *tableView;
 @property (nonatomic , strong) NSMutableDictionary *wearthDic;
@@ -45,9 +44,9 @@
 
 
 - (void)requestMainVCServiceState;
-- (void)swipeGesture:(UISwipeGestureRecognizer *)swipe;
-- (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn;
-- (void)lengFengShanOpenAtcion:(UIButton *)btn;
-- (void)lengFengShanCloseAtcion:(UIButton *)btn;
-- (void)ganYiJiOpenAtcion:(UIButton *)btn;
+- (void)leftSwipeAtcion:(UISwipeGestureRecognizer *)swipe;
+- (void)kongQiJingHuaQiOpenAtcion;
+- (void)lengFengShanOpenAtcion;
+- (void)ganYiJiOpenAtcion;
+- (void)lengFengShanCloseAtcion;
 @end

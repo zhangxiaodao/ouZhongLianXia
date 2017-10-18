@@ -33,7 +33,7 @@
         } else {
             self.typeName.text = [NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName];
             
-            if ([self.serviceModel.brand isKindOfClass:[NSNull class]]) {
+            if ([self.serviceModel.brand isKindOfClass:[NSNull class]] || self.serviceModel.brand == nil || [self.serviceModel.brand isEqualToString:@""]) {
                 self.typeName.text = [NSString stringWithFormat:@"%@" , self.serviceModel.typeName];
             }
             

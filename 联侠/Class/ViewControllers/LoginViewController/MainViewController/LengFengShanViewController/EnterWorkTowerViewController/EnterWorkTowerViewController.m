@@ -29,7 +29,7 @@
 @property (nonatomic , strong) NSArray *switchArray;
 @property (nonatomic , strong) NSArray *zhiLengArray;
 @property (nonatomic , strong) NSMutableArray *stateArray;
-@property (nonatomic , strong) EnterWorkTowerFirsetView *firstBackView;
+@property (nonatomic , strong) EnterWorkTowerFirsetView *stateView;
 
 @property (nonatomic , strong) UILabel *modelLable;
 @property (nonatomic , strong) UILabel *windLable;
@@ -41,7 +41,6 @@
 @property (nonatomic , strong) NSMutableDictionary *dic;
 @property (nonatomic , copy) NSString *isAnimation;
 
-@property (nonatomic , strong) UIView *placeholderView;
 @end
 
 
@@ -58,32 +57,18 @@ static NSString *fifthCelled = @"fifth";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    
-//    [kApplicate initLa stEnterWorkViewController:self];
 
-    self.imageVIew = [[UIImageView alloc]initWithFrame:kScreenFrame];
-    [self.view insertSubview:self.imageVIew atIndex:0];
    
     [self setUI];
+    [self adddNotification];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:kServiceOrder object:nil];
     [self requestServiceState];
     
 }
 
-- (void)requestServiceState {
-    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
-    
-    [HelpFunction requestDataWithUrlString:kChaXunLengFengShanDangQianZhuangTai andParames:parames andDelegate:self];
-}
-
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    
     self.isAnimation = @"YES";
-    
     
     if ([kStanderDefault objectForKey:@"kongZhiTai"]) {
         NSNumber *aa = [kStanderDefault objectForKey:@"kongZhiTai"];
@@ -91,8 +76,6 @@ static NSString *fifthCelled = @"fifth";
     } else {
         self.imageVIew.image = [UIImage imageNamed:@"工作台背景1.jpg"];
     }
-
-    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -102,63 +85,119 @@ static NSString *fifthCelled = @"fifth";
     
 }
 
-#pragma mark - 代理返回数据
-- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
+#pragma mark - 设置UI
+- (void)setUI{
     
-//    NSLog(@"%@" , dddd);
-    if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *dic = dddd[@"data"];
+    [self setBackImage];
+    [self setNavView];
+    [self drawStateView];
+    [self setupTableView];
+    [self addGesture];
+    
+}
+
+#pragma mark - 添加通知
+- (void)adddNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLengFengShanFunction:) name:kServiceOrder object:nil];
+}
+#pragma mark - 请求设备状态
+- (void)requestServiceState {
+    NSDictionary *parames = @{@"devSn" : self.serviceModel.devSn , @"devTypeSn" : self.serviceModel.devTypeSn};
+    
+    [kNetWork requestPOSTUrlString:kChaXunLengFengShanDangQianZhuangTai parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
         
-        self.stateModel = [[StateModel alloc]init];
-        
-        for (NSString *key in [dic allKeys]) {
-            [self.stateModel setValue:dic[key] forKey:key];
+        if ([responseObject[@"data"] isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *dic = responseObject[@"data"];
+            
+            self.stateModel = [[StateModel alloc]init];
+            
+            for (NSString *key in [dic allKeys]) {
+                [self.stateModel setValue:dic[key] forKey:key];
+            }
+            
+            if (self.stateModel.fSwitch == 2 || self.stateModel.fSwitch == 0) {
+                self.offBtn.alpha = 0.4;
+                self.offBtn.tag = 2;
+                [self.offBtn addTarget:self action:@selector(openLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            } else if (self.stateModel.fSwitch == 1){
+                self.offBtn.alpha = 1.0;
+                self.offBtn.tag = 1;
+                [self.offBtn addTarget:self action:@selector(closeLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            self.stateView.stateArray = self.stateArray;
+            [self.tableView reloadData];
         }
-        
-        if (self.stateModel.fSwitch == 2 || self.stateModel.fSwitch == 0) {
-            self.offBtn.alpha = 0.4;
-            self.offBtn.tag = 2;
-            [self.offBtn addTarget:self action:@selector(openLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
-        } else if (self.stateModel.fSwitch == 1){
-            self.offBtn.alpha = 1.0;
-            self.offBtn.tag = 1;
-            [self.offBtn addTarget:self action:@selector(closeLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        
-        self.firstBackView.stateArray = self.stateArray;
-        
-        [self.tableView reloadData];
+    } failure:nil];
+}
+
+#pragma mark - 添加轻扫模式
+- (void)addGesture {
+    UISwipeGestureRecognizer *swipGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipAtcion:)];
+    [self.view addGestureRecognizer:swipGesture];
+}
+#pragma mark - 设置tableView
+- (void)setupTableView {
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    self.tableView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.tableView];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.stateView.mas_bottom);
+        make.left.mas_equalTo(0);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
+    
+    [self setTableViewRegisterCell];
+    
+    for (int i = 1; i < 3; i++) {
+        [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
     }
 }
 
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    NSLog(@"%@" , error);
+- (void)setTableViewRegisterCell {
+    [self.tableView registerClass:[EnterFirstTableViewCell class] forCellReuseIdentifier:firstCelled];
+    [self.tableView registerClass:[EnterThirtTableViewCell class] forCellReuseIdentifier:secondCelled];
+    [self.tableView registerClass:[EnterSecondTableViewCell class] forCellReuseIdentifier:thirtCelled];
+    [self.tableView registerClass:[EnterThirtTableViewCell class] forCellReuseIdentifier:forthCelled];
+    [self.tableView registerClass:[DingShiYuYueCell class] forCellReuseIdentifier:fifthCelled];
 }
 
+#pragma mark - 设置头部状态块
 - (void)drawStateView {
-    self.firstBackView = [EnterWorkTowerFirsetView creatViewWithColor:[UIColor clearColor] withSuperView:self.placeholderView];
-    [self.firstBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.stateView = [[EnterWorkTowerFirsetView alloc]
+                          initWithSize:CGSizeMake(kScreenW, kScreenH / 5)
+                          color:kWhiteColor
+                          superView:self.view];
+    [self.stateView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.backView.mas_bottom);
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 5.558333));
+        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 5));
     }];
     
-    self.offBtn = self.firstBackView.subviews[9];
-    self.modelLable = self.firstBackView.subviews[1];
-    self.windLable = self.firstBackView.subviews[3];
-    self.baiFengLable = self.firstBackView.subviews[5];
-    self.zhiLengLable = self.firstBackView.subviews[7];
-    
-    
+    self.modelLable = self.stateView.subviews[1];
+    self.windLable = self.stateView.subviews[3];
+    self.baiFengLable = self.stateView.subviews[5];
+    self.zhiLengLable = self.stateView.subviews[7];
+    self.offBtn = self.stateView.subviews[9];
     
 }
+#pragma mark - 设置背景图片
+- (void)setBackImage {
+    self.imageVIew = [[UIImageView alloc]initWithFrame:kScreenFrame];
+    [self.view insertSubview:self.imageVIew atIndex:0];
+}
 
+#pragma mark - 设置自定义导航条
 - (void)setNavView {
-    self.backView = [UIView creatViewWithBackView:[UIImage imageNamed:@"iconfont-fanhui"] andSuperView:self.view];
+    
+    self.backView = [UIView creatViewWithFrame:CGSizeMake(kScreenH / 13, kScreenH / 13) image:[UIImage imageNamed:@"iconfont-fanhui"] andSuperView:self.view];
     [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(kScreenW / 30);
-        make.top.mas_equalTo(kScreenH / 33.35);
-        make.size.mas_equalTo(CGSizeMake(kScreenH / 31.7619, kScreenH / 31.7619));
+        make.top.mas_equalTo(kStatusbarH / 2);
+        make.size.mas_equalTo(CGSizeMake(kScreenH / 13, kScreenH / 13));
     }];
     UITapGestureRecognizer *backTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backTap:)];
     [self.backView addGestureRecognizer:backTap];
@@ -167,9 +206,8 @@ static NSString *fifthCelled = @"fifth";
     [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.centerY.mas_equalTo(self.backView.mas_centerY);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenH / 31.7619));
+        make.size.mas_equalTo(CGSizeMake(kScreenW / 5, kScreenH / 32));
     }];
-    
     
     UIImageView *huanTuPianView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"iconfont-tupian"]];
     [self.view addSubview:huanTuPianView];
@@ -185,68 +223,23 @@ static NSString *fifthCelled = @"fifth";
     [huanTuPianView addGestureRecognizer:huanTuPianTap];
 }
 
-#pragma mark - 设置UI
-- (void)setUI{
-    
-    [self setNavView];
-    self.placeholderView = [[UIView alloc]init];
-    [self.view addSubview:self.placeholderView];
-    [self.placeholderView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.backView.mas_bottom);
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 5.558333));
-    }];
-    
-    [self drawStateView];
-    
-    UIView *view = [[UIView alloc]init];
-    view.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:view];
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(self.placeholderView.mas_bottom);
-        make.size.mas_equalTo(CGSizeMake(kScreenW, 1));
-    }];
-    
-    
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-    self.tableView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.tableView];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.tableView setTableHeaderView:[[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0.1)]];
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.placeholderView.mas_bottom);
-        make.left.mas_equalTo(0);
-        make.right.mas_equalTo(self.view.mas_right);
-        make.bottom.mas_equalTo(self.view.mas_bottom);
-    }];
-    
-    [self setTableViewRegisterCell];
-    
-    for (int i = 1; i < 3; i++) {
-        [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
-    }
-    
-    UISwipeGestureRecognizer *swipGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipAtcion:)];
-    [self.view addGestureRecognizer:swipGesture];
-    
-}
-
-#pragma mark - 有滑到主页
+#pragma mark - 右滑到主页
 - (void)swipAtcion:(UISwipeGestureRecognizer *)swipe {
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
-
-
 
 #pragma mark - 返回主界面
 - (void)backTap:(UITapGestureRecognizer *)tap {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - 更换图片
+- (void)huanTuPianTap:(UITapGestureRecognizer *)tap {
+    ExchangeCollectionViewController *exchangeVC = [[UIStoryboard storyboardWithName:@"ExchangeCollectionViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"ExchangeCollectionViewController"];
+    exchangeVC.fromEnterVC = [NSString stringWithFormat:@"1"];
+    
+    [self.navigationController pushViewController:exchangeVC animated:YES];
+}
 
 #pragma mark - 开关的点击事件
 - (void)openLFSAtcion:(UIButton *)btn {
@@ -283,63 +276,49 @@ static NSString *fifthCelled = @"fifth";
         if ([kaiGuan isEqualToString:@"01"]) {
             
             self.offBtn.alpha = 1.0;
-            
-            [self.offBtn removeTarget:self action:@selector(openLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
-            [self.offBtn addTarget:self action:@selector(closeLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            [UIButton btn:self.offBtn removeAtcion:@selector(openLFSAtcion:) addAtcion:@selector(closeLFSAtcion:) target:self];
+
         } else if ([kaiGuan isEqualToString:@"02"]) {
             
             self.offBtn.alpha = 0.4;
-            
-            [self.offBtn removeTarget:self action:@selector(closeLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
-            [self.offBtn addTarget:self action:@selector(openLFSAtcion:) forControlEvents:UIControlEventTouchUpInside];
+            [UIButton btn:self.offBtn removeAtcion:@selector(closeLFSAtcion:) addAtcion:@selector(openLFSAtcion:) target:self];
         }
-        
-        
     }
 }
 
+#pragma mark -tableView 的代理
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    if (section == 1 || section == 2) {
+        NSArray *imageArray = @[@"iconfont-dingshi" , @"iconfont-linechart"];
+        NSArray *nameArray = @[@"定时预约" , @"历史数据"];
+        UIView *view  = [ThirtView creatViewWithIconArray:imageArray andNameArray:nameArray andSection:(section) andColor:kWhiteColor];
+        view.tag = section;
+        view.backgroundColor = [UIColor clearColor];
+        view.userInteractionEnabled = YES;
         
-        if (section == 1 || section == 2) {
-            NSArray *imageArray = @[@"iconfont-dingshi" , @"iconfont-linechart"];
-            NSArray *nameArray = @[@"定时预约" , @"历史数据"];
-            UIView *view  = [ThirtView creatViewWithIconArray:imageArray andNameArray:nameArray andSection:(section - 1)];
-            view.tag = section;
-            view.backgroundColor = [UIColor clearColor];
-            view.userInteractionEnabled = YES;
-            
-            UIImageView *imageView = view.subviews[0];
-            imageView.tintColor = [UIColor whiteColor];
-            
-            UILabel *lable = view.subviews[1];
-            lable.textColor = [UIColor whiteColor];
-            
-            
-            UIImageView *jianTouImageView = view.subviews[2];
-            jianTouImageView.tintColor = [UIColor whiteColor];
-            
-            UIView *zheGaiView = [[UIView alloc] init];
-            zheGaiView.backgroundColor = [UIColor whiteColor];
-            zheGaiView.layer.opacity = 0.2;
-            [view addSubview:zheGaiView];
-            [zheGaiView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW / 10, (kScreenH / 20) * 3 / 4));
-                make.left.mas_equalTo(view.mas_left).offset(kScreenW / 20);
-                make.centerY.mas_equalTo(view.mas_centerY);
-            }];
-            
-            
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction222:)];
-            [view addGestureRecognizer:tap];
-            return view;
-
-        } else {
-            return nil;
-        }
+        UIView *zheGaiView = [[UIView alloc] init];
+        zheGaiView.backgroundColor = [UIColor whiteColor];
+        zheGaiView.layer.opacity = 0.2;
+        [view addSubview:zheGaiView];
+        [zheGaiView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW / 10, (kScreenH / 20) * 3 / 4));
+            make.left.mas_equalTo(view.mas_left)
+            .offset(kScreenW / 20);
+            make.centerY.mas_equalTo(view.mas_centerY);
+        }];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(headViewTap:)];
+        [view addGestureRecognizer:tap];
+        return view;
+        
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - 分区头的点击事件
-- (void)tapAction222:(UITapGestureRecognizer *)tap
+- (void)headViewTap:(UITapGestureRecognizer *)tap
 {
     NSString *section = [NSString stringWithFormat:@"%ld" , tap.view.tag];
     
@@ -365,9 +344,6 @@ static NSString *fifthCelled = @"fifth";
         NSIndexSet *set = [NSIndexSet indexSetWithIndex:tap.view.tag];
         [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
     }
-    
-    
-    
 }
 
 - (void)sendTheModelType:(NSString *)modelType {
@@ -381,14 +357,6 @@ static NSString *fifthCelled = @"fifth";
 - (void)sendStateType:(NSArray *)stateTypeArray {
     self.zhiLengLable.text = stateTypeArray[0];
     self.baiFengLable.text = stateTypeArray[1];
-}
-
-- (void)setTableViewRegisterCell {
-    [self.tableView registerClass:[EnterFirstTableViewCell class] forCellReuseIdentifier:firstCelled];
-    [self.tableView registerClass:[EnterThirtTableViewCell class] forCellReuseIdentifier:secondCelled];
-    [self.tableView registerClass:[EnterSecondTableViewCell class] forCellReuseIdentifier:thirtCelled];
-    [self.tableView registerClass:[EnterThirtTableViewCell class] forCellReuseIdentifier:forthCelled];
-    [self.tableView registerClass:[DingShiYuYueCell class] forCellReuseIdentifier:fifthCelled];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -456,7 +424,7 @@ static NSString *fifthCelled = @"fifth";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 1) {
-        return kScreenH / 2 + kScreenW / 10 + 30;
+        return kScreenH / 2 ;
     } else {
         return kScreenH / 4.6;
     }
@@ -576,13 +544,7 @@ static NSString *fifthCelled = @"fifth";
 
 
 
-#pragma mark - 更换图片
-- (void)huanTuPianTap:(UITapGestureRecognizer *)tap {
-    ExchangeCollectionViewController *exchangeVC = [[UIStoryboard storyboardWithName:@"ExchangeCollectionViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"ExchangeCollectionViewController"];
-    exchangeVC.fromEnterVC = [NSString stringWithFormat:@"1"];
-    
-    [self.navigationController pushViewController:exchangeVC animated:YES];
-}
+
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
