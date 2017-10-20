@@ -40,8 +40,16 @@
     
     self.view.backgroundColor = [UIColor clearColor];
     
+    [self addNotification];
+    
     [self setUI];
     
+}
+
+- (void)addNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:kServiceOrder object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ganYiJiBeginWork22:) name:@"GanYiJiBeginWork" object:nil];
 }
 
 - (void)ganYiJiBeginWork22:(NSNotification *)post {
@@ -52,11 +60,6 @@
 }
 
 - (void)setUI {
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:kServiceOrder object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ganYiJiBeginWork22:) name:@"GanYiJiBeginWork" object:nil];
     
     self.isWork = @"NO";
     self.tableView.delegate = self;
@@ -70,7 +73,7 @@
 
 - (void)ganYiJiOpenAtcion:(UIButton *)btn {
     
-    btn.selected = !btn.selected;
+    
     if (btn.selected == 1) {
         [kSocketTCP sendDataToHost:GanYiJiXieYi(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"02", @"00", @"00", @"00") andType:kZhiLing andIsNewOrOld:kNew];
         [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
@@ -80,7 +83,7 @@
         [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getGanYiJiData:) name:kServiceOrder object:nil];
+    btn.selected = !btn.selected;
 }
 
 - (void)getGanYiJiData:(NSNotification *)post {
@@ -129,10 +132,8 @@
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(view.mas_centerX);
             make.bottom.mas_equalTo(view.mas_bottom);
-            make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 10));
         }];
         nameLabel.textColor = [UIColor whiteColor];
-        nameLabel.layer.borderWidth = 0;
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction555:)];
         [view addGestureRecognizer:tap];
@@ -150,7 +151,6 @@
 #pragma mark - 分区头的点击事件
 - (void)tapAction555:(UITapGestureRecognizer *)tap
 {
-    tap.view.backgroundColor = kKongJingYanSe;
     NSString *section = [NSString stringWithFormat:@"%ld" , tap.view.tag];
     
     if ([self.dic[section] integerValue] == 0) {
@@ -161,24 +161,16 @@
     NSIndexSet *set = [NSIndexSet indexSetWithIndex:tap.view.tag];
     [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
     
-    
     if ([self.dic[section] isEqual:@(1)]) {
         NSIndexPath *scrollIndexpath = [NSIndexPath indexPathForRow:0 inSection:1];
         [self.tableView scrollToRowAtIndexPath:scrollIndexpath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
-    
-    
 }
 
 - (void)getGanYiJiIsWorking:(GanYiJiFirstTableViewCell *)ganYiJiFirstTableViewCell andIswork:(NSString *)isWork {
     if ([isWork isEqualToString:@"NO"]) {
         [self.tableView reloadData];
     }
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -279,12 +271,12 @@
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            return  (kScreenH - kScreenH / 12.3518518) / 4 + kScreenH / 32;
+            return  (kScreenH - kScreenH / 12) / 4 + kScreenH / 32;
         } else {
              return kBtnW * 2;
         }
     } else if (indexPath.section == 1) {
-        return kScreenH / 3.1761 + kScreenW / 8;
+        return kScreenW / 1.46;
     } else {
         if (indexPath.row == 0) {
             return kScreenH * 3 / 9.57142;

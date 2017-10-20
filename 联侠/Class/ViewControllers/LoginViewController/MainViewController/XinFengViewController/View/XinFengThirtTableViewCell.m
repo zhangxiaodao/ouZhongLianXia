@@ -17,7 +17,7 @@
 
 @interface XinFengThirtTableViewCell ()<HelpFunctionDelegate>{
     UIButton *shuiMianBtn;
-    UIButton *ziRanBtn;
+    UIButton *jieNengBtn;
     UIButton *gaoXiaoBtn;
     UIButton *shuShiBtn;
 }
@@ -94,7 +94,7 @@
             }
                 
             case 1:{
-                ziRanBtn = btn;
+                jieNengBtn = btn;
                 break;
             }
                 
@@ -141,6 +141,7 @@
         make.centerX.mas_equalTo(self.backView.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(kScreenW, 5));
     }];
+    
 }
 
 - (void)modelBtnDoneAtcion:(UIButton *)btn {
@@ -153,8 +154,8 @@
             break;
         }
         case 1: {
-
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"02", @"01" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
+            
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"02", @"01") andType:kZhiLing andIsNewOrOld:kNew];
             break;
         }
         case 2: {
@@ -177,7 +178,7 @@
 - (void)getXinFengModelBtnAtcion:(NSNotification *)post {
     
     [UIButton setBtnOfImageAndLableWithUnSelected:shuiMianBtn andTintColor:kXinFengKongJingYanSe];
-    [UIButton setBtnOfImageAndLableWithUnSelected:ziRanBtn andTintColor:kXinFengKongJingYanSe];
+    [UIButton setBtnOfImageAndLableWithUnSelected:jieNengBtn andTintColor:kXinFengKongJingYanSe];
     [UIButton setBtnOfImageAndLableWithUnSelected:gaoXiaoBtn andTintColor:kXinFengKongJingYanSe];
     [UIButton setBtnOfImageAndLableWithUnSelected:shuShiBtn andTintColor:kXinFengKongJingYanSe];
     
@@ -200,8 +201,8 @@
         modelStr = @"高效";
     }
    
-    if ([ziDong isEqualToString:@"01"] && [fuLiZi isEqualToString:@"01"]) {
-        [UIButton setBtnOfImageAndLableWithSelected:ziRanBtn andBackGroundColor:kXinFengKongJingYanSe];
+    if ([wind isEqualToString:@"01"] && [fuLiZi isEqualToString:@"02"]) {
+        [UIButton setBtnOfImageAndLableWithSelected:jieNengBtn andBackGroundColor:kXinFengKongJingYanSe];
         modelStr = @"节能";
     }
     
@@ -267,7 +268,7 @@
     
     if (_stateModel) {
         [UIButton setBtnOfImageAndLableWithUnSelected:gaoXiaoBtn andTintColor:kXinFengKongJingYanSe];
-        [UIButton setBtnOfImageAndLableWithUnSelected:ziRanBtn andTintColor:kXinFengKongJingYanSe];
+        [UIButton setBtnOfImageAndLableWithUnSelected:jieNengBtn andTintColor:kXinFengKongJingYanSe];
         [UIButton setBtnOfImageAndLableWithUnSelected:shuiMianBtn andTintColor:kXinFengKongJingYanSe];
         [UIButton setBtnOfImageAndLableWithUnSelected:shuShiBtn andTintColor:kXinFengKongJingYanSe];
         
@@ -276,7 +277,7 @@
         }
         
         if (_stateModel.fAnion == 1 && _stateModel.fMode == 1 && _stateModel.fWind == 2) {
-            [UIButton setBtnOfImageAndLableWithSelected:ziRanBtn andBackGroundColor:kXinFengKongJingYanSe];
+            [UIButton setBtnOfImageAndLableWithSelected:jieNengBtn andBackGroundColor:kXinFengKongJingYanSe];
         }
         
         if (_stateModel.fMode == 2 && _stateModel.fAnion == 2 && _stateModel.fWind == 4) {

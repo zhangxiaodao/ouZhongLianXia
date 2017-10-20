@@ -117,10 +117,6 @@
         [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSDictionary *dic = obj;
             
-//            if ([dic[@"brand"] isKindOfClass:[NSNull class]]) {
-//                [dic setValue:@"" forKey:@"brand"];
-//            }
-            
             ServicesModel *serviceModel = [[ServicesModel alloc]init];
             [serviceModel setValuesForKeysWithDictionary:dic];
             serviceModel.userDeviceID = [obj[@"id"] integerValue];
@@ -335,28 +331,30 @@
     [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@%@%@N#" , [kStanderDefault objectForKey:@"userSn"] , model.devTypeSn , model.devSn] andType:kAddService andIsNewOrOld:nil];
     
 //    self.tabBarController.tabBar.hidden = YES;
-    if ([model.devTypeSn isEqualToString:@"4131"]) {
+    if ([model.devTypeSn isEqualToString:@"4131"])
+    {
 
         LengFengShanViewController *lengFengShanVC = [[LengFengShanViewController alloc]init];
-        lengFengShanVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         lengFengShanVC.sendVCDelegate = self;
         lengFengShanVC.sendServiceModelToParentVCDelegate = self;
         lengFengShanVC.serviceModel = model;
         lengFengShanVC.wearthDic = self.wearthDic;
         [self.navigationController pushViewController:lengFengShanVC animated:YES];
-    } else if ([model.devTypeSn isEqualToString:@"4231"]) {
+    }
+    else if ([model.devTypeSn isEqualToString:@"4231"])
+    {
         AirPurificationViewController *testAirDeviceVC = [[AirPurificationViewController alloc]init];
         testAirDeviceVC.serviceModel = model;
-        testAirDeviceVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         testAirDeviceVC.sendVCDelegate = self;
         testAirDeviceVC.sendServiceModelToParentVCDelegate = self;
         testAirDeviceVC.wearthDic = self.wearthDic;
 
         [self.navigationController pushViewController:testAirDeviceVC animated:YES];
-    } else if ([model.devTypeSn isEqualToString:@"4232"]) {
+    }
+    else if ([model.devTypeSn isEqualToString:@"4232"])
+    {
         XinFengViewController *xinFengAirVC = [[XinFengViewController alloc]init];
         xinFengAirVC.sendServiceModelToParentVCDelegate = self;
-        xinFengAirVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         xinFengAirVC.serviceModel = model;
         if (self.serviceModel.definedName) {
             xinFengAirVC.navigationItem.title = [NSString stringWithFormat:@"%@%@" , model.definedName , model.typeName];
@@ -365,11 +363,12 @@
         }
         
         [self.navigationController pushViewController:xinFengAirVC animated:YES];
-    }  else if ([model.devTypeSn isEqualToString:@"4331"]) {
+    }
+    else if ([model.devTypeSn isEqualToString:@"4331"])
+    {
         GanYiJiViewController *ganYiJiVC = [[GanYiJiViewController alloc]init];
         ganYiJiVC.sendServiceModelToParentVCDelegate = self;
         ganYiJiVC.serviceModel = model;
-        ganYiJiVC.serviceArray = [NSMutableArray arrayWithArray:self.haveArray];
         ganYiJiVC.sendVCDelegate = self;
         ganYiJiVC.wearthDic = self.wearthDic;
 

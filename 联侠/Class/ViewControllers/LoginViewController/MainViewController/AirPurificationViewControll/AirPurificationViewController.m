@@ -33,17 +33,12 @@ static NSString *fifthCelled = @"fifth";
 static NSString *sexthCelled = @"sexedth";
 static NSString *seventhCelled = @"seventhCelled";
 @implementation AirPurificationViewController
-- (NSMutableDictionary *)dic {
-    if (!_dic) {
-        _dic = [NSMutableDictionary dictionary];
-    }
-    return _dic;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor clearColor];
 
+    [self addNotification];
+    
     [self setUI];
 }
 
@@ -53,26 +48,22 @@ static NSString *seventhCelled = @"seventhCelled";
     }
 }
 
-
-- (void)setUI {
-    
-    
+- (void)addNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingDataMain:) name:kServiceOrder object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingIsChongZhi:) name:@"KongJingIsChongZhi" object:nil];
-    
-    
+}
+
+- (void)setUI {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.isAnimation = @"YES";
     
+    
     [self setTableViewRegisterCell];
-    for (int i = 1; i < 3; i++) {
-        [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
-    }
     
 }
 
-
+#pragma mark - 注册tableViewCell
 - (void)setTableViewRegisterCell {
     [self.tableView registerClass:[AirPurificationFirstTableViewCell class] forCellReuseIdentifier:firstCelled];
     [self.tableView registerClass:[AirPurificationThirtTableViewCell class] forCellReuseIdentifier:secondCelled];
@@ -81,10 +72,14 @@ static NSString *seventhCelled = @"seventhCelled";
     [self.tableView registerClass:[AirThirtTableViewCell class] forCellReuseIdentifier:fifthCelled];
     [self.tableView registerClass:[BingJingShouMingTableViewCell class] forCellReuseIdentifier:sexthCelled];
     [self.tableView registerClass:[LvWangJieDuTableViewCell class] forCellReuseIdentifier:seventhCelled];
+    self.dic = [NSMutableDictionary dictionary];
+    for (int i = 1; i < 3; i++) {
+        [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
+    }
 }
 
 - (void)kongQiJingHuaQiOpenAtcion:(UIButton *)btn {
-    btn.selected = !btn.selected;
+    
     if (btn.selected == 1) {
         [kStanderDefault setObject:@"NO" forKey:@"offBtn"];
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S2#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
@@ -92,10 +87,7 @@ static NSString *seventhCelled = @"seventhCelled";
         [kStanderDefault setObject:@"YES" forKey:@"offBtn"];
         [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     }
-    
-
-    
-    
+    btn.selected = !btn.selected;
 }
 
 #pragma mark - 取得tcp返回的数据
@@ -118,28 +110,20 @@ static NSString *seventhCelled = @"seventhCelled";
         }
 
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"AnNiuZhuangTai" object:self userInfo:@{@"AnNiuZhuangTai" : @(self.bottomBtn.selected)}]];
-        
     }
 }
-
 
 - (void)swipeGesture:(UISwipeGestureRecognizer *)swipe {
     return ;
 }
 
-
 #pragma mark - 生成cell
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
     if (indexPath.section == 0) {
-        
         if (indexPath.row == 0) {
-            
             AirPurificationFirstTableViewCell *cell
             =[tableView dequeueReusableCellWithIdentifier:firstCelled];
-            
-            cell.isAnimation = self.isAnimation;
             cell.stateModel = self.stateModel;
             return cell;
         } else if (indexPath.row == 1) {
@@ -181,92 +165,61 @@ static NSString *seventhCelled = @"seventhCelled";
             cell.serviceDataModel = self.serviceDataModel;
             cell.stateModel = self.stateModel;
             
-            
             return cell;
         }
-    }  else if (indexPath.section == 1){
+    }  else if (indexPath.section == 1 && indexPath.row == 0){
         BingJingShouMingTableViewCell *cell
         =[tableView dequeueReusableCellWithIdentifier:sexthCelled];
         cell.isKongJing = @"YES";
-//        [cell setUIbuJuWithNowUesrTime:self.stateModel.sChangeFilterScreen andViewController:self];
+        cell.serviceModel = self.serviceModel;
+        cell.alertVC = self;
+        cell.cellType = CellTypeBingJing;
+        cell.nowUserTime = self.stateModel.sChangeFilterScreen;
         
         return cell;
     } else {
         LvWangJieDuTableViewCell *cell
         =[tableView dequeueReusableCellWithIdentifier:seventhCelled];
-//        cell.isKongJingLvWang = @"YES";
-        long int a = 0;
-        
-        if (self.stateModel.sCleanFilterScreen != 0) {
-            a = self.stateModel.sCleanFilterScreen / 100;
-        }
-        
-//        [cell setZhiZhenView:a andViewController:self];
+        cell.isKongJing = @"YES";
+        cell.serviceModel = self.serviceModel;
+        cell.alertVC = self;
+        cell.cellType = CellTypeLvWang;
+        cell.totalTime = self.serviceDataModel.totalTime;
         
         return cell;
     }
     
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    self.isAnimation = @"NO";
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    if (section == 1 || section == 2 ) {
-        NSArray *imageArray = @[@"iconfont-jiankanglvxin" , @"iconfont-jiankangqingsao" ];
-        NSArray *nameArray = @[ @"滤网寿命" , @"滤网洁度"];
-        UIView *view  = [ThirtView creatViewWithIconArray:imageArray andNameArray:nameArray andSection:(section - 1) andColor:[UIColor grayColor]];
+    if (section == 0) {
+        UIView *view = [[UIView alloc]init];
+        view.backgroundColor = kWhiteColor;
+        
+        return view;
+    } else {
+     
+        
+        NSArray *imageArray = @[@"iconfont-jiankanglvxin" , @"iconfont-jiankangqingsao"];
+        NSArray *nameArray = @[@"滤网寿命" , @"滤网洁度"];
+        
+        UIView *view = [ThirtView creatViewWithIconArray:imageArray andNameArray:nameArray andSection:section andColor:kKongJingYanSe];
+        view.backgroundColor = kWhiteColor;
         view.tag = section;
-        view.backgroundColor = [UIColor whiteColor];
+        
         view.userInteractionEnabled = YES;
-        UIImageView *imageView = view.subviews[0];
-        imageView.tintColor = kKongJingYanSe;
-        imageView.size = CGSizeMake(view.height * 2 / 3, view.height * 2 / 3);
-        
-        
-        UILabel *lable = view.subviews[1];
-        lable.textColor = kKongJingYanSe;
-        lable.font = [UIFont systemFontOfSize:k17];
-        
-        UIView *zheGaiView = [[UIView alloc] init];
-        zheGaiView.layer.opacity = 0.2;
-        [view addSubview:zheGaiView];
-        [zheGaiView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW / 10, (kScreenH / 20) * 3 / 4));
-            make.left.mas_equalTo(view.mas_left).offset(kScreenW / 20);
-            make.centerY.mas_equalTo(view.mas_centerY);
-        }];
-        
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction444:)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
         [view addGestureRecognizer:tap];
         return view;
         
-    } else {
-        return nil;
     }
     
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 1)];
-    view.backgroundColor = kFenGeXianYanSe;
-    return view;
-}
-
 #pragma mark - 分区头的点击事件
-- (void)tapAction444:(UITapGestureRecognizer *)tap
+- (void)tapAction:(UITapGestureRecognizer *)tap
 {
-    tap.view.backgroundColor = kKongJingYanSe;
     NSString *section = [NSString stringWithFormat:@"%ld" , tap.view.tag];
     
     if ([self.dic[section] integerValue] == 0) {
@@ -276,8 +229,8 @@ static NSString *seventhCelled = @"seventhCelled";
     }
     NSIndexSet *set = [NSIndexSet indexSetWithIndex:tap.view.tag];
     [self.tableView reloadSections:set withRowAnimation:UITableViewRowAnimationFade];
+    
 }
-
 
 #pragma mark - 分区头的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -285,8 +238,19 @@ static NSString *seventhCelled = @"seventhCelled";
     if (section == 1 || section == 2 ) {
         return  kScreenH / 15;
     } else {
-        return 0;
+        return 1;
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *view = [[UIView alloc]init];
+    view.backgroundColor = [UIColor lightGrayColor];
+    return view;
+}
+#pragma mark - 尾部的高度
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.5;
 }
 
 #pragma mark - cell的高度
@@ -294,11 +258,11 @@ static NSString *seventhCelled = @"seventhCelled";
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            return kScreenH / 2.22333;
+            return kScreenH / 2.5;
         } else if (indexPath.row == 1) {
-            return kScreenH / 2.767634;
+            return kScreenH / 2.8;
         } else if (indexPath.row == 2) {
-            return kScreenH / 3.7 + kBtnW * 3 / 4 - 10;
+            return kScreenH / 3;
         } else if (indexPath.row == 3) {
             return kScreenH * 4 / 9.57142 + kScreenH / 13.34 + 10;
         } else {
@@ -327,14 +291,6 @@ static NSString *seventhCelled = @"seventhCelled";
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }
-
-
-#pragma mark - 尾部的高度
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 1;
-}
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

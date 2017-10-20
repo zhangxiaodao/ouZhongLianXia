@@ -147,6 +147,8 @@ static NSString *celled = @"celled";
             cell.currentVC = self;
         } else if (indexPath.section == 1 && indexPath.row == 0) {
             cell.idLabel.text = array[indexPath.row];
+        } else {
+            cell.rightLabel.text = array[indexPath.row];
         }
     }
     
@@ -294,8 +296,6 @@ static NSString *celled = @"celled";
     kSocketTCP.isDuanXianChongLian = @"NO";
     [kSocketTCP cutOffSocket];
     
-    NSDictionary *dic = [kStanderDefault objectForKey:@"GeRenInfo"];
-    NSLog(@"%@" , dic);
 }
 
 - (void)sendPickerViewToVC:(UIPickerView *)picker {

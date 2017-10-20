@@ -12,7 +12,6 @@
 #define kArrayCount _array.count
 #define kArrayCountJiaYi (_array.count + 1)
 #define kBtnW ((kScreenW + 4) / 4)
-#define kContentViewHeight kBtnW * 2 + kBtnW * 2 / 3
 @interface AirPurificationForthTableViewCell (){
     UIButton *ziDongBtn;
     UIButton *shuiMianBtn;
@@ -60,7 +59,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:kServiceOrder object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAnNiuZhuangTai:) name:@"AnNiuZhuangTai" object:nil];
     
-    self.backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 3.7 + kBtnW * 3 / 4 - 10)];
+    self.backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 3)];
     self.backView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:self.backView];
     
@@ -70,18 +69,20 @@
     
     for (int i = 0; i < kArrayCount; i++) {
         
-        UIButton *btn = [UIButton creatBtnWithTitle:_array[i] andImage:[UIImage imageNamed:imageArray[i]] andImageColor:kKongJingYanSe  andWidth:kBtnW andHeight:kBtnW andSuperView:self.backView WithTarget:self andDoneAtcion:@selector(doneAtcion:) andTag:i];
+        UIButton *btn = [UIButton creatBtnWithTitle:_array[i] andImage:[UIImage imageNamed:imageArray[i]] andImageColor:kKongJingYanSe  andWidth:kScreenW / 2 andHeight:kBtnW andSuperView:self.backView WithTarget:self andDoneAtcion:@selector(doneAtcion:) andTag:i];
         
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
             
             make.size.mas_equalTo(CGSizeMake(kScreenW / 2 , kBtnW * 3 / 4));
             if (i < 2) {
-                make.left.mas_equalTo(self.contentView.mas_left).offset(-1 + (kScreenW / 2 - 1) * i);
-                make.top.mas_equalTo(self.contentView.mas_top);
+                make.left.mas_equalTo(self.backView.mas_left)
+                .offset(-1 + (kScreenW / 2 - 1) * i);
+                make.top.mas_equalTo(self.backView.mas_top);
             } else {
-                
-                make.top.mas_equalTo(self.contentView.mas_top).offset(-1 + kBtnW * 3 / 4);
-                make.left.mas_equalTo(self.contentView.mas_left).offset(-1 + (kScreenW / 2 - 1) * (i - 2));
+                make.top.mas_equalTo(self.backView.mas_top)
+                .offset(-1 + kBtnW * 3 / 4);
+                make.left.mas_equalTo(self.backView.mas_left)
+                .offset(-1 + (kScreenW / 2 - 1) * (i - 2));
             }
         }];
         
@@ -124,9 +125,10 @@
     self.slider.userInteractionEnabled = YES;
     [self.backView addSubview:self.slider];
     [self.slider mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.contentView.mas_centerX);
+        make.centerX.mas_equalTo(self.backView.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(kScreenW / 1.63, 30));
-        make.top.mas_equalTo(fuLiZiBtn.mas_bottom).offset(kScreenW / 20);
+        make.top.mas_equalTo(fuLiZiBtn.mas_bottom)
+        .offset(kScreenW / 20);
     }];
     
     //添加点击手势和滑块滑动事件响应
@@ -140,102 +142,84 @@
     
     for (int i = 0; i < 3; i++) {
         UILabel *stateLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%@" , array[i]] andSuperView:self.backView andFont:k14 andTextAligment:NSTextAlignmentCenter];
-        stateLable.tag = i;
         stateLable.textColor = [UIColor lightGrayColor];
-        stateLable.layer.borderWidth = 0;
         [stateLable mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kScreenW / 10, kScreenW / 20));
-            
-            if (stateLable.tag == 0) {
+            if (i == 0) {
                 make.left.mas_equalTo(_slider.mas_left);
-            } else if (stateLable.tag == 1) {
+            } else if (i == 1) {
                 make.centerX.mas_equalTo(_slider.mas_centerX);
             } else {
                 make.right.mas_equalTo(_slider.mas_right);
             }
-            make.top.mas_equalTo(_slider.mas_bottom).offset(kScreenH / 66.7);
+            make.top.mas_equalTo(_slider.mas_bottom)
+            .offset(kScreenH / 66.7);
         }];
-        
     }
-    
 }
-
 
 - (void)doneAtcion:(UIButton *)btn {
     
+    NSString *orderStr = nil;
     switch (btn.tag) {
         case 0:
         {
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@A1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-            
+            orderStr = [NSString stringWithFormat:@"HMFF%@%@A1#", self.serviceModel.devTypeSn,self.serviceModel.devSn];
             break;
         }
         case 1:{
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@L1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-            
+            orderStr = [NSString stringWithFormat:@"HMFF%@%@L1#", self.serviceModel.devTypeSn,self.serviceModel.devSn];
             break;
         }
             
         case 2: {
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@U1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-            
+            orderStr = [NSString stringWithFormat:@"HMFF%@%@U1#", self.serviceModel.devTypeSn,self.serviceModel.devSn];
             break;
         }
             
         case 3:{
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@N1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-            
+            orderStr = [NSString stringWithFormat:@"HMFF%@%@N1#", self.serviceModel.devTypeSn,self.serviceModel.devSn];
             break;
         }
-            
+       
         default:
             break;
     }
+    [kSocketTCP sendDataToHost:orderStr andType:kZhiLing andIsNewOrOld:kOld];
     
     [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     [btn addTarget:self action:@selector(againDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:kServiceOrder object:nil];
-    
-    
 }
 
 - (void)againDoneAtcion:(UIButton *)btn {
     //    NSLog(@"%ld" , btn.tag);
+    
+    NSString *orderStr = nil;
     switch (btn.tag) {
-            
-        case 0: {
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@A2#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-            
+        case 0:
+        {
+            orderStr = [NSString stringWithFormat:@"HMFF%@%@A2#", self.serviceModel.devTypeSn,self.serviceModel.devSn];
             break;
         }
-            
-        case 1: {
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@L2#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-            
+        case 1:{
+            orderStr = [NSString stringWithFormat:@"HMFF%@%@L2#", self.serviceModel.devTypeSn,self.serviceModel.devSn];
             break;
         }
         case 2: {
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@U2#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-            
+            orderStr = [NSString stringWithFormat:@"HMFF%@%@U2#", self.serviceModel.devTypeSn,self.serviceModel.devSn];
             break;
         }
-            
         case 3:{
-            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@N2#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
-            
+            orderStr = [NSString stringWithFormat:@"HMFF%@%@N2#", self.serviceModel.devTypeSn,self.serviceModel.devSn];
             break;
         }
             
         default:
             break;
     }
+    [kSocketTCP sendDataToHost:orderStr andType:kZhiLing andIsNewOrOld:kOld];
     
     [btn removeTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     [btn addTarget:self action:@selector(doneAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getKongJingData:) name:kServiceOrder object:nil];
-    
 }
 
 
@@ -248,39 +232,32 @@
     NSString *str = nil;
     if (_slider.value == 1) {
         str = [NSString stringWithFormat:@"HMFF%@%@W1#" , self.serviceModel.devTypeSn, self.serviceModel.devSn];
-        [kSocketTCP sendDataToHost:str andType:kZhiLing andIsNewOrOld:kOld] ;
-        
     } else if (_slider.value == 2) {
         str = [NSString stringWithFormat:@"HMFF%@%@W2#" , self.serviceModel.devTypeSn, self.serviceModel.devSn];
-        [kSocketTCP sendDataToHost:str andType:kZhiLing andIsNewOrOld:kOld];
-        
     } else if (sender.value == 3){
         str = [NSString stringWithFormat:@"HMFF%@%@W3#" , self.serviceModel.devTypeSn, self.serviceModel.devSn];
-        [kSocketTCP sendDataToHost:str andType:kZhiLing andIsNewOrOld:kOld];
-        
     }
     
+    [kSocketTCP sendDataToHost:str andType:kZhiLing andIsNewOrOld:kOld];
 }
 
 - (void)tapActionFengSu:(UITapGestureRecognizer *)sender
 {
     //取得点击点
     CGPoint p = [sender locationInView:_slider];
-    //计算处于背景图的几分之几，并将之转换为滑块的值（1~7）
     float tempFloat = p.x  / ( _slider.width / 2 ) + 1;
     NSString *tempStr = [self numberFormat:tempFloat];
-//    NSLog(@"%f,%f,%d", p.x, tempFloat, tempStr.intValue);
     
+    NSString *orderStr = nil;
     if (tempStr.intValue == 1) {
-        
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@W1#" , self.serviceModel.devTypeSn, self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+        orderStr = [NSString stringWithFormat:@"HMFF%@%@W1#" , self.serviceModel.devTypeSn, self.serviceModel.devSn];
+       
     } else if (tempStr.intValue == 2) {
-        
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@W2#" , self.serviceModel.devTypeSn, self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+        orderStr = [NSString stringWithFormat:@"HMFF%@%@W2#" , self.serviceModel.devTypeSn, self.serviceModel.devSn];
     } else {
-        [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@W3#" , self.serviceModel.devTypeSn, self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
+        orderStr = [NSString stringWithFormat:@"HMFF%@%@W3#" , self.serviceModel.devTypeSn, self.serviceModel.devSn];
     }
-    
+    [kSocketTCP sendDataToHost:orderStr andType:kZhiLing andIsNewOrOld:kOld];
     
 }
 

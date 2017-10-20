@@ -32,7 +32,7 @@
 
 - (void)customUI {
     
-    self.forthView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 2.9 - 5)];
+    self.forthView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW / 1.62 - 5)];
     [self.contentView addSubview:self.forthView];
     
     _titleLable = [UILabel creatLableWithTitle:@"设备运行历史数据" andSuperView:self.forthView andFont:k15 andTextAligment:NSTextAlignmentLeft];

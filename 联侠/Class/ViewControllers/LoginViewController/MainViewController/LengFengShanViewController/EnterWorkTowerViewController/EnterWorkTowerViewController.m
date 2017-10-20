@@ -69,6 +69,7 @@ static NSString *fifthCelled = @"fifth";
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.isAnimation = @"YES";
+    self.navigationController.navigationBar.hidden = YES;
     
     if ([kStanderDefault objectForKey:@"kongZhiTai"]) {
         NSNumber *aa = [kStanderDefault objectForKey:@"kongZhiTai"];
@@ -237,29 +238,31 @@ static NSString *fifthCelled = @"fifth";
 - (void)huanTuPianTap:(UITapGestureRecognizer *)tap {
     ExchangeCollectionViewController *exchangeVC = [[UIStoryboard storyboardWithName:@"ExchangeCollectionViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"ExchangeCollectionViewController"];
     exchangeVC.fromEnterVC = [NSString stringWithFormat:@"1"];
-    
+    exchangeVC.navigationItem.title = @"更换背景图片";
     [self.navigationController pushViewController:exchangeVC animated:YES];
 }
 
 #pragma mark - 开关的点击事件
 - (void)openLFSAtcion:(UIButton *)btn {
     
-    self.offBtn.tag = 1;
+    self.offBtn.tag = 0;
     self.isAnimation = @"NO";
+    self.offBtn.selected = 0;
     [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S1#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:0];
     [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-        
+    self.block(btn);
 }
 
 - (void)closeLFSAtcion:(UIButton *)btn {
     self.offBtn.tag = 2;
     self.isAnimation = @"NO";
-    
+    self.offBtn.selected = 1;
     [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HMFF%@%@S0#", self.serviceModel.devTypeSn,self.serviceModel.devSn] andType:kZhiLing andIsNewOrOld:kOld];
    
     NSIndexSet *indexSet = [[NSIndexSet alloc]initWithIndex:0];
     [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+    self.block(btn);
 }
 
 #pragma mark - 取得tcp返回的数据

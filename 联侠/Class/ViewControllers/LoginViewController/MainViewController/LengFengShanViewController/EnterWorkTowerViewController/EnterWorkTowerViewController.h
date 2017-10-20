@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^BtnStateBlock)(UIButton *btn);
+
 @protocol SendLengFengShanKaiGuanZhuangTaiDelegate <NSObject>
 
 - (void)sendLengFengShanKaiGuanZhuangTai:(NSString *)whearthOpen;
@@ -23,7 +25,7 @@
 @property (nonatomic , strong) StateModel *stateModel;
 
 @property (nonatomic , assign) id<SendLengFengShanKaiGuanZhuangTaiDelegate> lengFengShanStateDelegate;
-
+@property (nonatomic , copy) BtnStateBlock block;
 @end
 
 

@@ -281,7 +281,15 @@ static CGFloat tableViewContentOffsetY = 0;
 - (void)setTapAction {
     [UIAlertController creatSheetControllerWithFirstHandle:^{
         
-        [UIAlertController creatAlertControllerWithFirstTextfiledPlaceholder:nil andFirstTextfiledText:[NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName] andFirstAtcion:nil andWhetherEdite:NO WithSecondTextfiledPlaceholder:@"请输入修改名称" andSecondTextfiledText:nil andSecondAtcion:@selector(secondTextFieldsValueDidChange:) andAlertTitle:@"修改设备名称" andAlertMessage:@"你可以再次修改设备名称，便于区分。" andTextfiledAtcionTarget:self andSureHandle:^{
+        NSString *name = nil;
+        
+        if (self.serviceModel.brand == NULL || self.serviceModel.brand == nil) {
+            name = self.serviceModel.typeName;
+        } else {
+            name = [NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName];
+        }
+        
+        [UIAlertController creatAlertControllerWithFirstTextfiledPlaceholder:nil andFirstTextfiledText:name andFirstAtcion:nil andWhetherEdite:NO WithSecondTextfiledPlaceholder:@"请输入修改名称" andSecondTextfiledText:nil andSecondAtcion:@selector(secondTextFieldsValueDidChange:) andAlertTitle:@"修改设备名称" andAlertMessage:@"你可以再次修改设备名称，便于区分。" andTextfiledAtcionTarget:self andSureHandle:^{
             if (self.deviceName) {
                 NSDictionary *parames = @{@"ud.devTypeSn" :  self.serviceModel.devTypeSn, @"ud.devSn" :  self.serviceModel.devSn, @"ud.definedName" : self.deviceName};
                 NSLog(@"修改设备名称---%@" , parames);
@@ -322,6 +330,7 @@ static CGFloat tableViewContentOffsetY = 0;
     } andSecondTitle:@"移除设备" andThirtHandle:^{
         ExchangeCollectionViewController *exchangeVC = [[UIStoryboard storyboardWithName:@"ExchangeCollectionViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"ExchangeCollectionViewController"];
         exchangeVC.fromMainVC = [NSString stringWithFormat:@"1"];
+        exchangeVC.navigationItem.title = @"更换背景图片";
         [self.navigationController pushViewController:exchangeVC animated:YES];
     } andThirtTitle:@"更换背景" andForthHandle:nil andForthTitle:nil andSuperViewController:self];
 }
@@ -356,12 +365,6 @@ static CGFloat tableViewContentOffsetY = 0;
 #pragma mark - 懒加载
 - (void)setWearthDic:(NSMutableDictionary *)wearthDic {
     _wearthDic = wearthDic;
-}
-- (NSMutableArray *)serviceArray {
-    if (!_serviceArray) {
-        _serviceArray = [NSMutableArray array];
-    }
-    return _serviceArray;
 }
 
 - (NSMutableArray *)zhuYeArray {

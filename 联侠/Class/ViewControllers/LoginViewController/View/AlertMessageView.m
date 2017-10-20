@@ -65,8 +65,14 @@
         _countdownBtn.layer.borderColor = [UIColor grayColor].CGColor;
         _countdownBtn.layer.borderWidth = 1;
         
-        _pzxView = [[PZXVerificationCodeView alloc]initWithFrame:CGRectMake(0, self.height - 3  * kSpace - self.height / 8 - self.height / 20 - [titleLabel contentSize].height - [phoneLabel contentSize].height - 10, kScreenW / 1.4, self.height / 5)];
+        _pzxView = [[PZXVerificationCodeView alloc]initWithFrame:CGRectMake(0, 0, kScreenW / 1.4, self.height / 5)];
         [self addSubview:_pzxView];
+        [_pzxView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kScreenW / 1.4, self.height / 5));
+            make.centerX.mas_equalTo(self.mas_centerX);
+            make.top.mas_equalTo(_countdownBtn.mas_bottom)
+            .offset(kSpace);
+        }];
         _pzxView.tag = 10003;
 
         _pzxView.selectedColor = kMainColor;

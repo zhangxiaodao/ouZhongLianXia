@@ -55,8 +55,6 @@
     }];
     
     UIButton *queDingBtn = [UIButton initWithTitle:@"" andColor:[UIColor clearColor] andSuperView:view];
-//    queDingBtn.layer.borderColor = [UIColor blackColor].CGColor;
-//    queDingBtn.layer.borderWidth = 1;
     [queDingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(isSureRepeat.mas_right);
         make.centerY.mas_equalTo(isSureRepeat.mas_centerY);
@@ -202,7 +200,8 @@
 
 #pragma mark - 弹出pickView
 - (void)pickerViewTap:(UITapGestureRecognizer *)tap {
-
+    self.openPickerBgView = nil;
+    self.offPickerBgView = nil;
     if (tap.view.tag == 1 || tap.view.tag == 2) {
         
         self.openPickerBgView = [[CustomPickerView alloc]initWithPickerViewType:1 andBackColor:kMainColor];

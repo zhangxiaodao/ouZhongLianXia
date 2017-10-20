@@ -29,7 +29,7 @@
 
 - (void)customUI {
     
-    thirtView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 7.7558139)];
+    thirtView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 7.8)];
     [self.contentView addSubview:thirtView];
     
     

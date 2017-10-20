@@ -97,15 +97,12 @@
     
     self.tableView.contentInset = UIEdgeInsetsMake(BackGroupHeight, 0, 0, 0);
     
-    
-    
     self.doneBtn = [UIButton initWithTitle:@"开启模式" andColor:kKongJingYanSe andSuperView:self.view];
     [self.doneBtn setBackgroundImage:[UIImage imageWithColor:kACOLOR(215, 132, 110, 1.0)] forState:UIControlStateHighlighted];
     [self.doneBtn addTarget:self action:@selector(doneBtnAtcionQQQ:) forControlEvents:UIControlEventTouchUpInside];
     
     if (![_fromWhich isEqualToString:@"thirt"]) {
         
-        //注册按钮的约束
         [self.doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake((kScreenW - kScreenW * 3 / 20) / 2, kScreenW / 9));
             make.bottom.mas_equalTo(self.view.mas_bottom).offset(-kScreenW / 20);
@@ -120,11 +117,11 @@
     [self.cancleBtn addTarget:self action:@selector(cancleBtnAtcionQQQ:) forControlEvents:UIControlEventTouchUpInside];
     [self.cancleBtn setBackgroundImage:[UIImage imageWithColor:kACOLOR(218, 235, 254, 1.0)] forState:UIControlStateHighlighted];
     
-    //注册按钮的约束
     if (![_fromWhich isEqualToString:@"thirt"]) {
         [self.cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake((kScreenW - kScreenW * 3 / 20) / 2, kScreenW / 9));
-            make.bottom.mas_equalTo(self.view.mas_bottom).offset(-kScreenW / 20);
+            make.bottom.mas_equalTo(self.view.mas_bottom)
+            .offset(-kScreenW / 20);
             make.left.mas_equalTo(kScreenW / 20);
         }];
     }
@@ -189,13 +186,7 @@
         [kStanderDefault removeObjectForKey:@"AirDingShiData"];
         [kStanderDefault setObject:@[moShiArray , _timeTextArray] forKey:@"AirDingShiData"];
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"KongJingIsWork" object:self userInfo:@{@"KongJingIsWork" : @"YES"}]];
-        
     }
-    
-    
-    
-
-    
 }
 
 - (void)cancleBtnAtcionQQQ:(UIButton *)btn {

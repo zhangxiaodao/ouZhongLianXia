@@ -12,7 +12,6 @@
 @interface GanYiJiDingShiViewController ()<UITableViewDataSource , UITableViewDelegate , HelpFunctionDelegate , GanYiJiCommonTableViewCellDelegate>
 
 @property (nonatomic , strong) UITableView *tableView;
-@property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) UIButton *doneBtn;
 @property (nonatomic , strong) UIButton *cancleBtn;
 @property (nonatomic , copy) NSString *isChongZhi;
@@ -25,19 +24,14 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:[NSString stringWithFormat:@"%@" , _titleText]];
-    
-    [self setUI];
-}
 
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self setUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.hidden = NO;
     
     UIImageView *backImage = [[UIImageView alloc]initWithImage:[UIImage new]];
     if ([_fromWhich isEqualToString:@"first"]) {
@@ -53,21 +47,15 @@
     
     [self.view insertSubview:backImage atIndex:0];
     
-    
 }
 
 - (void)setUI {
     
     self.isChongZhi = @"NO";
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.view addSubview:self.tableView];
     self.tableView.backgroundColor = [UIColor clearColor];
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH - kScreenH / 16.70588));
-        make.left.mas_equalTo(0);
-        make.top.mas_equalTo(self.navView.mas_bottom);
-    }];
     self.tableView.scrollEnabled = NO;
     
     self.tableView.delegate = self;
@@ -77,8 +65,6 @@
     
     self.tableView.contentInset = UIEdgeInsetsMake(BackGroupHeight + 20, 0, 0, 0);
     
-    
-    
     self.doneBtn = [UIButton initWithTitle:@"开启模式" andColor:kKongJingYanSe andSuperView:self.view];
     [self.doneBtn setBackgroundImage:[UIImage imageWithColor:kACOLOR(215, 132, 110, 1.0)] forState:UIControlStateHighlighted];
     
@@ -86,7 +72,8 @@
     [self.doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kScreenW - kScreenW * 4 / 20) / 2, kScreenW / 9));
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(-kScreenW / 20);
-        make.left.mas_equalTo(self.view.mas_centerX).offset(kScreenW / 20);
+        make.left.mas_equalTo(self.view.mas_centerX)
+        .offset(kScreenW / 20);
     }];
     
     self.cancleBtn = [UIButton initWithTitle:@"重新选择" andColor:kKongJingHuangSe andSuperView:self.view];
@@ -97,8 +84,6 @@
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(-kScreenW / 20);
         make.right.mas_equalTo(self.view.mas_centerX).offset(-kScreenW / 20);
     }];
-    
-    
 }
 
 - (void)getGaiYiJiCommonClothesData:(GanYiJiCommonTableViewCell *)ganYiJiCommonVC andClothesData:(NSArray *)dataArray {
@@ -143,7 +128,6 @@
        
         [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"请选择衣服数量"];
     }
-    
     
 }
 

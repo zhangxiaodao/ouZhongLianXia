@@ -11,8 +11,7 @@
 @interface GanYiJiDingShiViewController : UIViewController
 
 @property (nonatomic , copy) NSString *fromWhich;
-@property (nonatomic , copy) NSString *titleText;
-@property (nonatomic , strong) ServicesModel *serviceModel;
 
+@property (nonatomic , strong) ServicesModel *serviceModel;
 
 @end

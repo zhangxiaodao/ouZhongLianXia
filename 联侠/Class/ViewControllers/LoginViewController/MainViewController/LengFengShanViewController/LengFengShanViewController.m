@@ -98,6 +98,10 @@ static NSString *lvWang = @"lvWang";
     enterVC.serviceDataModel = self.serviceDataModel;
     enterVC.serviceModel = self.serviceModel;
     [self.navigationController pushViewController:enterVC animated:YES];
+    enterVC.block = ^(UIButton *btn) {
+        self.bottomBtn.selected = !btn.selected;
+    };
+    
 }
 
 #pragma mark - 复位通知传值
@@ -153,7 +157,6 @@ static NSString *lvWang = @"lvWang";
     view.backgroundColor = [UIColor lightGrayColor];
     return view;
 }
-
 #pragma mark - 分区头的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {

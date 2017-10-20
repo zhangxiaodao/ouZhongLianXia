@@ -27,7 +27,7 @@
 }
 
 - (void)customUI {
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 8)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW / 4.5)];
     [self.contentView addSubview:view];
     view.backgroundColor = [UIColor whiteColor];
     UILabel *titleLable = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentLeft];

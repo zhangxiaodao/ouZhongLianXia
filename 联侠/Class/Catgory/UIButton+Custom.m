@@ -80,12 +80,9 @@
     button.layer.borderColor = [UIColor colorWithRed:222/255.0 green:222/255.0 blue:222/255.0 alpha:1.0].CGColor;
     [button addTarget:delegate action:doneAtcion forControlEvents:UIControlEventTouchUpInside];
     
-    
     UILabel *lable = [UILabel creatLableWithTitle:title andSuperView:button andFont:k12 andTextAligment:NSTextAlignmentCenter];
     lable.textColor = [UIColor lightGrayColor];
-    lable.layer.borderWidth = 0;
     [lable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(width, height / 4));
         make.centerX.mas_equalTo(button.mas_centerX);
         make.bottom.mas_equalTo(button.mas_bottom).offset(- button.height / 10);
     }];
@@ -98,8 +95,7 @@
         make.centerX.mas_equalTo(button.mas_centerX);
         make.centerY.mas_equalTo(button.mas_centerY).offset(- button.height / 10);
     }];
-    imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    imageView.tintColor = imageColor;
+    [UIImageView setImageViewColor:imageView andColor:imageColor];
     
     return button;
 }

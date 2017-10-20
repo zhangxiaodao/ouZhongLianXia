@@ -11,10 +11,10 @@
 
 
 @interface AirPurificationThirtTableViewCell ()<HelpFunctionDelegate>{
-    UILabel *leiJiGuoLvFenChenLable;
-    UILabel *timeLable1;
+    UILabel *dustLabel;
+    UILabel *timeLable;
     UILabel *xiaBiaoLable;
-    UILabel *fenChenLable;
+    UILabel *contrastLabel;
 }
 
 @property (nonatomic , strong) NSMutableArray *shiWaipm25Key;
@@ -29,8 +29,7 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self customUI];
     }
     return self;
@@ -38,13 +37,10 @@
 
 - (void)customUI {
     
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     UIView *view = [[UIView alloc]init];
-    view.backgroundColor = [UIColor redColor];
+    view.backgroundColor = [UIColor whiteColor];
     view.frame = CGRectMake(0, 0, kScreenW, kScreenH / 2.767634 - 5);
     [self.contentView addSubview:view];
-    
     
     UIImageView *imageView = [[UIImageView alloc]init];
     imageView.image = [UIImage imageNamed:@"主页背景2.jpg"];
@@ -54,107 +50,77 @@
         make.centerX.mas_equalTo(view.mas_centerX);
         make.top.mas_equalTo(view.mas_top);
     }];
-
     
-    fenChenLable = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k14 andTextAligment:NSTextAlignmentCenter];
-    fenChenLable.textColor = kKongJingYanSe;
-    fenChenLable.layer.borderWidth = 0;
-    [fenChenLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 14));
-        make.centerX.mas_equalTo(view.mas_centerX).offset(- kScreenW / 3.4090909);
-        make.top.mas_equalTo(view.mas_top).offset(kScreenH / 22.23333);
+    contrastLabel = [UILabel creatLableWithTitle:@"请开窗" andSuperView:view andFont:k14 andTextAligment:NSTextAlignmentCenter];
+    contrastLabel.textColor = kKongJingYanSe;
+    [contrastLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(view.mas_centerX).offset(- kScreenW / 3.4);
+        make.top.mas_equalTo(view.mas_top).offset(kScreenH / 22);
     }];
     
-//    CGFloat text1 = 59;
-//    [NSString setNSMutableAttributedString:text1 andSuperLabel:fenChenLable andDanWei:@"%" andSize:k30 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"NO"];
+    UIView *fenGeXianView = [UIView creatMiddleFenGeView:view andBackGroundColor:kKongJingYanSe andHeight:1 andWidth:kScreenW / 4 andConnectId:contrastLabel];
     
-    fenChenLable.text = @"请开窗";
-    
-    
-    UIView *fenGeXianView = [UIView creatMiddleFenGeView:view andBackGroundColor:kKongJingYanSe andHeight:1 andWidth:kScreenW / 4 andConnectId:fenChenLable];
-    
-    UILabel *yiGuoLvFenChenLable = [UILabel creatLableWithTitle:@"优于室外空气质量" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];
-    yiGuoLvFenChenLable.layer.borderWidth = 0;
-    yiGuoLvFenChenLable.textColor = kKongJingYanSe;
-    [yiGuoLvFenChenLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 14));
-        make.centerX.mas_equalTo(fenChenLable.mas_centerX);
+    UILabel *betterContrastLabel = [UILabel creatLableWithTitle:@"优于室外空气质量" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];
+    betterContrastLabel.textColor = kKongJingYanSe;
+    [betterContrastLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(contrastLabel.mas_centerX);
         make.top.mas_equalTo(fenGeXianView.mas_bottom);
     }];
     
     UIView *fenGeXianView3 = [[UIView alloc]init];
     [view addSubview:fenGeXianView3];
     fenGeXianView3.backgroundColor = kFenGeXianYanSe;
-    
     [fenGeXianView3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(1, kScreenH / 9));
         make.centerX.mas_equalTo(view.mas_centerX);
-        make.top.mas_equalTo(view.mas_top).offset(kScreenH / 44.4666666);
+        make.top.mas_equalTo(view.mas_top).offset(kScreenH / 45);
     }];
     
-    
-    
-    timeLable1 = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k14 andTextAligment:NSTextAlignmentCenter];
-    timeLable1.layer.borderWidth = 0;
-    timeLable1.textColor = kKongJingYanSe;
-    [timeLable1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 14));
-        make.centerX.mas_equalTo(view.mas_centerX).offset( kScreenW / 3.4090909);
-        make.top.mas_equalTo(view.mas_top).offset(kScreenH / 22.23333);
+    timeLable = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k14 andTextAligment:NSTextAlignmentCenter];
+    timeLable.textColor = kKongJingYanSe;
+    [timeLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(view.mas_centerX)
+        .offset( kScreenW / 3.4);
+        make.top.mas_equalTo(view.mas_top)
+        .offset(kScreenH / 22);
     }];
     
-    CGFloat time1 = 100;
-
-    [NSString setNSMutableAttributedString:time1 andSuperLabel:timeLable1 andDanWei:@"小时" andSize:k30 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"NO"];
+    [NSString setNSMutableAttributedString:100 andSuperLabel:timeLable andDanWei:@"小时" andSize:k30 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"NO"];
     
-    
-    UIView *fenGeXianView2 = [UIView creatMiddleFenGeView:view andBackGroundColor:kKongJingYanSe andHeight:1 andWidth:kScreenW / 4 andConnectId:timeLable1];
+    UIView *fenGeXianView2 = [UIView creatMiddleFenGeView:view andBackGroundColor:kKongJingYanSe andHeight:1 andWidth:kScreenW / 4 andConnectId:timeLable];
     
     UILabel *sumTimeLable = [UILabel creatLableWithTitle:@"累计运行时间" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];
     sumTimeLable.textColor = kKongJingYanSe;
-    sumTimeLable.layer.borderWidth = 0;
     [sumTimeLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 14));
-        make.centerX.mas_equalTo(timeLable1.mas_centerX);
+        make.centerX.mas_equalTo(timeLable.mas_centerX);
         make.top.mas_equalTo(fenGeXianView2.mas_bottom);
-        
     }];
     
-    
-    UILabel *leiJiJingHua = [UILabel creatLableWithTitle:@"累计过滤粉尘" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];
-    leiJiJingHua.layer.borderWidth = 0;
-
-    leiJiJingHua.backgroundColor = kACOLOR(250, 201, 77, 1.0);
-    leiJiJingHua.textColor = [UIColor whiteColor];
-    leiJiJingHua.layer.cornerRadius = kScreenW / 36;
-    [leiJiJingHua mas_makeConstraints:^(MASConstraintMaker *make) {
+    UILabel *sumFilterLabel = [UILabel creatLableWithTitle:@"累计过滤粉尘" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];
+    sumFilterLabel.backgroundColor = kACOLOR(250, 201, 77, 1.0);
+    sumFilterLabel.textColor = [UIColor whiteColor];
+    sumFilterLabel.layer.cornerRadius = kScreenW / 36;
+    [sumFilterLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 18));
         make.centerX.mas_equalTo(view.mas_centerX);
-        make.top.mas_equalTo(fenGeXianView3.mas_bottom).offset(kScreenW / 22.23333);
+        make.top.mas_equalTo(fenGeXianView3.mas_bottom)
+        .offset(kScreenW / 22);
     }];
 
-    
-    leiJiGuoLvFenChenLable = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
-    leiJiGuoLvFenChenLable.layer.borderWidth = 0;
-    [leiJiGuoLvFenChenLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, kScreenW / 7));
+    dustLabel = [UILabel creatLableWithTitle:@"" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
+    dustLabel.layer.borderWidth = 0;
+    [dustLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(view.mas_centerX);
-        make.top.mas_equalTo(leiJiJingHua.mas_bottom).offset(kScreenW / 33.35);
+        make.top.mas_equalTo(sumFilterLabel.mas_bottom)
+        .offset(kScreenW / 33.35);
     }];
     
-    
-    CGFloat temperature2 = 100;
-    
-    [NSString setNSMutableAttributedString:temperature2 andSuperLabel:leiJiGuoLvFenChenLable andDanWei:@"mg" andSize:k60 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"NO"];
+    [NSString setNSMutableAttributedString:100 andSuperLabel:dustLabel andDanWei:@"mg" andSize:k60 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"NO"];
 
-    
-    
-    xiaBiaoLable = [UILabel creatLableWithTitle:[NSString stringWithFormat:@"%d" , 1] andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];
-    xiaBiaoLable.layer.borderWidth = 0;
+    xiaBiaoLable = [UILabel creatLableWithTitle:@"1" andSuperView:view andFont:k12 andTextAligment:NSTextAlignmentCenter];
     [xiaBiaoLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(view.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 15));
-        make.top.mas_equalTo(leiJiGuoLvFenChenLable.mas_bottom);
+        make.top.mas_equalTo(dustLabel.mas_bottom);
     }];
     xiaBiaoLable.textColor = kKongJingYanSe;
     
@@ -163,142 +129,117 @@
 - (void)setServiceDataModel:(ServicesDataModel *)serviceDataModel {
     _serviceDataModel = serviceDataModel;
     
-    
-    CGFloat time1 = 100;
+    CGFloat time = 100;
     if (_serviceDataModel.totalTime) {
-        time1 = _serviceDataModel.totalTime / 3600000;
+        time = _serviceDataModel.totalTime / 3600000;
     }
+    [NSString setNSMutableAttributedString:time andSuperLabel:timeLable andDanWei:@"小时" andSize:k30 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"YES"];
     
-    [NSString setNSMutableAttributedString:time1 andSuperLabel:timeLable1 andDanWei:@"小时" andSize:k30 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"YES"];
+    CGFloat dust =  time * 0.3575;
     
-    
-    CGFloat temperature2 =  (_serviceDataModel.totalTime / 3600000) * 0.3575;
-    
-    [NSString setNSMutableAttributedString:temperature2 andSuperLabel:leiJiGuoLvFenChenLable andDanWei:@"mg" andSize:k60 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"YES"];
-    
-    xiaBiaoLable.text = [NSString stringWithFormat:@"相当于 %.2f 颗大米" , (temperature2 / kDaMi)];
-    
+    [NSString setNSMutableAttributedString:dust andSuperLabel:dustLabel andDanWei:@"mg" andSize:k60 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"YES"];
+    xiaBiaoLable.text = [NSString stringWithFormat:@"相当于 %.2f 颗大米" , (dust / kDaMi)];
 }
-
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {
     _serviceModel = serviceModel;
     
     if ([kStanderDefault objectForKey:@"cityName"]) {
         NSString *city = [kStanderDefault objectForKey:@"cityName"];
-        NSDictionary *parames2 = @{@"city" : city , @"times" : @12};
-        NSLog(@"%@" , parames2);
-        [HelpFunction requestDataWithUrlString:kDangTianKongQiZhiLiang andParames:parames2 andDelegate:self];
+        NSDictionary *parames = @{@"city" : city , @"times" : @12};
+        NSLog(@"%@" , parames);
+        
+        [kNetWork requestPOSTUrlString:kDangTianKongQiZhiLiang parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+            [self requestOutDoorPM25:responseObject];
+            
+        } failure:nil];
+        
     }
-    
 }
 
-
-- (void)requestKongQiZhiLiangShuJu:(HelpFunction *)request didYes:(NSDictionary *)dic {
-//    NSLog(@"室外%@" , dic);
-    
-    
-    [self shiWaipm25Key];
-    [self shiWaiPm25Value];
+- (void)requestOutDoorPM25:(NSDictionary *)dic {
     if ([dic[@"data"] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *data = dic[@"data"];
         NSDictionary *pm25 = data[@"pm25"];
         NSArray *pm25AllKeys = [pm25 allKeys];
         NSMutableArray *timeArray = [self get24TimesFromNowTime];
         
-        
-        [_shiWaipm25Key removeAllObjects];
-        [_shiWaiPm25Value removeAllObjects];
+        [self.shiWaipm25Key removeAllObjects];
+        [self.shiWaiPm25Value removeAllObjects];
         for (NSString *times in timeArray) {
             for (NSString *key in pm25AllKeys) {
                 if ([times isEqualToString:key]) {
                     
                     if (![pm25[times] isKindOfClass:[NSNull class]]) {
-                        [_shiWaipm25Key addObject:times];
-                        [_shiWaiPm25Value addObject:@([pm25[times] integerValue])];
+                        [self.shiWaipm25Key addObject:times];
+                        [self.shiWaiPm25Value addObject:@([pm25[times] integerValue])];
                     }
-                    
                 }
             }
         }
-        
         if (timeArray.count > 0) {
             
             NSString *lastTime = [timeArray lastObject];
             NSDictionary *parames = @{@"devTypeSn" : _serviceModel.devTypeSn , @"devSn" : _serviceModel.devSn , @"times" : @12  , @"lastTime" : @(lastTime.integerValue)};
-            [HelpFunction requestDataWithUrlString:kKongJingPM25State andParames:parames andDelegate:self];
+            
+            [kNetWork requestPOSTUrlString:kKongJingPM25State parameters:parames isSuccess:^(NSDictionary * _Nullable responseObject) {
+                [self requestIndoorPM25:responseObject];
+            } failure:nil];
         }
     }
-    
 }
 
-- (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
-//    NSLog(@"室内%@" , dddd);
+- (void)requestIndoorPM25:(NSDictionary *)dic {
     
-    [self shiNeiPm25Key];
-    [self shiNeiPm25Value];
-    
-    if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *data = dddd[@"data"];
+    if ([dic[@"data"] isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *data = dic[@"data"];
         
         NSMutableArray *keys = [[data allKeys] mutableCopy];
         
         NSMutableArray *timeArray = [self get24TimesFromNowTime];
         
-        
-        [_shiNeiPm25Key removeAllObjects];
-        [_shiNeiPm25Value removeAllObjects];
+        [self.shiNeiPm25Key removeAllObjects];
+        [self.shiNeiPm25Value removeAllObjects];
         for (NSString *times in timeArray) {
             for (NSString *key in keys) {
                 if ([times isEqualToString:key]) {
                     
-                    [_shiNeiPm25Key addObject:times];
+                    [self.shiNeiPm25Key addObject:times];
                     if (![data[times] isKindOfClass:[NSNull class]]) {
                         
-                        [_shiNeiPm25Value addObject:@([data[times] integerValue] / 4) ];
+                        [self.shiNeiPm25Value addObject:@([data[times] integerValue] / 4) ];
                     } else{
-                        [_shiNeiPm25Value addObject:data[times]];
+                        [self.shiNeiPm25Value addObject:data[times]];
                     }
-                    
                 }
             }
         }
         
-        NSInteger length = _shiNeiPm25Value.count;
+        NSInteger length = self.shiNeiPm25Value.count;
         for (NSInteger i = length - 1; i >= 0; i--) {
             
-            if ([_shiNeiPm25Value[length - 1] isKindOfClass:[NSNull class]]) {
-                [_shiNeiPm25Key removeAllObjects];
-
+            if ([self.shiNeiPm25Value[length - 1] isKindOfClass:[NSNull class]]) {
+                [self.shiNeiPm25Key removeAllObjects];
+                
             } else {
                 
-                if ([_shiNeiPm25Value[i] isKindOfClass:[NSNull class]] ) {
+                if ([self.shiNeiPm25Value[i] isKindOfClass:[NSNull class]] ) {
                     
-                    _shiNeiPm25Value[i] = _shiNeiPm25Value[i + 1];
+                    self.shiNeiPm25Value[i] = self.shiNeiPm25Value[i + 1];
                 }
             }
-            
-            
         }
-        
-        if (_shiNeiPm25Key.count > 0 && _shiNeiPm25Value.count > 0) {
+        if (self.shiNeiPm25Key.count > 0 && self.shiNeiPm25Value.count > 0) {
             [self shiNeiShiWaiAqiDuiBi];
         }
-        
     }
-}
-
-- (void)requestData:(HelpFunction *)request didFailLoadData:(NSError *)error {
-    NSLog(@"%@" , error);
 }
 
 - (void)setStateModel:(StateModel *)stateModel {
     _stateModel = stateModel;
-    
 }
 
 - (void)shiNeiShiWaiAqiDuiBi{
-    
     
      NSString *lastValue = [_shiWaiPm25Value lastObject];
      NSString *shiNeiLastValue = [_shiNeiPm25Value lastObject];
@@ -308,17 +249,14 @@
         CGFloat shiNeiValue = shiNeiLastValue.floatValue;
         CGFloat text1 = (lastShiWaiValue - shiNeiValue) / lastShiWaiValue;
         
-//        NSLog(@"CCCCC%f , %.2f , %.2f" , text1 , lastShiWaiValue , shiNeiValue);
         if (text1 <= 0) {
-            fenChenLable.text = @"请开窗";
+            contrastLabel.text = @"请开窗";
         } else {
-            
-            [NSString setNSMutableAttributedString:text1 * 100 andSuperLabel:fenChenLable andDanWei:@"%" andSize:k30 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"YES"];
+            [NSString setNSMutableAttributedString:text1 * 100 andSuperLabel:contrastLabel andDanWei:@"%" andSize:k30 andTextColor:kKongJingYanSe isNeedTwoXiaoShuo:@"YES"];
         }
     } else {
-            fenChenLable.text = @"请开窗";
+            contrastLabel.text = @"请开窗";
     }
-    
 }
 
 - (NSMutableArray *)get24TimesFromNowTime{
@@ -369,7 +307,5 @@
     }
     return _shiNeiPm25Value;
 }
-
-
 
 @end

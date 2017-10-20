@@ -117,25 +117,17 @@
 - (void)tapAtcion:(UITapGestureRecognizer *)tap {
     AirgengDuoViewController *airGengDuoVC = [[AirgengDuoViewController alloc]init];
     
-//    airGengDuoVC.shiNeiPm25 = @{[_shiNeiPm25Key lastObject] : [_shiNeiPm25Value lastObject]};
-    
-    
     if (_shiNeiPm25Value.count > 0 && _shiWaiPm25Value.count > 0) {
         airGengDuoVC.shiWaiPm25 = [_shiWaiPm25Value lastObject];
         airGengDuoVC.shiNeiPm25 = [_shiNeiPm25Value lastObject];
     }
     
-    airGengDuoVC.userModel = [[UserModel alloc]init];
     airGengDuoVC.userModel = self.model;
-    airGengDuoVC.serviceDataModel = [[ServicesDataModel alloc]init];
     airGengDuoVC.serviceDataModel = self.serviceDataModel;
-    
-    airGengDuoVC.serviceModel = [[ServicesModel alloc]init];
     airGengDuoVC.serviceModel = self.serviceModel;
-    
     airGengDuoVC.stateModel = self.stateModel;
-    
     airGengDuoVC.sumLvXinTime = kKongJingLvXinShouMing;
+    airGengDuoVC.navigationItem.title = @"统计图表";
     [self.airVC.navigationController pushViewController:airGengDuoVC animated:YES];
 }
 

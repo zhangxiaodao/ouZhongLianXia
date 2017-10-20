@@ -33,8 +33,6 @@
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) UserModel *userModel;
 
-@property (nonatomic , strong) NSMutableArray *serviceArray;
-
 @property (nonatomic , strong) UIButton *bottomBtn;
 @property (nonatomic , strong) UITableView *tableView;
 @property (nonatomic , strong) NSMutableDictionary *wearthDic;

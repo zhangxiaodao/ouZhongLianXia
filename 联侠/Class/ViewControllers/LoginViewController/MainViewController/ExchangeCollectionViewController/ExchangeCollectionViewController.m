@@ -13,7 +13,6 @@
 @property (strong, nonatomic) IBOutlet UICollectionView *collecionViw;
 @property (nonatomic,strong) NSMutableArray *zhuYeArray;
 @property (nonatomic , strong) NSMutableArray *kongZhiTaiArray;
-@property (nonatomic , strong) UIView *navView;
 @property (nonatomic , strong) NSIndexPath *indexpAth;
 @property (nonatomic  ,strong) UIView *backView;
 
@@ -28,23 +27,20 @@ static NSString * const reuseIdentifier = @"Cell";
     [super viewDidLoad];
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"更换背景图片"];
+
     [self setUI];
 }
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 #pragma mark - 设置UI
 - (void)setUI{
     self.collecionViw.backgroundColor = [UIColor clearColor];
     
-    [self.collecionViw mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH - self.navView.y - self.navView.height));
-        make.top.mas_equalTo(self.navView.mas_bottom);
-        make.left.mas_equalTo(0);
-    }];
 }
 
 #pragma mark - collectionView的头部  和  尾部 view

@@ -20,7 +20,7 @@ static CGFloat speed = 0.0;
 @property (nonatomic , strong) UILabel *humidityLabel;
 
 @property (nonatomic , strong) UILabel *methanalLabel;
-@property (nonatomic , strong) UILabel *airQulityLable;
+@property (nonatomic , strong) UILabel *pm25Label;
 @property (nonatomic , strong) UILabel *lvXinLastTime;
 @property (nonatomic , strong) UILabel *modelLabel;
 @property (nonatomic , strong) UIImageView *fengSuBiaoShiImageView;
@@ -93,7 +93,7 @@ static CGFloat speed = 0.0;
     
     _isPlay = @"NO";
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 1.56 + kScreenW / 10 - kScreenW / 25 + 5)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW * 1.216 + kScreenW / 10 - kScreenW / 25 + 5)];
     [self.contentView addSubview:view];
     view.backgroundColor = kACOLOR(28, 157, 247, 1.0);
     
@@ -137,16 +137,16 @@ static CGFloat speed = 0.0;
     pm25TitleLabel.layer.borderWidth = 0;
     
     
-    UILabel *pm25Label = [UILabel creatLableWithTitle:@"40" andSuperView:view andFont:k70 andTextAligment:NSTextAlignmentCenter];
+    UILabel *pm25Label = [UILabel creatLableWithTitle:@"立即检测" andSuperView:view andFont:k30 andTextAligment:NSTextAlignmentCenter];
     [pm25Label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 2, kScreenW / 6));
         make.centerX.mas_equalTo(view.mas_centerX);
-        make.top.mas_equalTo(pm25TitleLabel.mas_bottom).offset(kScreenW / 35);
+        make.top.mas_equalTo(pm25TitleLabel.mas_bottom)
+        .offset(kScreenW / 35);
     }];
     pm25Label.textColor = [UIColor whiteColor];
     pm25Label.layer.borderWidth = 0;
     
-    _airQulityLable = pm25Label;
+    self.pm25Label = pm25Label;
     
     UILabel *lvXinLastTimeTitleLabel = [UILabel creatLableWithTitle:@"滤芯设定剩余" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     [lvXinLastTimeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -269,7 +269,7 @@ static CGFloat speed = 0.0;
     
     _temperatureLabel.text = temprature;
     _humidityLabel.text = humidity;
-    _airQulityLable.text = pm25;
+    
     _methanalLabel.text = methanal;
     
     _lvXinLastTime.text = [NSString stringWithFormat:@"%ld小时" , (long)sumTime];
@@ -300,6 +300,12 @@ static CGFloat speed = 0.0;
         }
         
         _fengSuBiaoShiImageView.image = image;
+        
+        self.pm25Label.text = pm25;
+        self.pm25Label.font = [UIFont systemFontOfSize:k50];
+    } else {
+        self.pm25Label.text = @"立即检测";
+        self.pm25Label.font = [UIFont systemFontOfSize:k30];
     }
     
 }
@@ -321,7 +327,7 @@ static CGFloat speed = 0.0;
     if ([dddd[@"data"] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dataDic = dddd[@"data"];
         
-         StateModel *stateModel = [[StateModel alloc]init];
+        StateModel *stateModel = [[StateModel alloc]init];
         
         for (NSString *key in [dataDic allKeys]) {
             [stateModel setValue:dataDic[key] forKey:key];
@@ -346,15 +352,15 @@ static CGFloat speed = 0.0;
     NSLog(@"第一个--%@ " , _stateModel);
     
     if (_stateModel) {
-        _airQulityLable.text = [NSString stringWithFormat:@"%@" , _stateModel.sPm25];
+        
         _temperatureLabel.text = [NSString stringWithFormat:@"%@" , _stateModel.sCurrentC];
         _humidityLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.sCurrentH];
         _methanalLabel.text = [NSString stringWithFormat:@"%ld" , (long)_stateModel.sMethanal];
         _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)_stateModel.sChangeFilterScreen];
         
         if (_stateModel.fSwitch == 1) {
-           
-            
+           self.pm25Label.text = [NSString stringWithFormat:@"%@" , _stateModel.sPm25];
+            self.pm25Label.font = [UIFont systemFontOfSize:k50];
             UIImage *image = nil;
 
             if (_stateModel.fWind == 1) {
@@ -384,6 +390,8 @@ static CGFloat speed = 0.0;
         } else {
             angle = 0;
             speed = 0.0;
+            self.pm25Label.text = @"立即检测";
+            self.pm25Label.font = [UIFont systemFontOfSize:k30];
         }
     }
     

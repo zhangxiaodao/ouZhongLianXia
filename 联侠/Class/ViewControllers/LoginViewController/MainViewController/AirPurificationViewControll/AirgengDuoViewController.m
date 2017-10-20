@@ -29,6 +29,10 @@
     [self setUI];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = NO;
+}
 
 - (void)requestData:(HelpFunction *)request didSuccess:(NSDictionary *)dddd {
 //    NSLog(@"%@" , dddd);
@@ -38,34 +42,16 @@
     NSLog(@"%@" , error);
 }
 
-#pragma mark - 返回主界面
-- (void)backTap:(UITapGestureRecognizer *)tap {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (void)setUI {
     
-    
-    
-    self.tableView = [[UITableView alloc]initWithFrame:kScreenFrame style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [self.view addSubview:self.tableView];
-    
-    self.tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0.5)];
-    self.tableView.contentInset=UIEdgeInsetsMake(-kScreenW / 15, 0, 0, 0);
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.scrollEnabled = NO;
-    
-    self.navView = [UIView creatNavView:self.view WithTarget:self action:@selector(backTap:) andTitle:@"统计图表"];
-    
-    UIView *iii = [self.navView.subviews objectAtIndex:0];
-    UIImageView *jjj = [iii.subviews objectAtIndex:1];
-
-    [UIImageView setImageViewColor:jjj andColor:[UIColor whiteColor]];
-    
-    UILabel *lable222 = self.navView.subviews[2];
-    lable222.textColor = [UIColor whiteColor];
     
 }
 
@@ -154,13 +140,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.row == 0) {
-        return kScreenH / 2.575289;
+        return kScreenH / 3;
     } else if (indexPath.row == 1) {
-        return kScreenH / 6.94791666;
+        return kScreenH / 7;
     } else if (indexPath.row == 2) {
-        return kScreenH / 7.7558139;
+        return kScreenH / 7.8;
     } else {
-        return kScreenH / 2.9;
+        return kScreenH / 3;
     }
     
 }

@@ -79,16 +79,16 @@
     [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"请输入正确的WIFI密码，密码错误，设备无法绑定!"];
 }
 
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//
-//    if (dictRef) {
-//    } else {
-//        [UIAlertController creatRightAlertControllerWithHandle:^{
-//            [self.navigationController popViewControllerAnimated:YES];
-//        } andSuperViewController:kWindowRoot Title:@"您当前没有连接WIFI，设备无法添加"];
-//    }
-//}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    if (dictRef) {
+    } else {
+        [UIAlertController creatRightAlertControllerWithHandle:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        } andSuperViewController:kWindowRoot Title:@"您当前没有连接WIFI，设备无法添加"];
+    }
+}
 
 #pragma mark - 设置UI
 - (void)setUI {

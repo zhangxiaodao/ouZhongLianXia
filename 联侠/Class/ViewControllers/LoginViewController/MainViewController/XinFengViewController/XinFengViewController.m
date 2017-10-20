@@ -329,7 +329,7 @@
     
     self.automaticallyAdjustsScrollViewInsets = false;
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kHeight - kScreenH / 12.3518518) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kNavibarH - kScreenW / 7) style:UITableViewStylePlain];
     [self.view insertSubview:self.tableView belowSubview:self.navigationController.navigationBar];
     
     self.tableView.delegate = self;
@@ -343,44 +343,31 @@
         [self.dic setValue:@(0) forKey:[NSString stringWithFormat:@"%d" , i]];
     }
     
+    [self setBottomView];
+}
+
+#pragma mark - 设置底部开关UI
+- (void)setBottomView {
     UIView *bottomView = [[UIView alloc]init];
     [self.view addSubview:bottomView];
     [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.view.mas_bottom);
-        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenH / 12.3518518));
-        make.right.mas_equalTo(self.view.mas_right);
+        make.size.mas_equalTo(CGSizeMake(kScreenW, kScreenW / 6.8));
+        make.centerX.mas_equalTo(self.view.mas_centerX);
     }];
     bottomView.backgroundColor = [UIColor whiteColor];
     
-    self.bottomBtn = [UIButton initWithTitle:@"" andColor:[UIColor grayColor] andSuperView:self.view];
+    self.bottomBtn = [UIButton initWithTitle:@"开启" andColor:[UIColor grayColor] andSuperView:bottomView];
     self.bottomBtn.layer.cornerRadius = kScreenW / 18;
-    //注册按钮的约束
     [self.bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW - kScreenW * 2 / 15, kScreenW / 9));
-        make.left.mas_equalTo(kScreenW / 15);
-        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-5);
+        make.centerX.mas_equalTo(bottomView.mas_centerX);
+        make.centerY.mas_equalTo(bottomView.mas_centerY);
     }];
+    [self.bottomBtn setImage:[UIImage imageNamed:@"iconfont-kaiguan222"] forState:UIControlStateNormal];
+    [self.bottomBtn setImage:[UIImage imageNamed:@"iconfont-kaiguan222"] forState:UIControlStateHighlighted];
+    self.bottomBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     [self.bottomBtn addTarget:self action:@selector(xinFengOpenAtcion) forControlEvents:UIControlEventTouchUpInside];
-    
-    UILabel *bottomLable = [UILabel creatLableWithTitle:@"开启" andSuperView:self.bottomBtn andFont:k17 andTextAligment:NSTextAlignmentLeft];
-    bottomLable.textColor = [UIColor whiteColor];
-    bottomLable.layer.borderWidth = 0;
-    [bottomLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(self.bottomBtn.height / 2, self.bottomBtn.height / 2));
-        make.left.mas_equalTo(self.bottomBtn.mas_centerX).offset(3);
-        make.centerY.mas_equalTo(self.bottomBtn.mas_centerY);
-    }];
-    
-    UIImageView *offImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"iconfont-kaiguan222"]];
-    offImageView.image = [offImageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    offImageView.tintColor = [UIColor whiteColor];
-    [self.bottomBtn addSubview:offImageView];
-    [offImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(self.bottomBtn.height / 4, self.bottomBtn.height / 4));
-        make.right.mas_equalTo(self.bottomBtn.mas_centerX).offset(-3);
-        make.centerY.mas_equalTo(self.bottomBtn.mas_centerY);
-    }];
-    
 }
 
 #pragma mark - 移除设备
@@ -417,8 +404,6 @@
             self.navigationItem.title = [NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName];
         }
     }
-    
-    
     
 }
 
@@ -531,7 +516,7 @@
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            return kScreenH / 1.56 + kScreenW / 10 - kScreenW / 25 + 5;
+            return kScreenW * 1.216 + kScreenW / 10 - kScreenW / 25 + 5;
         } else {
             return kBtnW * 9 / 4;
         }
@@ -542,7 +527,7 @@
         if(indexPath.row == 0){
             return kScreenH / 7;
         } else {
-            return kScreenH / 2.9 ;
+            return kScreenW / 1.62 ;
         }
     }
     

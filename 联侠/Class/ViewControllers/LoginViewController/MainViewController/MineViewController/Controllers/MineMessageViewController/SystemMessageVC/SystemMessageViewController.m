@@ -46,13 +46,15 @@
 #pragma mark - 设置UI
 - (void)setUI{
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH - kHeight) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.view addSubview:self.tableView];
     self.tableView.backgroundColor = [UIColor colorWithHexString:@"f2f4fb"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 0.1)];
+    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, 0.1)];
     
     self.noMoreView = [[SystemMessageNoMore alloc]initWithFrame:CGRectMake(kScreenW / 6, kScreenH - 88 - 64, kScreenW * 2 / 3, 44)];
     [self.view addSubview:self.noMoreView];
@@ -197,7 +199,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return kScreenH / 8;
+    return kScreenW / 4.5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

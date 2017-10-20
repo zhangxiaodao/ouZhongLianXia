@@ -63,18 +63,6 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-//    self.tabBarController.tabBar.hidden = NO;
-   
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-//    MineViewController *mineServiceVC = [[MineViewController alloc]init];
-//    mineServiceVC.tabBarController.tabBar.hidden = YES;
-}
 
 - (MineTableViewCell *)tableViewindexPathForRow:(NSInteger)row inSection:(NSInteger)section {
     NSIndexPath *indexpath = [NSIndexPath indexPathForRow:row inSection:section];
@@ -177,7 +165,7 @@
 #pragma mark - 设置UI界面
 - (void)setUI{
 
-    _headPortraitView = [[HeadPortraitView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 3.7) Target:self action:@selector(mineAtcion)];
+    _headPortraitView = [[HeadPortraitView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW / 2.08) Target:self action:@selector(mineAtcion)];
     [self.view addSubview:_headPortraitView];
     self.headBackImageView = _headPortraitView.subviews[0];
     self.headImageView = _headPortraitView.subviews[2];

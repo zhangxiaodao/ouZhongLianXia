@@ -41,7 +41,7 @@
     //    [self creatDateArray];
     
     
-    self.forthView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 2.9)];
+    self.forthView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 3)];
     [self.contentView addSubview:self.forthView];
 }
 

@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface AirPurificationFirstTableViewCell : UITableViewCell
-@property (nonatomic , copy) NSString *isAnimation;
 @property (nonatomic , strong) StateModel *stateModel;
 
 @end

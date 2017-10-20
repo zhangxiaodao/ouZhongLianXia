@@ -11,10 +11,8 @@
 @interface LXCircleAnimationView : UIView
 
 @property (nonatomic, assign) CGFloat percent; // 百分比 0 - 100
-@property (nonatomic, strong) UIImage *bgImage; // 背景图片
-@property (nonatomic, strong) NSString *text; // 文字
 
-@property (nonatomic , copy) NSString *isAnimation;
+@property (nonatomic, strong) NSString *text; // 文字
 
 - (void)setText:(NSString *)text;
 

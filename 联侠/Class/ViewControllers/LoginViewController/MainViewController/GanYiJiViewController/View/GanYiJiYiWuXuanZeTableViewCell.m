@@ -48,7 +48,7 @@
 - (void)customUI {
     
     
-    view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 3.1761 + shengXiaHeight)];
+    view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenW / 1.46)];
     [self.contentView addSubview:view];
     view.backgroundColor = [UIColor whiteColor];
     
@@ -59,12 +59,13 @@
     NSArray *imageAry = @[@"bao" , @"zhong" , @"hou"];
     NSArray *nameAry = @[ @"薄" , @"中" ,  @"厚"];
     for (int i = 0; i < 3; i++) {
-       UIView *modelView = [self creatModelViewOfSuperView:view andWidth:kScreenW / 3 andHeight:kScreenH / 3.1761 andImageView:[UIImage imageNamed:imageAry[i]] andTitle:nameAry[i]];
+       UIView *modelView = [self creatModelViewOfSuperView:view andWidth:kScreenW / 3 andHeight:kScreenW / 1.79 andImageView:[UIImage imageNamed:imageAry[i]] andTitle:nameAry[i]];
         [view addSubview:modelView];
 
         [modelView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenH / 3.1761));
-            make.right.mas_equalTo(view.mas_left).offset(kScreenW * (i + 1) / 3);
+            make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 1.79));
+            make.right.mas_equalTo(view.mas_left)
+            .offset(kScreenW * (i + 1) / 3);
             make.top.mas_equalTo(view.mas_top);
         }];
         
@@ -175,7 +176,6 @@
     UILabel *numLable = [UILabel creatLableWithTitle:@"0 件" andSuperView:bottomView andFont:k15 andTextAligment:NSTextAlignmentCenter];
     numLable.textColor = [UIColor grayColor];
     [numLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kScreenW / 4, numLabelHeight));
         make.centerX.mas_equalTo(bottomView.mas_centerX);
         make.top.mas_equalTo(bottomView.mas_top);
     }];
@@ -183,19 +183,17 @@
     UIImageView *imageView = [[UIImageView alloc]initWithImage:image];
     [bottomView addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(bottomView.width, minusHeight * 3 / 4));
+        make.size.mas_equalTo(CGSizeMake(bottomView.width, bottomView.height * 2 / 3));
         make.top.mas_equalTo(numLable.mas_bottom);
         make.centerX.mas_equalTo(bottomView.mas_centerX);
     }];
     
     UILabel *typeLabel = [UILabel creatLableWithTitle:title andSuperView:bottomView andFont:k14 andTextAligment:NSTextAlignmentCenter];
     [typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(bottomView.width / 3, minusHeight / 4));
         make.left.mas_equalTo(imageView.mas_left);
         make.top.mas_equalTo(imageView.mas_top);
     }];
     typeLabel.textColor = [UIColor grayColor];
-    typeLabel.layer.borderWidth = 0;
     
     UIView *fenGeView3 = [[UIView alloc]init];
     [imageView addSubview:fenGeView3];
@@ -203,20 +201,20 @@
     [fenGeView3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(1, bottomView.height));
         make.top.mas_equalTo(bottomView.mas_top);
-        make.left.mas_equalTo(bottomView.mas_right).offset(-1);
+        make.right.mas_equalTo(bottomView.mas_right);
     }];
     
     UIButton *doneBtn = [UIButton initWithTitle:@"+" andColor:kKongJingYanSe andSuperView:bottomView];
     [doneBtn setBackgroundImage:[UIImage imageWithColor:kACOLOR(215, 132, 110, 1.0)] forState:UIControlStateHighlighted];
     [doneBtn addTarget:self action:@selector(addDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
-    
-    //注册按钮的约束
     [doneBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(btnWidthAndHeight, btnWidthAndHeight));
-        make.centerX.mas_equalTo(bottomView.mas_centerX).offset(bottomView.width / 4);
-        make.centerY.mas_equalTo(bottomView.mas_bottom).offset(-bottomView.height/8);
+        make.size.mas_equalTo(CGSizeMake(bottomView.width / 4, bottomView.width / 4));
+        make.centerX.mas_equalTo(bottomView.mas_centerX)
+        .offset(bottomView.width / 4);
+        make.centerY.mas_equalTo(bottomView.mas_bottom)
+        .offset(-bottomView.height/8);
     }];
-    doneBtn.layer.cornerRadius = btnWidthAndHeight / 2;
+    doneBtn.layer.cornerRadius = bottomView.width / 8;
     doneBtn.layer.masksToBounds = YES;
     
     doneBtn.tag = 3;
@@ -226,14 +224,12 @@
     UIButton *cancleBtn = [UIButton initWithTitle:@"-" andColor:kKongJingHuangSe andSuperView:bottomView];
     [cancleBtn addTarget:self action:@selector(minusDoneAtcion:) forControlEvents:UIControlEventTouchUpInside];
     [cancleBtn setBackgroundImage:[UIImage imageWithColor:kACOLOR(218, 235, 254, 1.0)] forState:UIControlStateHighlighted];
-    
-    //注册按钮的约束
     [cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(btnWidthAndHeight, btnWidthAndHeight));
+        make.size.mas_equalTo(CGSizeMake(bottomView.width / 4, bottomView.width / 4));
         make.centerX.mas_equalTo(bottomView.mas_centerX).offset(-bottomView.width / 4);
         make.centerY.mas_equalTo(bottomView.mas_bottom).offset(-bottomView.height/8);
     }];
-    cancleBtn.layer.cornerRadius = btnWidthAndHeight / 2;
+    cancleBtn.layer.cornerRadius = bottomView.width / 8;
     cancleBtn.layer.masksToBounds = YES;
     cancleBtn.tag = 4;
     

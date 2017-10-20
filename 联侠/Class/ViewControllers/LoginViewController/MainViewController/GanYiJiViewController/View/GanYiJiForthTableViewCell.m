@@ -228,7 +228,7 @@
     NSArray *fromWhichArray = @[@"first" , @"second" , @"thirt"];
     
     ganYiJiDingShiVC.fromWhich = fromWhichArray[btn.tag];
-    ganYiJiDingShiVC.titleText = titleArray[btn.tag];
+    ganYiJiDingShiVC.navigationItem.title = titleArray[btn.tag];
     [self.vc.navigationController pushViewController:ganYiJiDingShiVC animated:YES];
     
 }

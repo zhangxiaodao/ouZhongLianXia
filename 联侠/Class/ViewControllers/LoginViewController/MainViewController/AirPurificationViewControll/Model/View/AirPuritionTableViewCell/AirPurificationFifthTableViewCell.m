@@ -28,9 +28,15 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        [self addNotification];
         [self customUI];
     }
     return self;
+}
+
+- (void)addNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAirTimeTextArray:) name:@"AirTimeText" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMoShiArray:) name:@"KongJingIsWork" object:nil];
 }
 
 - (void)getMoShiArray:(NSNotification *)post {
@@ -99,13 +105,6 @@
     
     [self timeTextArray];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAirTimeTextArray:) name:@"AirTimeText" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getMoShiArray:) name:@"KongJingIsWork" object:nil];
-    
-    
-    //cell选中时的颜色
-    self.selectionStyle = UITableViewCellSeparatorStyleNone;
-    
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH * 4 / 9.57142 + kScreenH / 13.34)];
     view.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:view];
@@ -131,7 +130,6 @@
         button.layer.borderWidth = 1;
         button.layer.borderColor = kFenGeXianYanSe.CGColor;
         
-        
         switch (i) {
             case 0:
                 _firstBtn = button;
@@ -153,54 +151,42 @@
         [button addSubview:imageView];
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(button.height * 1 / 3, button.height * 1 / 3));
-            make.centerX.mas_equalTo(button.mas_left).offset(kScreenW / 9.375);
+            make.centerX.mas_equalTo(button.mas_left)
+            .offset(kScreenW / 9.375);
             make.centerY.mas_equalTo(button.mas_centerY);
         }];
         
         [UIImageView setImageViewColor:imageView andColor:[UIColor grayColor]];
         imageView.tag = 3 * button.tag + 1;
         
-        
-        
         UILabel *label = [UILabel creatLableWithTitle:@"" andSuperView:button andFont:k20 andTextAligment:NSTextAlignmentLeft];
         label.textColor  =[UIColor grayColor];
-        label.layer.borderWidth = 0;
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kScreenW / 3, button.height * 1 / 3));
-            make.left.mas_equalTo(imageView.mas_right).offset(kScreenW / 9.375);
+            make.left.mas_equalTo(imageView.mas_right)
+            .offset(kScreenW / 9.375);
             make.bottom.mas_equalTo(button.mas_centerY);
         }];
         label.tag = 3 * button.tag + 2;
-//        label.backgroundColor = [UIColor redColor];
         
         UILabel *label2 = [UILabel creatLableWithTitle:@"" andSuperView:button andFont:k14 andTextAligment:NSTextAlignmentLeft];
         label2.textColor  =[UIColor grayColor];
-        label2.layer.borderWidth = 0;
         [label2 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kScreenW / 4, button.height * 1 / 3));
             make.left.mas_equalTo(label.mas_left);
             make.top.mas_equalTo(button.mas_centerY);
         }];
         label2.tag = 3 * button.tag + 3;
         
-        
         UILabel *label3 = [UILabel creatLableWithTitle:@"" andSuperView:button andFont:k14 andTextAligment:NSTextAlignmentLeft];
-        label3.textColor  =[UIColor grayColor];
-        label3.layer.borderWidth = 0;
+        label3.textColor = [UIColor grayColor];
         [label3 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kScreenW / 4, button.height * 1 / 3));
             make.left.mas_equalTo(label2.mas_right);
             make.top.mas_equalTo(button.mas_centerY);
         }];
         label3.tag = 3 * button.tag + 4;
-        
-       
        
         UILabel *label4 = [UILabel creatLableWithTitle:@"" andSuperView:button andFont:k14 andTextAligment:NSTextAlignmentLeft];
         label4.textColor  =[UIColor grayColor];
-        label4.layer.borderWidth = 0;
         [label4 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(kScreenW * 2 / 3, button.height * 1 / 3));
             make.left.mas_equalTo(label.mas_left);
             make.top.mas_equalTo(button.mas_centerY);
         }];
@@ -208,34 +194,26 @@
         
         UIImageView *jianTouImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"iconfont-qianjin"]];
         [button addSubview:jianTouImage];
-
         [UIImageView setImageViewColor:jianTouImage andColor:[UIColor lightGrayColor]];
         [jianTouImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(button.height * 1 / 3, button.height * 1 / 3));
-            make.right.mas_equalTo(button.mas_right).offset(-20);
+            make.right.mas_equalTo(button.mas_right)
+            .offset(-20);
             make.centerY.mas_equalTo(button.mas_centerY);
         }];
         jianTouImage.tag = 3 * button.tag + 6;
-        
-        
     }
-    
-    
     
     for (int i = 0; i < 4; i++) {
         NSArray *textArray = nil;
         textArray = @[@"主人外出了，但我仍要好好工作的" , @"周末静静开启，好空气好心情" , @"由空气质量开或关，真正的智能模式" , @"完全定制专属于你的个性化模式"];
         
-        
         NSArray *nameArray = nil;
         nameArray = @[@"外出模式" , @"周末模式" , @"智能模式" , @"自定义模式"];
         
-        
         NSArray *btnArray = @[_firstBtn , _secondBtn , _thirtBtn , _forthBtn];
-        
         [self setLableTextOfBtn:btnArray[i] andText:textArray[i] andTitle:nameArray[i]];
     }
-    
     
     [self dangBaoCunYouKongJingGongZuoZhuangTai];
 }

@@ -28,7 +28,7 @@
 
 - (void)customUI {
     
-    UIView *secondView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 6.94791666)];
+    UIView *secondView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenW, kScreenH / 7)];
     [self.contentView addSubview:secondView];
     secondView.backgroundColor = [UIColor whiteColor];
     
