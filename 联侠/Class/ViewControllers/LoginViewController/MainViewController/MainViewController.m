@@ -127,7 +127,7 @@ static CGFloat tableViewContentOffsetY = 0;
             if (self.stateModel.fSwitch == 2  || self.stateModel.fSwitch == 0) {
                 [self setBottomBackGroundColor:[UIColor grayColor] andSelected:0 andState:@"NO"];
             } else if (self.stateModel.fSwitch == 1){
-                [self setBottomBackGroundColor:kKongJingYanSe andSelected:1 andState:@"YES"];
+                [self setBottomBackGroundColor:kMainColor andSelected:1 andState:@"YES"];
             }
             [self.tableView reloadData];
         } else {

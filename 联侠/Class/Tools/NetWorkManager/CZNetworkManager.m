@@ -76,7 +76,8 @@ static CZNetworkManager *helper = nil;
         NSDictionary *dic = responseObject;
         isSuccess(dic);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        failure(error);
+        NSLog(@"%@" , error);
+//        failure(error);
     }];
     
     
@@ -91,7 +92,8 @@ static CZNetworkManager *helper = nil;
         NSDictionary *dic = responseObject;
         isSuccess(dic);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        failure(error);
+        NSLog(@"%@" , error);
+//        failure(error);
     }];
     
 }
@@ -188,7 +190,7 @@ static CZNetworkManager *helper = nil;
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@" , error);
-        failure(error);
+//        failure(error);
     }];
     
 }

@@ -76,6 +76,7 @@
     
     [self setUI];
 
+    [self getWifiName];
     [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:self Title:@"请输入正确的WIFI密码，密码错误，设备无法绑定!"];
 }
 

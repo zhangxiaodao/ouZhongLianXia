@@ -93,11 +93,11 @@
             
         }
         
-        NSDictionary *userData = nil;
-        if ([bself.serviceModel.brand isKindOfClass:[NSNull class]]) {
-            userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , nil];
+        NSDictionary *userData = [NSMutableDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , nil];
+        if (bself.serviceModel.brand == nil || bself.serviceModel.brand == NULL) {
+            [userData setValue:[NSString stringWithFormat:@"%@" , bself.serviceModel.typeName] forKey:@"BrandName"];
         } else {
-            userData = [NSDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , [NSString stringWithFormat:@"%@%@" , bself.serviceModel.brand , bself.serviceModel.typeName], @"BrandName" , nil];
+            [userData setValue:[NSString stringWithFormat:@"%@%@" , bself.serviceModel.brand , bself.serviceModel.typeName] forKey:@"BrandName"];
         }
         
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userData options:NSJSONWritingPrettyPrinted error:nil];

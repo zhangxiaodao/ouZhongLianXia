@@ -45,7 +45,7 @@
 
 #define BackGroupHeight kScreenW / 1.7
 
-#define kVersion @"5.6.2"
+#define kVersion @"5.6.6"
 
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip
@@ -206,7 +206,7 @@
 
 #define ColdFan4131SendToHostXieYi(devTypeSn , devSn , orderType , order) [NSString stringWithFormat:@"HMFF%@%@%@%@#" , devTypeSn , devSn , orderType , order]
 
-#define XinFengKongJing(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@00000000000000%@%@0000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]
+#define XinFengKongJing(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , pm25Check) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@00000000000000%@%@00%@000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject] , pm25Check]
 #define XinFengKongJingTime(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@0000%@%@000000%@%@0000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]
 #define XinFengKongJingSetTime(devTypeSn , devSn , hourTime , minuteTime) [NSString stringWithFormat:@"HMFFA%@%@w0000000000000000000000000000%@%@0000000000000000#" , devTypeSn , devSn , hourTime , minuteTime]
 

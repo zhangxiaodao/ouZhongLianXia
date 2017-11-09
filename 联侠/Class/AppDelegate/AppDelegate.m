@@ -48,8 +48,6 @@
         
     NSLog(@"%f , %f" , kScreenW , kScreenH);
     
-    
-    
     _alertController = nil;
     
     [self setRootViewController];
@@ -58,7 +56,6 @@
     [self setGeTui];
     [self checkNetwork];
     [self chaXunBanBenHao];
-
     
     return YES;
 }
@@ -68,7 +65,7 @@
         NSDictionary *data = responseObject[@"data"];
         if ([responseObject[@"success"] integerValue] == 1) {
             if ([data[@"isForce"] isKindOfClass:[NSNull class]]) {return ; } else {
-                if ([data[@"id"] integerValue] > 56) {
+                if ([data[@"id"] integerValue] > 62) {
                     
                     if ([data[@"isForce"] integerValue] == 0) return ;
                     if ([data[@"isForce"] integerValue] == 1) {

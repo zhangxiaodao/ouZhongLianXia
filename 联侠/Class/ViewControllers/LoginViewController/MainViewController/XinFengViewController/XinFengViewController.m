@@ -78,7 +78,7 @@
 #pragma mark - 右上角点击事件
 - (void)gengDuoTapAtcion {
     
-    [UIAlertController creatSheetControllerWithFirstHandle:^{
+  UIAlertController *alert = [UIAlertController creatSheetControllerWithFirstHandle:^{
         
         [UIAlertController creatAlertControllerWithFirstTextfiledPlaceholder:nil andFirstTextfiledText:[NSString stringWithFormat:@"%@%@" , self.serviceModel.brand , self.serviceModel.typeName] andFirstAtcion:nil andWhetherEdite:NO WithSecondTextfiledPlaceholder:@"请输入修改名称" andSecondTextfiledText:nil andSecondAtcion:@selector(secondTextFieldsValueDidChange:) andAlertTitle:@"修改设备名称" andAlertMessage:@"你可以再次修改设备名称，便于区分。" andTextfiledAtcionTarget:self andSureHandle:^{
             if (self.deviceName) {
@@ -104,9 +104,20 @@
         [self.navigationController pushViewController:chanPinDesVC animated:YES];
         
     } andThirtTitle:@"产品说明" andForthHandle:^{
+        [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"01") andType:kZhiLing andIsNewOrOld:kNew];
+    } andForthTitle:@"开启PM25检测" andSuperViewController:self];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"关闭PM25检测" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"02") andType:kZhiLing andIsNewOrOld:kNew];
+    }]];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"联系我们(4009909918)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",@"4009909918"];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-    } andForthTitle:@"联系我们(4009909918)" andSuperViewController:self];
+    }]];
+    
+    
+    
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -254,13 +265,13 @@
 #pragma mark - 按钮开点击事件
 - (void)xinFengOpenAtcion {
     
-    [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"01", @"00", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
+    [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"01", @"00", @"00", @"00" , @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
 }
 
 #pragma mark - 按钮关点击事件
 - (void)xinFengCloseAtcion {
     
-    [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"02", @"00", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
+    [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"02", @"00", @"00", @"00" , @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
 }
 
 #pragma mark - 获取TCP命令

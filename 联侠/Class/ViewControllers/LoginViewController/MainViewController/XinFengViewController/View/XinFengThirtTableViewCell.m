@@ -150,22 +150,22 @@
         case 0:
         {
 
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"02" , @"04") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"02" , @"04" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
             break;
         }
         case 1: {
             
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"02", @"01") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"02", @"01" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
             break;
         }
         case 2: {
 
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"01" , @"01") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"01" , @"01" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
             break;
         }
             
         case 3:{
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"01" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"01" , @"02" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
             break;
         }
             
@@ -201,7 +201,7 @@
         modelStr = @"高效";
     }
    
-    if ([wind isEqualToString:@"01"] && [fuLiZi isEqualToString:@"02"]) {
+    if ([wind isEqualToString:@"01"] && [fuLiZi isEqualToString:@"02"] && [ziDong isEqualToString:@"02"]) {
         [UIButton setBtnOfImageAndLableWithSelected:jieNengBtn andBackGroundColor:kXinFengKongJingYanSe];
         modelStr = @"节能";
     }

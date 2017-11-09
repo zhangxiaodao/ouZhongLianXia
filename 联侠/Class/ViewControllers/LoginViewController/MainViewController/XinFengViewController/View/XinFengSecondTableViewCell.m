@@ -160,24 +160,24 @@
     switch (btn.tag) {
         case 0:
         {
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"01" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"01" , @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
             NSLog(@"负离子开");
             break;
         }
         case 1: {
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"01") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"01" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
             btn.tag = 1;
             NSLog(@"风速");
             break;
         }
             
         case 2: {
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"01", @"00", @"00" , @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
            
             break;
         }
         case 3: {
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"02", @"00", @"00" , @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
             
             break;
         }
@@ -212,7 +212,7 @@
     switch (btn.tag) {
             
         case 0: {
-            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"02" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
+            [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"02" , @"00" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
             NSLog(@"负离子关闭");
             
             break;
@@ -232,20 +232,20 @@
 
 #pragma mark - 风速中档位
 - (void)windZhongDangWei:(UIButton *)btn {
-    [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"02") andType:kZhiLing andIsNewOrOld:kNew];
+    [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"02" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
 
 //    [self btnRemoveAtcion:@selector(windZhongDangWei:) andAddSelector:@selector(windGaoDangWei:) withWhichBtn:btn];
 }
 
 #pragma mark - 风速高档位
 - (void)windGaoDangWei:(UIButton *)btn {
-    [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"03") andType:kZhiLing andIsNewOrOld:kNew];
+    [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"03" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
 //    [self btnRemoveAtcion:@selector(windGaoDangWei:) andAddSelector:@selector(windMaxGaoDangWei:) withWhichBtn:btn];
 }
 
 #pragma mark - 风速最高档位
 - (void)windMaxGaoDangWei:(UIButton *)btn {
-    [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"04") andType:kZhiLing andIsNewOrOld:kNew];
+    [kSocketTCP sendDataToHost:XinFengKongJing(_serviceModel.devTypeSn, _serviceModel.devSn, @"00", @"00", @"00", @"00" , @"04" , @"00") andType:kZhiLing andIsNewOrOld:kNew];
    
 //    [self btnRemoveAtcion:@selector(windMaxGaoDangWei:) andAddSelector:@selector(xinFengBtnDoneAtcion:) withWhichBtn:btn];
     btn.tag = 1;

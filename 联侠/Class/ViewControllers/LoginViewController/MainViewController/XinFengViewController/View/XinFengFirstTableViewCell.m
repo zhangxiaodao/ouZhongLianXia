@@ -136,23 +136,21 @@ static CGFloat speed = 0.0;
     pm25TitleLabel.textColor = [UIColor whiteColor];
     pm25TitleLabel.layer.borderWidth = 0;
     
-    
-    UILabel *pm25Label = [UILabel creatLableWithTitle:@"立即检测" andSuperView:view andFont:k30 andTextAligment:NSTextAlignmentCenter];
+    UILabel *pm25Label = [UILabel creatLableWithTitle:@"40" andSuperView:view andFont:k40 andTextAligment:NSTextAlignmentCenter];
     [pm25Label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(view.mas_centerX);
         make.top.mas_equalTo(pm25TitleLabel.mas_bottom)
         .offset(kScreenW / 35);
     }];
     pm25Label.textColor = [UIColor whiteColor];
-    pm25Label.layer.borderWidth = 0;
-    
     self.pm25Label = pm25Label;
     
     UILabel *lvXinLastTimeTitleLabel = [UILabel creatLableWithTitle:@"滤芯设定剩余" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     [lvXinLastTimeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 15));
         make.centerX.mas_equalTo(view.mas_centerX);
-        make.top.mas_equalTo(pm25Label.mas_bottom).offset(kScreenW / 35);
+        make.top.mas_equalTo(pm25Label.mas_bottom)
+        .offset(kScreenW / 35);
     }];
     lvXinLastTimeTitleLabel.textColor = [UIColor whiteColor];
     lvXinLastTimeTitleLabel.layer.borderWidth = 0;
@@ -255,6 +253,7 @@ static CGFloat speed = 0.0;
     NSString *methanal = [messsage substringWithRange:NSMakeRange(50, 2)];
     NSString *lvXinLastTimeBig = [messsage substringWithRange:NSMakeRange(52, 2)];
     NSString *lvXinLastTimeLittle = [messsage substringWithRange:NSMakeRange(54, 2)];
+    NSString *pm25Order = [messsage substringWithRange:NSMakeRange(62, 2)];
     
     temprature = [NSString turnHexToInt:temprature];
     humidity = [NSString turnHexToInt:humidity];
@@ -263,9 +262,6 @@ static CGFloat speed = 0.0;
     lvXinLastTimeBig = [NSString turnHexToInt:lvXinLastTimeBig];
     lvXinLastTimeLittle = [NSString turnHexToInt:lvXinLastTimeLittle];
     NSInteger sumTime = lvXinLastTimeBig.integerValue + lvXinLastTimeLittle.integerValue * 10;
-    
-//    NSLog(@"temprature--%@ , humidity--%@ , pm25--%@ , methanal--%@ , sumTime--%ld , wind--%@" , temprature , humidity , pm25 , methanal , (long)sumTime , _wind);
-    
     
     _temperatureLabel.text = temprature;
     _humidityLabel.text = humidity;
@@ -302,7 +298,13 @@ static CGFloat speed = 0.0;
         _fengSuBiaoShiImageView.image = image;
         
         self.pm25Label.text = pm25;
-        self.pm25Label.font = [UIFont systemFontOfSize:k50];
+        self.pm25Label.font = [UIFont systemFontOfSize:k40];
+        
+        if ([pm25Order isEqualToString:@"02"]) {
+            self.pm25Label.text = @"立即检测";
+            self.pm25Label.font = [UIFont systemFontOfSize:k30];
+        }
+        
     } else {
         self.pm25Label.text = @"立即检测";
         self.pm25Label.font = [UIFont systemFontOfSize:k30];
@@ -360,7 +362,7 @@ static CGFloat speed = 0.0;
         
         if (_stateModel.fSwitch == 1) {
            self.pm25Label.text = [NSString stringWithFormat:@"%@" , _stateModel.sPm25];
-            self.pm25Label.font = [UIFont systemFontOfSize:k50];
+            self.pm25Label.font = [UIFont systemFontOfSize:k40];
             UIImage *image = nil;
 
             if (_stateModel.fWind == 1) {

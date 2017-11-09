@@ -87,15 +87,7 @@
     
     _processView.percent = _index / 100;
     
-    if (_index == 32) {
-        [_progressTimer setFireDate:[NSDate distantFuture]];
-    }
-    
-    if (_index == 65) {
-        [_progressTimer setFireDate:[NSDate distantFuture]];
-    }
-
-    if (_index == 100.0) {
+    if (_index == 99) {
         [_progressTimer invalidate];
         _progressTimer = nil;
     }
@@ -106,7 +98,7 @@
     
     _index = 0.0;
    
-    _progressTimer = [NSTimer scheduledTimerWithTimeInterval:(double)arc4random() / 0x100000000 target:self selector:@selector(progressValue) userInfo:nil repeats:YES];
+    _progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(progressValue) userInfo:nil repeats:YES];
     
     _processView = [[LXGradientProcessView alloc] initWithFrame:CGRectMake(kScreenW / 3.58, kScreenW / 2.6, kScreenW / 2.35, kScreenW / 2.35)];
     self.processView.percent = 0;
@@ -201,7 +193,6 @@
     [self.updSocket close];
     [_progressTimer setFireDate:[NSDate distantPast]];
    
-    _processView.percent = 0.66;
     self.addLable.textColor = kMainColor;
     [self.repeatSendTimer invalidate];
     self.repeatSendTimer = nil;
@@ -259,19 +250,21 @@
                 _progressTimer = nil;
                 NSLog(@"%@" , responseObject);
                 
-                if ([responseObject[@"state"] integerValue] == 0) {
-                    [self determineAndBindTheDevice];
-                } else if ([responseObject[@"state"] integerValue] == 2 ) {
-                    [UIAlertController creatRightAlertControllerWithHandle:^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    if ([responseObject[@"state"] integerValue] == 0) {
                         [self determineAndBindTheDevice];
-                    } andSuperViewController:self Title:@"此设备已绑定"];
-                    
-                } else if ([responseObject[@"state"] integerValue] == 1){
-                    [self addFailAlert];
-                }
+                    } else if ([responseObject[@"state"] integerValue] == 2 ) {
+                        [UIAlertController creatRightAlertControllerWithHandle:^{
+                            [self determineAndBindTheDevice];
+                        } andSuperViewController:self Title:@"此设备已绑定"];
+                        
+                    } else if ([responseObject[@"state"] integerValue] == 1){
+                        [self addFailAlert];
+                    }
+                });
+                
             } failure:nil];
             
-            [_progressTimer setFireDate:[NSDate distantPast]];
             
         } else {
             [self addFailAlert];
@@ -390,7 +383,6 @@
                 self.deviceSn = firstResult.bssid;
                 
                 [_progressTimer setFireDate:[NSDate distantPast]];
-                _processView.percent = 0.33;
                 [self openUDPServer];
                 self.registerLable.textColor = kMainColor;
                 [self sendMessage:self.addServiceModel.protocol];

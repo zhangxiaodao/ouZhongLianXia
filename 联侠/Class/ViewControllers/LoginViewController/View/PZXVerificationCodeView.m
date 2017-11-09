@@ -123,25 +123,6 @@
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RegisterSuccess" object:self userInfo:@{@"VercodeStr" : vercodeStr , @"RegisterSuccess":@"YES"}]];
     }
     
-//    if (vercodeStr.length == 6) {
-//        textField.layer.borderColor = self.deselectColor.CGColor;
-//        if (vercodeStr.integerValue == self.sendMessage.integerValue) {
-//            
-//            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RegisterSuccess" object:self userInfo:@{@"RegisterSuccess" : @"YES"}]];
-//        } else {
-//            for (int i = 0; i<_textFieldArray.count; i++) {
-//                PZXVerificationTextField *tf = self.textFieldArray[i];
-//                tf.text = nil;
-//            }
-//            PZXVerificationTextField *firstTf = [self viewWithTag:100];
-//            [firstTf becomeFirstResponder];
-//            
-//        }
-    
-//    }
-    
-    
-    
     return NO;
 }
 
