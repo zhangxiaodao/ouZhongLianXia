@@ -42,6 +42,7 @@
     lable.numberOfLines = 0;
     lable.font = [UIFont fontWithName:kFontWithName size:value];
     [lable sizeToFit];
+    
     return lable;
 }
 

@@ -104,11 +104,11 @@
         [self.navigationController pushViewController:chanPinDesVC animated:YES];
         
     } andThirtTitle:@"产品说明" andForthHandle:^{
-        [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"01") andType:kZhiLing andIsNewOrOld:kNew];
+        [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"02") andType:kZhiLing andIsNewOrOld:kNew];
     } andForthTitle:@"开启PM25检测" andSuperViewController:self];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"关闭PM25检测" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"02") andType:kZhiLing andIsNewOrOld:kNew];
+        [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"01") andType:kZhiLing andIsNewOrOld:kNew];
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"联系我们(4009909918)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

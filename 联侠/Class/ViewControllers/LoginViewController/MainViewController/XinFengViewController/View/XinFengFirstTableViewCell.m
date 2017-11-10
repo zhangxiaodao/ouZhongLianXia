@@ -300,7 +300,7 @@ static CGFloat speed = 0.0;
         self.pm25Label.text = pm25;
         self.pm25Label.font = [UIFont systemFontOfSize:k40];
         
-        if ([pm25Order isEqualToString:@"02"]) {
+        if ([pm25Order isEqualToString:@"01"]) {
             self.pm25Label.text = @"立即检测";
             self.pm25Label.font = [UIFont systemFontOfSize:k30];
         }
