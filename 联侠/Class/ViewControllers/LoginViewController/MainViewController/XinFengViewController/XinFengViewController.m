@@ -66,6 +66,16 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    [cell setPm25BtnValueText];
+    
+    [kStanderDefault setObject:@(cell.pm25Btn.selected) forKey:@"XinFengPm25State"];
+    
+}
+
 - (void)setupNav {
     self.navigationController.delegate = self;
     
@@ -77,6 +87,8 @@
 
 #pragma mark - 右上角点击事件
 - (void)gengDuoTapAtcion {
+    
+    
     
   UIAlertController *alert = [UIAlertController creatSheetControllerWithFirstHandle:^{
         
@@ -105,10 +117,19 @@
         
     } andThirtTitle:@"产品说明" andForthHandle:^{
         [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"02") andType:kZhiLing andIsNewOrOld:kNew];
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [cell setPm25BtnValueText];
+        cell.pm25Btn.selected = 1;
     } andForthTitle:@"开启PM25检测" andSuperViewController:self];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"关闭PM25检测" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"01") andType:kZhiLing andIsNewOrOld:kNew];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [cell setPm25BtnText];
+        cell.pm25Btn.selected = 0;
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"联系我们(4009909918)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -116,12 +137,19 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
     }]];
     
-    
-    
+}
+
+- (void)comparePm25Text:(NSTimer *)timer {
+    XinFengFirstTableViewCell *cell  = timer.userInfo;
+    if ([cell.pm25Btn.currentTitle isEqualToString:@"立即检测"]) {
+        [timer invalidate];
+        timer = nil;
+    } else {
+        [cell setPm25BtnText];
+    }
 }
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    
     
     if ([viewController isKindOfClass:[MineSerivesViewController class]]) {
         XinFengFirstTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -280,7 +308,6 @@
     if (str.length != 78) {
         return ;
     }
-    
     NSString *kaiGuan = [str substringWithRange:NSMakeRange(28, 2)];
     NSString *devSn = [str substringWithRange:NSMakeRange(14, 12)];
     

@@ -13,4 +13,7 @@
 @property (nonatomic , strong) ServicesModel *serviceModel;
 @property (nonatomic , strong) NSTimer *myTimer;
 
+@property (nonatomic , strong) UIButton *pm25Btn;
+- (void)setPm25BtnValueText;
+- (void)setPm25BtnText;
 @end

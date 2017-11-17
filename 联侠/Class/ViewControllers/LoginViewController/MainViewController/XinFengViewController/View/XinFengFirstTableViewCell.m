@@ -20,7 +20,6 @@ static CGFloat speed = 0.0;
 @property (nonatomic , strong) UILabel *humidityLabel;
 
 @property (nonatomic , strong) UILabel *methanalLabel;
-@property (nonatomic , strong) UILabel *pm25Label;
 @property (nonatomic , strong) UILabel *lvXinLastTime;
 @property (nonatomic , strong) UILabel *modelLabel;
 @property (nonatomic , strong) UIImageView *fengSuBiaoShiImageView;
@@ -29,8 +28,10 @@ static CGFloat speed = 0.0;
 @property (nonatomic , copy) NSString *isPlay;
 @property (nonatomic , assign) NSInteger isAnimation;
 @property (nonatomic , copy) NSString *wind;
-
+@property (nonatomic , copy) NSString *pm25;
 @property (nonatomic , strong) StateModel *stateModel;
+
+@property (nonatomic , strong) UIView *markView;
 @end
 
 @implementation XinFengFirstTableViewCell
@@ -75,6 +76,18 @@ static CGFloat speed = 0.0;
         } else if ([_wind isEqualToString:@"04"]) {            speed = 2.0;
         }
         
+    }
+    
+    
+    if (selected.integerValue == 1){
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = 0;
+        }];
+        
+    } else {
+        [UIView animateWithDuration:.3 animations:^{
+            self.markView.alpha = .3;
+        }];
     }
 }
 
@@ -136,20 +149,33 @@ static CGFloat speed = 0.0;
     pm25TitleLabel.textColor = [UIColor whiteColor];
     pm25TitleLabel.layer.borderWidth = 0;
     
-    UILabel *pm25Label = [UILabel creatLableWithTitle:@"40" andSuperView:view andFont:k40 andTextAligment:NSTextAlignmentCenter];
-    [pm25Label mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIButton *pm25Btn = [UIButton initWithTitle:@"40" andColor:[UIColor clearColor] andSuperView:view];
+    [pm25Btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(view.mas_centerX);
         make.top.mas_equalTo(pm25TitleLabel.mas_bottom)
         .offset(kScreenW / 35);
     }];
-    pm25Label.textColor = [UIColor whiteColor];
-    self.pm25Label = pm25Label;
+    [pm25Btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [pm25Btn.titleLabel setFont:[UIFont systemFontOfSize:k40]];
+    [pm25Btn addTarget:self action:@selector(pm25CheckAtcion:) forControlEvents:UIControlEventTouchUpInside];
+    NSNumber *state = [kStanderDefault objectForKey:@"XinFengPm25State"];
+    if (state == nil || state == NULL) {
+        state = @(0);
+    }
+    
+    pm25Btn.selected = state.integerValue;
+    self.pm25Btn = pm25Btn;
+    if (pm25Btn.selected == 0) {
+        [self setPm25BtnText];
+    } else {
+        [self setPm25BtnValueText];
+    }
     
     UILabel *lvXinLastTimeTitleLabel = [UILabel creatLableWithTitle:@"滤芯设定剩余" andSuperView:view andFont:k15 andTextAligment:NSTextAlignmentCenter];
     [lvXinLastTimeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreenW / 3, kScreenW / 15));
         make.centerX.mas_equalTo(view.mas_centerX);
-        make.top.mas_equalTo(pm25Label.mas_bottom)
+        make.top.mas_equalTo(pm25Btn.mas_bottom)
         .offset(kScreenW / 35);
     }];
     lvXinLastTimeTitleLabel.textColor = [UIColor whiteColor];
@@ -213,6 +239,25 @@ static CGFloat speed = 0.0;
         make.centerX.mas_equalTo(view.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(kScreenW, 5));
     }];
+    
+    self.markView = [[UIView alloc]init];
+    [view addSubview:self.markView];
+    self.markView.frame = view.bounds;
+    self.markView.backgroundColor = [UIColor blackColor];
+    self.markView.alpha = .3;
+    if ([kStanderDefault objectForKey:@"offBtn"]) {
+        NSNumber *bottomSelected = [kStanderDefault objectForKey:@"offBtn"];
+        
+        if (bottomSelected.integerValue == 0) {
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = .3;
+            }];
+        } else {
+            [UIView animateWithDuration:.3 animations:^{
+                self.markView.alpha = 0;
+            }];
+        }
+    }
 }
 
 
@@ -253,7 +298,7 @@ static CGFloat speed = 0.0;
     NSString *methanal = [messsage substringWithRange:NSMakeRange(50, 2)];
     NSString *lvXinLastTimeBig = [messsage substringWithRange:NSMakeRange(52, 2)];
     NSString *lvXinLastTimeLittle = [messsage substringWithRange:NSMakeRange(54, 2)];
-    NSString *pm25Order = [messsage substringWithRange:NSMakeRange(62, 2)];
+    //    NSString *pm25Order = [messsage substringWithRange:NSMakeRange(62, 2)];
     
     temprature = [NSString turnHexToInt:temprature];
     humidity = [NSString turnHexToInt:humidity];
@@ -279,37 +324,58 @@ static CGFloat speed = 0.0;
             speed = 0.5;
         } else if ([_wind isEqualToString:@"02"]) {
             image = [UIImage imageNamed:@"xinFengWindZhong"];
-
+            
             speed = 1.0;
         } else if ([_wind isEqualToString:@"03"]) {
             image = [UIImage imageNamed:@"xinFengWindGao"];
-
+            
             speed = 1.5;
         } else if ([_wind isEqualToString:@"04"]) {
             image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-
+            
             speed = 2.0;
         } else if ([_wind isEqualToString:@"00"]) {
             image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-
+            
             speed = 0.5;
         }
         
         _fengSuBiaoShiImageView.image = image;
-        
-        self.pm25Label.text = pm25;
-        self.pm25Label.font = [UIFont systemFontOfSize:k40];
-        
-        if ([pm25Order isEqualToString:@"01"]) {
-            self.pm25Label.text = @"立即检测";
-            self.pm25Label.font = [UIFont systemFontOfSize:k30];
-        }
-        
-    } else {
-        self.pm25Label.text = @"立即检测";
-        self.pm25Label.font = [UIFont systemFontOfSize:k30];
     }
     
+    self.pm25 = pm25;
+    
+    if (self.pm25Btn.selected == 1) {
+        [self setPm25BtnValueText];
+    }
+}
+
+- (void)pm25CheckAtcion:(UIButton *)btn {
+//    btn.selected = !btn.selected;
+    if (btn.selected == 0) {
+        //开启pm25检测
+        [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"02") andType:kZhiLing andIsNewOrOld:kNew];
+        [self setPm25BtnValueText];
+        btn.selected = 1;
+    } else {
+        //关闭pm25检测
+        [kSocketTCP sendDataToHost:XinFengKongJing(self.serviceModel.devTypeSn, self.serviceModel.devSn, @"00", @"00", @"00", @"00", @"00", @"01") andType:kZhiLing andIsNewOrOld:kNew];
+        [self setPm25BtnText];
+        btn.selected = 0;
+    }
+}
+
+- (void)setPm25BtnValueText {
+    
+    if (self.pm25 == nil || self.pm25 == NULL) {
+        self.pm25 = @"40";
+    }
+    
+    [self.pm25Btn setTitle:self.pm25 forState:UIControlStateNormal];
+}
+
+- (void)setPm25BtnText {
+    [self.pm25Btn setTitle:@"Pm2.5" forState:UIControlStateNormal];
 }
 
 - (void)setServiceModel:(ServicesModel *)serviceModel {
@@ -361,43 +427,31 @@ static CGFloat speed = 0.0;
         _lvXinLastTime.text = [NSString stringWithFormat:@"%.2ld小时" , (long)_stateModel.sChangeFilterScreen];
         
         if (_stateModel.fSwitch == 1) {
-           self.pm25Label.text = [NSString stringWithFormat:@"%@" , _stateModel.sPm25];
-            self.pm25Label.font = [UIFont systemFontOfSize:k40];
             UIImage *image = nil;
-
+            
             if (_stateModel.fWind == 1) {
                 image = [UIImage imageNamed:@"xinFengWindDi"];
-
+                
                 speed = 0.5;
             } else if (_stateModel.fWind == 2) {
                 image = [UIImage imageNamed:@"xinFengWindZhong"];
-
+                
                 speed = 1.0;
             } else if (_stateModel.fWind == 3) {
                 image = [UIImage imageNamed:@"xinFengWindGao"];
-
+                
                 speed = 1.5;
             } else if (_stateModel.fWind == 4) {
                 image = [UIImage imageNamed:@"xinFengWindZuiGao"];
-
                 speed = 2.0;
             }
             _fengSuBiaoShiImageView.image = image;
-
             if (_stateModel.fWind == 0) {
-
                 angle = 0;
                 speed = 0.0;
             }
-        } else {
-            angle = 0;
-            speed = 0.0;
-            self.pm25Label.text = @"立即检测";
-            self.pm25Label.font = [UIFont systemFontOfSize:k30];
         }
     }
-    
-    
 }
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

@@ -160,7 +160,6 @@
 #import "TabBarViewController.h"
 #import "CZNetworkManager.h"
 #import "YYModel.h"
-#import "WHKit.h"
 
 
 //#import "UIView+Btn.h"
@@ -206,8 +205,9 @@
 
 #define ColdFan4131SendToHostXieYi(devTypeSn , devSn , orderType , order) [NSString stringWithFormat:@"HMFF%@%@%@%@#" , devTypeSn , devSn , orderType , order]
 
-#define XinFengKongJing(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , pm25Check) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@00000000000000%@%@00%@000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject] , pm25Check]
+
 #define XinFengKongJingTime(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@0000%@%@000000%@%@0000000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , hourTime , minuteTime, [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject]]
+#define XinFengKongJing(devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , pm25Check) [NSString stringWithFormat:@"HMFFA%@%@w%@%@%@%@0000%@00000000000000%@%@00%@000000000000#" , devTypeSn , devSn , kaiGuan , ziDongOrShouDong , caiDeng , fuLiZi , fengSu , [[NSString sendXinFengNowTime] firstObject] , [[NSString sendXinFengNowTime] lastObject] , pm25Check]
 #define XinFengKongJingSetTime(devTypeSn , devSn , hourTime , minuteTime) [NSString stringWithFormat:@"HMFFA%@%@w0000000000000000000000000000%@%@0000000000000000#" , devTypeSn , devSn , hourTime , minuteTime]
 
 /**
