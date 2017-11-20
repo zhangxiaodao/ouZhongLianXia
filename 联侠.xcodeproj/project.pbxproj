@@ -210,7 +210,6 @@
 		ED8EDF4A1EA5E5B5002F1B44 /* LXGradientProcessView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8EDF491EA5E5B5002F1B44 /* LXGradientProcessView.m */; };
 		ED9CE65C1E286FF40029CFCA /* LockClock.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED9CE65B1E286F7B0029CFCA /* LockClock.ttf */; };
 		EDA2208A1EFCBABF0052A56F /* FirstUserAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA220891EFCBABF0052A56F /* FirstUserAlertView.m */; };
-		EDAB574A1EADE13C009E1DA1 /* HTMLColdFan.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAB57491EADE13C009E1DA1 /* HTMLColdFan.m */; };
 		EDAD36771E261EFB001DE474 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED12E2C01CF5C6BC0011CD2C /* Images.xcassets */; };
 		EDAD36881E262806001DE474 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDAD36871E262806001DE474 /* Launch Screen.storyboard */; };
 		EDAD368B1E262DD9001DE474 /* LaunchScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD368A1E262DD9001DE474 /* LaunchScreenViewController.m */; };
@@ -642,8 +641,6 @@
 		ED9CE65B1E286F7B0029CFCA /* LockClock.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LockClock.ttf; sourceTree = "<group>"; };
 		EDA220881EFCBABF0052A56F /* FirstUserAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstUserAlertView.h; sourceTree = "<group>"; };
 		EDA220891EFCBABF0052A56F /* FirstUserAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstUserAlertView.m; sourceTree = "<group>"; };
-		EDAB57481EADE13C009E1DA1 /* HTMLColdFan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLColdFan.h; sourceTree = "<group>"; };
-		EDAB57491EADE13C009E1DA1 /* HTMLColdFan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLColdFan.m; sourceTree = "<group>"; };
 		EDAD36871E262806001DE474 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		EDAD36891E262DD9001DE474 /* LaunchScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchScreenViewController.h; sourceTree = "<group>"; };
 		EDAD368A1E262DD9001DE474 /* LaunchScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchScreenViewController.m; sourceTree = "<group>"; };
@@ -801,7 +798,6 @@
 			children = (
 				ED08B3F71DEFFD600001AB9E /* HTMLBaseViewController.h */,
 				ED08B3F81DEFFD600001AB9E /* HTMLBaseViewController.m */,
-				EDAB57471EADE126009E1DA1 /* HTMLColdFan */,
 			);
 			name = HTMLBaseViewController;
 			path = MainViewController/HTMLBaseViewController;
@@ -2103,15 +2099,6 @@
 			path = SmarkLink;
 			sourceTree = "<group>";
 		};
-		EDAB57471EADE126009E1DA1 /* HTMLColdFan */ = {
-			isa = PBXGroup;
-			children = (
-				EDAB57481EADE13C009E1DA1 /* HTMLColdFan.h */,
-				EDAB57491EADE13C009E1DA1 /* HTMLColdFan.m */,
-			);
-			path = HTMLColdFan;
-			sourceTree = "<group>";
-		};
 		EDC761721DC99289007E2774 /* resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -2552,7 +2539,6 @@
 				ED225C321EA4B4D700E4FD85 /* AllTypeServiceViewController.m in Sources */,
 				ED12E2A31CF5C5470011CD2C /* TableViewCell.m in Sources */,
 				ED8349521E9CAFF700FF22A3 /* MineYouHuiQuanViewController.m in Sources */,
-				EDAB574A1EADE13C009E1DA1 /* HTMLColdFan.m in Sources */,
 				ED12E2691CF5C5470011CD2C /* UUChart.m in Sources */,
 				EDB559D61D3E12F500DC856C /* UIImage+Extension.m in Sources */,
 				EDEEAD711E9F149E00115267 /* UserInfoCell.m in Sources */,

@@ -45,5 +45,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x8054;&#x4fa0;/Class/ViewControllers/LoginViewController/Addservices/Controllers/AllServicesViewController/AllServicesViewController.m"
+            timestampString = "532842007.665756"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "-viewWillAppear:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AllServicesViewController viewWillAppear:]"
+                  moduleName = "&#x8054;&#x4fa0;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/AllServicesViewController/AllServicesViewController.m"
+                  timestampString = "532842008.035922"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "209">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__44-[AllServicesViewController viewWillAppear:]_block_invoke"
+                  moduleName = "&#x8054;&#x4fa0;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hangzhouaerfate/Desktop/%E8%81%94%E4%BE%A0/%E8%81%94%E4%BE%A0/Class/ViewControllers/LoginViewController/Addservices/Controllers/AllServicesViewController/AllServicesViewController.m"
+                  timestampString = "532842008.039115"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "39">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
