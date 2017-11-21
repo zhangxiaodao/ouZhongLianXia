@@ -27,6 +27,8 @@
 //网络单利
 #define kNetWork [CZNetworkManager shareCZNetworkManager]
 
+#define kTools [ZHCTools shareZHCTools]
+
 // 是否是 iPhone X
 #define kWhetheriPhoneX (kScreenW == 375.0 && kScreenH == 812.0 ?true:false)
 //nav 的高度
@@ -160,7 +162,7 @@
 #import "TabBarViewController.h"
 #import "CZNetworkManager.h"
 #import "YYModel.h"
-
+#import "ZHCTools.h"
 
 //#import "UIView+Btn.h"
 

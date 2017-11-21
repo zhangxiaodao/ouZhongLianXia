@@ -55,10 +55,12 @@
                     andSuperLabel:shiDu];
     
     NSString *quality = _weatherDic[@"quality"];
-    if ([quality isEqualToString:@"中度污染"] || [quality isEqualToString:@"严重污染"]) {
-        quality = @"差";
-    } else if ([quality isEqualToString:@"轻度污染"]) {
+    if ([quality isEqualToString:@"轻度污染"]) {
         quality = @"中";
+    } else if ([quality isEqualToString:@"中度污染"]) {
+        quality = @"差";
+    } else {
+        quality = @"非常差";
     }
     kongQiZhiLiang.text = [NSString stringWithFormat:@"空气质量:%@" , quality];
     [NSString setAttributedString:kongQiZhiLiang.text

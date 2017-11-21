@@ -154,6 +154,7 @@
 		ED5391521E9DCDFC0075CCE6 /* AboutProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED5391511E9DCDFC0075CCE6 /* AboutProductCell.m */; };
 		ED5391621E9E2B910075CCE6 /* LocationPickerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = ED53915C1E9E2B910075CCE6 /* LocationPickerVC.m */; };
 		ED5391631E9E2B910075CCE6 /* NiChengViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED53915F1E9E2B910075CCE6 /* NiChengViewController.m */; };
+		ED6201CB1FC405EF0074B04E /* ZHCTools.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6201CA1FC405EF0074B04E /* ZHCTools.m */; };
 		ED66429A1F43F20B0053232C /* SystemMessageNoMore.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6642991F43F20B0053232C /* SystemMessageNoMore.m */; };
 		ED677EAA1D210150007D628E /* GanYiJiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EA91D210150007D628E /* GanYiJiViewController.m */; };
 		ED677EAE1D2115BD007D628E /* GanYiJiFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED677EAD1D2115BD007D628E /* GanYiJiFirstTableViewCell.m */; };
@@ -532,6 +533,8 @@
 		ED53915C1E9E2B910075CCE6 /* LocationPickerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationPickerVC.m; sourceTree = "<group>"; };
 		ED53915E1E9E2B910075CCE6 /* NiChengViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NiChengViewController.h; sourceTree = "<group>"; };
 		ED53915F1E9E2B910075CCE6 /* NiChengViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NiChengViewController.m; sourceTree = "<group>"; };
+		ED6201C91FC405EF0074B04E /* ZHCTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZHCTools.h; sourceTree = "<group>"; };
+		ED6201CA1FC405EF0074B04E /* ZHCTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZHCTools.m; sourceTree = "<group>"; };
 		ED6642981F43F20B0053232C /* SystemMessageNoMore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMessageNoMore.h; sourceTree = "<group>"; };
 		ED6642991F43F20B0053232C /* SystemMessageNoMore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemMessageNoMore.m; sourceTree = "<group>"; };
 		ED677EA81D210150007D628E /* GanYiJiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GanYiJiViewController.h; sourceTree = "<group>"; };
@@ -1811,6 +1814,8 @@
 			isa = PBXGroup;
 			children = (
 				ED68B62A1F57FF6C003E5A82 /* NetWorkManager */,
+				ED6201C91FC405EF0074B04E /* ZHCTools.h */,
+				ED6201CA1FC405EF0074B04E /* ZHCTools.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -2503,6 +2508,7 @@
 				ED2297991DAC9949008DEBA4 /* CircleAnimation.m in Sources */,
 				ED12E26A1CF5C5470011CD2C /* UUChartConst.m in Sources */,
 				EDF2916A1F59041A0090327D /* NSString+Extension.m in Sources */,
+				ED6201CB1FC405EF0074B04E /* ZHCTools.m in Sources */,
 				ED12E2BD1CF5C5470011CD2C /* ShuiWeiZhuangTaiTableViewCell.m in Sources */,
 				ED12E2671CF5C5470011CD2C /* UUBar.m in Sources */,
 				ED225C371EA4B4D700E4FD85 /* ServiceBaseCollectionCell.m in Sources */,
