@@ -221,7 +221,7 @@
     if (requestWeatherTime != nil) {
         NSInteger weatherTime = [requestWeatherTime integerValue];
         NSLog(@"%@ , %@" , [NSString turnTimeIntervalToString:nowTimeInterval] , [NSString turnTimeIntervalToString:weatherTime]);
-        [self startWearthData];
+//        [self startWearthData];
         if (nowTimeInterval > weatherTime + 1 * 3600) {
             [kStanderDefault setObject:@(nowTimeInterval) forKey:@"requestWeatherTime"];
             [self startWearthData];

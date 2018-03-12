@@ -59,7 +59,7 @@
         quality = @"中";
     } else if ([quality isEqualToString:@"中度污染"]) {
         quality = @"差";
-    } else {
+    } else if ([quality isEqualToString:@"重度污染"]){
         quality = @"非常差";
     }
     kongQiZhiLiang.text = [NSString stringWithFormat:@"空气质量:%@" , quality];

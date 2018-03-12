@@ -23,15 +23,6 @@
     
     [kStanderDefault setObject:@"YES" forKey:@"Login"];
     
-//    NSDictionary *userinfo = [kStanderDefault objectForKey:@"UserInfo"];
-//    if (userinfo != nil) {
-////        self.userModel  = ;
-//    } else {
-//        NSDictionary *parames = @{@"userSn":[kStanderDefault objectForKey:@"userSn"]};
-//
-//        [HelpFunction requestDataWithUrlString:kUserInfoURL andParames:parames andDelegate:self];
-//    }
-    
     NSDictionary *parames = @{@"userSn":[kStanderDefault objectForKey:@"userSn"]};
     
     [HelpFunction requestDataWithUrlString:kUserInfoURL andParames:parames andDelegate:self];
@@ -93,7 +84,10 @@
             
         }
         
-        NSDictionary *userData = [NSMutableDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , nil];
+        NSMutableDictionary *userData = [NSMutableDictionary dictionaryWithObjectsAndKeys:@(bself.userModel.sn) , @"userSn" , bself.serviceModel.devTypeSn , @"devTypeSn" , bself.serviceModel.devSn , @"devSn" , @(bself.serviceModel.userDeviceID) , @"UserDeviceID" , [NSString stringWithFormat:@"http://%@:8080/" , localhost] , @"ServieceIP" , nil];
+        if (bself.serviceModel.devTypeNumber != nil) {
+            [userData setObject:bself.serviceModel.devTypeNumber forKey:@"devTypeNumber"];
+        }
         if (bself.serviceModel.brand == nil || bself.serviceModel.brand == NULL) {
             [userData setValue:[NSString stringWithFormat:@"%@" , bself.serviceModel.typeName] forKey:@"BrandName"];
         } else {

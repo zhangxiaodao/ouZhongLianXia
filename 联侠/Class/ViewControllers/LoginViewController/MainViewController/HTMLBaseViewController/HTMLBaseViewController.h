@@ -10,7 +10,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 
 @protocol SendServiceModelToParentVCDelegate <NSObject>
-
+@optional
 - (void)sendServiceModelToParentVC:(ServicesModel *)serviceModel;
 @end
 

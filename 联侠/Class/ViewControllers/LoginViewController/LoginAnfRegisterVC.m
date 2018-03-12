@@ -182,7 +182,8 @@
         make.bottom.mas_equalTo(messageLabel.mas_top)
         ;
     }];
-    changeBtn.backgroundColor = kMainColor;
+    [changeBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    changeBtn.titleLabel.font = [UIFont systemFontOfSize:k20];
     [changeBtn addTarget:self action:@selector(changeBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     self.changeBtn = changeBtn;
     changeBtn.selected = YES;
@@ -218,7 +219,7 @@
         
         NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{@"loginName":self.acctextFiled.text , @"code" : vercodeStr ,@"ua.phoneType" : @(2), @"ua.phoneBrand":@"iPhone" , @"ua.phoneModel":[NSString getDeviceName] , @"ua.phoneSystem":[NSString getDeviceSystemVersion]}];
         if ([kStanderDefault objectForKey:@"GeTuiClientId"]) {
-            [parameters setObject:@"ua.clientId" forKey:[kStanderDefault objectForKey:@"GeTuiClientId"]];
+            [parameters setObject:[kStanderDefault objectForKey:@"GeTuiClientId"] forKey:@"ua.clientId"];
         }
         
         [kStanderDefault setObject:self.acctextFiled.text forKey:@"phone"];

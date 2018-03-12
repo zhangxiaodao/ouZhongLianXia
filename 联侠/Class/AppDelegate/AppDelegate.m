@@ -483,4 +483,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+/**
+ 强制弹出系统键盘，不使用第三方键盘
+ */
+- (BOOL)application:(UIApplication *)application shouldAllowExtensionPointIdentifier:(NSString *)extensionPointIdentifier {
+    if ([extensionPointIdentifier isEqualToString:@"com.apple.keyboard-service"]) {
+        return NO;
+    }
+    return YES;
+}
+
 @end

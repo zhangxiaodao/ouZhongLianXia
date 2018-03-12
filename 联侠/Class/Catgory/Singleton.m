@@ -186,25 +186,27 @@
             //        [self sendDataToHost:@"QUIT" andType:nil andIsNewOrOld:kOld];
             [self cutOffSocket];
             self.isDuanXianChongLian = @"NO";
-            [kStanderDefault removeObjectForKey:@"Login"];
-            [kStanderDefault removeObjectForKey:@"cityName"];
-            [kStanderDefault removeObjectForKey:@"password"];
-            [kStanderDefault removeObjectForKey:@"phone"];
-            [kStanderDefault removeObjectForKey:@"userSn"];
-            [kStanderDefault removeObjectForKey:@"userId"];
-            [kStanderDefault removeObjectForKey:@"zhuYe"];
-            
-            [kStanderDefault removeObjectForKey:@"offBtn"];
-            [kStanderDefault removeObjectForKey:@"GanYiJiData"];
-            [kStanderDefault removeObjectForKey:@"ganYiJiHongGanDic"];
-            [kStanderDefault removeObjectForKey:@"GanYiJiIsWork"];
-            [kStanderDefault removeObjectForKey:@"AirData"];
-            [kStanderDefault removeObjectForKey:@"AirDingShiData"];
-            [kStanderDefault removeObjectForKey:@"kongZhiTai"];
-            [kStanderDefault removeObjectForKey:@"data"];
-            [kStanderDefault removeObjectForKey:@"wearthDic"];
-            [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
-            [kStanderDefault removeObjectForKey:@"GeRenInfo"];
+//            [kStanderDefault removeObjectForKey:@"Login"];
+//            [kStanderDefault removeObjectForKey:@"cityName"];
+//            [kStanderDefault removeObjectForKey:@"password"];
+//            [kStanderDefault removeObjectForKey:@"phone"];
+//            [kStanderDefault removeObjectForKey:@"userSn"];
+//            [kStanderDefault removeObjectForKey:@"userId"];
+//            [kStanderDefault removeObjectForKey:@"zhuYe"];
+//
+//            [kStanderDefault removeObjectForKey:@"offBtn"];
+//            [kStanderDefault removeObjectForKey:@"GanYiJiData"];
+//            [kStanderDefault removeObjectForKey:@"ganYiJiHongGanDic"];
+//            [kStanderDefault removeObjectForKey:@"GanYiJiIsWork"];
+//            [kStanderDefault removeObjectForKey:@"AirData"];
+//            [kStanderDefault removeObjectForKey:@"AirDingShiData"];
+//            [kStanderDefault removeObjectForKey:@"kongZhiTai"];
+//            [kStanderDefault removeObjectForKey:@"data"];
+//            [kStanderDefault removeObjectForKey:@"wearthDic"];
+//            [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
+//            [kStanderDefault removeObjectForKey:@"GeRenInfo"];
+
+            [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
             //XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
             XMGNavigationController *nav = [[XMGNavigationController alloc]initWithRootViewController:[[LoginAnfRegisterVC alloc]init]];
             kWindowRoot = nav;
@@ -212,12 +214,7 @@
             [UIAlertController creatRightAlertControllerWithHandle:nil andSuperViewController:kWindowRoot Title:@"您的账号在其他设备登陆"];
             
         } else if ([newMessage isEqualToString:@"CONNECTED"]){
-            
-            if (newMessage.length == 126) {
-                
-            } else {
-                [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@N#" , self.userSn] andType:kLianJie andIsNewOrOld:kOld];
-            }
+            [kSocketTCP sendDataToHost:[NSString stringWithFormat:@"HM%@N#" , self.userSn] andType:kLianJie andIsNewOrOld:kOld];
         }
         
         

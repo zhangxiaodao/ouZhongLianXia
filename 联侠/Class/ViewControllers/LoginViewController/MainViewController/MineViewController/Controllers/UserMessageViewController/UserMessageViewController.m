@@ -272,27 +272,30 @@ static NSString *celled = @"celled";
 }
 
 - (void)kStanderDefaultRemoveAllObject {
-    [kStanderDefault removeObjectForKey:@"Login"];
-    [kStanderDefault removeObjectForKey:@"cityName"];
-    [kStanderDefault removeObjectForKey:@"password"];
-    [kStanderDefault removeObjectForKey:@"phone"];
-    [kStanderDefault removeObjectForKey:@"userSn"];
-    [kStanderDefault removeObjectForKey:@"userId"];
+//    [kStanderDefault removeObjectForKey:@"Login"];
+//    [kStanderDefault removeObjectForKey:@"cityName"];
+//    [kStanderDefault removeObjectForKey:@"password"];
+//    [kStanderDefault removeObjectForKey:@"phone"];
+//    [kStanderDefault removeObjectForKey:@"userSn"];
+//    [kStanderDefault removeObjectForKey:@"userId"];
+//
+//    [kStanderDefault removeObjectForKey:@"zhuYe"];
+//
+//    [kStanderDefault removeObjectForKey:@"offBtn"];
+//    [kStanderDefault removeObjectForKey:@"GanYiJiData"];
+//    [kStanderDefault removeObjectForKey:@"ganYiJiHongGanDic"];
+//    [kStanderDefault removeObjectForKey:@"GanYiJiIsWork"];
+//    [kStanderDefault removeObjectForKey:@"AirData"];
+//    [kStanderDefault removeObjectForKey:@"AirDingShiData"];
+//    [kStanderDefault removeObjectForKey:@"kongZhiTai"];
+//
+//    [kStanderDefault removeObjectForKey:@"data"];
+//    [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
+//    [kStanderDefault removeObjectForKey:@"wearthDic"];
+//    [kStanderDefault removeObjectForKey:@"GeRenInfo"];
     
-    [kStanderDefault removeObjectForKey:@"zhuYe"];
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
     
-    [kStanderDefault removeObjectForKey:@"offBtn"];
-    [kStanderDefault removeObjectForKey:@"GanYiJiData"];
-    [kStanderDefault removeObjectForKey:@"ganYiJiHongGanDic"];
-    [kStanderDefault removeObjectForKey:@"GanYiJiIsWork"];
-    [kStanderDefault removeObjectForKey:@"AirData"];
-    [kStanderDefault removeObjectForKey:@"AirDingShiData"];
-    [kStanderDefault removeObjectForKey:@"kongZhiTai"];
-    
-    [kStanderDefault removeObjectForKey:@"data"];
-    [kStanderDefault removeObjectForKey:@"requestWeatherTime"];
-    [kStanderDefault removeObjectForKey:@"wearthDic"];
-    [kStanderDefault removeObjectForKey:@"GeRenInfo"];
     kSocketTCP.isDuanXianChongLian = @"NO";
     [kSocketTCP cutOffSocket];
     
