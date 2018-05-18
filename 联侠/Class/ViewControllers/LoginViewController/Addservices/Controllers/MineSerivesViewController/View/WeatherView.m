@@ -70,7 +70,7 @@
                 isNeedTwoXiaoShuo:@"NO" andSuperLabel:kongQiZhiLiang];
     
     weather.text = _weatherDic[@"weather_curr"];
-    winp.text = _weatherDic[@"winp"];
+    winp.text = [NSString stringWithFormat:@"风速%@" , _weatherDic[@"winp"]];
     cityName.text = _weatherDic[@"cityName"];
 }
 

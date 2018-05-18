@@ -47,8 +47,6 @@
 
 #define BackGroupHeight kScreenW / 1.7
 
-#define kVersion @"5.6.9"
-
 //192.168.1.104  本地ip
 //114.55.5.92    外网ip
 #define kPort 6003
@@ -500,7 +498,7 @@
 
 #define kBindGanYiJiURL [NSString stringWithFormat:@"http://%@:8080/smarthome/dryer/bindDevice", localhost]
 
-#define kRequestWeatherURL [NSString stringWithFormat:@"http://114.55.5.92:80/adapter/weather/queryWeather"]
+#define kRequestWeatherURL [NSString stringWithFormat:@"https://www.ouzhongiot.net/smartwork/weather/queryWeather"]
 
 #define kServiceDescriptionURL(typeSn , devTypeSn) [NSString stringWithFormat:@"http://112.124.48.212/webpage/%@/%@/introduction/index.html" , typeSn , devTypeSn]
 /**

@@ -2279,7 +2279,7 @@
 				TargetAttributes = {
 					ED12DF7D1CF5C0FF0011CD2C = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = WA9VRUVC47;
+						DevelopmentTeam = XQ83HJ8VR7;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -2758,7 +2758,8 @@
 				CODE_SIGN_ENTITLEMENTS = "联侠/联侠.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = WA9VRUVC47;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2768,7 +2769,7 @@
 					"$(PROJECT_DIR)/联侠/Class/Lib/UMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/联侠/Class/Lib/UMSocial/UMSocialUI",
 				);
-				GCC_PREFIX_HEADER = "/Users/hangzhouaerfate/Desktop/联侠/联侠/Class/AppDelegate/EspTouchDemo-Prefix.pch";
+				GCC_PREFIX_HEADER = "/Users/zhanghaichang/Desktop/lianXia/ouzhonglianxia/联侠/Class/AppDelegate/EspTouchDemo-Prefix.pch";
 				INFOPLIST_FILE = "联侠/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2824,7 +2825,8 @@
 				CODE_SIGN_ENTITLEMENTS = "联侠/联侠.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = WA9VRUVC47;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2834,7 +2836,7 @@
 					"$(PROJECT_DIR)/联侠/Class/Lib/UMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/联侠/Class/Lib/UMSocial/UMSocialUI",
 				);
-				GCC_PREFIX_HEADER = "/Users/hangzhouaerfate/Desktop/联侠/联侠/Class/AppDelegate/EspTouchDemo-Prefix.pch";
+				GCC_PREFIX_HEADER = "/Users/zhanghaichang/Desktop/lianXia/ouzhonglianxia/联侠/Class/AppDelegate/EspTouchDemo-Prefix.pch";
 				INFOPLIST_FILE = "联侠/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
